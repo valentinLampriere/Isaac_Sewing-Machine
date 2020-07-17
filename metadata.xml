@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <name>Sewing machine</name>
+    <directory>sewing machine</directory>
+    <id>2145452717</id>
+    <description>[h1]Make your familiars stronger ![/h1]
+
+The [b]Sewing Machine[/b] is a brand new machine which allow you to [b]upgrade your familiars[/b] during a run !
+
+More than 44 familiars are for now upgradable.
+For more info about all those upgrades, check this link : 
+https://www.reddit.com/r/themoddingofisaac/comments/gwfffs/sewing_machine_mod_upgradable_familiars/
+
+This mod include also a new item and three new trinkets related to the Sewing Machine.
+
+This mod is NOT compatible with True-Coop !
+
+--------------------------------
+
+The sewing machine act like a slot machine. When interacting with the machine you will [b]add a random familiar[/b] in the machine. Interacting a second time with the machine will allow you to retrieve the familiar with a special upgrade. [b]Upgrades have a cost[/b], it can be a soul heart, or coins. When a familiar is in the machine, you can retrieve it when bombing the machine.
+Sewing machine can be found in [b]bedrooms[/b], [b]shops[/b] or [b]arcade rooms[/b].
+Familiars can be upgradable twice. A crown icon indicate their level.
+
+[b]Sewing Box[/b] / Active Item
+&quot;Temporary super familiar&quot;
+Upgrade all you familiars for one room
+
+[b]Thimble[/b] / Trinket
+&quot;Safety Crowns&quot;
+Have a 50% chance to reduce the cost for upgrades to half the normal price
+
+[b]Lost Button[/b] / Trinket
+&quot;More sewing machines !&quot;
+100% chance to spawn Sewing machine in Shops for next floors
+
+[b]Pin Cushion[/b] / Trinket
+&quot;Choose the good one&quot;
+When player can't afford the upgrade of the familiar in a machine, interacting with the machine gives the familiar back
+
+--------------------------------
+
+Please let me know if you encounter bugs !
+
+Some familiars aren't upgradable now.
+This mod will be updated and will make more and more familiars available !
+
+[b]Share your ideas[/b] in the comments or contact me if you have new ideas for familiars upgrades !
+
+--------------------------------
+
+Thank to the Modding community for there help during the developement process
+
+Special Thanks to
+- [url=https://steamcommunity.com/profiles/76561198241259420/myworkshopfiles/?appid=250900]Foks[/url] for trinket sprites and his support from the beginning of the mod
+- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/?appid=250900]SupremeElf[/url] for the &quot;Sewing Box&quot; sprite, the code he made (mainly the EID compatibility) and his support 
+- [url=https://steamcommunity.com/id/PixelPlz/myworkshopfiles/?appid=250900]PixelPlz[/url] for the awesome Sewing Machine sprite he made
+- [url=https://steamcommunity.com/profiles/76561198118097787/myworkshopfiles/?appid=250900]Sentinel[/url] for all his help and advices
+
+--------------------------------
+
+Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
+Discord : valentinL#3711</description>
+    <version>1.6</version>
+    <visibility>Public</visibility>
+    <tag id="Lua"/>
+    <tag id="Active Items"/>
+    <tag id="Trinkets"/>
+    <tag id="Familiars"/>
+</metadata>

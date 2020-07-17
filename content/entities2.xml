@@ -1,0 +1,15 @@
+<entities anm2root="gfx/" version="5">
+	<entity anm2path="sewing_machine.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="0">
+		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	</entity>
+	<entity anm2path="sewing_machine_shop.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Shop)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="1">
+		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	</entity>
+	
+    <entity anm2path="003.033_Fly Orbital.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Fly Orbital (Isaac's Heart)" numGridCollisionPoints="12" shadowSize="8" stageHP="0" variant="42842">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+    <entity anm2path="effect_burning_fart.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Burning Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="75">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+</entities>

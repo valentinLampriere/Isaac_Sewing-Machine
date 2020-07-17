@@ -1,0 +1,8 @@
+<items gfxroot="gfx/items/" version="1">
+	<!-- Secret item ! In fact I do not remove it from the mod, but will not appear in any pools -->
+	<active description="Reroll their crown" gfx="foamDice.png" name="Foam Dice" maxcharges="6" />
+	<active description="Temporary super familiar" gfx="sewingBox.png" name="Sewing Box" maxcharges="4" />
+	<trinket cache="" description="Safety crowns" gfx="thimble.png" name="Thimble"/>
+	<trinket cache="" description="More sewing machines !" gfx="lostButton.png" name="Lost Button"/>
+	<trinket cache="" description="Choose the good one" gfx="pinCushion.png" name="Pin Cushion"/>
+</items>
