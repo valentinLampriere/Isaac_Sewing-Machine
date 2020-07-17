@@ -899,13 +899,15 @@ function sewingMachineMod:newRoom()
     
     if room:IsFirstVisit() == true then
         if room:GetType() == RoomType.ROOM_ARCADE then
-            local slots = Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)
-            for _, slot in pairs(slots) do
-                local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
-                if rollChanceSpawn == 1 then
-                    local pos = Vector(slot.Position.X, slot.Position.Y)
-                    slot:Remove()
-                    sewingMachineMod:spawnMachine(pos)
+            --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
+            for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
+                if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
+                    local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
+                    if rollChanceSpawn == 1 then
+                        local pos = Vector(slot.Position.X, slot.Position.Y)
+                        slot:Remove()
+                        sewingMachineMod:spawnMachine(pos)
+                    end
                 end
             end
         end
@@ -925,6 +927,7 @@ function sewingMachineMod:newRoom()
         end
     end
 end
+
 
 ------------------------------
 -- MC_PRE_SPAWN_CLEAN_AWARD --
