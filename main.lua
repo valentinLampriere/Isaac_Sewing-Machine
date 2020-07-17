@@ -566,14 +566,6 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     local pData = player:GetData()
     local roll = sewingMachineMod.rng:RandomInt(#player:GetData().Sewn_familiars) + 1
     
-    
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        if sewingMachineMod:isAvailable(familiar.Variant) then
-            print(familiar.Variant .. " : " .. fData.Sewn_upgradeState)
-        end
-    end
-    
     -- Select a random familiar which can be upgradable
     mData.Sewn_currentFamiliarVariant = player:GetData().Sewn_familiars[roll].Variant
     -- Tell the machine the upgrade state of the familiar
