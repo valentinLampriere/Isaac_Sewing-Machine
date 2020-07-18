@@ -509,6 +509,7 @@ end
 function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local sewnFamiliar
+    local hasPinCushion = mData.Sewn_player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) and true
     
     mData.Sewn_player:GetData().Sewn_familiarsInMachine[machine.InitSeed] = nil
     
@@ -551,13 +552,16 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     -- Reset the machine data to nil
     mData.Sewn_currentFamiliarState = nil
     mData.Sewn_currentFamiliarVariant = nil
-    mData.Sewn_player:GetData().Sewn_machine_upgradeCostMultiplier = nil
+    mData.Sewn_player:GetData().Sewn_machine_upgradeFree = nil
     mData.Sewn_player = nil
     
     -- Remove description
     sewingMachineMod.currentUpgradeInfo = nil
     
-    sewingMachineMod:breakMachine(machine, isUpgrade)
+    -- Do not break the machine with Pin Cushion
+    if not hasPinCushion then
+        sewingMachineMod:breakMachine(machine, isUpgrade)
+    end
 end
 
 -- Called when a player touch a Sewing Machine (and there is no familiar in it)
@@ -566,13 +570,6 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     local pData = player:GetData()
     local roll = sewingMachineMod.rng:RandomInt(#player:GetData().Sewn_familiars) + 1
     
-    
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        if sewingMachineMod:isAvailable(familiar.Variant) then
-            print(familiar.Variant .. " : " .. fData.Sewn_upgradeState)
-        end
-    end
     
     -- Select a random familiar which can be upgradable
     mData.Sewn_currentFamiliarVariant = player:GetData().Sewn_familiars[roll].Variant
@@ -611,29 +608,32 @@ end
 
 -- Return boolean : true if the player has enough money to pay
 function sewingMachineMod:canPayCost(machine, player)
-    local costMultiplier = player:GetData().Sewn_machine_upgradeCostMultiplier
+    if player:GetData().Sewn_machine_upgradeFree == true then
+        return true
+    end
     if machine.SubType == sewingMachineMod.SewingMachineSubType.BEDROOM then
-        return player:GetSoulHearts() >= math.ceil(sewingMachineMod.SewingMachineCost.BEDROOM * costMultiplier)
+        return player:GetSoulHearts() >= sewingMachineMod.SewingMachineCost.BEDROOM
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP then
         local cost = sewingMachineMod.SewingMachineCost.SHOP
         if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
             cost = math.ceil(cost / 2)
         end
-        return player:GetNumCoins() >= math.ceil(cost * costMultiplier)
+        return player:GetNumCoins() >= cost
     end
 end
 
 function sewingMachineMod:payCost(machine, player)
-    local costMultiplier = player:GetData().Sewn_machine_upgradeCostMultiplier
+    if player:GetData().Sewn_machine_upgradeFree == true then
+        return
+    end
     if machine.SubType == sewingMachineMod.SewingMachineSubType.BEDROOM then
-        print(sewingMachineMod.SewingMachineSubType.BEDROOM * costMultiplier)
-       player:AddSoulHearts(-math.ceil(sewingMachineMod.SewingMachineCost.BEDROOM * costMultiplier))
+        player:AddSoulHearts(-sewingMachineMod.SewingMachineCost.BEDROOM)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP then
         local cost = sewingMachineMod.SewingMachineCost.SHOP
         if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
             cost = math.ceil(cost / 2)
         end
-        player:AddCoins(-math.ceil(cost * costMultiplier))
+        player:AddCoins(-cost)
     end
 end
 
@@ -693,18 +693,19 @@ function sewingMachineMod:onPlayerUpdate(player)
                     -- Prevent the player to touch the machine twice in a short laps of time
                     mData.Sewn_lastTouched = Game():GetFrameCount()
                     
-                    if pData.Sewn_machine_upgradeCostMultiplier == nil then
-                        pData.Sewn_machine_upgradeCostMultiplier = 1
-                        if player:HasTrinket(TrinketType.TRINKET_THIMBLE) and sewingMachineMod.rng:RandomInt(101) > 50 then
-                            pData.Sewn_machine_upgradeCostMultiplier = 0.5
+                    if pData.Sewn_machine_upgradeFree == nil then
+                        pData.Sewn_machine_upgradeFree = false
+                        if player:HasTrinket(TrinketType.TRINKET_THIMBLE) and sewingMachineMod.rng:RandomInt(101) < 50 then
+                            pData.Sewn_machine_upgradeFree = true
                         end
                     end
                     
-                    if mData.Sewn_currentFamiliarVariant ~= nil and sewingMachineMod:canPayCost(machine, player) then
+                    if mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
+                        -- If the player has the Pin Cushion trinket : Get back for free the familiar
+                        sewingMachineMod:getFamiliarBack(machine, false)
+                    elseif mData.Sewn_currentFamiliarVariant ~= nil and sewingMachineMod:canPayCost(machine, player) then
                         -- If there is a familiar in the machine and the player can pay for it
                         sewingMachineMod:getFamiliarBack(machine, true)
-                    elseif mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
-                        sewingMachineMod:getFamiliarBack(machine, false)
                     elseif mData.Sewn_currentFamiliarVariant == nil and #player:GetData().Sewn_familiars > 0 then
                         -- If there is no familiar in the machine and player has available familiars to put in
                         sewingMachineMod:addFamiliarInMachine(machine, player)
