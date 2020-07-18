@@ -276,9 +276,9 @@ end
 if not __eidItemDescriptions then
 	__eidItemDescriptions = {};
 end
-__eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to reduce the cost for upgrades to half the normal price";
+__eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to upgrade a familiar for free";
 __eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn Sewing machine in Shops for next floors";
-__eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "When player can't afford the upgrade of the familiar in a machine, interacting with the machine gives the familiar back";
+__eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button";
 
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded";
 
