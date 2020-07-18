@@ -192,6 +192,7 @@ local json = require("json")
 --local sewingMachineMod.rng = RNG()
 local sewingMachine_shouldAppear_shop = false
 local spawnMachineAfterGreed
+local temporaryFamiliars = {}
 local trinketSewingMachine = {
     TrinketType.TRINKET_THIMBLE,
     TrinketType.TRINKET_LOST_BUTTON,
@@ -557,6 +558,9 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     -- Remove description
     sewingMachineMod.currentUpgradeInfo = nil
     
+    if not sewingMachineMod:isUltra(sewnFamiliar:GetData()) then
+        table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
+    end
     sewingMachineMod:breakMachine(machine, isUpgrade)
 end
 
@@ -737,11 +741,14 @@ function sewingMachineMod:updateFamiliar(familiar)
     -- INIT 
     if not familiar:GetData().Sewn_Init and familiar.FrameCount > 0 then
         local player = familiar.Player
+        
         if sewingMachineMod:isAvailable(familiar.Variant) then
-            if not sewingMachineMod:isUltra(fData) then
+            if not sewingMachineMod:isUltra(fData) or fData.Sewn_upgradeState == nil then
                 -- Set the familiar as an available familiar (available for the Sewing machine)
                 if familiar:GetData().Sewn_noUpgrade ~= true then
-                    table.insert(player:GetData().Sewn_familiars, familiar)
+                    -- Add the familiar to the "Temporary Familiars" table
+                    table.insert(temporaryFamiliars, familiar)
+                    --table.insert(player:GetData().Sewn_familiars, familiar)
                 end
             end
         end
@@ -868,7 +875,15 @@ function sewingMachineMod:newRoom()
     
     sewingMachineMod.displayTrueCoopMessage = false
     
-    -- Remove temporary upgardes
+    for i, familiar in ipairs(temporaryFamiliars) do
+        -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
+        if familiar:Exists() then
+            table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+            temporaryFamiliars[i] = nil
+        end
+    end
+    
+    -- Remove temporary upgardes (for Sewing Box)
     for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         local sprite = player:GetSprite()
