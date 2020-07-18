@@ -12,7 +12,7 @@
 
 
 -- MAKE FAMILIAR AVAILABLE --
--- Description : 
+-- Description :
 --   This function allow a familiar to be upgrade in the Sewing Machine. If this function is not called, your custom familiars couldn't be upgrade
 --   The third parameter is a function, I recommend you to use it so the function will be called when the familiar is upgrade. In this function you can use custom callbacks (see below), or do what you want
 -- Parameters :
@@ -24,7 +24,7 @@
 
 
 -- IS AVAILABLE --
--- Description : 
+-- Description :
 --   This check if a familiar can be upgraded in the Sewing Machine
 -- Parameters :
 --   familiarVariant (number) : The variant of the familiar you want to upgrade
@@ -35,7 +35,7 @@
 
 
 -- IS SUPER --
--- Description : 
+-- Description :
 --   This check if a familiar is upgraded as SUPER (gold crown)
 -- Parameters :
 --   fData (userdata) : Userdata of the familiar you want to check (familiar:GetData())
@@ -46,7 +46,7 @@
 
 
 -- IS ULTRA --
--- Description : 
+-- Description :
 --   This check if a familiar is upgraded as ULTRA (diamond crown)
 -- Parameters :
 --   fData (userdata) : Userdata of the familiar you want to check (familiar:GetData())
@@ -57,7 +57,7 @@
 
 
 -- ADD DESCRIPTION FOR FAMILIARS (EID)
--- Description : 
+-- Description :
 --   This function allow you to add a description for your familiars upgrade
 -- Parameters :
 --   familiarVariant  (number) : The Variant of the familiar
@@ -112,7 +112,7 @@
 -- sewingMachineMod.sewnFamiliars:customFireInit(familiar, functionName)
 -- The function will have 2 parameters : The familiar and the tear which is fired
 
--- Called when a familiar's tear hit something 
+-- Called when a familiar's tear hit something
 -- sewingMachineMod.sewnFamiliars:sewnFamiliars:customTearCollision(familiar, functionName)
 -- The function will have 3 parameters : The familiar, the tear which is colliding and the collider
 
@@ -347,7 +347,7 @@ function sewingMachineMod:useSewingBox(collectibleType, rng)
                         else
                             fData.Sewn_upgradeState_temporary = fData.Sewn_upgradeState_temporary + 1
                         end
-                        
+
                         if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
                             local f = {}
                             f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
@@ -378,7 +378,7 @@ function sewingMachineMod:useFoamDice(collectibleType, rng)
                     table.insert(familiars, familiar)
                     countCrowns = countCrowns + fData.Sewn_upgradeState
                     fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
-                    
+
                     sewingMachineMod:resetFamiliarData(familiar)
                 end
             end
@@ -388,7 +388,7 @@ function sewingMachineMod:useFoamDice(collectibleType, rng)
                 if not sewingMachineMod:isUltra(fData) then
                     fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
                     countCrowns = countCrowns -1
-                    
+
                     if sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant) ~= nil then
                         local f = {}
                         f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant)
@@ -415,15 +415,15 @@ end
 function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     local room = Game():GetLevel():GetCurrentRoom()
     local subType
-    
+
     if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
         return
     end
-    
+
     if position == nil then
         position = Isaac.GetFreeNearPosition(room:GetGridPosition(27), 0)
     end
-    
+
     if machineSubType == nil then
         if room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
             subType = sewingMachineMod.SewingMachineSubType.BEDROOM
@@ -440,7 +440,7 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     else
         subType = machineSubType
     end
-    
+
     local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, subType, position, Vector(0, 0), nil)
     if playAppearAnim == true then
         machine:GetSprite():Play("Appear", true)
@@ -480,28 +480,28 @@ end
 function sewingMachineMod:breakMachine(machine, isUpgrade)
     local roll = sewingMachineMod.rng:RandomInt(101)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-    
+
     if mData.Sewn_machineUsed_counter == nil then
         mData.Sewn_machineUsed_counter = 0
     end
-    
+
     if isUpgrade then
         mData.Sewn_machineUsed_counter = mData.Sewn_machineUsed_counter + 1
     end
-    
+
     -- Chance to break
     if roll < mData.Sewn_machineUsed_counter * 5 then
         local rollTrinket = sewingMachineMod.rng:RandomInt(101)
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, Vector(0, 0), nil)
-        
-        
+
+
         mData.Sewn_isMachineBroken = true
         if rollTrinket < 5 then
             local rollTrinket = sewingMachineMod.rng:RandomInt(#trinketSewingMachine) + 1
             local trinket = trinketSewingMachine[rollTrinket]
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, trinket, machine.Position + Vector(0,15), Vector(0,2):Rotated(math.random(-45,45)), machine)
         end
-        
+
         machine:TakeDamage(100, DamageFlag.DAMAGE_EXPLOSION, EntityRef(machine), 1)
     end
 end
@@ -510,13 +510,14 @@ end
 function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local sewnFamiliar
-    
+    local hasPinCushion = mData.Sewn_player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) and true
+
     mData.Sewn_player:GetData().Sewn_familiarsInMachine[machine.InitSeed] = nil
-    
+
     -- Evaluate the cache to properly respawn familiars
     mData.Sewn_player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
     mData.Sewn_player:EvaluateItems()
-    
+
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, -1, false, false)) do
         if familiar.FrameCount == 0 then
             sewnFamiliar = familiar:ToFamiliar()
@@ -533,35 +534,38 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
 
     -- Play the normal animation (without the floating familiar)
     machine:GetSprite():Play("Idle")
-    
+
     sewnFamiliar:GetData().Sewn_collisionDamage = mData.Sewn_currentFamiliarCollisionDamage
-    
+
     -- Upgrade the familiar
     if isUpgrade then
         sewingMachineMod:payCost(machine, mData.Sewn_player)
         sewnFamiliar:GetData().Sewn_upgradeState = sewnFamiliar:GetData().Sewn_upgradeState + 1
     end
-    
+
     -- Change familiar's data to prepare stats upgrade
     if sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant) ~= nil then
         local f = {}
         f._function = sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant)
         f:_function(sewnFamiliar)
     end
-    
+
     -- Reset the machine data to nil
     mData.Sewn_currentFamiliarState = nil
     mData.Sewn_currentFamiliarVariant = nil
-    mData.Sewn_player:GetData().Sewn_machine_upgradeCostMultiplier = nil
+    mData.Sewn_player:GetData().Sewn_machine_upgradeFree = nil
     mData.Sewn_player = nil
-    
+
     -- Remove description
     sewingMachineMod.currentUpgradeInfo = nil
-    
+
     if not sewingMachineMod:isUltra(sewnFamiliar:GetData()) then
         table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
     end
-    sewingMachineMod:breakMachine(machine, isUpgrade)
+    -- Do not break the machine with Pin Cushion
+    if not hasPinCushion then
+        sewingMachineMod:breakMachine(machine, isUpgrade)
+    end
 end
 
 -- Called when a player touch a Sewing Machine (and there is no familiar in it)
@@ -569,7 +573,7 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local pData = player:GetData()
     local roll = sewingMachineMod.rng:RandomInt(#player:GetData().Sewn_familiars) + 1
-    
+
     -- Select a random familiar which can be upgradable
     mData.Sewn_currentFamiliarVariant = player:GetData().Sewn_familiars[roll].Variant
     -- Tell the machine the upgrade state of the familiar
@@ -578,23 +582,23 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     mData.Sewn_player = player
     -- Store collision damage of the familiar
     mData.Sewn_currentFamiliarCollisionDamage = player:GetData().Sewn_familiars[roll]:GetData().Sewn_collisionDamage
-    
-    
+
+
     -- Replace the sprite with the familiar (the sprite is the image of the collectible, not the familiar itself)
     sewingMachineMod:setFloatingAnim(machine)
-    
+
     -- Remove the familiar from Isaac
     if pData.Sewn_familiarsInMachine == nil then
         pData.Sewn_familiarsInMachine = {}
     end
-    
+
     pData.Sewn_familiarsInMachine[machine.InitSeed] = pData.Sewn_familiars[roll].Variant
-    
-    pData.Sewn_familiars[roll]:Remove()    
-    
+
+    pData.Sewn_familiars[roll]:Remove()
+
     -- Update description
     sewingMachineMod.currentUpgradeInfo = machine
-    
+
     table.remove(player:GetData().Sewn_familiars, roll)
 end
 
@@ -607,29 +611,32 @@ end
 
 -- Return boolean : true if the player has enough money to pay
 function sewingMachineMod:canPayCost(machine, player)
-    local costMultiplier = player:GetData().Sewn_machine_upgradeCostMultiplier
+    if player:GetData().Sewn_machine_upgradeFree == true then
+        return true
+    end
     if machine.SubType == sewingMachineMod.SewingMachineSubType.BEDROOM then
-        return player:GetSoulHearts() >= math.ceil(sewingMachineMod.SewingMachineCost.BEDROOM * costMultiplier)
+        return player:GetSoulHearts() >= sewingMachineMod.SewingMachineCost.BEDROOM
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP then
         local cost = sewingMachineMod.SewingMachineCost.SHOP
         if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
             cost = math.ceil(cost / 2)
         end
-        return player:GetNumCoins() >= math.ceil(cost * costMultiplier)
+        return player:GetNumCoins() >= cost
     end
 end
 
 function sewingMachineMod:payCost(machine, player)
-    local costMultiplier = player:GetData().Sewn_machine_upgradeCostMultiplier
+    if player:GetData().Sewn_machine_upgradeFree == true then
+        return
+    end
     if machine.SubType == sewingMachineMod.SewingMachineSubType.BEDROOM then
-        print(sewingMachineMod.SewingMachineSubType.BEDROOM * costMultiplier)
-       player:AddSoulHearts(-math.ceil(sewingMachineMod.SewingMachineCost.BEDROOM * costMultiplier))
+        player:AddSoulHearts(-sewingMachineMod.SewingMachineCost.BEDROOM)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP then
         local cost = sewingMachineMod.SewingMachineCost.SHOP
         if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
             cost = math.ceil(cost / 2)
         end
-        player:AddCoins(-math.ceil(cost * costMultiplier))
+        player:AddCoins(-cost)
     end
 end
 
@@ -638,34 +645,34 @@ end
 ----------------------------
 function sewingMachineMod:onPlayerUpdate(player)
     local pData = player:GetData()
-    
+
     -- Prepare proper sewingMachineMod.rng
     sewingMachineMod.rng:SetSeed(Game():GetSeeds():GetStartSeed() + Game():GetFrameCount(), 1)
-    
+
     if pData.Sewn_familiars == nil then
         pData.Sewn_familiars = {}
     end
-    
+
     sewingMachineMod.currentUpgradeInfo = nil
-    
+
     -- Loop through all Sewing machines to detect interactions
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
-        
+
         if InfinityTrueCoopInterface ~= nil then
             sewingMachineMod.displayTrueCoopMessage = true
             return
         end
-        
+
         local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-        
+
         if mData == nil then
             sewingMachineMod.sewingMachinesData[machine.InitSeed] = {}
             mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
         end
-        
+
         -- If the machine isn't broken
         if mData.Sewn_isMachineBroken ~= true then
-            
+
             if mData.Sewn_machineBombed == true then
                 local newMachine = sewingMachineMod:spawnMachine(machine.Position, nil, machine.SubType)
                 mData.Sewn_machineBombed = false
@@ -680,40 +687,41 @@ function sewingMachineMod:onPlayerUpdate(player)
                 end
                 sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
             end
-            
+
             -- When player touch a Sewing machine
             if (machine.Position - player.Position):Length() < machine.Size + player.Size and (mData.Sewn_lastTouched == nil or mData.Sewn_lastTouched < Game():GetFrameCount() - 15) then
                 -- If the player who put the familiar in the machine is the same as the one who try to get the familiar back
                 if mData.Sewn_player == nil or GetPtrHash(mData.Sewn_player) == GetPtrHash(player) then
-                    
+
                     -- Prevent the player to touch the machine twice in a short laps of time
                     mData.Sewn_lastTouched = Game():GetFrameCount()
-                    
-                    if pData.Sewn_machine_upgradeCostMultiplier == nil then
-                        pData.Sewn_machine_upgradeCostMultiplier = 1
-                        if player:HasTrinket(TrinketType.TRINKET_THIMBLE) and sewingMachineMod.rng:RandomInt(101) > 50 then
-                            pData.Sewn_machine_upgradeCostMultiplier = 0.5
+
+                    if pData.Sewn_machine_upgradeFree == nil then
+                        pData.Sewn_machine_upgradeFree = false
+                        if player:HasTrinket(TrinketType.TRINKET_THIMBLE) and sewingMachineMod.rng:RandomInt(101) < 50 then
+                            pData.Sewn_machine_upgradeFree = true
                         end
                     end
-                    
-                    if mData.Sewn_currentFamiliarVariant ~= nil and sewingMachineMod:canPayCost(machine, player) then
+
+                    if mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
+                        -- If the player has the Pin Cushion trinket : Get back for free the familiar
+                        sewingMachineMod:getFamiliarBack(machine, false)
+                    elseif mData.Sewn_currentFamiliarVariant ~= nil and sewingMachineMod:canPayCost(machine, player) then
                         -- If there is a familiar in the machine and the player can pay for it
                         sewingMachineMod:getFamiliarBack(machine, true)
-                    elseif mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
-                        sewingMachineMod:getFamiliarBack(machine, false)
                     elseif mData.Sewn_currentFamiliarVariant == nil and #player:GetData().Sewn_familiars > 0 then
                         -- If there is no familiar in the machine and player has available familiars to put in
                         sewingMachineMod:addFamiliarInMachine(machine, player)
                     end
                 end
             end
-            
+
             if (machine.Position - player.Position):LengthSquared() < 100 ^ 2 then
                 if sewingMachineMod.currentUpgradeInfo == nil then
                     sewingMachineMod.currentUpgradeInfo = machine
                 end
             end
-            
+
             if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
                 if machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP and machine:GetData().Sewn_underSale ~= true then
                     machine:GetSprite():ReplaceSpritesheet(0, "gfx/items/slots/slot_sewingmachine_sales.png")
@@ -732,16 +740,16 @@ end
 function sewingMachineMod:updateFamiliar(familiar)
     -- I use MC_FAMILIAR_UPDATE because MC_FAMILIAR_INIT is broken, and doesn't work well with most of familiars
     local fData = familiar:GetData()
-    
+
     -- We do nothing with blue flies and blue spiders
     if familiar.Variant == FamiliarVariant.BLUE_FLY or familiar.Variant == FamiliarVariant.BLUE_SPIDER then
         return
     end
-    
-    -- INIT 
+
+    -- INIT
     if not familiar:GetData().Sewn_Init and familiar.FrameCount > 0 then
         local player = familiar.Player
-        
+
         if sewingMachineMod:isAvailable(familiar.Variant) then
             if not sewingMachineMod:isUltra(fData) or fData.Sewn_upgradeState == nil then
                 -- Set the familiar as an available familiar (available for the Sewing machine)
@@ -755,18 +763,18 @@ function sewingMachineMod:updateFamiliar(familiar)
         if fData.Sewn_upgradeState == nil then
             fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
         end
-        
+
         if player ~= nil and player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
             fData.Sewn_collisionDamage = familiar.CollisionDamage / 2 or 0
-        else 
+        else
             fData.Sewn_collisionDamage = familiar.CollisionDamage or 0
         end
         fData.Sewn_Init = true
     end
-    
+
     -- If a player is close from the machine
     if sewingMachineMod.currentUpgradeInfo ~= nil then
-        
+
         -- Available familiars
         if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
@@ -787,31 +795,31 @@ end
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
-    
+
     -- If a pickup spawn from a sewing machine, it means the machine as been bombed
     -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
     if type == EntityType.ENTITY_PICKUP then
         local room = Game():GetLevel():GetCurrentRoom()
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
             local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-            
+
             if machine.Position:Distance(pos, machine.Position) < 5 then
-                
+
                 if mData.Sewn_currentFamiliarVariant ~= nil then
                     sewingMachineMod:getFamiliarBack(machine, false)
                 end
-                
+
                 mData.Sewn_machineBombed = true
-                
+
                 if mData.Sewn_isMachineBroken == true then
                     machine:GetSprite():Play("Broken", true)
                 end
-                
+
                 return {1000, EffectVariant.EFFECT_NULL, 0}
             end
         end
     end
-    
+
     -- Burning Farts effect
     if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
         for _, npc in pairs(Isaac.FindInRadius(pos, 100, EntityPartition.ENEMY)) do
@@ -843,7 +851,7 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
     elseif sewingMachineMod.Config.familiarCrownPosition == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_CROWN_POSITION.RIGHT then
         pos = Vector(pos.X + familiar.Size, pos.Y - familiar.Size * 2)
     end
-    
+
     if fData.Sewn_crown == nil then
         fData.Sewn_crown = Sprite()
         fData.Sewn_crown:Load("gfx/sewn_familiar_crown.anm2", false)
@@ -872,9 +880,9 @@ end
 ----------------------
 function sewingMachineMod:newRoom()
     local room = Game():GetLevel():GetCurrentRoom()
-    
+
     sewingMachineMod.displayTrueCoopMessage = false
-    
+
     for i, familiar in ipairs(temporaryFamiliars) do
         -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
         if familiar:Exists() then
@@ -882,18 +890,18 @@ function sewingMachineMod:newRoom()
             temporaryFamiliars[i] = nil
         end
     end
-    
+
     -- Remove temporary upgardes (for Sewing Box)
     for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         local sprite = player:GetSprite()
-        
+
         if player:GetData().Sewn_hasTemporaryUpgradedFamiliars == true then
             for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
                 local fData = familiar:GetData()
                 familiar = familiar:ToFamiliar()
                 sewingMachineMod:resetFamiliarData(familiar)
-                
+
                 if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
                     local f = {}
                     f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
@@ -903,7 +911,7 @@ function sewingMachineMod:newRoom()
             player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
         end
     end
-    
+
     if room:IsFirstVisit() == true then
         if room:GetType() == RoomType.ROOM_ARCADE then
             --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
@@ -927,7 +935,7 @@ function sewingMachineMod:newRoom()
             end
         end
     end
-    
+
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
         if sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
             sewingMachineMod:setFloatingAnim(machine)
@@ -954,19 +962,19 @@ function sewingMachineMod:onNewFloor()
     sewingMachine_shouldAppear_shop = false
     local level = Game():GetLevel()
     sewingMachineMod.sewingMachinesData = {}
-    
+
     local roll = sewingMachineMod.rng:RandomInt(101)
     if roll < 20 then
         sewingMachine_shouldAppear_shop = true
     end
-    
+
     for _, p in pairs(Isaac.FindByType(EntityType.ENTITY_PLAYER, -1, -1, false, false)) do
         local player = p:ToPlayer()
         if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
             sewingMachine_shouldAppear_shop = true
         end
     end
-    
+
     -- BLUE WOMB
     if level:GetStage() == LevelStage.STAGE4_3 then
         sewingMachine_shouldAppear_shop = true
@@ -992,8 +1000,8 @@ function sewingMachineMod:onCache(player, cacheFlag)
         if pData.Sewn_familiarsInMachine ~= nil then
             for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
                 local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
-                
-                
+
+
                 fams[#fams]:Remove()
                 --[[
                 local nbFamiliar = Isaac.CountEntities(nil, EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1)
@@ -1030,13 +1038,13 @@ function sewingMachineMod:saveGame()
     saveData.player = {}
     saveData.machines = {}
     saveData.familiars = {}
-    
-    
+
+
     -- Save config data
     for i, v in pairs(sewingMachineMod.Config) do
         saveData.config[i] = v
     end
-    
+
     -- Save player data
     for i = 1, Game():GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
@@ -1047,7 +1055,7 @@ function sewingMachineMod:saveGame()
             end
         end
     end
-    
+
     -- Save machine data
     for machineId, machineValues in pairs(sewingMachineMod.sewingMachinesData) do
         saveData.machines[tostring(machineId)] = {}
@@ -1059,7 +1067,7 @@ function sewingMachineMod:saveGame()
             end
         end
     end
-    
+
     -- Save familiars data
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         if sewingMachineMod:isAvailable(familiar.Variant) then
@@ -1069,12 +1077,12 @@ function sewingMachineMod:saveGame()
                 saveData.familiars[variantIndex] = {}
             end
             table.insert(saveData.familiars[variantIndex], {})
-            
-            
+
+
             saveData.familiars[variantIndex][#saveData.familiars[variantIndex] ].Sewn_upgradeState = familiar:GetData().Sewn_upgradeState
         end
     end
-    
+
     sewingMachineMod:SaveData(json.encode(saveData))
 end
 --------------------------
@@ -1082,24 +1090,24 @@ end
 --------------------------
 function sewingMachineMod:loadSave(isExistingRun)
     local room = Game():GetLevel():GetCurrentRoom()
-    
-    
+
+
     if MinimapAPI ~= nil then
         local icon = Sprite()
         icon:Load("gfx/mapicon.anm2", true)
         MinimapAPI:AddIcon("SewingMachine", icon, "Icon", 0)
         MinimapAPI:AddPickup("SewingMachine", "SewingMachine", EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, -1, MinimapAPI.PickupSlotMachineNotBroken, "slots")
     end
-    
+
     if isExistingRun == true then
         if sewingMachineMod:HasData() then
             local saveData = json.decode(Isaac.LoadModData(sewingMachineMod))
-            
+
             if saveData == nil or saveData.player == nil or saveData.machines == nil or saveData.familiars == nil then
                 return
             end
-            
-            -- Loading player data            
+
+            -- Loading player data
             for i = 1, Game():GetNumPlayers() do
                 local player = Isaac.GetPlayer(i - 1)
                 player:GetData().Sewn_familiarsInMachine = {}
@@ -1111,7 +1119,7 @@ function sewingMachineMod:loadSave(isExistingRun)
                 player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
                 player:EvaluateItems()
             end
-            
+
             -- Loading machine data
             sewingMachineMod.sewingMachinesData = {}
             for machineId, machineValues in pairs(saveData.machines) do
@@ -1120,7 +1128,7 @@ function sewingMachineMod:loadSave(isExistingRun)
                     if key == "Sewn_player" then
                         for i = 1, Game():GetNumPlayers() do
                             local player = Isaac.GetPlayer(i - 1)
-                            if player:GetName() == value then   
+                            if player:GetName() == value then
                                 sewingMachineMod.sewingMachinesData[tonumber(machineId)][key] = player
                             end
                         end
@@ -1129,14 +1137,14 @@ function sewingMachineMod:loadSave(isExistingRun)
                     end
                 end
             end
-            
-            
+
+
             -- Loading familiar data
             for variant, saveDataFamiliar in pairs(saveData.familiars) do
                 -- Loop through variants of familiars
                 for i, saveDataFamiliarVariant in pairs(saveDataFamiliar) do
                     local fam = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, variant, -1, false, false)[i]:ToFamiliar()
-                    
+
                     fam:GetData().Sewn_upgradeState = saveDataFamiliarVariant["Sewn_upgradeState"]
                     if sewingMachineMod:getFamiliarUpgradeFunction(fam.Variant) ~= nil then
                         local f = {}
@@ -1147,7 +1155,7 @@ function sewingMachineMod:loadSave(isExistingRun)
             end
         end
     end
-    
+
     -- Restore config data
     if sewingMachineMod:HasData() then
         local saveData = json.decode(Isaac.LoadModData(sewingMachineMod))
@@ -1155,7 +1163,7 @@ function sewingMachineMod:loadSave(isExistingRun)
             sewingMachineMod.Config[i] = v
         end
     end
-    
+
     -- Set the floating animation
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
         local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
@@ -1163,7 +1171,7 @@ function sewingMachineMod:loadSave(isExistingRun)
             sewingMachineMod:setFloatingAnim(machine)
         end
     end
-    
+
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
 end
