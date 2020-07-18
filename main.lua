@@ -731,6 +731,10 @@ function sewingMachineMod:onPlayerUpdate(player)
             end
         end
     end
+    -- Spawn the pin cushion trinket when pressing the drop button
+    if player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) and Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) then
+        player:DropTrinket(player.Position, false);
+    end
 end
 
 
