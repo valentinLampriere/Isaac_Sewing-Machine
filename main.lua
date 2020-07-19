@@ -166,6 +166,7 @@ TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
+Card.RUNE_WUNJO = Isaac.GetCardIdByName("Wunjo")
 
 sewingMachineMod.sewingMachinesData = {}
 
@@ -198,6 +199,8 @@ local trinketSewingMachine = {
     TrinketType.TRINKET_LOST_BUTTON,
     TrinketType.TRINKET_PIN_CUSHION
 }
+local giantBook = Sprite()
+giantBook:Load("gfx/ui/giantbook/giantbook.anm2", false)
 
 sewingMachineMod.displayTrueCoopMessage = false
 
@@ -276,12 +279,17 @@ end
 if not __eidItemDescriptions then
 	__eidItemDescriptions = {};
 end
+if not __eidCardDescriptions then
+  __eidCardDescriptions = {};
+end
+-- EID Trinkets
 __eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to upgrade a familiar for free";
 __eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn Sewing machine in Shops for next floors";
 __eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button";
-
+-- EID Collectibles
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded";
-
+-- EID Cards
+__eidCardDescriptions[Card.RUNE_WUNJO] = "Upgrade every familiars for 30 seconds"
 
 function sewingMachineMod:isAvailable(familiarVariant)
     return sewingMachineMod.availableFamiliar[familiarVariant] ~= nil
@@ -402,6 +410,27 @@ function sewingMachineMod:useFoamDice(collectibleType, rng)
         end
     end
     return true
+end
+
+-----------------------------------
+-- MC_USE_CARD - CARD_RUNE_WUNJO --
+-----------------------------------
+function sewingMachineMod:useWunjo(card)
+    for i = 1, Game():GetNumPlayers() do
+    end
+end
+
+-------------------------
+-- MC_POST_PICKUP_INIT --
+-------------------------
+function sewingMachineMod:initPickup(pickup)
+    if pickup.Type == EntityType.ENTITY_PICKUP and pickup.Variant == PickupVariant.PICKUP_TAROTCARD then
+        if pickup.SubType == Card.RUNE_WUNJO then
+            local sprite = pickup:GetSprite()
+            sprite:Load("gfx/005.303_rune1.anm2", true)
+            sprite:Play("Appear")
+        end
+    end
 end
 
 function sewingMachineMod:delayFunction(functionToDelay, delay, param)
@@ -1212,6 +1241,8 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, sewingMachineM
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, sewingMachineMod.renderFamiliar)
 sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewingMachineMod.onCache)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWunjo, Card.RUNE_WUNJO)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.initPickup)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
 
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, sewingMachineMod.saveGame)
