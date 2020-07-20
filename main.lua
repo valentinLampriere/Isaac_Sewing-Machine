@@ -200,8 +200,8 @@ local trinketSewingMachine = {
     TrinketType.TRINKET_LOST_BUTTON,
     TrinketType.TRINKET_PIN_CUSHION
 }
-local giantBook = Sprite()
-giantBook:Load("gfx/ui/giantbook/giantbook.anm2", false)
+local GiantBook = Sprite()
+GiantBook:Load("gfx/ui/giantbook/giantbook.anm2", false)
 
 sewingMachineMod.displayTrueCoopMessage = false
 
@@ -450,6 +450,10 @@ end
 -----------------------------------
 function sewingMachineMod:useWunjo(card)
     local player = GetPlayerUsingCard()
+    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
+    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_wunjo.png")
+    GiantBook:LoadGraphics()
+    GiantBook:Play("Appear", true)
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         familiar = familiar:ToFamiliar()
         if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
@@ -712,6 +716,8 @@ end
 ----------------------------
 function sewingMachineMod:onPlayerUpdate(player)
     local pData = player:GetData()
+    
+    GiantBook:Update()
 
     -- Prepare proper sewingMachineMod.rng
     sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
@@ -1101,6 +1107,15 @@ function sewingMachineMod:onUpdate()
     end
 end
 
+--------------------
+-- MC_POST_RENDER --
+--------------------
+function sewingMachineMod:onRender()
+    if GiantBook:IsPlaying("Appear") then
+        GiantBook:RenderLayer(0, Isaac.WorldToRenderPosition(Vector(320,300), true))
+    end
+end
+
 ----------------------
 -- MC_PRE_GAME_EXIT --
 ----------------------
@@ -1283,6 +1298,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewin
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWunjo, Card.RUNE_WUNJO)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.initPickup)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
 
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, sewingMachineMod.saveGame)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, sewingMachineMod.loadSave)
