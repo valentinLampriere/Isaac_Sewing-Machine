@@ -1,4 +1,5 @@
 <entities anm2root="gfx/" version="5">
+	<!-- Sewing machines -->
 	<entity anm2path="sewing_machine.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="0">
 		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
@@ -6,6 +7,15 @@
 		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
 	
+	<!-- Familiars -->
+    <entity anm2path="annsTaintedBody.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann's Tainted Body" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="756">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+    <entity anm2path="annsPureHead.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann's Pure Head" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="757">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+	
+	<!-- Others -->
     <entity anm2path="003.033_Fly Orbital.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Fly Orbital (Isaac's Heart)" numGridCollisionPoints="12" shadowSize="8" stageHP="0" variant="42842">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>

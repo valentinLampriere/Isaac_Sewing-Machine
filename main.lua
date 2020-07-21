@@ -166,10 +166,12 @@ TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
-CollectibleType.COLLECTIBLE_DOLL_S_HEAD = Isaac.GetItemIdByName("Doll's Head")
-CollectibleType.COLLECTIBLE_DOLL_S_BODY = Isaac.GetItemIdByName("Doll's Body")
+CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD = Isaac.GetItemIdByName("Ann's Pure Head")
+CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY = Isaac.GetItemIdByName("Ann's Tainted Body")
 Card.RUNE_WUNJO = Isaac.GetCardIdByName("Wunjo")
 Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
+FamiliarVariant.ANN_S_PURE_HEAD = Isaac.GetEntityVariantByName("Ann's Pure Head")
+FamiliarVariant.ANN_S_TAINTED_BODY = Isaac.GetEntityVariantByName("Ann's Tainted Body")
 
 sewingMachineMod.sewingMachinesData = {}
 
@@ -292,8 +294,8 @@ __eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spaw
 __eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button"
 -- EID Collectibles
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded"
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_DOLL_S_HEAD] = "Every new familiars will be SUPER#With Doll's Body every new familiars will be ULTRA"
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_DOLL_S_BODY] = "Every new familiars will be SUPER#With Doll's Head every new familiars will be ULTRA"
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] = "Every new familiars will be SUPER#With Ann's Tainted Body every new familiars will be ULTRA"
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] = "Every new familiars will be SUPER#With Ann's Pure Head every new familiars will be ULTRA"
 -- EID Cards
 __eidCardDescriptions[Card.RUNE_WUNJO] = "Upgrade every familiars for 30 seconds"
 __eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a random sewing machine"
@@ -877,12 +879,12 @@ function sewingMachineMod:updateFamiliar(familiar)
             end
         end
         if fData.Sewn_upgradeState == nil then
-            local hasDollsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_HEAD)
-            local hasDollsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_BODY)
-            if hasDollsHead and not hasDollsBody or not hasDollsHead and hasDollsBody then
+            local hasAnnsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD)
+            local hasAnnsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY)
+            if hasAnnsHead and not hasAnnsBody or not hasAnnsHead and hasAnnsBody then
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
                 sewingMachineMod:callFamiliarUpgrade(familiar)
-            elseif hasDollsHead and hasDollsBody then
+            elseif hasAnnsHead and hasAnnsBody then
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
                 sewingMachineMod:callFamiliarUpgrade(familiar)
             else
@@ -918,6 +920,13 @@ function sewingMachineMod:updateFamiliar(familiar)
                 familiar:SetColor(Color(1,1,1,0.5,0,0,0),5,1,false,false)
             end
         end
+    end
+    
+    if familiar.Variant == FamiliarVariant.ANN_S_PURE_HEAD then
+        familiar:FollowParent()
+    end
+    if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_BODY then
+        familiar:FollowParent()
     end
 end
 
@@ -1121,23 +1130,56 @@ end
 -----------------------
 -- MC_EVALUATE_CACHE --
 -----------------------
-function sewingMachineMod:onCache(player, cacheFlag)
+function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
     local pData = player:GetData()
-    if cacheFlag == CacheFlag.CACHE_FAMILIARS then
-        if pData.Sewn_familiarsInMachine ~= nil then
-            for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
-                local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
+    
+    if pData.Sewn_hasItem == nil then
+        pData.Sewn_hasItem = {}
+    end
+    
+    -- Remove familiars which are supposed to be in the machine
+    if pData.Sewn_familiarsInMachine ~= nil then
+        for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
+            local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
 
 
-                fams[#fams]:Remove()
-                --[[
-                local nbFamiliar = Isaac.CountEntities(nil, EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1)
-                if nbFamiliar > 0 then
-                    player:CheckFamiliar(sewnFamiliarVariant, nbFamiliar -1, sewingMachineMod.rng)
-                end
-                --]]
+            fams[#fams]:Remove()
+            --[[
+            local nbFamiliar = Isaac.CountEntities(nil, EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1)
+            if nbFamiliar > 0 then
+                player:CheckFamiliar(sewnFamiliarVariant, nbFamiliar -1, sewingMachineMod.rng)
             end
+            --]]
         end
+    end
+    
+    -- Player get "Ann's Pure Head"
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] then
+        local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
+        annsHead:AddToFollowers()
+        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] = true
+    end
+    -- Player lose "Ann's Pure Head"
+    if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] then
+        for _, annsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, -1, false, false)) do
+            annsHead:Remove()
+        end
+        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] = false
+    end
+    
+    
+    -- Player get "Ann's Tainted Body"
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] then
+        local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
+        annsBody:AddToFollowers()
+        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] = true
+    end
+    -- Player lose "Ann's Tainted Body"
+    if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] then
+        for _, annsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, -1, false, false)) do
+            annsBody:Remove()
+        end
+        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] = false
     end
 end
 
@@ -1343,7 +1385,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 sewingMachineMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, sewingMachineMod.updateFamiliar)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, sewingMachineMod.onPlayerUpdate)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, sewingMachineMod.renderFamiliar)
-sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewingMachineMod.onCache)
+sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewingMachineMod.onCacheFamiliars, CacheFlag.CACHE_FAMILIARS)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWunjo, Card.RUNE_WUNJO)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useNaudiz, Card.RUNE_NAUDIZ)
