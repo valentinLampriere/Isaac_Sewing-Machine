@@ -173,11 +173,15 @@ sewingMachineMod.sewingMachinesData = {}
 
 sewingMachineMod.SewingMachineSubType = {
     BEDROOM = 0,
-    SHOP = 1
+    SHOP = 1,
+    ANGELIC = 2,
+    EVIL = 3
 }
 sewingMachineMod.SewingMachineCost = {
     BEDROOM = 2,
-    SHOP = 10
+    SHOP = 10,
+    ANGELIC = 0,
+    EVIL = 2
 }
 sewingMachineMod.UpgradeState = {
     NORMAL = 0,
@@ -292,7 +296,7 @@ __eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with th
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded";
 -- EID Cards
 __eidCardDescriptions[Card.RUNE_WUNJO] = "Upgrade every familiars for 30 seconds"
-__eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a random sewing machine"
+__eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a sewing machine"
 
 function sewingMachineMod:isAvailable(familiarVariant)
     return sewingMachineMod.availableFamiliar[familiarVariant] ~= nil
@@ -474,7 +478,7 @@ function sewingMachineMod:useNaudiz(card)
     GiantBook:LoadGraphics()
     GiantBook:Play("Appear", true)
     
-    sewingMachineMod:spawnMachine(Isaac.GetFreeNearPosition(player.Position, 30))
+    sewingMachineMod:spawnMachine(Isaac.GetFreeNearPosition(player.Position, 30), true)
 end
 
 -------------------------
@@ -519,7 +523,10 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
             subType = sewingMachineMod.SewingMachineSubType.BEDROOM
         elseif room:GetType() == RoomType.ROOM_SHOP then
             subType = sewingMachineMod.SewingMachineSubType.SHOP
-            subType = sewingMachineMod.SewingMachineSubType.SHOP
+        elseif room:GetType() == RoomType.ROOM_ANGEL then
+            subType = sewingMachineMod.SewingMachineSubType.ANGELIC
+        elseif room:GetType() == RoomType.ROOM_DEVIL then
+            subType = sewingMachineMod.SewingMachineSubType.EVIL
         else
             if sewingMachineMod.rng:RandomInt(2) == 0 then
                 subType = sewingMachineMod.SewingMachineSubType.BEDROOM
@@ -629,15 +636,18 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
 
     -- Upgrade the familiar
     if isUpgrade then
+        local fData = sewnFamiliar:GetData()
         sewingMachineMod:payCost(machine, mData.Sewn_player)
-        sewnFamiliar:GetData().Sewn_upgradeState = sewnFamiliar:GetData().Sewn_upgradeState + 1
-    end
-
-    -- Change familiar's data to prepare stats upgrade
-    if sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant) ~= nil then
-        local f = {}
-        f._function = sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant)
-        f:_function(sewnFamiliar)
+        fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+        if machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL and not sewingMachineMod:isUltra(fData) then
+            fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+        end
+        -- Change familiar's data to prepare stats upgrade
+        if sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant) ~= nil then
+            local f = {}
+            f._function = sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant)
+            f:_function(sewnFamiliar)
+        end
     end
 
     -- Reset the machine data to nil
@@ -712,6 +722,10 @@ function sewingMachineMod:canPayCost(machine, player)
             cost = math.ceil(cost / 2)
         end
         return player:GetNumCoins() >= cost
+    elseif machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC then
+        return true
+    elseif machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
+        return player:GetMaxHearts() >= sewingMachineMod.SewingMachineCost.EVIL
     end
 end
 
@@ -727,6 +741,10 @@ function sewingMachineMod:payCost(machine, player)
             cost = math.ceil(cost / 2)
         end
         player:AddCoins(-cost)
+    elseif machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC then
+        
+    elseif machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
+        player:AddMaxHearts(-sewingMachineMod.SewingMachineCost.EVIL, false)
     end
 end
 
