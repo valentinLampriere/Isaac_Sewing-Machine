@@ -166,6 +166,8 @@ TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
+CollectibleType.COLLECTIBLE_DOLL_S_HEAD = Isaac.GetItemIdByName("Doll's Head")
+CollectibleType.COLLECTIBLE_DOLL_S_BODY = Isaac.GetItemIdByName("Doll's Body")
 Card.RUNE_WUNJO = Isaac.GetCardIdByName("Wunjo")
 Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
 
@@ -285,11 +287,13 @@ if not __eidCardDescriptions then
   __eidCardDescriptions = {};
 end
 -- EID Trinkets
-__eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to upgrade a familiar for free";
-__eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn Sewing machine in Shops for next floors";
-__eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button";
+__eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to upgrade a familiar for free"
+__eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn Sewing machine in Shops for next floors"
+__eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button"
 -- EID Collectibles
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded";
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded"
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_DOLL_S_HEAD] = "Every new familiars will be SUPER#With Doll's Body every new familiars will be ULTRA"
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_DOLL_S_BODY] = "Every new familiars will be SUPER#With Doll's Head every new familiars will be ULTRA"
 -- EID Cards
 __eidCardDescriptions[Card.RUNE_WUNJO] = "Upgrade every familiars for 30 seconds"
 __eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a random sewing machine"
@@ -313,6 +317,14 @@ function sewingMachineMod:getFamiliarUpgradeFunction(familiarVariant)
         if sewingMachineMod.availableFamiliar[familiarVariant] ~= nil then
             return sewingMachineMod.availableFamiliar[familiarVariant][2]
         end
+    end
+end
+function sewingMachineMod:callFamiliarUpgrade(familiar)
+    if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
+        local f = {}
+        f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
+        f:_function(familiar)
+        familiar:GetData().Sewn_crown = nil
     end
 end
 function sewingMachineMod:getFamiliarItemGfx(familiarVariant)
@@ -357,6 +369,7 @@ function sewingMachineMod:useSewingBox(collectibleType, rng)
     end
 end
 
+
 function sewingMachineMod:temporaryUpgradeFamiliar(familiar, delay)
     local fData = familiar:GetData()
     if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
@@ -374,22 +387,24 @@ function sewingMachineMod:temporaryUpgradeFamiliar(familiar, delay)
             fData.Sewn_upgradeState_temporary_delay = game:GetFrameCount() + delay
         end
         
-        if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
+        sewingMachineMod:callFamiliarUpgrade(familiar)
+        --[[if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
             local f = {}
             f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
             f:_function(familiar)
-        end
+        end--]]
     end
 end
 function sewingMachineMod:removeTemporaryUpgrade(familiar)
     local fData = familiar:ToFamiliar()
     sewingMachineMod:resetFamiliarData(familiar)
     
-    if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
+    sewingMachineMod:callFamiliarUpgrade(familiar)
+    --[[if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
         local f = {}
         f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
         f:_function(familiar)
-    end
+    end--]]
 end
 
 -- UNUSED --
@@ -418,12 +433,13 @@ function sewingMachineMod:useFoamDice(collectibleType, rng)
                 if not sewingMachineMod:isUltra(fData) then
                     fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
                     countCrowns = countCrowns -1
-
-                    if sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant) ~= nil then
+                    
+                    sewingMachineMod:callFamiliarUpgrade(familiar[familiar_index])
+                    --[[if sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant) ~= nil then
                         local f = {}
                         f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant)
                         f:_function(familiars[familiar_index])
-                    end
+                    end--]]
                 end
                 if sewingMachineMod:isUltra(fData) then
                     table.remove(familiars, familiar_index)
@@ -469,12 +485,14 @@ end
 ------------------------------------
 function sewingMachineMod:useNaudiz(card)
     local player = GetPlayerUsingCard()
+    local room = game:GetLevel():GetCurrentRoom()
     player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
     GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_naudiz.png")
     GiantBook:LoadGraphics()
     GiantBook:Play("Appear", true)
     
-    sewingMachineMod:spawnMachine(Isaac.GetFreeNearPosition(player.Position, 30))
+    
+    sewingMachineMod:spawnMachine(room:FindFreePickupSpawnPosition(player.Position, 0, true))
 end
 
 -------------------------
@@ -631,14 +649,16 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     if isUpgrade then
         sewingMachineMod:payCost(machine, mData.Sewn_player)
         sewnFamiliar:GetData().Sewn_upgradeState = sewnFamiliar:GetData().Sewn_upgradeState + 1
+        
+        -- Change familiar's data to prepare stats upgrade
+        sewingMachineMod:callFamiliarUpgrade(sewnFamiliar)
+        --[[if sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant) ~= nil then
+            local f = {}
+            f._function = sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant)
+            f:_function(sewnFamiliar)
+        end--]]
     end
 
-    -- Change familiar's data to prepare stats upgrade
-    if sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant) ~= nil then
-        local f = {}
-        f._function = sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant)
-        f:_function(sewnFamiliar)
-    end
 
     -- Reset the machine data to nil
     mData.Sewn_currentFamiliarState = nil
@@ -834,7 +854,6 @@ end
 -- MC_FAMILIAR_UPDATE --
 ------------------------
 function sewingMachineMod:updateFamiliar(familiar)
-    -- I use MC_FAMILIAR_UPDATE because MC_FAMILIAR_INIT is broken, and doesn't work well with most of familiars
     local fData = familiar:GetData()
 
     -- We do nothing with blue flies and blue spiders
@@ -843,6 +862,7 @@ function sewingMachineMod:updateFamiliar(familiar)
     end
 
     -- INIT
+    -- I use MC_FAMILIAR_UPDATE because MC_FAMILIAR_INIT is broken, and doesn't work well with most of familiars
     if not familiar:GetData().Sewn_Init and familiar.FrameCount > 0 then
         local player = familiar.Player
 
@@ -857,7 +877,17 @@ function sewingMachineMod:updateFamiliar(familiar)
             end
         end
         if fData.Sewn_upgradeState == nil then
-            fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+            local hasDollsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_HEAD)
+            local hasDollsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_BODY)
+            if hasDollsHead and not hasDollsBody or not hasDollsHead and hasDollsBody then
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
+                sewingMachineMod:callFamiliarUpgrade(familiar)
+            elseif hasDollsHead and hasDollsBody then
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
+                sewingMachineMod:callFamiliarUpgrade(familiar)
+            else
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+            end
         end
 
         if player ~= nil and player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
@@ -1252,11 +1282,12 @@ function sewingMachineMod:loadSave(isExistingRun)
                     local fam = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, variant, -1, false, false)[i]:ToFamiliar()
 
                     fam:GetData().Sewn_upgradeState = saveDataFamiliarVariant["Sewn_upgradeState"]
-                    if sewingMachineMod:getFamiliarUpgradeFunction(fam.Variant) ~= nil then
+                    sewingMachineMod:callFamiliarUpgrade(fam)
+                    --[[if sewingMachineMod:getFamiliarUpgradeFunction(fam.Variant) ~= nil then
                         local f = {}
                         f._function = sewingMachineMod:getFamiliarUpgradeFunction(fam.Variant)
                         f:_function(fam)
-                    end
+                    end--]]
                 end
             end
         end
