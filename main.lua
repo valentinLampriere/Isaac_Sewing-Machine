@@ -494,6 +494,23 @@ function sewingMachineMod:initPickup(pickup)
     end
 end
 
+-----------------
+-- MC_GET_CARD --
+-----------------
+function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
+    if includeRunes then
+        local roll = rng:RandomFloat()
+        if roll < 0.12 then
+            local rollRune = rng:RandomInt(2)
+            if rollRune == 0 then
+                return Card.RUNE_WUNJO
+            elseif rollRune == 1 then
+                return Card.RUNE_NAUDIZ
+            end
+        end
+    end
+end
+
 function sewingMachineMod:delayFunction(functionToDelay, delay, param)
     if functionToDelay ~= nil and delay ~= nil then
         local data = {FUNCTION = functionToDelay, DELAY = delay, FRAME = game:GetFrameCount(), PARAM = param}
@@ -1317,6 +1334,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewin
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWunjo, Card.RUNE_WUNJO)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useNaudiz, Card.RUNE_NAUDIZ)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.initPickup)
+sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
 
