@@ -591,8 +591,6 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
         end
     end
 
-    print(roll .. " / " .. mData.Sewn_machineUsed_counter * 5 + additionalBreackChance)
-
     -- Chance to break
     if roll < mData.Sewn_machineUsed_counter * 5 + additionalBreackChance then
         local rollTrinket = sewingMachineMod.rng:RandomInt(101)
