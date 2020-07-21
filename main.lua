@@ -577,17 +577,24 @@ end
 function sewingMachineMod:breakMachine(machine, isUpgrade)
     local roll = sewingMachineMod.rng:RandomInt(101)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-
+    local additionalBreackChance = 0
+    
     if mData.Sewn_machineUsed_counter == nil then
         mData.Sewn_machineUsed_counter = 0
     end
 
     if isUpgrade then
         mData.Sewn_machineUsed_counter = mData.Sewn_machineUsed_counter + 1
+        if machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC then
+            mData.Sewn_machineUsed_counter = mData.Sewn_machineUsed_counter + 1
+            additionalBreackChance = 25
+        end
     end
 
+    print(roll .. " / " .. mData.Sewn_machineUsed_counter * 5 + additionalBreackChance)
+
     -- Chance to break
-    if roll < mData.Sewn_machineUsed_counter * 5 then
+    if roll < mData.Sewn_machineUsed_counter * 5 + additionalBreackChance then
         local rollTrinket = sewingMachineMod.rng:RandomInt(101)
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, Vector(0, 0), nil)
 
