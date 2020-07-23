@@ -65,6 +65,24 @@ local vanillaFollowers = {
 	[FamiliarVariant.HALLOWED_GROUND] = true
 }
 
+------------------------
+-- Override functions --
+------------------------
+
+-- "AddToFollowers" and "RemoveFromFollowers" usefull for King Baby
+local OldAddToFollowers = APIOverride.GetCurrentClassFunction(EntityFamiliar, "AddToFollowers")
+APIOverride.OverrideClassFunction(EntityFamiliar, "AddToFollowers", function(fam)
+    fam:GetData().Sewn_IsFollower = true
+    OldAddToFollowers(fam)
+end)
+local OldRemoveFromFollowers = APIOverride.GetCurrentClassFunction(EntityFamiliar, "RemoveFromFollowers")
+APIOverride.OverrideClassFunction(EntityFamiliar, "RemoveFromFollowers", function(fam)
+    fam:GetData().Sewn_IsFollower = false
+    OldRemoveFromFollowers(fam)
+end)
+
+-- "AddToFollowers" and "RemoveFromFollowers" usefull for King Baby
+
 ------------------------------------------------------------
 -- Prepare familiars upgrade, stats and custom behaviours --
 ------------------------------------------------------------
@@ -1833,7 +1851,7 @@ function sewnFamiliars:custom_newRoom_kingBaby(kingBaby)
     player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
     player:EvaluateItems()
     
-    fData.Sewn_kingBaby_cooldown = 60
+    fData.Sewn_kingBaby_cooldown = 30
 
     fData.Sewn_kingBaby_hasCopyFamiliars = false
 end
@@ -1842,6 +1860,10 @@ function sewnFamiliars:kingBaby_updateFamiliarFollowParent(familiar)
         local parent = familiar:GetData().Sewn_kingBaby_parentFollower
         sewnFamiliars:familiarFollowTrail(familiar, parent.Position)
 	end
+end
+
+function sewnFamiliars:kingBaby_isFollower(familiar)
+    return familiar:GetData().Sewn_IsFollower == true or vanillaFollowers[familiar.Variant] ~= nil
 end
 function sewnFamiliars:custom_update_kingBaby(kingBaby)
     local fData = kingBaby:GetData()
@@ -1861,7 +1883,7 @@ function sewnFamiliars:custom_update_kingBaby(kingBaby)
                     fam = fam:ToFamiliar()
 
                     -- Check if the familiar is a follower
-                    if vanillaFollowers[fam.Variant] ~= nil and fam.Variant ~= kingBaby.Variant then
+                    if sewnFamiliars:kingBaby_isFollower(fam) and fam.Variant ~= kingBaby.Variant then
                         -- Duplicate the familiar
                         local newFam = Isaac.Spawn(fam.Type, fam.Variant, fam.SubType, kingBaby.Player.Position, Vector(0, 0), nil):ToFamiliar()
                         
@@ -1938,7 +1960,7 @@ local SPIDERMOD_FLAGS = {
 }
 sewingMachineMod.OldAddPoison = APIOverride.GetCurrentClassFunction(Entity, "AddPoison")
 APIOverride.OverrideClassFunction(Entity, "AddPoison", function(entity)
-    --sewingMachineMod.OldAddPoison(source, duration, damage)
+    sewingMachineMod.OldAddPoison(source, duration, damage)
 	print("Hey")
     --entity:GetData().Sewn_spiderMod_statusTime = duration
 end)
