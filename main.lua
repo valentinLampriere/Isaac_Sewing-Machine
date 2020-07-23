@@ -179,6 +179,7 @@ Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
 FamiliarVariant.ANN_S_PURE_HEAD = Isaac.GetEntityVariantByName("Ann's Pure Head")
 FamiliarVariant.ANN_S_TAINTED_BODY = Isaac.GetEntityVariantByName("Ann's Tainted Body")
 FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
+FamiliarVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 
 sewingMachineMod.sewingMachinesData = {}
 
@@ -1112,6 +1113,19 @@ function sewingMachineMod:finishRoom(rng, spawnPosition)
     if room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
         -- Spawn machine when the shop is cleared
         sewingMachineMod:spawnMachine(nil, true)
+    end
+    
+    -- It's supposed to be in the "familiars.lua" but it seems having several "MC_PRE_SPAWN_CLEAN_AWARD" cause error
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if fData.Sewn_custom_cleanAward ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_cleanAward) do
+                d.customFunction = f
+                d:customFunction(familiar)
+            end
+        end
     end
 end
 

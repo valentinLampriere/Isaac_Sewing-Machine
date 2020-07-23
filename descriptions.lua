@@ -261,8 +261,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SPIDER_MOD,
-        "Has 50% chance to block projectile and turn them into electric tears#Electric tears are those fired with Technology Zero",
-        "Will turn every projectile which go above it into electric tears",
+        "Spawn eggs which apply a random effect to enemies which walk over them",
+        "Higher chance to spawn eggs#At the end of rooms, eggs spawn blue spiders",
         ConvertRGBToIsaac({194, 194, 194})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

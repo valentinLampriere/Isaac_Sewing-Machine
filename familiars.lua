@@ -4,6 +4,8 @@ sewnFamiliars = sewingMachineMod.sewnFamiliars
 require("scripts.embeddablecallbackhack")
 require("scripts.apioverride")
 
+local game = Game()
+
 local ANIMATION_NAMES = {
     SPAWN = {"Spawn"},
     HIT = {"Hit"},
@@ -243,6 +245,15 @@ function sewnFamiliars:customCache(familiar, functionName)
         fData.Sewn_custom_cache = {}
     end
     table.insert(fData.Sewn_custom_cache, functionName)
+end
+
+-- CUSTOM CLEAN AWARD
+function sewnFamiliars:customCleanAward(familiar, functionName)
+    local fData = familiar:GetData()
+    if fData.Sewn_custom_cleanAward == nil then
+        fData.Sewn_custom_cleanAward = {}
+    end
+    table.insert(fData.Sewn_custom_cleanAward, functionName)
 end
 
 -- CUSTOM ENTITY KILL
@@ -988,7 +999,7 @@ function sewnFamiliars:custom_collision_abel(familiar, collider)
         end
     end
     if sewingMachineMod:isUltra(fData) then
-        if fData.Sewn_custom_abel_enterRoomFrame == nil or fData.Sewn_custom_abel_enterRoomFrame + 30 < Game():GetFrameCount() then
+        if fData.Sewn_custom_abel_enterRoomFrame == nil or fData.Sewn_custom_abel_enterRoomFrame + 30 < game:GetFrameCount() then
             familiar.CollisionDamage = fData.Sewn_collisionDamage + math.sqrt(familiar.Position:Distance(familiar.Player.Position)) / 2
         end
     end
@@ -996,7 +1007,7 @@ end
 function sewnFamiliars:custom_newRoom_abel(familiar)
     local fData = familiar:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        fData.Sewn_custom_abel_enterRoomFrame = Game():GetFrameCount()
+        fData.Sewn_custom_abel_enterRoomFrame = game:GetFrameCount()
     else
         familiar.CollisionDamage = fData.Sewn_collisionDamage
     end
@@ -1126,9 +1137,9 @@ function sewnFamiliars:custom_update_guardianAngel(guardianAngel)
 end
 function sewnFamiliars:custom_collision_guardianAngel(guardianAngel, collider)
     local fData = guardianAngel:GetData()
-    if collider.Type == EntityType.ENTITY_PROJECTILE and fData.Sewn_guardianAngel_blockTimer + 5 < Game():GetFrameCount() then
+    if collider.Type == EntityType.ENTITY_PROJECTILE and fData.Sewn_guardianAngel_blockTimer + 5 < game:GetFrameCount() then
             
-        fData.Sewn_guardianAngel_blockTimer = Game():GetFrameCount()
+        fData.Sewn_guardianAngel_blockTimer = game:GetFrameCount()
         
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             fData.Sewn_guardianAngel_state = fData.Sewn_guardianAngel_state + 1
@@ -1172,9 +1183,9 @@ function sewnFamiliars:upSwornProtector(swornProtector)
 end
 function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
     local fData = swornProtector:GetData()
-    if collider.Type == EntityType.ENTITY_PROJECTILE and fData.Sewn_swornProtector_blockTimer + 15 < Game():GetFrameCount() then -- If it's a projectile AND last projectile touch was 15 frame backward
+    if collider.Type == EntityType.ENTITY_PROJECTILE and fData.Sewn_swornProtector_blockTimer + 15 < game:GetFrameCount() then -- If it's a projectile AND last projectile touch was 15 frame backward
         
-        fData.Sewn_swornProtector_blockTimer = Game():GetFrameCount()
+        fData.Sewn_swornProtector_blockTimer = game:GetFrameCount()
         
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             rollSoulHeartDrop = sewingMachineMod.rng:RandomInt(20)
@@ -1343,8 +1354,7 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
     
     if sewingMachineMod:isUltra(fData) then
         --Remove bob's brain collision so it do no more hit enemies
-        bobsBrain.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE 
-        local g = Game()
+        bobsBrain.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
         local sprite = bobsBrain:GetSprite()
         -- If the brain has been thrown (and it is not sticked to an enemy)
         if bobsBrain.FireCooldown == -1 and fData.Sewn_custom_bobsBrain_stickNpc == nil then
@@ -1353,7 +1363,7 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
                 if npc:IsVulnerableEnemy() then
                     fData.Sewn_custom_bobsBrain_stickNpc = npc
                     fData.Sewn_custom_bobsBrain_stickDistance = bobsBrain.Position - npc.Position
-                    fData.Sewn_custom_bobsBrain_stickFrame = g:GetFrameCount()
+                    fData.Sewn_custom_bobsBrain_stickFrame = game:GetFrameCount()
                     sprite:Play("Stick")
                     
                     npc:AddEntityFlags(EntityFlag.FLAG_SLOW)
@@ -1363,11 +1373,11 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
         if fData.Sewn_custom_bobsBrain_stickNpc ~= nil then
             bobsBrain.Velocity = Vector(0, 0)
             bobsBrain.Position = fData.Sewn_custom_bobsBrain_stickNpc.Position + fData.Sewn_custom_bobsBrain_stickDistance
-            if fData.Sewn_custom_bobsBrain_stickFrame + 30 < g:GetFrameCount() then
+            if fData.Sewn_custom_bobsBrain_stickFrame + 30 < game:GetFrameCount() then
                 sprite.PlaybackSpeed = 1.5
-                if fData.Sewn_custom_bobsBrain_stickFrame + 60 < g:GetFrameCount() then
+                if fData.Sewn_custom_bobsBrain_stickFrame + 60 < game:GetFrameCount() then
                     sprite.PlaybackSpeed = 2
-                    if fData.Sewn_custom_bobsBrain_stickFrame + 90 < g:GetFrameCount() then
+                    if fData.Sewn_custom_bobsBrain_stickFrame + 90 < game:GetFrameCount() then
                         -- Add velocity, so it move against the enemy to explode
                         bobsBrain:AddVelocity(-fData.Sewn_custom_bobsBrain_stickDistance)
                         sewnFamiliars:bobsBrain_getBack(bobsBrain)
@@ -1688,7 +1698,7 @@ function sewnFamiliars:upFartingBaby(fartingBaby)
 end
 function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
     local fData = fartingBaby:GetData()
-    local room = Game():GetLevel():GetCurrentRoom()
+    local room = game:GetLevel():GetCurrentRoom()
     if room:IsClear() then
         return
     end
@@ -1705,13 +1715,12 @@ function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
             end
             if fData.Sewn_custom_fartingBaby_randomFartCooldown == 0 then
                 local rollFart = sewingMachineMod.rng:RandomInt(rollMax)
-                local g = Game()
                 if rollFart == 0 then
-                    g:Fart(fartingBaby.Position, 100, fartingBaby.Player, 1, 0)
+                    game:Fart(fartingBaby.Position, 100, fartingBaby.Player, 1, 0)
                 elseif rollFart == 1 then
-                    g:CharmFart(fartingBaby.Position, 100, fartingBaby.Player)
+                    game:CharmFart(fartingBaby.Position, 100, fartingBaby.Player)
                 elseif rollFart == 2 then
-                    g:ButterBeanFart(fartingBaby.Position, 100, fartingBaby.Player, true)
+                    game:ButterBeanFart(fartingBaby.Position, 100, fartingBaby.Player, true)
                 elseif rollFart == 3 then
                     -- Spawn a Burning fart
                     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, Vector(0, 0), fartingBaby)
@@ -1955,118 +1964,100 @@ function sewnFamiliars:custom_cache_flies(fly, cacheFlag)
 end
 
 -- SPIDER MOD
-local SPIDERMOD_FLAGS = {
-    POISON = 1, SLOW = 2, CHARM = 3, DAZED = 4, BURN = 5, FEAR = 6, BLEED = 7
-}
-sewingMachineMod.OldAddPoison = APIOverride.GetCurrentClassFunction(Entity, "AddPoison")
-APIOverride.OverrideClassFunction(Entity, "AddPoison", function(entity)
-    sewingMachineMod.OldAddPoison(source, duration, damage)
-	print("Hey")
-    --entity:GetData().Sewn_spiderMod_statusTime = duration
-end)
 function sewnFamiliars:upSpiderMod(spiderMod)
     local fData = spiderMod:GetData()
     if spiderMod.Variant == FamiliarVariant.SPIDER_MOD then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(spiderMod, sewnFamiliars.custom_update_spiderMod)
-            sewnFamiliars:customRender(spiderMod, sewnFamiliars.custom_render_spiderMod)
             sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
-            fData.Sewn_spiderMod_npcs = {}
-            --spiderMod.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
-            --sewnFamiliars:customCollision(spiderMod, sewnFamiliars.custom_collision_spiderMod)
-            --sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
-            --fData.Sewn_spiderMod_collideTear = {}
+            if sewingMachineMod:isUltra(fData) then
+                sewnFamiliars:customCleanAward(spiderMod, sewnFamiliars.custom_cleanAward_spiderMod)
+            end
         end
     end
 end
-function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
-    local fData = spiderMod:GetData()
-    fData.Sewn_spiderMod_npcs = {}
-end
-
-function sewnFamiliars:spiderMod_insertFlagNPC(fData, npc, spiderMod_flag)
-    if fData.Sewn_spiderMod_npcs[npc.Index] == nil then
-        fData.Sewn_spiderMod_npcs[npc.Index] = {NPC = npc}
+function sewnFamiliars:spiderMod_eggUpdate(egg)
+    egg.Velocity = Vector(0, 0)
+    if egg.FrameCount >= 30 * 30 then
+        sewnFamiliars:spiderMod_eggDestroy(egg)
     end
-    fData.Sewn_spiderMod_npcs[npc.Index][spiderMod_flag] = true
 end
-
+function sewnFamiliars:spiderMod_eggDestroy(egg)
+    egg:Die()
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
+end
+function sewnFamiliars:spiderMod_eggCollision(egg, collider)
+    local fData = egg:GetData()
+    if collider:IsVulnerableEnemy() then
+        if fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] + 90 < game:GetFrameCount() then
+            local roll = sewingMachineMod.rng:RandomInt(8)
+            local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
+            local dmg = egg.Player.Damage
+            if roll == 0 then
+                collider:AddPoison(EntityRef(egg), rollDuration, dmg)
+            elseif roll == 1 then
+                collider:AddFreeze(EntityRef(egg), rollDuration)
+            elseif roll == 2 then
+                collider:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
+            elseif roll == 3 then
+                collider:AddCharmed(rollDuration)
+            elseif roll == 4 then
+                collider:AddConfusion(EntityRef(egg), rollDuration, false)
+            elseif roll == 5 then
+                collider:AddFear(EntityRef(egg), rollDuration)
+            elseif roll == 6 then
+                collider:AddBurn(EntityRef(egg), rollDuration, dmg)
+            elseif roll == 7 then
+                collider:AddShrink(EntityRef(egg), rollDuration)
+            end
+            fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
+        end
+    end
+end
+function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
+    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
+        sewnFamiliars:spiderMod_eggDestroy(egg)
+        local nbSpiders = sewingMachineMod.rng:RandomInt(3)
+        for i = 1, nbSpiders do
+            local velocity = Vector(0, 0)
+            local force = 30
+            velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+            velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+            spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
+        end
+    end
+end
 function sewnFamiliars:custom_update_spiderMod(spiderMod)
     local fData = spiderMod:GetData()
-    for _, npc in pairs(Isaac.FindInRadius(spiderMod.Position, 1500, EntityPartition.ENEMY)) do
-        local nData = npc:GetData()
-        if npc:IsVulnerableEnemy() then
-            local hasFlag = false
-            if npc:HasEntityFlags(EntityFlag.FLAG_POISON) then
-                sewnFamiliars:spiderMod_insertFlagNPC(fData, npc, SPIDERMOD_FLAGS.POISON)
-                hasFlag = true
+    local room = game:GetLevel():GetCurrentRoom()
+    if room:IsClear() then
+        return
+    end
+    if spiderMod.FrameCount % 30 == 0 then
+        local roll = sewingMachineMod.rng:RandomInt(101)
+        if sewingMachineMod:isUltra(fData) then 
+            roll = roll + 10 -- higher chance to spawn an egg in ultra
+        end
+        if roll > 80 then
+            for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
+                if egg.Position:DistanceSquared(spiderMod.Position) < 20^2 then
+                    return -- Do not spawn eggs close to an other egg
+                end
             end
-            if hasFlag == false then
-                fData.Sewn_spiderMod_npcs[npc.Index] = nil
-            end
+            spiderMod:GetSprite():Play("Appear", false)
+            local egg = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, Vector(0, 0), spiderMod)
+            egg:GetData().Sewn_spidermod_eggColliderCooldown = {}
+            egg.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ENEMIES
+            sewnFamiliars:customCollision(egg, sewnFamiliars.spiderMod_eggCollision)
+            sewnFamiliars:customUpdate(egg, sewnFamiliars.spiderMod_eggUpdate)
         end
     end
 end
-function sewnFamiliars:custom_render_spiderMod(spiderMod)
-    local fData = spiderMod:GetData()
-    for _, npcData in pairs(fData.Sewn_spiderMod_npcs) do
-        local bar = Sprite()
-        bar:Load("gfx/spidermod_statusBars.anm2", false)
-        bar:Play(bar:GetDefaultAnimation(), true)
-        if npcData.POISON then
-            bar:SetFrame(bar:GetDefaultAnimation(), 1)
-        end
-        bar:LoadGraphics()
-        bar:Render(Isaac.WorldToScreen(npcData.NPC.Position) + Vector(0, 20), Vector(0,0), Vector(0,0))
-    end
-end
---[[
 function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
-    local fData = spiderMod:GetData()
-    fData.Sewn_spiderMod_collideTear = {}
-end
-function sewnFamiliars:custom_collision_spiderMod(spiderMod, collider)
-    local fData = spiderMod:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if collider.Type == EntityType.ENTITY_PROJECTILE and fData.Sewn_spiderMod_collideTear[GetPtrHash(collider)] == nil then
-            local roll = sewingMachineMod.rng:RandomInt(2)
-            if sewingMachineMod:isUltra(fData) then
-                roll = 1
-            end
-            
-            fData.Sewn_spiderMod_collideTear[GetPtrHash(collider)] = true
-            
-            if roll == 1 then
-                local projectile = collider:ToProjectile()
-                local tearVariant
-                
-                if projectile.Variant == ProjectileVariant.PROJECTILE_BONE then
-                    tearVariant = TearVariant.BONE
-                elseif projectile.Variant == ProjectileVariant.PROJECTILE_TEAR then
-                    tearVariant = TearVariant.BLUE
-                elseif projectile.Variant == ProjectileVariant.PROJECTILE_COIN then
-                    tearVariant = TearVariant.COIN
-                elseif projectile.Variant == ProjectileVariant.PROJECTILE_FIRE then
-                    return -- Don't work with flames
-                else
-                    tearVariant = TearVariant.BLOOD
-                end
-                
-                local spiderTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tearVariant, 0, projectile.Position, Vector(0, 0), spiderMod):ToTear()
-                
-                spiderTear.TearFlags = spiderTear.TearFlags | TearFlags.TEAR_LASER
-                spiderTear.FallingAcceleration = -0.085
-                if sewingMachineMod:isUltra(fData) then
-                    spiderTear.TearFlags = spiderTear.TearFlags | TearFlags.TEAR_PIERCING
-                    spiderTear.FallingAcceleration = -0.09
-                end
-                
-                collider:Remove()
-            end
-        end
+    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
+        egg:Remove()
     end
 end
---]]
 
 -- ISAAC'S HEART
 function sewnFamiliars:upIsaacsHeart(isaacsHeart)
@@ -2502,7 +2493,7 @@ end
 
 -- MC_POST_NEW_ROOM --
 function sewnFamiliars:newRoom()
-    local room = Game():GetLevel():GetCurrentRoom()
+    local room = game:GetLevel():GetCurrentRoom()
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
