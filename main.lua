@@ -401,11 +401,6 @@ function sewingMachineMod:temporaryUpgradeFamiliar(familiar, delay)
         end
 
         sewingMachineMod:callFamiliarUpgrade(familiar)
-        --[[if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
-            local f = {}
-            f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
-            f:_function(familiar)
-        end--]]
     end
 end
 function sewingMachineMod:removeTemporaryUpgrade(familiar)
@@ -413,11 +408,6 @@ function sewingMachineMod:removeTemporaryUpgrade(familiar)
     sewingMachineMod:resetFamiliarData(familiar)
 
     sewingMachineMod:callFamiliarUpgrade(familiar)
-    --[[if sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant) ~= nil then
-        local f = {}
-        f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiar.Variant)
-        f:_function(familiar)
-    end--]]
 end
 
 -- UNUSED --
@@ -448,11 +438,6 @@ function sewingMachineMod:useFoamDice(collectibleType, rng)
                     countCrowns = countCrowns -1
 
                     sewingMachineMod:callFamiliarUpgrade(familiar[familiar_index])
-                    --[[if sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant) ~= nil then
-                        local f = {}
-                        f._function = sewingMachineMod:getFamiliarUpgradeFunction(familiars[familiar_index].Variant)
-                        f:_function(familiars[familiar_index])
-                    end--]]
                 end
                 if sewingMachineMod:isUltra(fData) then
                     table.remove(familiars, familiar_index)
@@ -505,7 +490,7 @@ function sewingMachineMod:useNaudiz(card)
     GiantBook:Play("Appear", true)
 
 
-    sewingMachineMod:spawnMachine(room:FindFreePickupSpawnPosition(player.Position, 0, true))
+    sewingMachineMod:spawnMachine(room:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
 
 -------------------------
@@ -693,11 +678,6 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
         end
         -- Change familiar's data to prepare stats upgrade
         sewingMachineMod:callFamiliarUpgrade(sewnFamiliar)
-        --[[if sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant) ~= nil then
-            local f = {}
-            f._function = sewingMachineMod:getFamiliarUpgradeFunction(sewnFamiliar.Variant)
-            f:_function(sewnFamiliar)
-        end--]]
     end
 
 
@@ -1188,12 +1168,6 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
 
 
             fams[#fams]:Remove()
-            --[[
-            local nbFamiliar = Isaac.CountEntities(nil, EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1)
-            if nbFamiliar > 0 then
-                player:CheckFamiliar(sewnFamiliarVariant, nbFamiliar -1, sewingMachineMod.rng)
-            end
-            --]]
         end
     end
 
@@ -1390,11 +1364,6 @@ function sewingMachineMod:loadSave(isExistingRun)
 
                     fam:GetData().Sewn_upgradeState = saveDataFamiliarVariant["Sewn_upgradeState"]
                     sewingMachineMod:callFamiliarUpgrade(fam)
-                    --[[if sewingMachineMod:getFamiliarUpgradeFunction(fam.Variant) ~= nil then
-                        local f = {}
-                        f._function = sewingMachineMod:getFamiliarUpgradeFunction(fam.Variant)
-                        f:_function(fam)
-                    end--]]
                 end
             end
         end
