@@ -1230,7 +1230,7 @@ function sewnFamiliars:custom_update_bloodshotEye(bloodshotEye)
                 else
                     laser.DepthOffset = 1
                 end
-                laser.CollisionDamage = 5
+                laser.CollisionDamage = 3
                 tear:Remove()
             end
         end
