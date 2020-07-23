@@ -161,17 +161,24 @@
 sewingMachineMod = RegisterMod("Sewing machine", 1)
 
 sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
-
+------------------
+-- ENUMERATIONS --
+------------------
+-- Trinkets --
 TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
+-- Collectibles --
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
 CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD = Isaac.GetItemIdByName("Ann's Pure Head")
 CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY = Isaac.GetItemIdByName("Ann's Tainted Body")
+-- Cards --
 Card.RUNE_WUNJO = Isaac.GetCardIdByName("Wunjo")
 Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
+-- Familiars --
 FamiliarVariant.ANN_S_PURE_HEAD = Isaac.GetEntityVariantByName("Ann's Pure Head")
 FamiliarVariant.ANN_S_TAINTED_BODY = Isaac.GetEntityVariantByName("Ann's Tainted Body")
+FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
 
 sewingMachineMod.sewingMachinesData = {}
 
@@ -922,10 +929,7 @@ function sewingMachineMod:updateFamiliar(familiar)
         end
     end
     
-    if familiar.Variant == FamiliarVariant.ANN_S_PURE_HEAD then
-        familiar:FollowParent()
-    end
-    if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_BODY then
+    if familiar.Variant == FamiliarVariant.ANN_S_PURE_HEAD or familiar.Variant == FamiliarVariant.ANN_S_TAINTED_BODY or familiar.Variant == FamiliarVariant.ANN then
         familiar:FollowParent()
     end
 end
@@ -1155,33 +1159,54 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
     
     -- Player get "Ann's Pure Head"
     if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] then
-        local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
-        annsHead:AddToFollowers()
+        if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] then
+            local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
+            annsHead:AddToFollowers()
+        end
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] = true
     end
     -- Player lose "Ann's Pure Head"
     if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] then
-        for _, annsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, -1, false, false)) do
-            annsHead:Remove()
-        end
+        sewingMachineMod:removeAnnsPureHead()
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] = false
     end
     
     
     -- Player get "Ann's Tainted Body"
     if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] then
-        local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
-        annsBody:AddToFollowers()
+        if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] then
+            local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
+            annsBody:AddToFollowers()
+        end
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] = true
     end
     -- Player lose "Ann's Tainted Body"
     if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] then
-        for _, annsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, -1, false, false)) do
-            annsBody:Remove()
-        end
+        sewingMachineMod:removeAnnsTaintedBody() 
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] = false
     end
+    
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) and not pData.Sewn_hasFullAnn then
+        local ann = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN, 0, player.Position, Vector(0,0), player):ToFamiliar()
+        ann:AddToFollowers()
+        sewingMachineMod:removeAnnsPureHead()
+        sewingMachineMod:removeAnnsTaintedBody()
+        pData.Sewn_hasFullAnn = true
+    end
 end
+
+function sewingMachineMod:removeAnnsPureHead()
+    for _, annsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, -1, false, false)) do
+        annsHead:Remove()
+    end
+end
+
+function sewingMachineMod:removeAnnsTaintedBody()
+    for _, annsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, -1, false, false)) do
+        annsBody:Remove()
+    end
+end
+
 
 --------------------
 -- MC_POST_UPDATE --
