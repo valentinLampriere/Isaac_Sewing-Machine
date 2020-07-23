@@ -2,6 +2,7 @@ sewingMachineMod.sewnFamiliars = {}
 sewnFamiliars = sewingMachineMod.sewnFamiliars
 
 require("scripts.embeddablecallbackhack")
+require("scripts.apioverride")
 
 local ANIMATION_NAMES = {
     SPAWN = {"Spawn"},
@@ -1932,17 +1933,72 @@ function sewnFamiliars:custom_cache_flies(fly, cacheFlag)
 end
 
 -- SPIDER MOD
+local SPIDERMOD_FLAGS = {
+    POISON = 1, SLOW = 2, CHARM = 3, DAZED = 4, BURN = 5, FEAR = 6, BLEED = 7
+}
+sewingMachineMod.OldAddPoison = APIOverride.GetCurrentClassFunction(Entity, "AddPoison")
+APIOverride.OverrideClassFunction(Entity, "AddPoison", function(entity)
+    --sewingMachineMod.OldAddPoison(source, duration, damage)
+	print("Hey")
+    --entity:GetData().Sewn_spiderMod_statusTime = duration
+end)
 function sewnFamiliars:upSpiderMod(spiderMod)
     local fData = spiderMod:GetData()
     if spiderMod.Variant == FamiliarVariant.SPIDER_MOD then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            spiderMod.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
-            sewnFamiliars:customCollision(spiderMod, sewnFamiliars.custom_collision_spiderMod)
+            sewnFamiliars:customUpdate(spiderMod, sewnFamiliars.custom_update_spiderMod)
+            sewnFamiliars:customRender(spiderMod, sewnFamiliars.custom_render_spiderMod)
             sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
-            fData.Sewn_spiderMod_collideTear = {}
+            fData.Sewn_spiderMod_npcs = {}
+            --spiderMod.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
+            --sewnFamiliars:customCollision(spiderMod, sewnFamiliars.custom_collision_spiderMod)
+            --sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
+            --fData.Sewn_spiderMod_collideTear = {}
         end
     end
 end
+function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
+    local fData = spiderMod:GetData()
+    fData.Sewn_spiderMod_npcs = {}
+end
+
+function sewnFamiliars:spiderMod_insertFlagNPC(fData, npc, spiderMod_flag)
+    if fData.Sewn_spiderMod_npcs[npc.Index] == nil then
+        fData.Sewn_spiderMod_npcs[npc.Index] = {NPC = npc}
+    end
+    fData.Sewn_spiderMod_npcs[npc.Index][spiderMod_flag] = true
+end
+
+function sewnFamiliars:custom_update_spiderMod(spiderMod)
+    local fData = spiderMod:GetData()
+    for _, npc in pairs(Isaac.FindInRadius(spiderMod.Position, 1500, EntityPartition.ENEMY)) do
+        local nData = npc:GetData()
+        if npc:IsVulnerableEnemy() then
+            local hasFlag = false
+            if npc:HasEntityFlags(EntityFlag.FLAG_POISON) then
+                sewnFamiliars:spiderMod_insertFlagNPC(fData, npc, SPIDERMOD_FLAGS.POISON)
+                hasFlag = true
+            end
+            if hasFlag == false then
+                fData.Sewn_spiderMod_npcs[npc.Index] = nil
+            end
+        end
+    end
+end
+function sewnFamiliars:custom_render_spiderMod(spiderMod)
+    local fData = spiderMod:GetData()
+    for _, npcData in pairs(fData.Sewn_spiderMod_npcs) do
+        local bar = Sprite()
+        bar:Load("gfx/spidermod_statusBars.anm2", false)
+        bar:Play(bar:GetDefaultAnimation(), true)
+        if npcData.POISON then
+            bar:SetFrame(bar:GetDefaultAnimation(), 1)
+        end
+        bar:LoadGraphics()
+        bar:Render(Isaac.WorldToScreen(npcData.NPC.Position) + Vector(0, 20), Vector(0,0), Vector(0,0))
+    end
+end
+--[[
 function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
     local fData = spiderMod:GetData()
     fData.Sewn_spiderMod_collideTear = {}
@@ -1988,6 +2044,7 @@ function sewnFamiliars:custom_collision_spiderMod(spiderMod, collider)
         end
     end
 end
+--]]
 
 -- ISAAC'S HEART
 function sewnFamiliars:upIsaacsHeart(isaacsHeart)
@@ -2450,7 +2507,7 @@ function sewnFamiliars:onEntityKill(entity)
         end
     end
 end
-    
+
 -- MC_USE_ITEM --
 function sewnFamiliars:useSewingBox(collectible, rng)
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
@@ -2476,7 +2533,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, sewnFamiliars
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, sewnFamiliars.familiarCollision)
 sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewnFamiliars.onCache)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewnFamiliars.newRoom)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewnFamiliars.onEntityKill) 
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewnFamiliars.onEntityKill)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewnFamiliars.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 
 sewingMachineMod.errFamiliars.Error()
