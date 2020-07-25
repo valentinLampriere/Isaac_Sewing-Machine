@@ -266,6 +266,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.ISAACS_HEART] = {276, sewingMachineMod.sewnFamiliars.upIsaacsHeart},
     [FamiliarVariant.SISSY_LONGLEGS] = {280, sewingMachineMod.sewnFamiliars.upSissyLonglegs},
     [FamiliarVariant.CAINS_OTHER_EYE] = {319, sewingMachineMod.sewnFamiliars.upCainsOtherEye},
+    [FamiliarVariant.BLUEBABYS_ONLY_FRIEND] = {320, sewingMachineMod.sewnFamiliars.upBlueBabysOnlyFriend},
     [FamiliarVariant.MONGO_BABY] = {322, sewingMachineMod.sewnFamiliars.upMongoBaby},
     [FamiliarVariant.FATES_REWARD] = {361, sewingMachineMod.sewnFamiliars.upFatesReward},
     [FamiliarVariant.SWORN_PROTECTOR] = {363, sewingMachineMod.sewnFamiliars.upSwornProtector},

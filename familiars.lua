@@ -2242,6 +2242,54 @@ function sewnFamiliars:custom_fireInit_cainsOtherEye(cainsOtherEye, tear)
     end
 end
 
+
+-- ???'S ONLY FRIEND
+function sewnFamiliars:upBlueBabysOnlyFriend(blueBabysOnlyFriend)
+    local fData = blueBabysOnlyFriend:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customUpdate(blueBabysOnlyFriend, sewnFamiliars.custom_update_blueBabysOnlyFriend)
+        sewnFamiliars:customCollision(blueBabysOnlyFriend, sewnFamiliars.custom_collision_blueBabysOnlyFriend)
+        sewnFamiliars:customNewRoom(blueBabysOnlyFriend, sewnFamiliars.custom_newRoom_blueBabysOnlyFriend)
+        fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
+        fData.Sewn_blueBabysOnlyFriend_crushCooldown = 0
+        blueBabysOnlyFriend.CollisionDamage = 0
+    end
+end
+function sewnFamiliars:custom_newRoom_blueBabysOnlyFriend(blueBabysOnlyFriend)
+    local fData = blueBabysOnlyFriend:GetData()
+    fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
+end
+function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
+    local fData = blueBabysOnlyFriend:GetData()
+    local room = game:GetLevel():GetCurrentRoom()
+    for _, npcData in pairs(fData.Sewn_blueBabysOnlyFriend_stickedNpcs) do
+        if room:CheckLine(npcData.NPC.Position, blueBabysOnlyFriend.Position, 0, 1, true, false) and npcData.COOLDOWN > game:GetFrameCount() then
+            npcData.NPC.Position = blueBabysOnlyFriend.Position + npcData.STICK_DISTANCE
+        else
+            fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(npcData.NPC)] = nil
+        end
+    end
+    if sewingMachineMod:isUltra(fData) then
+        if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and sewingMachineMod.rng:RandomInt(101) == 10 then
+            fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
+            for _, npc in pairs(Isaac.FindInRadius(familiar.Position, 60, EntityPartition.ENEMY)) do
+                if npc:IsVulnerableEnemy() then
+                    npc:TakeDamage(7.5 + blueBabysOnlyFriend.Player.Damage / 10
+                end
+            end
+            fData.Sewn_blueBabysOnlyFriend_crushCooldown == game:GetFrameCount() + 60
+        end
+    end
+end
+function sewnFamiliars:custom_collision_blueBabysOnlyFriend(blueBabysOnlyFriend, collider)
+    local fData = blueBabysOnlyFriend:GetData()
+    if collider:IsVulnerableEnemy() then
+        if fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)] == nil or fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)].COOLDOWN + 90 <= game:GetFrameCount() then
+            fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)] = {NPC = collider, COOLDOWN = game:GetFrameCount() + 90, STICK_DISTANCE = (collider.Position - blueBabysOnlyFriend.Position)}
+        end
+    end
+end
+
 -------------------------------------------------------------------
 -- Function which make previous upgrade real ----------------------
 -- Change tear size & damage, cooldown and call custom functions --
