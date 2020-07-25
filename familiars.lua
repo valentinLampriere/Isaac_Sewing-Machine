@@ -2252,7 +2252,7 @@ function sewnFamiliars:upBlueBabysOnlyFriend(blueBabysOnlyFriend)
         sewnFamiliars:customNewRoom(blueBabysOnlyFriend, sewnFamiliars.custom_newRoom_blueBabysOnlyFriend)
         fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
         fData.Sewn_blueBabysOnlyFriend_crushCooldown = 0
-        blueBabysOnlyFriend.CollisionDamage = 0
+        blueBabysOnlyFriend.CollisionDamage = 0.1
     end
 end
 function sewnFamiliars:custom_newRoom_blueBabysOnlyFriend(blueBabysOnlyFriend)
@@ -2261,7 +2261,8 @@ function sewnFamiliars:custom_newRoom_blueBabysOnlyFriend(blueBabysOnlyFriend)
 end
 function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
     local fData = blueBabysOnlyFriend:GetData()
-    local room = game:GetLevel():GetCurrentRoom()
+    local level = game:GetLevel()
+    local room = level:GetCurrentRoom()
     for _, npcData in pairs(fData.Sewn_blueBabysOnlyFriend_stickedNpcs) do
         if room:CheckLine(npcData.NPC.Position, blueBabysOnlyFriend.Position, 0, 1, true, false) and npcData.COOLDOWN > game:GetFrameCount() then
             npcData.NPC.Position = blueBabysOnlyFriend.Position + npcData.STICK_DISTANCE
@@ -2270,20 +2271,47 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
         end
     end
     if sewingMachineMod:isUltra(fData) then
+        local sprite = blueBabysOnlyFriend:GetSprite()
+        if sprite:IsFinished("Crush") then
+            sprite:Play("Idle", false)
+        end
         if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and sewingMachineMod.rng:RandomInt(101) == 10 then
             fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
-            for _, npc in pairs(Isaac.FindInRadius(familiar.Position, 60, EntityPartition.ENEMY)) do
+            
+            sprite:Play("Crush", true)
+            
+            for _, npc in pairs(Isaac.FindInRadius(blueBabysOnlyFriend.Position, 60, EntityPartition.ENEMY)) do
                 if npc:IsVulnerableEnemy() then
-                    npc:TakeDamage(7.5 + blueBabysOnlyFriend.Player.Damage / 10
+                    npc:TakeDamage(7.5 + blueBabysOnlyFriend.Player.Damage / 10, 0, EntityRef(blueBabysOnlyFriend), 0) 
                 end
             end
-            fData.Sewn_blueBabysOnlyFriend_crushCooldown == game:GetFrameCount() + 60
+            local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
+            for i = 1, nbParticules do
+                local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
+                if level:GetStage() == LevelStage.STAGE1_1 or level:GetStage() == LevelStage.STAGE1_2 then
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.WOOD_PARTICLE, -1, blueBabysOnlyFriend.Position, velocity, nil)
+                else
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.ROCK_PARTICLE, -1, blueBabysOnlyFriend.Position ,velocity, nil)
+                end
+            end
+            
+            -- Destroy rocks
+            for i = -20, 20, 20 do
+                for j = -20, 20, 20 do
+                    local index = room:GetGridIndex(blueBabysOnlyFriend.Position + Vector(i, j))
+                    room:DestroyGrid(index, true)
+                end
+            end
+            fData.Sewn_blueBabysOnlyFriend_crushCooldown = game:GetFrameCount() + 60
         end
     end
 end
 function sewnFamiliars:custom_collision_blueBabysOnlyFriend(blueBabysOnlyFriend, collider)
     local fData = blueBabysOnlyFriend:GetData()
     if collider:IsVulnerableEnemy() then
+        if collider.Type == EntityType.ENTITY_ROUND_WORM or collider.Type == EntityType.ENTITY_ROUNDY or collider.Type == EntityType.ENTITY_ULCER or collider.Type == EntityType.ENTITY_NIGHT_CRAWLER then
+            return
+        end
         if fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)] == nil or fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)].COOLDOWN + 90 <= game:GetFrameCount() then
             fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)] = {NPC = collider, COOLDOWN = game:GetFrameCount() + 90, STICK_DISTANCE = (collider.Position - blueBabysOnlyFriend.Position)}
         end
