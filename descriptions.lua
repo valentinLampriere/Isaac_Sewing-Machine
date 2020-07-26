@@ -301,6 +301,24 @@ function sewingMachineMod:InitFamiliarDescription()
         "Fire three tears instead of one#Range Up#Higher chance to spawn a fly turret",
         ConvertRGBToIsaac({59, 107, 203})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.BLUEBABYS_ONLY_FRIEND,
+        "Sometimes it will crush the ground dealing damage to close enemies",
+        "When it hit the ground, it deals more damage and destroy rocks#Higher range",
+        ConvertRGBToIsaac({0, 74, 128})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.BOMB_BAG,
+        "No more spawn Troll Bombs#Higher chance for better bombs (double pack and golden bombs)",
+        "Can spawn items from the Bomb Bum pool#Higher chance for better bombs",
+        ConvertRGBToIsaac({155, 161, 185})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.SACK_OF_PENNIES,
+        "Higher chance for better coins (dimes, nickels, lucky pennies or souble coins)#Can spawn a trinket",
+        "Can spawn an item (including A Dollar, Pageant Boy, Eye Of Greed etc.)#Higher chance for better coins and trinkets",
+        ConvertRGBToIsaac({156, 133, 150})
+    )
 end
 sewingMachineMod:InitFamiliarDescription()
 

@@ -375,6 +375,12 @@ function sewnFamiliars:toBabyBenderTear(familiar, tear)
     end
 end
 
+function sewnFamiliars:spawnFromPool(familiar, itemPoolType)
+    local itemFromPool = game:GetItemPool():GetCollectible(itemPoolType, true, game:GetSeeds():GetNextSeed())
+    local pos = Isaac.GetFreeNearPosition(familiar.Position, 35)
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemFromPool, pos, Vector(0,0), familiar.Player)
+end
+
 -----------------------
 -- Shooter Familiars --
 -----------------------
@@ -1644,6 +1650,129 @@ function sewnFamiliars:custom_animation_littleChad(chad)
     end
 end
 
+-- BOMB BAG
+function sewnFamiliars:upBombBag(bombBag)
+    local fData = bombBag:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(bombBag, sewnFamiliars.custom_animation_bombBag, ANIMATION_NAMES.SPAWN)
+        fData.Sewn_bombBag_itemSpawned = 0
+    end
+end
+function sewnFamiliars:custom_animation_bombBag(bombBag)
+    local fData = bombBag:GetData()
+    for _, bomb in pairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_BOMB, -1, false, true)) do
+        if bomb.FrameCount == 1 and bomb.SpawnerType == EntityType.ENTITY_FAMILIAR and bomb.SpawnerVariant == FamiliarVariant.BOMB_BAG then
+            bomb = bomb:ToPickup()
+            local roll = sewingMachineMod.rng:RandomInt(100) + 1
+            
+            local goldenChance = 2
+            local doubleChance = 10
+            
+            if sewingMachineMod:isUltra(fData) then
+                goldenChance = 4
+                doubleChance = 20
+            end
+            
+            if sewingMachineMod:isUltra(fData) and roll > 90 + fData.Sewn_bombBag_itemSpawned then -- Spawn a bomb item from the BOMB BUM pool
+                sewnFamiliars:spawnFromPool(bombBag, ItemPoolType.POOL_BOMB_BUM)
+                bomb:Remove()
+                fData.Sewn_bombBag_itemSpawned = fData.Sewn_bombBag_itemSpawned + 1
+            elseif roll < goldenChance then -- Higher chance to spawn a golden bomb
+                bomb:Morph(bomb.Type, bomb.Variant, BombSubType.BOMB_GOLDEN, true)
+            elseif roll < doubleChance then -- Higher chance to spawn a double pack bomb
+                bomb:Morph(bomb.Type, bomb.Variant, BombSubType.BOMB_DOUBLEPACK, true)
+            elseif bomb.SubType == BombSubType.BOMB_TROLL then -- Remove troll bombs
+                bomb:Morph(bomb.Type, bomb.Variant, BombSubType.BOMB_NORMAL, true)
+            elseif bomb.SubType == BombSubType.BOMB_SUPERTROLL then -- Remove super troll bombs
+                bomb:Morph(bomb.Type, bomb.Variant, BombSubType.BOMB_DOUBLEPACK, true)
+            end
+        end
+    end
+end
+
+-- SACK OF PENNIES
+function sewnFamiliars:upSackOfPennies(sackOfPennies)
+    local fData = sackOfPennies:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(sackOfPennies, sewnFamiliars.custom_animation_sackOfPennies, ANIMATION_NAMES.SPAWN)
+        fData.Sewn_sackOfPennies_itemSpawned = 0
+        fData.Sewn_sackOfPennies_trinkets = {TrinketType.TRINKET_SWALLOWED_PENNY, TrinketType.TRINKET_BUTT_PENNY, TrinketType.TRINKET_COUNTERFEIT_PENNY, TrinketType.TRINKET_BLOODY_PENNY, TrinketType.TRINKET_BURNT_PENNY, TrinketType.TRINKET_PAY_TO_WIN, TrinketType.TRINKET_SILVER_DOLLAR, TrinketType.TRINKET_FLAT_PENNY, TrinketType.TRINKET_ROTTEN_PENNY}
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_sackOfPennies_items = {{ID = CollectibleType.COLLECTIBLE_DOLLAR, WEIGHT = 1}, {ID = CollectibleType.COLLECTIBLE_3_DOLLAR_BILL, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_QUARTER, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_PAGEANT_BOY, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_DADS_LOST_COIN, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_CROOKED_PENNY, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_EYE_OF_GREED, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_MIDAS_TOUCH, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_MONEY_IS_POWER, WEIGHT = 2}}
+        end
+    end
+end
+function sewnFamiliars:sackOfPennies_rollItem(sackOfPennies)
+    local fData = sackOfPennies:GetData()
+    local amount = 0
+    local roll
+    for _, data in pairs(fData.Sewn_sackOfPennies_items) do
+        amount = amount + data.WEIGHT
+    end
+    roll = sewingMachineMod.rng:RandomInt(amount)
+    
+    local counter = 0
+    for i, item in pairs(fData.Sewn_sackOfPennies_items) do
+    --for i = 0, #penny_pool do
+        --local championI = ColoringBook:GetChampion(i)
+        if counter <= roll and roll < counter + item.WEIGHT then
+            local id = item.ID
+            table.remove(fData.Sewn_sackOfPennies_items, i)
+            return id
+        end
+        counter = counter + item.WEIGHT
+    end
+    
+    return -1
+end
+function sewnFamiliars:custom_animation_sackOfPennies(sackOfPennies)
+    local fData = sackOfPennies:GetData()
+    for _, coin in pairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, -1, false, true)) do
+        if coin.FrameCount == 1 and coin.SpawnerType == EntityType.ENTITY_FAMILIAR and coin.SpawnerVariant == FamiliarVariant.SACK_OF_PENNIES then
+            coin = coin:ToPickup()
+            local roll = sewingMachineMod.rng:RandomInt(100) + 1
+            local dimeChance = 2
+            local nickelChance = 6
+            local luckyPennyChance = 15
+            local doublePennyChance = 20
+            local trinketChance = 95
+            
+            if sewingMachineMod:isUltra(fData) then
+                dimeChance = 4
+                nickelChance = 10
+                luckyPennyChance = 20
+                doublePennyChance = 25
+                trinketChance = 85
+            end
+            
+            if sewingMachineMod:isUltra(fData) and #fData.Sewn_sackOfPennies_items > 0 and roll > 95 + fData.Sewn_sackOfPennies_itemSpawned then -- Spawn an item from the PENNY pool
+                print("COIN - item")
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, sewnFamiliars:sackOfPennies_rollItem(sackOfPennies), sackOfPennies.Position, Vector(0, 0), sackOfPennies)
+                coin:Remove()
+                fData.Sewn_sackOfPennies_itemSpawned = fData.Sewn_sackOfPennies_itemSpawned + 1
+            elseif roll > trinketChance and #fData.Sewn_sackOfPennies_trinkets > 0 then -- Spawn a trinket
+                print("COIN - trinket")
+                local rollTrinket = sewingMachineMod.rng:RandomInt(#fData.Sewn_sackOfPennies_trinkets) + 1
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, fData.Sewn_sackOfPennies_trinkets[rollTrinket], sackOfPennies.Position, Vector(0, 0), sackOfPennies)
+                coin:Remove()
+                table.remove(fData.Sewn_sackOfPennies_trinkets, rollTrinket)
+            elseif roll < dimeChance then -- Higher chance to spawn a dime
+                print("COIN - dime")
+                coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_DIME, true)
+            elseif roll < nickelChance and not coin.SubType == CoinSubType.COIN_DIME then -- Higher chance to spawn a nickel
+                print("COIN - nickel")
+                coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_NICKEL, true)
+            elseif roll < luckyPennyChance and not coin.SubType == CoinSubType.COIN_DIME and not coin.SubType == CoinSubType.COIN_NICKEL then -- Higher chance to spawn a lucky penny
+                print("COIN - lucky penny")
+                coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_LUCKYPENNY, true)
+            elseif roll < doublePennyChance and coin.SubType == CoinSubType.COIN_PENNY then -- Higher chance to spawn a double penny
+                print("COIN - double")
+                coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_DOUBLEPACK, true)
+            end
+        end
+    end
+end
+
 -- CHARGED BABY
 function sewnFamiliars:upChargedBaby(chargedBaby)
     local fData = chargedBaby:GetData()
@@ -2248,53 +2377,22 @@ function sewnFamiliars:upBlueBabysOnlyFriend(blueBabysOnlyFriend)
     local fData = blueBabysOnlyFriend:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customUpdate(blueBabysOnlyFriend, sewnFamiliars.custom_update_blueBabysOnlyFriend)
-        sewnFamiliars:customCollision(blueBabysOnlyFriend, sewnFamiliars.custom_collision_blueBabysOnlyFriend)
-        sewnFamiliars:customNewRoom(blueBabysOnlyFriend, sewnFamiliars.custom_newRoom_blueBabysOnlyFriend)
-        fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
-        fData.Sewn_blueBabysOnlyFriend_crushCooldown = 0
-        blueBabysOnlyFriend.CollisionDamage = 0.1
+        fData.Sewn_blueBabysOnlyFriend_crushCooldown = 60
     end
-end
-function sewnFamiliars:custom_newRoom_blueBabysOnlyFriend(blueBabysOnlyFriend)
-    local fData = blueBabysOnlyFriend:GetData()
-    fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
 end
 function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
     local fData = blueBabysOnlyFriend:GetData()
-    local level = game:GetLevel()
-    local room = level:GetCurrentRoom()
-    for _, npcData in pairs(fData.Sewn_blueBabysOnlyFriend_stickedNpcs) do
-        if room:CheckLine(npcData.NPC.Position, blueBabysOnlyFriend.Position, 0, 1, true, false) and npcData.COOLDOWN > game:GetFrameCount() then
-            npcData.NPC.Position = blueBabysOnlyFriend.Position + npcData.STICK_DISTANCE
-        else
-            fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(npcData.NPC)] = nil
-        end
+    local sprite = blueBabysOnlyFriend:GetSprite()
+    if sprite:IsFinished("Crush") then
+        sprite:Play("Idle", false)
     end
-    if sewingMachineMod:isUltra(fData) then
-        local sprite = blueBabysOnlyFriend:GetSprite()
-        if sprite:IsFinished("Crush") then
-            sprite:Play("Idle", false)
-        end
-        if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and sewingMachineMod.rng:RandomInt(101) == 10 then
-            fData.Sewn_blueBabysOnlyFriend_stickedNpcs = {}
-            
-            sprite:Play("Crush", true)
-            
-            for _, npc in pairs(Isaac.FindInRadius(blueBabysOnlyFriend.Position, 60, EntityPartition.ENEMY)) do
-                if npc:IsVulnerableEnemy() then
-                    npc:TakeDamage(7.5 + blueBabysOnlyFriend.Player.Damage / 10, 0, EntityRef(blueBabysOnlyFriend), 0) 
-                end
-            end
-            local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
-            for i = 1, nbParticules do
-                local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
-                if level:GetStage() == LevelStage.STAGE1_1 or level:GetStage() == LevelStage.STAGE1_2 then
-                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.WOOD_PARTICLE, -1, blueBabysOnlyFriend.Position, velocity, nil)
-                else
-                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.ROCK_PARTICLE, -1, blueBabysOnlyFriend.Position ,velocity, nil)
-                end
-            end
-            
+    if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and sewingMachineMod.rng:RandomInt(101) == 10 then
+        local damages = 10 + blueBabysOnlyFriend.Player.Damage / 10
+        local range = 60
+        
+        if sewingMachineMod:isUltra(fData) then
+            damages = 10 + blueBabysOnlyFriend.Player.Damage
+            range = 90
             -- Destroy rocks
             for i = -20, 20, 20 do
                 for j = -20, 20, 20 do
@@ -2302,19 +2400,26 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
                     room:DestroyGrid(index, true)
                 end
             end
-            fData.Sewn_blueBabysOnlyFriend_crushCooldown = game:GetFrameCount() + 60
         end
-    end
-end
-function sewnFamiliars:custom_collision_blueBabysOnlyFriend(blueBabysOnlyFriend, collider)
-    local fData = blueBabysOnlyFriend:GetData()
-    if collider:IsVulnerableEnemy() then
-        if collider.Type == EntityType.ENTITY_ROUND_WORM or collider.Type == EntityType.ENTITY_ROUNDY or collider.Type == EntityType.ENTITY_ULCER or collider.Type == EntityType.ENTITY_NIGHT_CRAWLER then
-            return
+        
+        sprite:Play("Crush", true)
+        
+        for _, npc in pairs(Isaac.FindInRadius(blueBabysOnlyFriend.Position, range, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                npc:AddConfusion(EntityRef(blueBabysOnlyFriend.Player), 60, true)
+                npc:TakeDamage(7.5 + blueBabysOnlyFriend.Player.Damage / 10, 0, EntityRef(blueBabysOnlyFriend), 0) 
+            end
         end
-        if fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)] == nil or fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)].COOLDOWN + 90 <= game:GetFrameCount() then
-            fData.Sewn_blueBabysOnlyFriend_stickedNpcs[GetPtrHash(collider)] = {NPC = collider, COOLDOWN = game:GetFrameCount() + 90, STICK_DISTANCE = (collider.Position - blueBabysOnlyFriend.Position)}
+        local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
+        for i = 1, nbParticules do
+            local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
+            if level:GetStage() == LevelStage.STAGE1_1 or level:GetStage() == LevelStage.STAGE1_2 then
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.WOOD_PARTICLE, -1, blueBabysOnlyFriend.Position, velocity, nil)
+            else
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.ROCK_PARTICLE, -1, blueBabysOnlyFriend.Position,velocity, nil)
+            end
         end
+        fData.Sewn_blueBabysOnlyFriend_crushCooldown = game:GetFrameCount() + 60
     end
 end
 

@@ -242,6 +242,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.BROTHER_BOBBY] = {8, sewingMachineMod.sewnFamiliars.upBrotherBobby},
     [FamiliarVariant.DISTANT_ADMIRATION] = {57, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.SISTER_MAGGY] = {67, sewingMachineMod.sewnFamiliars.upSisterMaggy},
+    [FamiliarVariant.SACK_OF_PENNIES] = {94, sewingMachineMod.sewnFamiliars.upSackOfPennies},
     [FamiliarVariant.ROBO_BABY] = {95, sewingMachineMod.sewnFamiliars.upRoboBaby},
     [FamiliarVariant.LITTLE_CHAD] = {96, sewingMachineMod.sewnFamiliars.upLittleChad},
     [FamiliarVariant.LITTLE_GISH] = {99, sewingMachineMod.sewnFamiliars.upLittleGish},
@@ -249,6 +250,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.GUARDIAN_ANGEL] = {112, sewingMachineMod.sewnFamiliars.upGuardianAngel},
     [FamiliarVariant.DEMON_BABY] = {113, sewingMachineMod.sewnFamiliars.upDemonBaby},
     [FamiliarVariant.FOREVER_ALONE] = {128, sewingMachineMod.sewnFamiliars.upFlies},
+    [FamiliarVariant.BOMB_BAG] = {131, sewingMachineMod.sewnFamiliars.upBombBag},
     [FamiliarVariant.PEEPER] = {155, sewingMachineMod.sewnFamiliars.upPeeper},
     [FamiliarVariant.GHOST_BABY] = {163, sewingMachineMod.sewnFamiliars.upGhostBaby},
     [FamiliarVariant.HARLEQUIN_BABY] = {167, sewingMachineMod.sewnFamiliars.upHarlequinBaby},
@@ -517,8 +519,8 @@ end
 -----------------
 function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
     if includeRunes then
-        local roll = rng:RandomFloat()
-        if roll < 0.12 then
+        local roll = rng:RandomInt(100) + 1
+        if roll < 8 then
             local rollRune = rng:RandomInt(2)
             if rollRune == 0 then
                 return Card.RUNE_WUNJO
