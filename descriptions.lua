@@ -315,9 +315,15 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SACK_OF_PENNIES,
-        "Higher chance for better coins (dimes, nickels, lucky pennies or double coins)#Can spawn a trinket (Bloody Penny, )",
+        "Higher chance for better coins (dimes, nickels, lucky pennies or double coins)#Can spawn a trinket (Bloody Penny, Flat Penny etc.)",
         "Can spawn an item (including A Dollar, Pageant Boy, Eye Of Greed etc.)#Higher chance for better coins and trinkets",
         ConvertRGBToIsaac({156, 133, 150})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.PUNCHING_BAG,
+        "Deal contact damage",
+        "Turn to a random champion form#Green : Leave creep#Magenta : Fire a tear in a random direction#Violet : Pull enemies",
+        ConvertRGBToIsaac({227, 198, 197})
     )
 end
 sewingMachineMod:InitFamiliarDescription()
