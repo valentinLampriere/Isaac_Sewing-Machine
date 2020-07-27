@@ -1698,7 +1698,7 @@ function sewnFamiliars:upSackOfPennies(sackOfPennies)
         fData.Sewn_sackOfPennies_itemSpawned = 0
         fData.Sewn_sackOfPennies_trinkets = {TrinketType.TRINKET_SWALLOWED_PENNY, TrinketType.TRINKET_BUTT_PENNY, TrinketType.TRINKET_COUNTERFEIT_PENNY, TrinketType.TRINKET_BLOODY_PENNY, TrinketType.TRINKET_BURNT_PENNY, TrinketType.TRINKET_PAY_TO_WIN, TrinketType.TRINKET_SILVER_DOLLAR, TrinketType.TRINKET_FLAT_PENNY, TrinketType.TRINKET_ROTTEN_PENNY}
         if sewingMachineMod:isUltra(fData) then
-            fData.Sewn_sackOfPennies_items = {{ID = CollectibleType.COLLECTIBLE_DOLLAR, WEIGHT = 1}, {ID = CollectibleType.COLLECTIBLE_3_DOLLAR_BILL, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_QUARTER, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_PAGEANT_BOY, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_DADS_LOST_COIN, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_CROOKED_PENNY, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_EYE_OF_GREED, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_MIDAS_TOUCH, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_MONEY_IS_POWER, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_WOODEN_NICKEL, WEIGHT = 3}}
+            fData.Sewn_sackOfPennies_items = {{ID = CollectibleType.COLLECTIBLE_DOLLAR, WEIGHT = 1}, {ID = CollectibleType.COLLECTIBLE_3_DOLLAR_BILL, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_QUARTER, WEIGHT = 2}, {ID = CollectibleType.COLLECTIBLE_PAGEANT_BOY, WEIGHT = 4}, {ID = CollectibleType.COLLECTIBLE_DADS_LOST_COIN, WEIGHT = 5}, {ID = CollectibleType.COLLECTIBLE_CROOKED_PENNY, WEIGHT = 4}, {ID = CollectibleType.COLLECTIBLE_EYE_OF_GREED, WEIGHT = 4}, {ID = CollectibleType.COLLECTIBLE_MIDAS_TOUCH, WEIGHT = 3}, {ID = CollectibleType.COLLECTIBLE_MONEY_IS_POWER, WEIGHT = 4}, {ID = CollectibleType.COLLECTIBLE_WOODEN_NICKEL, WEIGHT = 4}}
         end
     end
 end
@@ -1713,8 +1713,6 @@ function sewnFamiliars:sackOfPennies_rollItem(sackOfPennies)
     
     local counter = 0
     for i, item in pairs(fData.Sewn_sackOfPennies_items) do
-    --for i = 0, #penny_pool do
-        --local championI = ColoringBook:GetChampion(i)
         if counter <= roll and roll < counter + item.WEIGHT then
             local id = item.ID
             table.remove(fData.Sewn_sackOfPennies_items, i)
@@ -1742,31 +1740,25 @@ function sewnFamiliars:custom_animation_sackOfPennies(sackOfPennies)
                 nickelChance = 10
                 luckyPennyChance = 20
                 doublePennyChance = 25
-                trinketChance = 85
+                trinketChance = 90
             end
             
-            if sewingMachineMod:isUltra(fData) and #fData.Sewn_sackOfPennies_items > 0 and roll > 95 + fData.Sewn_sackOfPennies_itemSpawned then -- Spawn an item from the PENNY pool
-                print("COIN - item")
+            if sewingMachineMod:isUltra(fData) and #fData.Sewn_sackOfPennies_items > 0 and roll > 97 + fData.Sewn_sackOfPennies_itemSpawned then -- Spawn an item from the PENNY pool
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, sewnFamiliars:sackOfPennies_rollItem(sackOfPennies), sackOfPennies.Position, Vector(0, 0), sackOfPennies)
                 coin:Remove()
                 fData.Sewn_sackOfPennies_itemSpawned = fData.Sewn_sackOfPennies_itemSpawned + 1
             elseif roll > trinketChance and #fData.Sewn_sackOfPennies_trinkets > 0 then -- Spawn a trinket
-                print("COIN - trinket")
                 local rollTrinket = sewingMachineMod.rng:RandomInt(#fData.Sewn_sackOfPennies_trinkets) + 1
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, fData.Sewn_sackOfPennies_trinkets[rollTrinket], sackOfPennies.Position, Vector(0, 0), sackOfPennies)
                 coin:Remove()
                 table.remove(fData.Sewn_sackOfPennies_trinkets, rollTrinket)
             elseif roll < dimeChance then -- Higher chance to spawn a dime
-                print("COIN - dime")
                 coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_DIME, true)
             elseif roll < nickelChance and not coin.SubType == CoinSubType.COIN_DIME then -- Higher chance to spawn a nickel
-                print("COIN - nickel")
                 coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_NICKEL, true)
             elseif roll < luckyPennyChance and not coin.SubType == CoinSubType.COIN_DIME and not coin.SubType == CoinSubType.COIN_NICKEL then -- Higher chance to spawn a lucky penny
-                print("COIN - lucky penny")
                 coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_LUCKYPENNY, true)
             elseif roll < doublePennyChance and coin.SubType == CoinSubType.COIN_PENNY then -- Higher chance to spawn a double penny
-                print("COIN - double")
                 coin:Morph(coin.Type, coin.Variant, CoinSubType.COIN_DOUBLEPACK, true)
             end
         end
@@ -2459,7 +2451,6 @@ function sewnFamiliars:punchingBag_changeColor(punchingBag)
     
     fData.Sewn_punchingBag_championCooldown = (sewingMachineMod.rng:RandomInt(15) + 10) * 30
     fData.Sewn_punchingBag_championLastChange = game:GetFrameCount()
-    print(fData.Sewn_punchingBag_champion)
     
     fData.Sewn_punchingBag_pureMagenta_tearCooldown = 0
     fData.Sewn_punchingBag_pureMagenta_lastTear = 0
