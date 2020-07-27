@@ -180,7 +180,8 @@ FamiliarVariant.ANN_S_PURE_HEAD = Isaac.GetEntityVariantByName("Ann's Pure Head"
 FamiliarVariant.ANN_S_TAINTED_BODY = Isaac.GetEntityVariantByName("Ann's Tainted Body")
 FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
 FamiliarVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
-
+-- Effects
+EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02")
 sewingMachineMod.sewingMachinesData = {}
 
 sewingMachineMod.SewingMachineSubType = {
@@ -267,6 +268,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.LIL_BRIMSTONE] = {275, sewingMachineMod.sewnFamiliars.upLilBrimstone},
     [FamiliarVariant.ISAACS_HEART] = {276, sewingMachineMod.sewnFamiliars.upIsaacsHeart},
     [FamiliarVariant.SISSY_LONGLEGS] = {280, sewingMachineMod.sewnFamiliars.upSissyLonglegs},
+    [FamiliarVariant.PUNCHING_BAG] = {281, sewingMachineMod.sewnFamiliars.upPunchingBag},
     [FamiliarVariant.CAINS_OTHER_EYE] = {319, sewingMachineMod.sewnFamiliars.upCainsOtherEye},
     [FamiliarVariant.BLUEBABYS_ONLY_FRIEND] = {320, sewingMachineMod.sewnFamiliars.upBlueBabysOnlyFriend},
     [FamiliarVariant.MONGO_BABY] = {322, sewingMachineMod.sewnFamiliars.upMongoBaby},
@@ -962,6 +964,7 @@ end
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
+
 
     -- If a pickup spawn from a sewing machine, it means the machine as been bombed
     -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged

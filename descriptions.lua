@@ -261,7 +261,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SPIDER_MOD,
-        "Spawn eggs which apply a random effect to enemies which walk over them",
+        "Spawn eggs which apply a random effect to enemies which walk over them#Eggs last 20 seconds",
         "Higher chance to spawn eggs#At the end of rooms, eggs spawn blue spiders",
         ConvertRGBToIsaac({194, 194, 194})
     )
@@ -315,7 +315,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SACK_OF_PENNIES,
-        "Higher chance for better coins (dimes, nickels, lucky pennies or souble coins)#Can spawn a trinket",
+        "Higher chance for better coins (dimes, nickels, lucky pennies or double coins)#Can spawn a trinket (Bloody Penny, )",
         "Can spawn an item (including A Dollar, Pageant Boy, Eye Of Greed etc.)#Higher chance for better coins and trinkets",
         ConvertRGBToIsaac({156, 133, 150})
     )

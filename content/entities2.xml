@@ -1,28 +1,28 @@
 <entities anm2root="gfx/" version="5">
-	<entity anm2path="sewing_machine_00.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="0">
+	<entity anm2path="006_sewing_machine_00.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="0">
 		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
-	<entity anm2path="sewing_machine_01_shop.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Shop)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="1">
+	<entity anm2path="006_sewing_machine_01_shop.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Shop)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="1">
 		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
-	<entity anm2path="sewing_machine_02_angelic.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Angelic)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="2">
+	<entity anm2path="006_sewing_machine_02_angelic.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Angelic)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="2">
 		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
-	<entity anm2path="sewing_machine_03_evil.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Evil)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="3">
+	<entity anm2path="006_sewing_machine_03_evil.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="6" name="Sewing machine (Evil)" numGridCollisionPoints="24" shadowSize="33" stageHP="0" variant="756" subtype="3">
 		<gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
 
 	<!-- Familiars -->
-    <entity anm2path="annsTaintedBody.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann's Tainted Body" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="756">
+    <entity anm2path="003_annsTaintedBody.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann's Tainted Body" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="756">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
-    <entity anm2path="annsPureHead.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann's Pure Head" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="757">
+    <entity anm2path="003_annsPureHead.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann's Pure Head" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="757">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
-    <entity anm2path="ann.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="758">
+    <entity anm2path="003_ann.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="758">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
-    <entity anm2path="spiderModEgg.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Spider Mod Egg" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="758">
+    <entity anm2path="003_spiderModEgg.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Spider Mod Egg" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="758">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
 
@@ -31,7 +31,10 @@
     <entity anm2path="003.033_Fly Orbital.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Fly Orbital (Isaac's Heart)" numGridCollisionPoints="12" shadowSize="8" stageHP="0" variant="42842">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
-    <entity anm2path="effect_burning_fart.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Burning Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="75">
+    <entity anm2path="1000_burning_fart.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Burning Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="75">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	</entity>
+    <entity anm2path="1000_pulling_effect.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Pulling Effect 02" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="756" subtype="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
 </entities>
