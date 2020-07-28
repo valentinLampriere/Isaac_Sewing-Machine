@@ -548,6 +548,10 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
         return
     end
+    
+    if StageAPI and StageAPI.InExtraRoom then
+        return
+    end
 
     if position == nil then
         position = Isaac.GetFreeNearPosition(room:GetGridPosition(27), 0)
