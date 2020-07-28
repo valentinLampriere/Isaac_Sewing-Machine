@@ -2479,7 +2479,7 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
         end
         --fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Timeout = fData.Sewn_punchingBag_championCooldown
         fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Velocity = punchingBag.Position - fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Position
-        for _, npc in pairs(Isaac.FindInRadius(player.Position, 150, EntityPartition.ENEMY)) do
+        for _, npc in pairs(Isaac.FindInRadius(punchingBag.Position, 150, EntityPartition.ENEMY)) do
             if npc.Position:DistanceSquared(punchingBag.Position) < 75 ^2 then
                 npc.Velocity = npc.Velocity * 0.9 + (punchingBag.Position - npc.Position):Resized(1)
             else
