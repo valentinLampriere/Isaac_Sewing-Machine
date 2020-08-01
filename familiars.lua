@@ -265,6 +265,15 @@ function sewnFamiliars:customEntityKill(familiar, functionName)
     table.insert(fData.Sewn_custom_entityKill, functionName)
 end
 
+-- CUSTOM PLAYER TAKE DAMAGE
+function sewnFamiliars:customPlayerTakeDamage(familiar, functionName)
+    local fData = familiar:GetData()
+    if fData.Sewn_custom_playerTakeDamage == nil then
+        fData.Sewn_custom_playerTakeDamage = {}
+    end
+    table.insert(fData.Sewn_custom_playerTakeDamage, functionName)
+end
+
 -- CUSTOM SEWING BOX USE
 function sewnFamiliars:customSewingBoxUse(familiar, functionName)
     local fData = familiar:GetData()
@@ -2420,8 +2429,8 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
 end
 
 -- PUNCHING BAG
-local PUNCHINGBAG_CHAMPIONS = {STRONG_LIME_GREEN = 1, PURE_MAGENTA = 2, MOSTLY_PURE_VIOLET = 3}
-local PUNCHINGBAG_COLORS = {Color(0.1,0.8,0.2,1,0,0,0), Color(1,0,1,1,0,0,0), Color(0.75,0,1,1,0,0,0)}
+local PUNCHINGBAG_CHAMPIONS = {STRONG_LIME_GREEN = 1, PURE_MAGENTA = 2, MOSTLY_PURE_VIOLET = 3, VERY_LIGHT_BLUE = 4, VIVID_BLUE = 5}
+local PUNCHINGBAG_COLORS = {Color(0.1,0.8,0.2,1,0,0,0), Color(1,0,1,1,0,0,0), Color(0.75,0,1,1,0,0,0), Color(0.5,0.5,1,1,0,0,0), Color(0.2,0.2,1,1,0,0,0)}
 function sewnFamiliars:upPunchingBag(punchingBag)
     local fData = punchingBag:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -2429,6 +2438,7 @@ function sewnFamiliars:upPunchingBag(punchingBag)
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:punchingBag_changeColor(punchingBag)
             sewnFamiliars:customUpdate(punchingBag, sewnFamiliars.custom_update_punchingBag)
+            sewnFamiliars:customPlayerTakeDamage(punchingBag, sewnFamiliars.custom_playerTakeDamage_punchingBag)
         end
     end
 end
@@ -2460,18 +2470,20 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
     if fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.STRONG_LIME_GREEN then
         if punchingBag.FrameCount % 15 == 0 then
             local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_GREEN, 0, punchingBag.Position, Vector(0,0), punchingBag):ToEffect()
-            creep.Timeout = 50
+            creep.Timeout = 75
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.PURE_MAGENTA then
         if fData.Sewn_punchingBag_pureMagenta_lastTear + fData.Sewn_punchingBag_pureMagenta_tearCooldown < game:GetFrameCount() then
-            local velocity = Vector(sewingMachineMod.rng:RandomInt(5 * 2) - 5, sewingMachineMod.rng:RandomInt(5 * 2) - 5)
-            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, punchingBag.Position, velocity, punchingBag):ToTear()
-            tear.Scale = 1.2 
+            local velocity = Vector(3, 3)
+            velocity = velocity:Rotated(sewingMachineMod.rng:RandomInt(360))
+            ---local velocity = Vector(sewingMachineMod.rng:RandomInt(5 * 2) - 5, sewingMachineMod.rng:RandomInt(5 * 2) - 5)
+            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, punchingBag.Position, velocity, punchingBag):ToTear()
+            tear.Scale = 1.1
             tear.CollisionDamage = 8
             sewnFamiliars:toBabyBenderTear(punchingBag, tear)
             
             fData.Sewn_punchingBag_pureMagenta_lastTear = game:GetFrameCount()
-            fData.Sewn_punchingBag_pureMagenta_tearCooldown = sewingMachineMod.rng:RandomInt(90) + 30
+            fData.Sewn_punchingBag_pureMagenta_tearCooldown = sewingMachineMod.rng:RandomInt(210) + 90
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.MOSTLY_PURE_VIOLET then 
         if fData.Sewn_punchingBag_mostlyPureViolet_pullEffect == nil or not fData.Sewn_punchingBag_mostlyPureViolet_pullEffect:Exists() then
@@ -2480,10 +2492,10 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
         --fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Timeout = fData.Sewn_punchingBag_championCooldown
         fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Velocity = punchingBag.Position - fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Position
         for _, npc in pairs(Isaac.FindInRadius(punchingBag.Position, 150, EntityPartition.ENEMY)) do
-            if npc.Position:DistanceSquared(punchingBag.Position) < 75 ^2 then
-                npc.Velocity = npc.Velocity * 0.9 + (punchingBag.Position - npc.Position):Resized(1)
+            if npc.Position:DistanceSquared(punchingBag.Position) < 50 ^2 then
+                npc.Velocity = npc.Velocity * 0.7 + (punchingBag.Position - npc.Position):Resized(1)
             else
-                npc.Velocity = npc.Velocity * 0.75 + (punchingBag.Position - npc.Position):Resized(1)
+                npc.Velocity = npc.Velocity * 0.9 + (punchingBag.Position - npc.Position):Resized(1)
             end
 		end
     end
@@ -2492,6 +2504,22 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
         sewnFamiliars:punchingBag_changeColor(punchingBag)
     end
 end
+function sewnFamiliars:custom_playerTakeDamage_punchingBag(punchingBag, damageSource)
+    local fData = punchingBag:GetData()
+    if fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.VERY_LIGHT_BLUE then
+        for i = 1, 8 do
+            local velo = Vector(5, 5)
+            velo = velo:Rotated((360 / 8) * i)
+            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, punchingBag.Position, velo, punchingBag):ToTear()
+            tear.Scale = 1.1
+            tear.CollisionDamage = 4
+            sewnFamiliars:toBabyBenderTear(punchingBag, tear)
+        end
+    elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.VIVID_BLUE then
+        punchingBag.Player:AddBlueFlies(sewingMachineMod.rng:RandomInt(1)+1, punchingBag.Position, nil)
+    end
+end
+
 -------------------------------------------------------------------
 -- Function which make previous upgrade real ----------------------
 -- Change tear size & damage, cooldown and call custom functions --
@@ -2771,6 +2799,21 @@ function sewnFamiliars:onEntityKill(entity)
     end
 end
 
+-- MC_ENTITY_TAKE_DMG --
+function sewnFamiliars:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if fData.Sewn_custom_playerTakeDamage ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_playerTakeDamage) do
+                d.customFunction = f
+                d:customFunction(familiar, damageSource, damageAmount, damageFlags)
+            end
+        end
+    end
+end
+
 -- MC_USE_ITEM --
 function sewnFamiliars:useSewingBox(collectible, rng)
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
@@ -2797,6 +2840,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, sewnFamilia
 sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewnFamiliars.onCache)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewnFamiliars.newRoom)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewnFamiliars.onEntityKill)
+sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewnFamiliars.playerTakeDamage, EntityType.ENTITY_PLAYER)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewnFamiliars.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 
 sewingMachineMod.errFamiliars.Error()
