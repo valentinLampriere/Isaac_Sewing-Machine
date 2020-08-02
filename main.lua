@@ -948,18 +948,19 @@ function sewingMachineMod:updateFamiliar(familiar)
 
     -- If a player is close from the machine
     if sewingMachineMod.currentUpgradeInfo ~= nil then
-
+        local fColor = familiar:GetColor()
+        
         -- Available familiars
         if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
                 local c = 255-math.floor(255*((familiar.FrameCount%40)/40))
-                familiar:SetColor(Color(1,1,1,1,c,c,c),5,1,false,false)
+                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,fColor.A,c,c,c),5,1,false,false)
             end
         end
         -- Not available familiars
         if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarNotAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT then
-                familiar:SetColor(Color(1,1,1,0.5,0,0,0),5,1,false,false)
+                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
             end
         end
     end
