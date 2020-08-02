@@ -83,8 +83,6 @@ APIOverride.OverrideClassFunction(EntityFamiliar, "RemoveFromFollowers", functio
     OldRemoveFromFollowers(fam)
 end)
 
--- "AddToFollowers" and "RemoveFromFollowers" usefull for King Baby
-
 ------------------------------------------------------------
 -- Prepare familiars upgrade, stats and custom behaviours --
 ------------------------------------------------------------
@@ -1318,8 +1316,72 @@ function sewnFamiliars:custom_update_angelicPrism(angelicPrism)
         end
     end
 end
-    
-    
+
+function sewnFamiliars:upMarshmallow(marshmallow)
+    local fData = marshmallow:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customFireInit(marshmallow, sewnFamiliars.custom_fireInit_marshmallow)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customCleanAward(marshmallow, sewnFamiliars.custom_cleanAward_marshmallow)
+        end
+    end
+end
+function sewnFamiliars:custom_fireInit_marshmallow(marshmallow, tear)
+    if tear:GetData().Sewn_marshmallow_additionalTear == true then
+        return
+    end
+    local data = {FAMILIAR = marshmallow, TEAR = tear}
+    sewingMachineMod:delayFunction(sewnFamiliars.marshmallow_copyTear, 1, data)
+end
+function sewnFamiliars:marshmallow_copyTear(data)
+    local marshmallow = data.FAMILIAR
+    local tear = data.TEAR
+    for i = 1, 2 do
+        local velo
+        if i == 1 then
+            velo = tear.Velocity:Rotated(-15)
+        else
+            velo = tear.Velocity:Rotated(15)
+        end
+        
+        local addTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, 0, tear.Position, velo, marshmallow):ToTear()
+        addTear.TearFlags = tear.TearFlags
+        addTear.CollisionDamage = tear.CollisionDamage
+        addTear.Scale = tear.Scale
+        addTear:SetColor(tear:GetColor(), -1, 10, false, false)
+        sewnFamiliars:toBabyBenderTear(marshmallow, addTear)
+        tear:GetData().Sewn_marshmallow_additionalTear = true
+    end
+end
+function sewnFamiliars:marshmallow_upgradeState(marshmallow, state)
+    local sprite = marshmallow:GetSprite()
+    if state == 0 then
+		marshmallow.State = 0
+		sprite:Play("Normal", false)
+	elseif state == 1 then
+		marshmallow.State = 1
+		sprite:Play("Fire", false)
+	elseif state == 2 then
+		marshmallow.State = 2
+		sprite:Play("FireRed", false)
+	elseif state == 3 then
+		marshmallow.State = 3
+		sprite:Play("FireBlue", false)
+	elseif state == 4 then
+		marshmallow.State = 4
+		sprite:Play("FirePurple", false)
+	end
+end
+function sewnFamiliars:custom_cleanAward_marshmallow(marshmallow)
+    local roll = sewingMachineMod.rng:RandomInt(100) + 1
+    print(roll)
+    if roll < 25 then
+        if marshmallow.State < 4 then
+            sewnFamiliars:marshmallow_upgradeState(marshmallow, marshmallow.State + 1)
+        end
+    end
+end
+
 -------------------------
 -- THROWABLE FAMILIARS --
 -------------------------
@@ -2516,7 +2578,7 @@ function sewnFamiliars:custom_playerTakeDamage_punchingBag(punchingBag, damageSo
             sewnFamiliars:toBabyBenderTear(punchingBag, tear)
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.VIVID_BLUE then
-        punchingBag.Player:AddBlueFlies(sewingMachineMod.rng:RandomInt(1)+1, punchingBag.Position, nil)
+        punchingBag.Player:AddBlueFlies(sewingMachineMod.rng:RandomInt(3)+1, punchingBag.Position, nil)
     end
 end
 

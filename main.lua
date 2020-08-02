@@ -221,8 +221,12 @@ local trinketSewingMachine = {
 local GiantBook = Sprite()
 GiantBook:Load("gfx/ui/giantbook/giantbook.anm2", false)
 
+
 sewingMachineMod.displayTrueCoopMessage = false
 
+sewingMachineMod.moddedFamiliar = {
+    MARSHMALLOW = Isaac.GetEntityVariantByName("Marshmallow")
+}
 
 -- Import files
 local function __require(file)
@@ -1332,6 +1336,10 @@ end
 function sewingMachineMod:loadSave(isExistingRun)
     local room = game:GetLevel():GetCurrentRoom()
 
+    -- If Marshmallow exists
+    if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
+        sewingMachineMod:makeFamiliarAvailable(sewingMachineMod.moddedFamiliar.MARSHMALLOW, Isaac.GetItemIdByName("Marshmallow"), sewingMachineMod.sewnFamiliars.upMarshmallow)
+    end
 
     if MinimapAPI ~= nil then
         local icon = Sprite()
@@ -1411,6 +1419,9 @@ function sewingMachineMod:loadSave(isExistingRun)
 
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
+    
+    -- Set familiar description
+    sewingMachineMod:InitFamiliarDescription()
 end
 
 
