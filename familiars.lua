@@ -2453,12 +2453,12 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
     if sprite:IsFinished("Crush") then
         sprite:Play("Idle", false)
     end
-    if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and sewingMachineMod.rng:RandomInt(101) == 10 then
-        local damages = 7.5 + blueBabysOnlyFriend.Player.Damage
+    if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and math.random(50) == 1 then
+        local damages = 10 + blueBabysOnlyFriend.Player.Damage
         local range = 60
         
         if sewingMachineMod:isUltra(fData) then
-            damages = 10 + blueBabysOnlyFriend.Player.Damage * 2
+            damages = 15 + blueBabysOnlyFriend.Player.Damage * 2
             range = 90
             -- Destroy rocks
             for i = -20, 20, 20 do
@@ -2538,7 +2538,6 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
         if fData.Sewn_punchingBag_pureMagenta_lastTear + fData.Sewn_punchingBag_pureMagenta_tearCooldown < game:GetFrameCount() then
             local velocity = Vector(3, 3)
             velocity = velocity:Rotated(sewingMachineMod.rng:RandomInt(360))
-            ---local velocity = Vector(sewingMachineMod.rng:RandomInt(5 * 2) - 5, sewingMachineMod.rng:RandomInt(5 * 2) - 5)
             local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, punchingBag.Position, velocity, punchingBag):ToTear()
             tear.Scale = 1.1
             tear.CollisionDamage = 8
