@@ -1930,6 +1930,8 @@ function sewnFamiliars:upCenser(censer)
     local fData = censer:GetData()
     if censer.Variant == FamiliarVariant.CENSER then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(600) + 60
+            fData.Sewn_custom_censer_freezeCooldown = sewingMachineMod.rng:RandomInt(600) + 60
             sewnFamiliars:customUpdate(censer, sewnFamiliars.custom_update_censer)
         end
     end
@@ -1938,17 +1940,24 @@ function sewnFamiliars:custom_update_censer(censer)
     local fData = censer:GetData()
     
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if fData.Sewn_custom_censer_dazedCooldown == nil or fData.Sewn_custom_censer_dazedCooldown == 0 then
-            local npcs = Isaac.FindInRadius(censer.Position, 160, EntityPartition.ENEMY)
+        if fData.Sewn_custom_censer_dazedCooldown <= 0 or fData.Sewn_custom_censer_freezeCooldown <= 0 then
+            local npcs = Isaac.FindInRadius(censer.Position, 150, EntityPartition.ENEMY)
             if #npcs > 0 then
                 local amount = math.floor(#npcs / 7) + 1
                 for i = 1, amount do
-                    npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddConfusion(EntityRef(censer), 150, true)
+                    if fData.Sewn_custom_censer_dazedCooldown <= 0 then
+                        npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddConfusion(EntityRef(censer), math.random(60, 190), true)
+                    end
+                    if fData.Sewn_custom_censer_freezeCooldown <= 0 then
+                        npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddFreeze(EntityRef(censer), math.random(60, 120))
+                    end
                 end
             end
-            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(300) + 60
+            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(600) + 60
+            fData.Sewn_custom_censer_freezeCooldown = sewingMachineMod.rng:RandomInt(600) + 60
         end
         fData.Sewn_custom_censer_dazedCooldown = fData.Sewn_custom_censer_dazedCooldown - 1
+        fData.Sewn_custom_censer_freezeCooldown = fData.Sewn_custom_censer_freezeCooldown - 1
     end
     if sewingMachineMod:isUltra(fData) then
         for _, bullet in pairs(Isaac.FindByType(EntityType.ENTITY_PROJECTILE, -1, -1, false, false)) do

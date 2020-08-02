@@ -214,7 +214,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CENSER,
-        "Can apply a dazed effect",
+        "Sometimes apply a dazed effect or freeze effect",
         "Slighly deflect tears from player",
         ConvertRGBToIsaac({204, 204, 204})
     )
