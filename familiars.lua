@@ -1375,7 +1375,7 @@ end
 function sewnFamiliars:custom_cleanAward_marshmallow(marshmallow)
     local roll = sewingMachineMod.rng:RandomInt(100) + 1
     print(roll)
-    if roll < 25 then
+    if roll < 30 then
         if marshmallow.State < 4 then
             sewnFamiliars:marshmallow_upgradeState(marshmallow, marshmallow.State + 1)
         end
@@ -2581,6 +2581,117 @@ function sewnFamiliars:custom_playerTakeDamage_punchingBag(punchingBag, damageSo
         punchingBag.Player:AddBlueFlies(sewingMachineMod.rng:RandomInt(3)+1, punchingBag.Position, nil)
     end
 end
+
+-- HUSHY
+function sewnFamiliars:upHushy(hushy)
+    local fData = hushy:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(hushy, sewnFamiliars.custom_animation_hushy, "Idle")
+        sewnFamiliars:customAnimation(hushy, sewnFamiliars.custom_animationStart_hushy, "Phase2Start")
+        fData.Sewn_hushy_cooldown = 30
+    end
+end
+
+-- Circle tears attack
+function sewnFamiliars:hushy_fireCircleProj(hushy)
+    local fData = hushy:GetData()
+    local rollTear = math.random(6, 10)
+    if sewingMachineMod:isUltra(fData) then
+        rollTear = math.random(10, 20)
+    end
+    
+    local tearOffset = sewingMachineMod.rng:RandomInt(360)
+    for i = 1, rollTear do
+        local velo = Vector(4, 4)
+        velo = velo:Rotated((360 / rollTear) * i + tearOffset)
+        velo = velo:Rotated(tearOffset)
+        local proj = Isaac.Spawn(EntityType.ENTITY_PROJECTILE, ProjectileVariant.PROJECTILE_HUSH, 0, hushy.Position, velo, hushy):ToProjectile()
+        proj.FallingAccel = -0.05
+        proj:AddProjectileFlags(ProjectileFlags.CANT_HIT_PLAYER)
+        proj:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES)
+        proj:AddProjectileFlags(ProjectileFlags.SINE_VELOCITY)
+        
+        fData.Sewn_hushy_cooldown = 60 + sewingMachineMod.rng:RandomInt(60)
+    end
+end
+
+function sewnFamiliars:hushy_fireTargetedProj(hushy)
+    local fData = hushy:GetData()
+    local maxAdditionalTears = 1
+    if sewingMachineMod:isUltra(fData) then
+        maxAdditionalTears = 3
+    end
+    local amountTears = math.random(0,maxAdditionalTears) * 2 + 5
+    for i = 1, amountTears do
+        local velo = (hushy.Player.Position - hushy.Position):Normalized() * 8
+        velo = velo:Rotated(5*i - 5 * amountTears / 2)
+        local proj = Isaac.Spawn(EntityType.ENTITY_PROJECTILE, ProjectileVariant.PROJECTILE_HUSH, 0, hushy.Position, velo, hushy):ToProjectile()
+        proj:AddProjectileFlags(ProjectileFlags.CANT_HIT_PLAYER)
+        proj:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES)
+        
+        fData.Sewn_hushy_cooldown = 60 + sewingMachineMod.rng:RandomInt(30)
+    end
+end
+
+-- Continuum tears attack
+function sewnFamiliars:hushy_fireContinuumTears(hushy)
+    local fData = hushy:GetData()
+
+    if fData.Sewn_hushy_continuumTears == nil then
+        fData.Sewn_hushy_continuumTears = sewingMachineMod.rng:RandomInt(20) + 10
+    end
+    local velo = Vector(0, 0)
+    local dir = hushy.Player:GetFireDirection()
+    if dir == Direction.LEFT then
+        velo.X = -5
+        velo.Y = (math.random() - 0.5) * 2
+    elseif dir == Direction.RIGHT then
+        velo.X = 5
+        velo.Y = (math.random() - 0.5) * 2
+    elseif dir == Direction.UP then
+        velo.X = (math.random() - 0.5) * 2
+        velo.Y = -5
+    elseif dir == Direction.DOWN then
+        velo.X = (math.random() - 0.5) * 2
+        velo.Y = 5
+    end
+    local proj = Isaac.Spawn(EntityType.ENTITY_PROJECTILE, ProjectileVariant.PROJECTILE_HUSH, 0, hushy.Position, velo, hushy):ToProjectile()
+    proj.FallingAccel = -0.09
+    proj:AddProjectileFlags(ProjectileFlags.CANT_HIT_PLAYER)
+    proj:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES)
+    proj:AddProjectileFlags(ProjectileFlags.CONTINUUM)
+    
+    fData.Sewn_hushy_continuumTears = fData.Sewn_hushy_continuumTears - 1
+    if fData.Sewn_hushy_continuumTears > 0 then
+        fData.Sewn_hushy_cooldown = sewingMachineMod.rng:RandomInt(10) + 7
+    else
+        fData.Sewn_hushy_continuumTears = nil
+        fData.Sewn_hushy_cooldown = 60
+    end
+end
+function sewnFamiliars:custom_animationStart_hushy(hushy)
+    local fData = hushy:GetData()
+    fData.Sewn_hushy_continuumWaves = nil
+end
+function sewnFamiliars:custom_animation_hushy(hushy)
+    local fData = hushy:GetData()
+    if fData.Sewn_hushy_cooldown <= 0 then
+        local rollAttack = math.random(1,3)
+        if not sewingMachineMod:isUltra(fData) then
+            rollAttack = math.random(2,3)
+        end
+        if fData.Sewn_hushy_continuumTears and fData.Sewn_hushy_continuumTears > 0 or rollAttack == 1 then
+            sewnFamiliars:hushy_fireContinuumTears(hushy)
+        elseif rollAttack == 2 then
+            sewnFamiliars:hushy_fireCircleProj(hushy)
+        elseif rollAttack == 3 then
+            sewnFamiliars:hushy_fireTargetedProj(hushy)
+        end
+    else
+        fData.Sewn_hushy_cooldown = fData.Sewn_hushy_cooldown - 1
+    end
+end
+
 
 -------------------------------------------------------------------
 -- Function which make previous upgrade real ----------------------

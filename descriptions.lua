@@ -322,8 +322,14 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PUNCHING_BAG,
         "Deal contact damage",
-        "Turn to a random champion form#Green : Leave creep#Magenta : Fire a tear in a random direction#Violet : Pull enemies#Light Blue : Fire tears in 8 direction when player is hit#Vivid Blue : Spawn 2-3 flies when player is hit",
+        "Turn to a random champion form#Green : Leave creep#Magenta : Fire a tear in a random direction#Violet : Pull enemies#Light Blue : Fire tears in 8 directions when player gets hit#Vivid Blue : Spawn 2-3 flies when player gets hit",
         ConvertRGBToIsaac({227, 198, 197})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.HUSHY,
+        "Gain two attacks when he stop moving#Fire tears in circle directions#Fire couple of tears to the player",
+        "Fire more tears during his attacks#Gain an additional attack which allow him to fire continuum tears in the direction the player is firing",
+        ConvertRGBToIsaac({67, 86, 121})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
