@@ -168,6 +168,7 @@ sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
 TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
 TrinketType.TRINKET_CRACKED_THIMBLE = Isaac.GetTrinketIdByName("Cracked Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
+TrinketType.TRINKET_CONTRASTED_BUTTON = Isaac.GetTrinketIdByName("Contrasted Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 -- Collectibles --
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
@@ -312,12 +313,14 @@ if not __eidCardDescriptions then
 end
 -- EID Trinkets
 __eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to upgrade a familiar for free"
-__eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn Sewing machine in Shops for next floors"
+__eidTrinketDescriptions[TrinketType.TRINKET_CRACKED_THIMBLE] = "Reroll familiars crowns when getting hit"
+__eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn sewing machine in Shops for next floors"
+__eidTrinketDescriptions[TrinketType.TRINKET_CONTRASTED_BUTTON] = "50% chance to find a sewing machine in angel rooms or devil rooms"
 __eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button"
 -- EID Collectibles
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded"
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = "Every new familiars will be SUPER#With Ann's Pure Body every new familiars will be ULTRA"
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = "Every new familiars will be SUPER#With Ann's Tainted Head every new familiars will be ULTRA"
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA"
+__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA"
 -- EID Cards
 __eidCardDescriptions[Card.RUNE_WUNJO] = "Upgrade every familiars for 30 seconds"
 __eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a sewing machine"
@@ -1099,13 +1102,19 @@ function sewingMachineMod:newRoom()
                     end
                 end
             end
-        end
-        if room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
+        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
             sewingMachineMod:spawnMachine()
-        end
-        if room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+        elseif room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
             if room:IsClear() then
                 sewingMachineMod:spawnMachine()
+            end
+        elseif room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_DEVIL then
+            for i = 1, game:GetNumPlayers() do
+                local player = Isaac.GetPlayer(i - 1)
+                local roll = sewingMachineMod.rng:RandomInt(100) + 1
+                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and roll < 50 then
+                    sewingMachineMod:spawnMachine(nil, true)
+                end
             end
         end
     end
@@ -1167,13 +1176,6 @@ function sewingMachineMod:onNewFloor()
         sewingMachine_shouldAppear_shop = true
     end
 
-    for _, p in pairs(Isaac.FindByType(EntityType.ENTITY_PLAYER, -1, -1, false, false)) do
-        local player = p:ToPlayer()
-        if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
-            sewingMachine_shouldAppear_shop = true
-        end
-    end
-
     -- BLUE WOMB
     if level:GetStage() == LevelStage.STAGE4_3 then
         sewingMachine_shouldAppear_shop = true
@@ -1185,6 +1187,9 @@ function sewingMachineMod:onNewFloor()
             player:GetData().Sewn_familiarsInMachine = nil
             player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
             player:EvaluateItems()
+        end
+        if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
+            sewingMachine_shouldAppear_shop = true
         end
     end
 end
