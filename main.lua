@@ -755,7 +755,9 @@ function sewingMachineMod:payCost(machine, player)
     end
     
     if player:GetHearts() + player:GetSoulHearts() == 0 then
-        player:Kill()
+        if player:GetPlayerType() ~= PlayerType.PLAYER_THESOUL then
+            player:Kill()
+        end
     end
 end
 
