@@ -166,6 +166,7 @@ sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
 ------------------
 -- Trinkets --
 TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
+TrinketType.TRINKET_CRACKED_THIMBLE = Isaac.GetTrinketIdByName("Cracked Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 -- Collectibles --
@@ -390,6 +391,7 @@ function sewingMachineMod:useSewingBox(collectibleType, rng)
             return true
         end
     end
+    sewingMachineMod.sewnFamiliars:useSewingBox(collectibleType, rng)
 end
 
 
@@ -967,6 +969,8 @@ function sewingMachineMod:updateFamiliar(familiar)
     if familiar.Variant == FamiliarVariant.ANN_S_PURE_HEAD or familiar.Variant == FamiliarVariant.ANN_S_TAINTED_BODY or familiar.Variant == FamiliarVariant.ANN then
         familiar:FollowParent()
     end
+    
+    sewingMachineMod.sewnFamiliars:updateFamiliar(familiar)
 end
 
 -------------------------
@@ -1052,6 +1056,8 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
             fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
         end
     end
+    
+    sewingMachineMod.sewnFamiliars:renderFamiliar(familiar, offset)
 end
 
 ----------------------
@@ -1117,6 +1123,8 @@ function sewingMachineMod:newRoom()
             sewingMachineMod:setFloatingAnim(machine)
         end
     end
+    
+    sewingMachineMod.sewnFamiliars:newRoom()
 end
 
 
@@ -1258,6 +1266,8 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         sewingMachineMod:removeAnnsTaintedBody()
         pData.Sewn_hasFullAnn = true
     end
+    
+    sewingMachineMod.sewnFamiliars.onCache(player, cacheFlag)
 end
 
 function sewingMachineMod:removeAnnsPureHead()
@@ -1296,6 +1306,17 @@ function sewingMachineMod:onRender()
         GiantBook:RenderLayer(0, Isaac.WorldToRenderPosition(Vector(320,300), true))
     end
 end
+
+
+---------------------------------------
+-- MC_ENTITY_TAKE_DMG - EntityPlayer --
+---------------------------------------
+function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
+    
+    
+    sewingMachineMod.sewnFamiliars:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
+end
+
 
 ----------------------
 -- MC_PRE_GAME_EXIT --
@@ -1353,6 +1374,7 @@ function sewingMachineMod:saveGame()
 
     sewingMachineMod:SaveData(json.encode(saveData))
 end
+
 --------------------------
 -- MC_POST_GAME_STARTED --
 --------------------------
@@ -1485,6 +1507,14 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
+sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.playerTakeDamage, EntityType.ENTITY_PLAYER)
+
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, sewingMachineMod.sewnFamiliars.tearUpdate)
+sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, sewingMachineMod.sewnFamiliars.tearCollision)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod.sewnFamiliars.laserUpdate)
+sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, sewingMachineMod.sewnFamiliars.familiarCollision)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewingMachineMod.sewnFamiliars.onEntityKill)
+
 
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, sewingMachineMod.saveGame)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, sewingMachineMod.loadSave)
