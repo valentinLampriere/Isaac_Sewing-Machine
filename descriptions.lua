@@ -266,12 +266,6 @@ function sewingMachineMod:InitFamiliarDescription()
         ConvertRGBToIsaac({194, 194, 194})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.ISAACS_HEART,
-        "Gain a fly orbital which block projectiles",
-        "Reduce hitbox (not the sprite scale)#Closer from the player like if it has \"Child Leash\"",
-        ConvertRGBToIsaac({179, 0, 0})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LEECH,
         "Spawn creep when it collide with an enemy",
         "Enemies it killed explode into lot of tears",

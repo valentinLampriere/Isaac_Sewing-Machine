@@ -1206,6 +1206,17 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
             annsHead:AddToFollowers()
         end
+        -- Upgrade familiars
+        for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = fam:GetData()
+            if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) then
+                fData.Sewn_upgradeState = 1
+                sewingMachineMod:callFamiliarUpgrade(fam)
+            elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY) and not sewingMachineMod:isUltra(fData) then
+                fData.Sewn_upgradeState = 2
+                sewingMachineMod:callFamiliarUpgrade(fam)
+            end
+        end
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] = true
     end
     -- Player lose "Ann's Pure Head"
@@ -1220,6 +1231,17 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD] then
             local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
             annsBody:AddToFollowers()
+        end
+        -- Upgrade familiars
+        for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = fam:GetData()
+            if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) then
+                fData.Sewn_upgradeState = 1
+                sewingMachineMod:callFamiliarUpgrade(fam)
+            elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_HEAD) and not sewingMachineMod:isUltra(fData) then
+                fData.Sewn_upgradeState = 2
+                sewingMachineMod:callFamiliarUpgrade(fam)
+            end
         end
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_BODY] = true
     end
