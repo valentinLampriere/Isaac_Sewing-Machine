@@ -3012,16 +3012,16 @@ end
 ---------------
 -- CALLBACKS --
 ---------------
---sewingMachineMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, sewnFamiliars.tearUpdate)
---sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, sewnFamiliars.tearCollision)
---sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewnFamiliars.laserUpdate)
---sewingMachineMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, sewnFamiliars.updateFamiliar)
---sewingMachineMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, sewnFamiliars.renderFamiliar)
---sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, sewnFamiliars.familiarCollision)
---sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewnFamiliars.onCache)
---sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewnFamiliars.newRoom)
---sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewnFamiliars.onEntityKill)
---sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewnFamiliars.playerTakeDamage, EntityType.ENTITY_PLAYER)
---sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewnFamiliars.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, sewnFamiliars.tearUpdate)
+sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, sewnFamiliars.tearCollision)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewnFamiliars.laserUpdate)
+sewingMachineMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, sewnFamiliars.updateFamiliar)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, sewnFamiliars.renderFamiliar)
+sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, sewnFamiliars.familiarCollision)
+sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewnFamiliars.onCache)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewnFamiliars.newRoom)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewnFamiliars.onEntityKill)
+sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewnFamiliars.playerTakeDamage, EntityType.ENTITY_PLAYER)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewnFamiliars.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 
 sewingMachineMod.errFamiliars.Error()
