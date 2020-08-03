@@ -753,6 +753,10 @@ function sewingMachineMod:payCost(machine, player)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
         player:AddMaxHearts(-sewingMachineMod.SewingMachineCost.EVIL, false)
     end
+    
+    if player:GetHearts() + player:GetSoulHearts() == 0 then
+        player:Kill()
+    end
 end
 
 ----------------------------
