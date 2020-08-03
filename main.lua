@@ -166,6 +166,7 @@ sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
 ------------------
 -- Trinkets --
 TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
+TrinketType.TRINKET_CRACKED_THIMBLE = Isaac.GetTrinketIdByName("Cracked Thimble")
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 -- Collectibles --
@@ -420,43 +421,6 @@ function sewingMachineMod:removeTemporaryUpgrade(familiar)
     sewingMachineMod:callFamiliarUpgrade(familiar)
 end
 
--- UNUSED --
------------------------------------------
--- MC_USE_ITEM - COLLECTIBLE_FOAM_DICE --
------------------------------------------
-function sewingMachineMod:useFoamDice(collectibleType, rng)
-    local countCrowns = 0
-    local familiars = {}
-    for i = 1, game:GetNumPlayers() do
-        local player = Isaac.GetPlayer(i - 1)
-        if player:GetActiveItem() == CollectibleType.COLLECTIBLE_FOAM_DICE then
-            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                local fData = familiar:GetData()
-                if sewingMachineMod:isAvailable(familiar.Variant) then
-                    table.insert(familiars, familiar)
-                    countCrowns = countCrowns + fData.Sewn_upgradeState
-                    fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
-
-                    sewingMachineMod:resetFamiliarData(familiar)
-                end
-            end
-            while #familiars > 0 and countCrowns > 0 do
-                local familiar_index = sewingMachineMod.rng:RandomInt(#familiars) + 1
-                local fData = familiars[familiar_index]:GetData()
-                if not sewingMachineMod:isUltra(fData) then
-                    fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-                    countCrowns = countCrowns -1
-
-                    sewingMachineMod:callFamiliarUpgrade(familiar[familiar_index])
-                end
-                if sewingMachineMod:isUltra(fData) then
-                    table.remove(familiars, familiar_index)
-                end
-            end
-        end
-    end
-    return true
-end
 
 -- Code given by Xalum
 function GetPlayerUsingCard() -- Cards, Runes, and Pills
@@ -1297,6 +1261,41 @@ function sewingMachineMod:onRender()
     end
 end
 
+---------------------------------------
+-- MC_ENTITY_TAKE_DMG - EntityPlayer --
+---------------------------------------
+function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
+    local countCrowns = 0
+    local familiars = {}
+    player = player:ToPlayer()
+    if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = familiar:GetData()
+            familiar = familiar:ToFamiliar()
+            if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
+                table.insert(familiars, familiar)
+                countCrowns = countCrowns + fData.Sewn_upgradeState
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+
+                sewingMachineMod:resetFamiliarData(familiar)
+            end
+        end
+        while #familiars > 0 and countCrowns > 0 do
+            local familiar_index = math.random(#familiars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
+            local fData = familiars[familiar_index]:GetData()
+            if not sewingMachineMod:isUltra(fData) then
+                fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+                countCrowns = countCrowns -1
+
+                sewingMachineMod:callFamiliarUpgrade(familiars[familiar_index])
+            end
+            if sewingMachineMod:isUltra(fData) then
+                table.remove(familiars, familiar_index)
+            end
+        end
+    end
+end
+
 ----------------------
 -- MC_PRE_GAME_EXIT --
 ----------------------
@@ -1485,6 +1484,8 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
+
+sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.playerTakeDamage, EntityType.ENTITY_PLAYER)
 
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, sewingMachineMod.saveGame)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, sewingMachineMod.loadSave)
