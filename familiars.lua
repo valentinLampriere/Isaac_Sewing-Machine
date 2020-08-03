@@ -465,7 +465,7 @@ function sewnFamiliars:upLittleGish(familiar)
             sewnFamiliars:customTearFall(familiar, sewnFamiliars.custom_tearCollision_littleGish)
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 6)
+            sewnFamiliars:setTearRateBonus(familiar, 9)
         end
     end
 end

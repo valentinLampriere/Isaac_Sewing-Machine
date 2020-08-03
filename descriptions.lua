@@ -60,7 +60,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LITTLE_GISH,
         "Tears create a puddle of creep on hit#\1 Slight Tears Up",
-        "Larger creep#\1 Slight Tears Up",
+        "Larger creep#\1 Tears Up",
         ConvertRGBToIsaac({67, 67, 67})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
