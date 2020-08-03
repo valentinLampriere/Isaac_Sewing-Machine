@@ -430,7 +430,7 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
     
 end
 
-function sewingMachineMod:onRender()
+function sewingMachineMod:renderEID()
     local curse = Game():GetLevel():GetCurses()
     
     -- Do not show EID when it's disable
@@ -466,8 +466,5 @@ function sewingMachineMod:onRender()
         Isaac.RenderText("Sewing Machines can't work with True-Coop", 115, 200, 1, 1, 1, 1)
     end
 end
-
--- Render info
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
 
 sewingMachineMod.errFamiliars.Error()

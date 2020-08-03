@@ -1474,6 +1474,8 @@ function sewingMachineMod:onRender()
     if GiantBook:IsPlaying("Appear") then
         GiantBook:RenderLayer(0, Isaac.WorldToRenderPosition(Vector(320,300), true))
     end
+    
+    sewingMachineMod:renderEID()
 end
 
 ---------------------------------------
