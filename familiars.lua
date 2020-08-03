@@ -209,15 +209,6 @@ function sewnFamiliars:customUpdate(familiar, functionName)
     table.insert(fData.Sewn_custom_update, functionName)
 end
 
--- CUSTOM RENDER
-function sewnFamiliars:customRender(familiar, functionName)
-    local fData = familiar:GetData()
-    if fData.Sewn_custom_render == nil then
-        fData.Sewn_custom_render = {}
-    end
-    table.insert(fData.Sewn_custom_render, functionName)
-end
-
 -- CUSTOM COLLISION
 function sewnFamiliars:customCollision(familiar, functionName)
     local fData = familiar:GetData()
@@ -254,15 +245,6 @@ function sewnFamiliars:customCleanAward(familiar, functionName)
     table.insert(fData.Sewn_custom_cleanAward, functionName)
 end
 
--- CUSTOM ENTITY KILL
-function sewnFamiliars:customEntityKill(familiar, functionName)
-    local fData = familiar:GetData()
-    if fData.Sewn_custom_entityKill == nil then
-        fData.Sewn_custom_entityKill = {}
-    end
-    table.insert(fData.Sewn_custom_entityKill, functionName)
-end
-
 -- CUSTOM PLAYER TAKE DAMAGE
 function sewnFamiliars:customPlayerTakeDamage(familiar, functionName)
     local fData = familiar:GetData()
@@ -270,15 +252,6 @@ function sewnFamiliars:customPlayerTakeDamage(familiar, functionName)
         fData.Sewn_custom_playerTakeDamage = {}
     end
     table.insert(fData.Sewn_custom_playerTakeDamage, functionName)
-end
-
--- CUSTOM SEWING BOX USE
-function sewnFamiliars:customSewingBoxUse(familiar, functionName)
-    local fData = familiar:GetData()
-    if fData.Sewn_custom_sewingBox == nil then
-        fData.Sewn_custom_sewingBox = {}
-    end
-    table.insert(fData.Sewn_custom_sewingBox, functionName)
 end
 
 -- Remove custom familiar datas
@@ -702,7 +675,6 @@ function sewnFamiliars:upRoboBaby2(familiar)
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_roboBaby2)
             sewnFamiliars:customNewRoom(familiar, sewnFamiliars.custom_newRoom_roboBaby2)
-            sewnFamiliars:customSewingBoxUse(familiar, sewnFamiliars.custom_sewingBox_roboBaby2)
         end
     end
 end
@@ -755,15 +727,6 @@ function sewnFamiliars:custom_newRoom_roboBaby2(familiar, room)
     if familiar.Variant == FamiliarVariant.ROBO_BABY_2 then
         if sewingMachineMod:isSuper(fData) then
             fData.Sewn_roboBaby2_continiousLaser = nil
-        end
-    end
-end
-function sewnFamiliars:custom_sewingBox_roboBaby2(familiar)
-    local fData = familiar:GetData()
-    fData.Sewn_roboBaby2_continiousLaser:Remove()
-    for _, laser in pairs(Isaac.FindByType(EntityType.ENTITY_LASER, 2, -1, false, true)) do
-        if laser.Position:Distance(familiar.Position, laser.Position) < 5 then
-            laser:Remove()
         end
     end
 end
@@ -1647,16 +1610,6 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
         if juicySack.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
                 local nbTears = sewingMachineMod.rng:RandomInt(3) + 1
-                --[[for i = 1, nbTears do
-                    local velocity = Vector(0, 0)
-                    velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(10) - 5
-                    velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(10) - 5
-                    local t = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.EGG, 0, juicySack.Position, velocity, familiar):ToTear()
-                    t.TearFlags = TearFlags.TEAR_EGG
-                    t.FallingSpeed = -18
-                    t.FallingAcceleration = 1.5
-                    t.CollisionDamage = 3.5
-                end--]]
                 sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
                 juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 45
             end
@@ -2310,31 +2263,20 @@ function sewnFamiliars:upLeech(leech)
     local fData = leech:GetData()
     if leech.Variant == FamiliarVariant.LEECH then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customCollision(leech, sewnFamiliars.custom_collision_leech)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customEntityKill(leech, sewnFamiliars.custom_entityKill_leech)
+            sewnFamiliars:customUpdate(leech, sewnFamiliars.custom_update_leech)
         end
     end
 end
-function sewnFamiliars:custom_entityKill_leech(leech, npc)
+function sewnFamiliars:custom_update_leech(leech)
     local fData = leech:GetData()
-    if npc == nil then
-        return
-    end
-    if sewingMachineMod:isUltra(fData) then
-        if (npc.Position - leech.Position):LengthSquared() < (npc.Size + leech.Size) ^2 then
-            local nbTears = sewingMachineMod.rng:RandomInt(math.min(npc.MaxHitPoints, 20)) + 8
-            sewnFamiliars:burstTears(leech, nbTears, 2.5, 7, true, nil, nil, npc.Position)
-        end
-    end
-end
-function sewnFamiliars:custom_collision_leech(leech, collider)
-    local fData = leech:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if collider:IsVulnerableEnemy() then
-            if leech.FrameCount % 10 == 0 then
+    for _, npc in pairs(Isaac.FindInRadius(leech.Position, leech.Size, EntityPartition.ENEMY)) do
+        if npc:IsVulnerableEnemy() then
+            if leech.FrameCount % 8 == 0 then
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, Vector(0, 0), nil)
+            end
+            if sewingMachineMod:isUltra(fData) and npc.HitPoints - leech.CollisionDamage <= 0 then
+                local nbTears = sewingMachineMod.rng:RandomInt(math.min(npc.MaxHitPoints, 20)) + 8
+                sewnFamiliars:burstTears(leech, nbTears, 2.5, 7, true, nil, nil, npc.Position)
             end
         end
     end
@@ -2699,329 +2641,5 @@ function sewnFamiliars:custom_animation_hushy(hushy)
         fData.Sewn_hushy_cooldown = fData.Sewn_hushy_cooldown - 1
     end
 end
-
-
--------------------------------------------------------------------
--- Function which make previous upgrade real ----------------------
--- Change tear size & damage, cooldown and call custom functions --
--------------------------------------------------------------------
-
--- MC_POST_TEAR_UPDATE --
-function sewnFamiliars:tearUpdate(tear)
-    
-    local familiar = tear.Parent
-    local fData
-    
-    -- If tear hasn't been fired from a familiar
-    if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
-        return
-    end
-
-    familiar = familiar:ToFamiliar()
-    fData = familiar:GetData()
-    
-    player = familiar.Player:ToPlayer()
-    
-    -- TEAR INIT 
-    if not tear:GetData().Sewn_Init then
-        
-        -- Give a damage upgrade (from tears)
-        if fData.Sewn_damageTear_multiplier ~= nil then
-            tear.CollisionDamage = tear.CollisionDamage * fData.Sewn_damageTear_multiplier
-        end
-        
-        -- Range up
-        if fData.Sewn_range_multiplier ~= nil then
-            tear.FallingAcceleration = 0.02 + -0.02 * fData.Sewn_range_multiplier 
-        end
-    
-        -- Shot speed up
-        if fData.Sewn_shotSpeed_multiplier ~= nil then
-            tear.Velocity = tear.Velocity:__mul(fData.Sewn_shotSpeed_multiplier)
-        end
-        
-        -- Make tears bigger
-        if fData.Sewn_tearSize_multiplier ~= nil then
-            tear.Scale = tear.Scale * fData.Sewn_tearSize_multiplier
-        end
-        
-        -- Reduce fire rate
-        if fData.Sewn_tearRate_bonus ~= nil then
-            familiar.FireCooldown = familiar.FireCooldown - fData.Sewn_tearRate_bonus
-        end
-        if fData.Sewn_tearRate_set ~= nil then
-            familiar.FireCooldown = fData.Sewn_tearRate_set
-        end
-        
-        -- Change tear flags
-        if fData.Sewn_tearFlags ~= nil then
-            if fData.Sewn_tearFlags_chance == nil then
-                tear.TearFlags = fData.Sewn_tearFlags
-            else
-                local roll = sewingMachineMod.rng:RandomInt(101)
-                if fData.Sewn_tearFlags_chance >= roll then
-                    tear.TearFlags = fData.Sewn_tearFlags
-                end
-            end
-        end
-        
-        -- Change tear Variant
-        if fData.Sewn_tearVariant ~= nil then
-            tear:ChangeVariant(fData.Sewn_tearVariant)
-        end
-        
-        -- Custom tear init function
-        if fData.Sewn_custom_fireInit ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_fireInit) do
-                d.customFunction = f
-                d:customFunction(familiar, tear)
-            end
-        end
-        
-        tear:GetData().Sewn_Init = true
-    end -- End Init tear
-
-    -- If the tear hit the ground
-    if fData.Sewn_custom_tearFall ~= nil then
-        if tear.Height > -5 then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_tearFall) do
-                d.customFunction = f
-                d:customFunction(familiar, tear)
-            end
-        end
-    end
-end
-
--- MC_PRE_TEAR_COLLISION --
-function sewnFamiliars:tearCollision(tear, collider, low)
-    local familiar = tear.Parent
-    local fData
-    
-    -- If tear hasn't been fired from a familiar
-    if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
-        return
-    end
-    
-    familiar = familiar:ToFamiliar()
-    fData = familiar:GetData()
-    
-    if fData.Sewn_custom_tearCollision ~= nil then
-        local d = {}
-        for i, f in ipairs(fData.Sewn_custom_tearCollision) do
-            d.customFunction = f
-            d:customFunction(familiar, tear, collider)
-        end
-    end
-end
-
--- MC_POST_LASER_UPDATE --
-function sewnFamiliars:laserUpdate(laser)
-    
-    -- If laser has been fired from a familiar
-    if laser.SpawnerType == EntityType.ENTITY_FAMILIAR then
-        -- INIT 
-        if laser.FrameCount > 0 and not laser:GetData().Sewn_Init then
-            local familiar = laser.Parent
-            local fData
-            
-            if familiar == nil then
-                -- Prevent from errors
-                return
-            end
-            
-            familiar = familiar:ToFamiliar()
-            fData = familiar:GetData()
-            
-            -- Give a damage upgrade, same damage multiplier as tears
-            if fData.Sewn_damageTear_multiplier ~= nil then
-                laser.CollisionDamage = laser.CollisionDamage * fData.Sewn_damageTear_multiplier
-            end
-            
-            -- Reduce fire rate
-            if fData.Sewn_tearRate_bonus ~= nil then
-                familiar.FireCooldown = familiar.FireCooldown - fData.Sewn_tearRate_bonus
-            end
-            
-            -- Custom laser init function
-            if fData.Sewn_custom_fireInit ~= nil then
-                local d = {}
-                for i, f in ipairs(fData.Sewn_custom_fireInit) do
-                    d.customFunction = f
-                    d:customFunction(familiar, laser)
-                end
-            end
-            
-            laser:GetData().Sewn_Init = true
-        end
-    end
-end
-
--- MC_FAMILIAR_UPDATE --
-function sewnFamiliars:updateFamiliar(familiar)
-    local fData = familiar:GetData()
-    
-    --Sewn_spriteScale_multiplier
-    if fData.Sewn_spriteScale_multiplier ~= nil then
-        familiar.SpriteScale = Vector(1 * fData.Sewn_spriteScale_multiplier, 1 * fData.Sewn_spriteScale_multiplier)
-    end
-    -- Custom update function
-    if fData.Sewn_custom_update ~= nil then
-        local d = {}
-        for i, f in ipairs(fData.Sewn_custom_update) do
-            d.customFunction = f
-            d:customFunction(familiar)
-        end
-    end
-    
-    -- Custom animation
-    if fData.Sewn_custom_animation ~= nil then
-        for animationName, _function in pairs(fData.Sewn_custom_animation) do
-            -- If familiar plays an animation
-            if familiar:GetSprite():IsPlaying(animationName) or familiar:GetSprite():IsFinished(animationName) then
-                local d = {}
-                d.customFunction = _function
-                d:customFunction(familiar, effect)
-            end
-        end
-    end
-end
-
--- MC_POST_FAMILIAR_RENDER --
-function sewnFamiliars:renderFamiliar(familiar)
-    local fData = familiar:GetData()
-    -- Custom render function
-    if fData.Sewn_custom_render ~= nil then
-        local d = {}
-        for i, f in ipairs(fData.Sewn_custom_render) do
-            d.customFunction = f
-            d:customFunction(familiar)
-        end
-    end
-end
-
--- Return true if a familiar is playin the animation "animation_s" 
-function sewnFamiliars:isPlayingAnim(familiar, animation_s)
-    local s = familiar:GetSprite()
-    
-    if type(animation_s) == "table" then
-        for _, anim in pairs(animation_s) do
-            if s:IsPlaying(animation_s) == true then
-                return true
-            end
-        end
-    elseif type(animation_s) == "string" then
-        return s:IsPlaying(animation_s)
-    end
-    
-    return false
-end
-
--- MC_PRE_FAMILIAR_COLLISION --
-function sewnFamiliars:familiarCollision(familiar, collider, low)
-    local fData = familiar:GetData()
-    
-    -- Custom collision
-    if fData.Sewn_custom_collision ~= nil then
-        local d = {}
-        for i, f in ipairs(fData.Sewn_custom_collision) do
-            d.customFunction = f
-            d:customFunction(familiar, collider)
-        end
-    end
-end
-
--- MC_EVALUATE_CACHE --
-function sewnFamiliars:onCache(player, cacheFlag)
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        familiar = familiar:ToFamiliar()
-        if familiar.Player ~= nil and familiar.Player.Index == player.Index then
-            local fData = familiar:GetData()
-            familiar = familiar:ToFamiliar()
-            if fData.Sewn_custom_cache ~= nil then
-                local d = {}
-                for i, f in ipairs(fData.Sewn_custom_cache) do
-                    d.customFunction = f
-                    d:customFunction(familiar, cacheFlag)
-                end
-            end
-        end
-    end
-end
-
--- MC_POST_NEW_ROOM --
-function sewnFamiliars:newRoom()
-    local room = game:GetLevel():GetCurrentRoom()
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        familiar = familiar:ToFamiliar()
-        if fData.Sewn_custom_newRoom ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_newRoom) do
-                d.customFunction = f
-                d:customFunction(familiar, room)
-            end
-        end
-    end
-end
-
--- MC_POST_ENTITY_KILL --
-function sewnFamiliars:onEntityKill(entity)
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        if fData.Sewn_custom_entityKill ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_entityKill) do
-                d.customFunction = f
-                d:customFunction(familiar, entity)
-            end
-        end
-    end
-end
-
--- MC_ENTITY_TAKE_DMG --
-function sewnFamiliars:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        familiar = familiar:ToFamiliar()
-        if fData.Sewn_custom_playerTakeDamage ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_playerTakeDamage) do
-                d.customFunction = f
-                d:customFunction(familiar, damageSource, damageAmount, damageFlags)
-            end
-        end
-    end
-end
-
--- MC_USE_ITEM --
-function sewnFamiliars:useSewingBox(collectible, rng)
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        if fData.Sewn_custom_sewingBox ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_sewingBox) do
-                d.customFunction = f
-                d:customFunction(familiar)
-            end
-        end
-    end
-end
-
----------------
--- CALLBACKS --
----------------
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, sewnFamiliars.tearUpdate)
-sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, sewnFamiliars.tearCollision)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewnFamiliars.laserUpdate)
-sewingMachineMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, sewnFamiliars.updateFamiliar)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, sewnFamiliars.renderFamiliar)
-sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, sewnFamiliars.familiarCollision)
-sewingMachineMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, sewnFamiliars.onCache)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewnFamiliars.newRoom)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_ENTITY_KILL, sewnFamiliars.onEntityKill)
-sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewnFamiliars.playerTakeDamage, EntityType.ENTITY_PLAYER)
-sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewnFamiliars.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 
 sewingMachineMod.errFamiliars.Error()
