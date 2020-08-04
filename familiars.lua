@@ -642,18 +642,8 @@ end
 function sewnFamiliars:custom_update_headlessBaby(familiar)
     local fData = familiar:GetData()
     local player = familiar.Player
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, -1, false, true)) do
-            if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.HEADLESS_BABY then
-                local cData = creep:GetData()
-                if not cData.Sewn_creepIsScaled then
-                    creep.Size = creep.Size * 1.5
-                    creep.SpriteScale = creep.SpriteScale * 1.5
-                    cData.Sewn_creepIsScaled = true
-                end
-            end
-        end
-    end
+    local creepDamage = 2.5
+    
     if sewingMachineMod:isUltra(fData) then
         if familiar.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
@@ -663,6 +653,19 @@ function sewnFamiliars:custom_update_headlessBaby(familiar)
             end
         else
             familiar.FireCooldown = familiar.FireCooldown - 1
+        end
+        creepDamage = 3
+    end
+    
+    for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, -1, false, true)) do
+        if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.HEADLESS_BABY then
+            local cData = creep:GetData()
+            if not cData.Sewn_creepIsScaled then
+                creep.Size = creep.Size * 1.5
+                creep.SpriteScale = creep.SpriteScale * 1.5
+                creep.CollisionDamage = creepDamage
+                cData.Sewn_creepIsScaled = true
+            end
         end
     end
 end
@@ -1630,8 +1633,8 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
             if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.JUICY_SACK then
                 local cData = creep:GetData()
                 if not cData.Sewn_creepIsScaled then
-                    creep.Size = creep.Size * 1.5
-                    creep.SpriteScale = creep.SpriteScale * 1.5
+                    creep.Size = creep.Size * 1.75
+                    creep.SpriteScale = creep.SpriteScale * 1.75
                     cData.Sewn_creepIsScaled = true
                 end
             end
@@ -1640,7 +1643,7 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
     if sewingMachineMod:isUltra(fData) then
         if juicySack.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
-                local nbTears = sewingMachineMod.rng:RandomInt(3) + 1
+                local nbTears = sewingMachineMod.rng:RandomInt(5) + 1
                 sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
                 juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 45
             end

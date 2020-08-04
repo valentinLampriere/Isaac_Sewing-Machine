@@ -100,8 +100,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HEADLESS_BABY,
-        "Spawn large creep",
-        "Fire burst of tears while isaac is firing",
+        "Spawn large creep#Creep deal more damage",
+        "Fire burst of tears while isaac is firing#Creep deal more damage",
         ConvertRGBToIsaac({205, 196, 209})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
