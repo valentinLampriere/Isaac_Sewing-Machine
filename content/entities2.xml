@@ -22,9 +22,6 @@
     <entity anm2path="003_ann.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Ann" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="758">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
-    <entity anm2path="003_spiderModEgg.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="3" name="Spider Mod Egg" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="758">
-        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
-    </entity>
 
 	
 	<!-- Others -->
@@ -35,6 +32,9 @@
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
     <entity anm2path="1000_pulling_effect.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Pulling Effect 02" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="756" subtype="0">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+    <entity anm2path="1000_spiderModEgg.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="13" friction="1" id="1000" name="Spider Mod Egg" numGridCollisionPoints="12" shadowSize="11" stageHP="0" variant="757">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
 </entities>

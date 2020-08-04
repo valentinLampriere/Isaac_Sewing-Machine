@@ -2157,14 +2157,14 @@ function sewnFamiliars:upSpiderMod(spiderMod)
     if spiderMod.Variant == FamiliarVariant.SPIDER_MOD then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(spiderMod, sewnFamiliars.custom_update_spiderMod)
-            sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
+            --sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
             if sewingMachineMod:isUltra(fData) then
                 sewnFamiliars:customCleanAward(spiderMod, sewnFamiliars.custom_cleanAward_spiderMod)
             end
         end
     end
 end
-function sewnFamiliars:spiderMod_eggUpdate(egg)
+--[[function sewnFamiliars:spiderMod_eggUpdate(egg)
     egg.Velocity = Vector(0, 0)
     if egg.FrameCount >= 30 * 20 then
         sewnFamiliars:spiderMod_eggDestroy(egg)
@@ -2201,10 +2201,10 @@ function sewnFamiliars:spiderMod_eggCollision(egg, collider)
             fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
         end
     end
-end
+end--]]
 function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
-    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
-        sewnFamiliars:spiderMod_eggDestroy(egg)
+    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
+        --sewnFamiliars:spiderMod_eggDestroy(egg)
         local nbSpiders = sewingMachineMod.rng:RandomInt(3)
         for i = 1, nbSpiders do
             local velocity = Vector(0, 0)
@@ -2213,6 +2213,8 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
             velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
             spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
         end
+        egg:Remove()
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
     end
 end
 function sewnFamiliars:custom_update_spiderMod(spiderMod)
@@ -2227,27 +2229,27 @@ function sewnFamiliars:custom_update_spiderMod(spiderMod)
             roll = roll + 10 -- higher chance to spawn an egg in ultra
         end
         if roll > 80 then
-            for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
+            for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
                 if egg.Position:DistanceSquared(spiderMod.Position) < 20^2 then
                     return -- Do not spawn eggs close to an other egg
                 end
             end
             spiderMod:GetSprite():Play("Appear", false)
-            local egg = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, Vector(0, 0), spiderMod)
+            local egg = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, Vector(0, 0), spiderMod):ToEffect()
+            egg.Timeout = 20 * 30
             -- Flip the egg sprite
             egg.FlipX = sewingMachineMod.rng:RandomInt(2) == 1
             egg:GetData().Sewn_spidermod_eggColliderCooldown = {}
-            egg.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ENEMIES
-            sewnFamiliars:customCollision(egg, sewnFamiliars.spiderMod_eggCollision)
-            sewnFamiliars:customUpdate(egg, sewnFamiliars.spiderMod_eggUpdate)
+            --sewnFamiliars:customCollision(egg, sewnFamiliars.spiderMod_eggCollision)
+            --sewnFamiliars:customUpdate(egg, sewnFamiliars.spiderMod_eggUpdate)
         end
     end
 end
-function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
-    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
+--[[function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
+    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
         egg:Remove()
     end
-end
+end--]]
 
 -- ISAAC'S HEART
 function sewnFamiliars:upIsaacsHeart(isaacsHeart)

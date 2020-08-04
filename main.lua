@@ -181,9 +181,10 @@ Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
 FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
 FamiliarVariant.ANN_S_PURE_BODY = Isaac.GetEntityVariantByName("Ann's Pure Body")
 FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
-FamiliarVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 -- Effects
 EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02")
+EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
+
 sewingMachineMod.sewingMachinesData = {}
 
 sewingMachineMod.SewingMachineSubType = {
@@ -1004,6 +1005,47 @@ function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner,
     end
 end
 
+---------------------------
+-- MC_POST_EFFECT_UPDATE --
+---------------------------
+function sewingMachineMod:effectUpdate(effect)
+    if effect.Variant == EffectVariant.SPIDER_MOD_EGG then
+        local eData = effect:GetData()
+        
+        if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
+            effect:Remove()
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, Vector(0, 0), nil)
+        end
+        
+        for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
+                    local roll = sewingMachineMod.rng:RandomInt(8)
+                    local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
+                    if roll == 0 then
+                        npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 1 then
+                        npc:AddFreeze(EntityRef(egg), rollDuration)
+                    elseif roll == 2 then
+                        npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
+                    elseif roll == 3 then
+                        npc:AddCharmed(rollDuration)
+                    elseif roll == 4 then
+                        npc:AddConfusion(EntityRef(egg), rollDuration, false)
+                    elseif roll == 5 then
+                        npc:AddFear(EntityRef(egg), rollDuration)
+                    elseif roll == 6 then
+                        npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 7 then
+                        npc:AddShrink(EntityRef(egg), rollDuration)
+                    end
+                    eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
+                end
+            end
+        end
+    end
+end
+
 function sewingMachineMod:hideCrown(familiar, hideCrown)
     local fData = familiar:GetData()
     if hideCrown == nil then
@@ -1745,6 +1787,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 
 -- Entities related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, sewingMachineMod.entitySpawn)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMod.effectUpdate)
 
 -- Game related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
