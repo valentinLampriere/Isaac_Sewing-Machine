@@ -325,6 +325,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Fire more tears during his attacks#Gain an additional attack which allow him to fire continuum tears in the direction the player is firing",
         ConvertRGBToIsaac({67, 86, 121})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.JAW_BONE,
+        "When it collide with an enemy it spawns a bone orbital",
+        "Deal more than 3x Isaac's damage",
+        ConvertRGBToIsaac({219, 219, 219})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

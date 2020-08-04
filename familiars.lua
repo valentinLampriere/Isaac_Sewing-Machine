@@ -1475,6 +1475,38 @@ function sewnFamiliars:custom_animationDash_lilGurdy(lilGurdy)
     end
 end
 
+-- JAW BONE
+function sewnFamiliars:upJawBone(jawBone)
+    local fData = jawBone:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_jawBone_colliderCooldown = {}
+        sewnFamiliars:customCollision(jawBone, sewnFamiliars.custom_collision_jawBone)
+        sewnFamiliars:customNewRoom(jawBone, sewnFamiliars.custom_newRoom_jawBone)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customCache(jawBone, sewnFamiliars.custom_cache_jawBone)
+            jawBone.CollisionDamage = jawBone.Player.Damage * 3 + 3.5
+        end
+    end
+end
+function sewnFamiliars:custom_cache_jawBone(jawBone, cacheFlag)
+    if cacheFlag == CacheFlag.CACHE_DAMAGE then
+        jawBone.CollisionDamage = jawBone.Player.Damage * 3 + 2
+    end
+end
+function sewnFamiliars:custom_newRoom_jawBone(jawBone)
+    local fData = jawBone:GetData()
+    fData.Sewn_jawBone_colliderCooldown = {}
+end
+function sewnFamiliars:custom_collision_jawBone(jawBone, collider)
+    local fData = jawBone:GetData()
+    if jawBone:GetSprite():IsPlaying("Throw") and collider:IsVulnerableEnemy() then
+        if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 30 < game:GetFrameCount() then
+            Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, Vector(0, 0), jawBone)
+            fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
+        end
+    end
+end
+
 -----------------------
 -- SPAWNER FAMILIARS --
 -----------------------
