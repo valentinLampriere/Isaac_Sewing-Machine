@@ -1337,7 +1337,6 @@ function sewnFamiliars:marshmallow_upgradeState(marshmallow, state)
 end
 function sewnFamiliars:custom_cleanAward_marshmallow(marshmallow)
     local roll = sewingMachineMod.rng:RandomInt(100) + 1
-    print(roll)
     if roll < 30 then
         if marshmallow.State < 4 then
             sewnFamiliars:marshmallow_upgradeState(marshmallow, marshmallow.State + 1)

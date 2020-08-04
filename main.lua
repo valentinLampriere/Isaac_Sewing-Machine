@@ -520,7 +520,7 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     end
 
     if position == nil then
-        position = Isaac.GetFreeNearPosition(room:GetGridPosition(27), 0)
+        position = room:FindFreePickupSpawnPosition(room:GetGridPosition(27), 0, true)
     end
 
     if machineSubType == nil then
