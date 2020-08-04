@@ -1495,31 +1495,31 @@ end
 ---------------------------------------
 function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
     local countCrowns = 0
-    local familiars = {}
+    local allowedFamiliars = {}
     player = player:ToPlayer()
     if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
             local fData = familiar:GetData()
             familiar = familiar:ToFamiliar()
             if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
-                table.insert(familiars, familiar)
+                table.insert(allowedFamiliars, familiar)
                 countCrowns = countCrowns + fData.Sewn_upgradeState
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
 
                 sewingMachineMod:resetFamiliarData(familiar)
             end
         end
-        while #familiars > 0 and countCrowns > 0 do
-            local familiar_index = math.random(#familiars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
-            local fData = familiars[familiar_index]:GetData()
+        while #allowedFamiliars > 0 and countCrowns > 0 do
+            local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
+            local fData = allowedFamiliars[familiar_index]:GetData()
             if not sewingMachineMod:isUltra(fData) then
                 fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
                 countCrowns = countCrowns -1
 
-                sewingMachineMod:callFamiliarUpgrade(familiars[familiar_index])
+                sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
             end
             if sewingMachineMod:isUltra(fData) then
-                table.remove(familiars, familiar_index)
+                table.remove(allowedFamiliars, familiar_index)
             end
         end
     end
