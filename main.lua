@@ -547,6 +547,7 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     if playAppearAnim == true then
         machine:GetSprite():Play("Appear", true)
     end
+    
     return machine
 end
 
@@ -1474,6 +1475,11 @@ function sewingMachineMod:onUpdate()
             f.customFunction = data.FUNCTION
             f:customFunction(data.PARAM)
             table.remove(sewingMachineMod.delayedFunctions, i)
+        end
+    end
+    for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
+        if machine:GetSprite():IsFinished("Appear") then
+            machine:GetSprite():Play("Idle")
         end
     end
 end
