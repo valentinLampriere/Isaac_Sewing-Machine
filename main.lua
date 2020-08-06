@@ -600,17 +600,20 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
     -- Chance to break
     if roll < mData.Sewn_machineUsed_counter * 5 + additionalBreackChance then
         local rollTrinket = sewingMachineMod.rng:RandomInt(101)
-        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, Vector(0, 0), nil)
-
-
-        mData.Sewn_isMachineBroken = true
-        if rollTrinket < 5 then
-            local rollTrinket = sewingMachineMod.rng:RandomInt(#trinketSewingMachine) + 1
-            local trinket = trinketSewingMachine[rollTrinket]
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, trinket, machine.Position + Vector(0,15), Vector(0,2):Rotated(math.random(-45,45)), machine)
+        
+        if machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC or machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
+            mData.Sewn_isMachineBroken = true
+            machine:GetSprite():Play("Disappear")
+        else
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, Vector(0, 0), nil)
+            mData.Sewn_isMachineBroken = true
+            if rollTrinket < 5 then
+                local rollTrinket = sewingMachineMod.rng:RandomInt(#trinketSewingMachine) + 1
+                local trinket = trinketSewingMachine[rollTrinket]
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, trinket, machine.Position + Vector(0,15), Vector(0,2):Rotated(math.random(-45,45)), machine)
+            end
+            machine:TakeDamage(100, DamageFlag.DAMAGE_EXPLOSION, EntityRef(machine), 1)
         end
-
-        machine:TakeDamage(100, DamageFlag.DAMAGE_EXPLOSION, EntityRef(machine), 1)
     end
 end
 
@@ -1480,6 +1483,8 @@ function sewingMachineMod:onUpdate()
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
         if machine:GetSprite():IsFinished("Appear") then
             machine:GetSprite():Play("Idle")
+        elseif machine:GetSprite():IsFinished("Disappear") then
+            machine:Remove()
         end
     end
 end
@@ -1511,6 +1516,8 @@ function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, da
                 countCrowns = countCrowns + fData.Sewn_upgradeState
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
 
+                table.insert(player:GetData().Sewn_familiars, familiars[familiar_index])
+
                 sewingMachineMod:resetFamiliarData(familiar)
             end
         end
@@ -1525,6 +1532,7 @@ function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, da
             end
             if sewingMachineMod:isUltra(fData) then
                 table.remove(familiars, familiar_index)
+                table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
             end
         end
     end
