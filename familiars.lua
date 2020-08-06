@@ -642,18 +642,8 @@ end
 function sewnFamiliars:custom_update_headlessBaby(familiar)
     local fData = familiar:GetData()
     local player = familiar.Player
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, -1, false, true)) do
-            if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.HEADLESS_BABY then
-                local cData = creep:GetData()
-                if not cData.Sewn_creepIsScaled then
-                    creep.Size = creep.Size * 1.5
-                    creep.SpriteScale = creep.SpriteScale * 1.5
-                    cData.Sewn_creepIsScaled = true
-                end
-            end
-        end
-    end
+    local creepDamage = 2.5
+    
     if sewingMachineMod:isUltra(fData) then
         if familiar.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
@@ -663,6 +653,19 @@ function sewnFamiliars:custom_update_headlessBaby(familiar)
             end
         else
             familiar.FireCooldown = familiar.FireCooldown - 1
+        end
+        creepDamage = 3
+    end
+    
+    for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, -1, false, true)) do
+        if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.HEADLESS_BABY then
+            local cData = creep:GetData()
+            if not cData.Sewn_creepIsScaled then
+                creep.Size = creep.Size * 1.5
+                creep.SpriteScale = creep.SpriteScale * 1.5
+                creep.CollisionDamage = creepDamage
+                cData.Sewn_creepIsScaled = true
+            end
         end
     end
 end
@@ -1475,6 +1478,38 @@ function sewnFamiliars:custom_animationDash_lilGurdy(lilGurdy)
     end
 end
 
+-- JAW BONE
+function sewnFamiliars:upJawBone(jawBone)
+    local fData = jawBone:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_jawBone_colliderCooldown = {}
+        sewnFamiliars:customCollision(jawBone, sewnFamiliars.custom_collision_jawBone)
+        sewnFamiliars:customNewRoom(jawBone, sewnFamiliars.custom_newRoom_jawBone)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customCache(jawBone, sewnFamiliars.custom_cache_jawBone)
+            jawBone.CollisionDamage = jawBone.Player.Damage * 3 + 3.5
+        end
+    end
+end
+function sewnFamiliars:custom_cache_jawBone(jawBone, cacheFlag)
+    if cacheFlag == CacheFlag.CACHE_DAMAGE then
+        jawBone.CollisionDamage = jawBone.Player.Damage * 3 + 2
+    end
+end
+function sewnFamiliars:custom_newRoom_jawBone(jawBone)
+    local fData = jawBone:GetData()
+    fData.Sewn_jawBone_colliderCooldown = {}
+end
+function sewnFamiliars:custom_collision_jawBone(jawBone, collider)
+    local fData = jawBone:GetData()
+    if jawBone:GetSprite():IsPlaying("Throw") and collider:IsVulnerableEnemy() then
+        if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 30 < game:GetFrameCount() then
+            Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, Vector(0, 0), jawBone)
+            fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
+        end
+    end
+end
+
 -----------------------
 -- SPAWNER FAMILIARS --
 -----------------------
@@ -1598,8 +1633,8 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
             if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.JUICY_SACK then
                 local cData = creep:GetData()
                 if not cData.Sewn_creepIsScaled then
-                    creep.Size = creep.Size * 1.5
-                    creep.SpriteScale = creep.SpriteScale * 1.5
+                    creep.Size = creep.Size * 1.75
+                    creep.SpriteScale = creep.SpriteScale * 1.75
                     cData.Sewn_creepIsScaled = true
                 end
             end
@@ -1608,7 +1643,7 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
     if sewingMachineMod:isUltra(fData) then
         if juicySack.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
-                local nbTears = sewingMachineMod.rng:RandomInt(3) + 1
+                local nbTears = sewingMachineMod.rng:RandomInt(5) + 1
                 sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
                 juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 45
             end
@@ -2122,54 +2157,14 @@ function sewnFamiliars:upSpiderMod(spiderMod)
     if spiderMod.Variant == FamiliarVariant.SPIDER_MOD then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(spiderMod, sewnFamiliars.custom_update_spiderMod)
-            sewnFamiliars:customNewRoom(spiderMod, sewnFamiliars.custom_newRoom_spiderMod)
             if sewingMachineMod:isUltra(fData) then
                 sewnFamiliars:customCleanAward(spiderMod, sewnFamiliars.custom_cleanAward_spiderMod)
             end
         end
     end
 end
-function sewnFamiliars:spiderMod_eggUpdate(egg)
-    egg.Velocity = Vector(0, 0)
-    if egg.FrameCount >= 30 * 20 then
-        sewnFamiliars:spiderMod_eggDestroy(egg)
-    end
-end
-function sewnFamiliars:spiderMod_eggDestroy(egg)
-    egg:Die()
-    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
-end
-function sewnFamiliars:spiderMod_eggCollision(egg, collider)
-    local fData = egg:GetData()
-    if collider:IsVulnerableEnemy() then
-        if fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] + 90 < game:GetFrameCount() then
-            local roll = sewingMachineMod.rng:RandomInt(8)
-            local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
-            local dmg = egg.Player.Damage
-            if roll == 0 then
-                collider:AddPoison(EntityRef(egg), rollDuration, dmg)
-            elseif roll == 1 then
-                collider:AddFreeze(EntityRef(egg), rollDuration)
-            elseif roll == 2 then
-                collider:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
-            elseif roll == 3 then
-                collider:AddCharmed(rollDuration)
-            elseif roll == 4 then
-                collider:AddConfusion(EntityRef(egg), rollDuration, false)
-            elseif roll == 5 then
-                collider:AddFear(EntityRef(egg), rollDuration)
-            elseif roll == 6 then
-                collider:AddBurn(EntityRef(egg), rollDuration, dmg)
-            elseif roll == 7 then
-                collider:AddShrink(EntityRef(egg), rollDuration)
-            end
-            fData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
-        end
-    end
-end
 function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
-    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
-        sewnFamiliars:spiderMod_eggDestroy(egg)
+    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
         local nbSpiders = sewingMachineMod.rng:RandomInt(3)
         for i = 1, nbSpiders do
             local velocity = Vector(0, 0)
@@ -2178,6 +2173,8 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
             velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
             spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
         end
+        egg:Remove()
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
     end
 end
 function sewnFamiliars:custom_update_spiderMod(spiderMod)
@@ -2192,25 +2189,18 @@ function sewnFamiliars:custom_update_spiderMod(spiderMod)
             roll = roll + 10 -- higher chance to spawn an egg in ultra
         end
         if roll > 80 then
-            for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
+            for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
                 if egg.Position:DistanceSquared(spiderMod.Position) < 20^2 then
                     return -- Do not spawn eggs close to an other egg
                 end
             end
             spiderMod:GetSprite():Play("Appear", false)
-            local egg = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, Vector(0, 0), spiderMod)
+            local egg = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, Vector(0, 0), spiderMod):ToEffect()
+            egg.Timeout = 20 * 30
             -- Flip the egg sprite
             egg.FlipX = sewingMachineMod.rng:RandomInt(2) == 1
             egg:GetData().Sewn_spidermod_eggColliderCooldown = {}
-            egg.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ENEMIES
-            sewnFamiliars:customCollision(egg, sewnFamiliars.spiderMod_eggCollision)
-            sewnFamiliars:customUpdate(egg, sewnFamiliars.spiderMod_eggUpdate)
         end
-    end
-end
-function sewnFamiliars:custom_newRoom_spiderMod(spiderMod)
-    for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SPIDER_MOD_EGG, -1, false, false)) do
-        egg:Remove()
     end
 end
 

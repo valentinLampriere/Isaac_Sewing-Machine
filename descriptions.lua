@@ -100,8 +100,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HEADLESS_BABY,
-        "Spawn large creep",
-        "Fire burst of tears while isaac is firing",
+        "Spawn large creep#Creep deal more damage",
+        "Fire burst of tears while isaac is firing#Creep deal more damage",
         ConvertRGBToIsaac({205, 196, 209})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -324,6 +324,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Gain two attacks when he stop moving#Fire tears in circle directions#Fire couple of tears to the player",
         "Fire more tears during his attacks#Gain an additional attack which allow him to fire continuum tears in the direction the player is firing",
         ConvertRGBToIsaac({67, 86, 121})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.JAW_BONE,
+        "When it collide with an enemy it spawns a bone orbital",
+        "Deal more than 3x Isaac's damage",
+        ConvertRGBToIsaac({219, 219, 219})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(

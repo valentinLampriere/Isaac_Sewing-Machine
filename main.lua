@@ -181,9 +181,10 @@ Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
 FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
 FamiliarVariant.ANN_S_PURE_BODY = Isaac.GetEntityVariantByName("Ann's Pure Body")
 FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
-FamiliarVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 -- Effects
 EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02")
+EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
+
 sewingMachineMod.sewingMachinesData = {}
 
 sewingMachineMod.SewingMachineSubType = {
@@ -294,7 +295,8 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.KING_BABY] = {472, sewingMachineMod.sewnFamiliars.upKingBaby},
     [FamiliarVariant.BLOODSHOT_EYE] = {509, sewingMachineMod.sewnFamiliars.upBloodshotEye},
     [FamiliarVariant.BUDDY_IN_A_BOX] = {518, sewingMachineMod.sewnFamiliars.upBuddyInABox},
-    [FamiliarVariant.ANGELIC_PRISM] = {528, sewingMachineMod.sewnFamiliars.upAngelicPrism}
+    [FamiliarVariant.ANGELIC_PRISM] = {528, sewingMachineMod.sewnFamiliars.upAngelicPrism},
+    [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
 __require("descriptions")
@@ -514,7 +516,7 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
         return
     end
-    
+
     if StageAPI and StageAPI.InExtraRoom then
         return
     end
@@ -547,7 +549,7 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     if playAppearAnim == true then
         machine:GetSprite():Play("Appear", true)
     end
-    
+
     return machine
 end
 
@@ -600,7 +602,7 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
     -- Chance to break
     if roll < mData.Sewn_machineUsed_counter * 5 + additionalBreackChance then
         local rollTrinket = sewingMachineMod.rng:RandomInt(101)
-        
+
         if machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC or machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
             mData.Sewn_isMachineBroken = true
             machine:GetSprite():Play("Disappear")
@@ -757,7 +759,7 @@ function sewingMachineMod:payCost(machine, player)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
         player:AddMaxHearts(-sewingMachineMod.SewingMachineCost.EVIL, false)
     end
-    
+
     if player:GetHearts() + player:GetSoulHearts() == 0 then
         if player:GetPlayerType() ~= PlayerType.PLAYER_THESOUL then
             player:Kill()
@@ -920,7 +922,7 @@ function sewingMachineMod:updateFamiliar(familiar)
     -- If a player is close from the machine
     if sewingMachineMod.currentUpgradeInfo ~= nil then
         local fColor = familiar:GetColor()
-        
+
         -- Available familiars
         if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
@@ -939,7 +941,7 @@ function sewingMachineMod:updateFamiliar(familiar)
     if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.ANN_S_PURE_BODY or familiar.Variant == FamiliarVariant.ANN then
         familiar:FollowParent()
     end
-    
+
     --Sewn_spriteScale_multiplier
     if fData.Sewn_spriteScale_multiplier ~= nil then
         familiar.SpriteScale = Vector(1 * fData.Sewn_spriteScale_multiplier, 1 * fData.Sewn_spriteScale_multiplier)
@@ -952,7 +954,7 @@ function sewingMachineMod:updateFamiliar(familiar)
             d:customFunction(familiar)
         end
     end
-    
+
     -- Custom animation
     if fData.Sewn_custom_animation ~= nil then
         for animationName, _function in pairs(fData.Sewn_custom_animation) do
@@ -1007,6 +1009,47 @@ function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner,
     end
 end
 
+---------------------------
+-- MC_POST_EFFECT_UPDATE --
+---------------------------
+function sewingMachineMod:effectUpdate(effect)
+    if effect.Variant == EffectVariant.SPIDER_MOD_EGG then
+        local eData = effect:GetData()
+
+        if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
+            effect:Remove()
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, Vector(0, 0), nil)
+        end
+
+        for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
+                    local roll = sewingMachineMod.rng:RandomInt(8)
+                    local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
+                    if roll == 0 then
+                        npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 1 then
+                        npc:AddFreeze(EntityRef(egg), rollDuration)
+                    elseif roll == 2 then
+                        npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
+                    elseif roll == 3 then
+                        npc:AddCharmed(rollDuration)
+                    elseif roll == 4 then
+                        npc:AddConfusion(EntityRef(egg), rollDuration, false)
+                    elseif roll == 5 then
+                        npc:AddFear(EntityRef(egg), rollDuration)
+                    elseif roll == 6 then
+                        npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 7 then
+                        npc:AddShrink(EntityRef(egg), rollDuration)
+                    end
+                    eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
+                end
+            end
+        end
+    end
+end
+
 function sewingMachineMod:hideCrown(familiar, hideCrown)
     local fData = familiar:GetData()
     if hideCrown == nil then
@@ -1055,7 +1098,7 @@ end
 -------------------------------
 function sewingMachineMod:familiarCollision(familiar, collider, low)
     local fData = familiar:GetData()
-    
+
     -- Custom collision
     if fData.Sewn_custom_collision ~= nil then
         local d = {}
@@ -1134,7 +1177,7 @@ function sewingMachineMod:newRoom()
             sewingMachineMod:setFloatingAnim(machine)
         end
     end
-    
+
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
@@ -1158,7 +1201,7 @@ function sewingMachineMod:finishRoom(rng, spawnPosition)
         -- Spawn machine when the shop is cleared
         sewingMachineMod:spawnMachine(nil, true)
     end
-    
+
     -- It's supposed to be in the "familiars.lua" but it seems having several "MC_PRE_SPAWN_CLEAN_AWARD" cause error
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
@@ -1210,7 +1253,7 @@ end
 function sewingMachineMod:tearUpdate(tear)
     local familiar = tear.Parent
     local fData
-    
+
     -- If tear hasn't been fired from a familiar
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
         return
@@ -1218,32 +1261,32 @@ function sewingMachineMod:tearUpdate(tear)
 
     familiar = familiar:ToFamiliar()
     fData = familiar:GetData()
-    
+
     player = familiar.Player:ToPlayer()
-    
-    -- TEAR INIT 
+
+    -- TEAR INIT
     if not tear:GetData().Sewn_Init then
-        
+
         -- Give a damage upgrade (from tears)
         if fData.Sewn_damageTear_multiplier ~= nil then
             tear.CollisionDamage = tear.CollisionDamage * fData.Sewn_damageTear_multiplier
         end
-        
+
         -- Range up
         if fData.Sewn_range_multiplier ~= nil then
-            tear.FallingAcceleration = 0.02 + -0.02 * fData.Sewn_range_multiplier 
+            tear.FallingAcceleration = 0.02 + -0.02 * fData.Sewn_range_multiplier
         end
-    
+
         -- Shot speed up
         if fData.Sewn_shotSpeed_multiplier ~= nil then
             tear.Velocity = tear.Velocity:__mul(fData.Sewn_shotSpeed_multiplier)
         end
-        
+
         -- Make tears bigger
         if fData.Sewn_tearSize_multiplier ~= nil then
             tear.Scale = tear.Scale * fData.Sewn_tearSize_multiplier
         end
-        
+
         -- Reduce fire rate
         if fData.Sewn_tearRate_bonus ~= nil then
             familiar.FireCooldown = familiar.FireCooldown - fData.Sewn_tearRate_bonus
@@ -1251,7 +1294,7 @@ function sewingMachineMod:tearUpdate(tear)
         if fData.Sewn_tearRate_set ~= nil then
             familiar.FireCooldown = fData.Sewn_tearRate_set
         end
-        
+
         -- Change tear flags
         if fData.Sewn_tearFlags ~= nil then
             if fData.Sewn_tearFlags_chance == nil then
@@ -1263,12 +1306,12 @@ function sewingMachineMod:tearUpdate(tear)
                 end
             end
         end
-        
+
         -- Change tear Variant
         if fData.Sewn_tearVariant ~= nil then
             tear:ChangeVariant(fData.Sewn_tearVariant)
         end
-        
+
         -- Custom tear init function
         if fData.Sewn_custom_fireInit ~= nil then
             local d = {}
@@ -1277,7 +1320,7 @@ function sewingMachineMod:tearUpdate(tear)
                 d:customFunction(familiar, tear)
             end
         end
-        
+
         tear:GetData().Sewn_Init = true
     end -- End Init tear
 
@@ -1298,15 +1341,15 @@ end
 function sewingMachineMod:tearCollision(tear, collider, low)
     local familiar = tear.Parent
     local fData
-    
+
     -- If tear hasn't been fired from a familiar
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
         return
     end
-    
+
     familiar = familiar:ToFamiliar()
     fData = familiar:GetData()
-    
+
     if fData.Sewn_custom_tearCollision ~= nil then
         local d = {}
         for i, f in ipairs(fData.Sewn_custom_tearCollision) do
@@ -1321,29 +1364,29 @@ end
 function sewingMachineMod:laserUpdate(laser)
     -- If laser has been fired from a familiar
     if laser.SpawnerType == EntityType.ENTITY_FAMILIAR then
-        -- INIT 
+        -- INIT
         if laser.FrameCount > 0 and not laser:GetData().Sewn_Init then
             local familiar = laser.Parent
             local fData
-            
+
             if familiar == nil then
                 -- Prevent from errors
                 return
             end
-            
+
             familiar = familiar:ToFamiliar()
             fData = familiar:GetData()
-            
+
             -- Give a damage upgrade, same damage multiplier as tears
             if fData.Sewn_damageTear_multiplier ~= nil then
                 laser.CollisionDamage = laser.CollisionDamage * fData.Sewn_damageTear_multiplier
             end
-            
+
             -- Reduce fire rate
             if fData.Sewn_tearRate_bonus ~= nil then
                 familiar.FireCooldown = familiar.FireCooldown - fData.Sewn_tearRate_bonus
             end
-            
+
             -- Custom laser init function
             if fData.Sewn_custom_fireInit ~= nil then
                 local d = {}
@@ -1352,7 +1395,7 @@ function sewingMachineMod:laserUpdate(laser)
                     d:customFunction(familiar, laser)
                 end
             end
-            
+
             laser:GetData().Sewn_Init = true
         end
     end
@@ -1367,7 +1410,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
     if pData.Sewn_hasItem == nil then
         pData.Sewn_hasItem = {}
     end
-    
+
     if cacheFlag == CacheFlag.CACHE_FAMILIARS then
         -- Remove familiars which are supposed to be in the machine
         if pData.Sewn_familiarsInMachine ~= nil then
@@ -1438,7 +1481,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             pData.Sewn_hasFullAnn = true
         end
     end
-    
+
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         familiar = familiar:ToFamiliar()
         if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
@@ -1496,7 +1539,7 @@ function sewingMachineMod:onRender()
     if GiantBook:IsPlaying("Appear") then
         GiantBook:RenderLayer(0, Isaac.WorldToRenderPosition(Vector(320,300), true))
     end
-    
+
     sewingMachineMod:renderEID()
 end
 
@@ -1505,14 +1548,14 @@ end
 ---------------------------------------
 function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
     local countCrowns = 0
-    local familiars = {}
+    local allowedFamiliars = {}
     player = player:ToPlayer()
     if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
             local fData = familiar:GetData()
             familiar = familiar:ToFamiliar()
             if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
-                table.insert(familiars, familiar)
+                table.insert(allowedFamiliars, familiar)
                 countCrowns = countCrowns + fData.Sewn_upgradeState
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
 
@@ -1521,17 +1564,17 @@ function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, da
                 sewingMachineMod:resetFamiliarData(familiar)
             end
         end
-        while #familiars > 0 and countCrowns > 0 do
-            local familiar_index = math.random(#familiars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
-            local fData = familiars[familiar_index]:GetData()
+        while #allowedFamiliars > 0 and countCrowns > 0 do
+            local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
+            local fData = allowedFamiliars[familiar_index]:GetData()
             if not sewingMachineMod:isUltra(fData) then
                 fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
                 countCrowns = countCrowns -1
 
-                sewingMachineMod:callFamiliarUpgrade(familiars[familiar_index])
+                sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
             end
             if sewingMachineMod:isUltra(fData) then
-                table.remove(familiars, familiar_index)
+                table.remove(allowedFamiliars, familiar_index)
                 table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
             end
         end
@@ -1695,7 +1738,7 @@ function sewingMachineMod:loadSave(isExistingRun)
 
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
-    
+
     -- Set familiar description
     sewingMachineMod:InitFamiliarDescription()
 end
@@ -1758,6 +1801,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 
 -- Entities related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, sewingMachineMod.entitySpawn)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMod.effectUpdate)
 
 -- Game related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
