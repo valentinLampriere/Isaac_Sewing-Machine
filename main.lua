@@ -1085,17 +1085,18 @@ end
 -----------------------------
 function sewingMachineMod:renderFamiliar(familiar, offset)
     local fData = familiar:GetData()
+    if fData == nil or type(fData) ~= "table" then return end
     local pos = Isaac.WorldToScreen(familiar.Position)
     if sewingMachineMod.Config.familiarCrownPosition == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_CROWN_POSITION.CENTER then
         pos = Vector(pos.X-1, pos.Y - familiar.Size * 2)
     elseif sewingMachineMod.Config.familiarCrownPosition == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_CROWN_POSITION.RIGHT then
         pos = Vector(pos.X + familiar.Size, pos.Y - familiar.Size * 2)
     end
-    if fData.Sewn_crownPositionOffset ~= nil then
-        pos = pos - fData.Sewn_crownPositionOffset
-    end
 
     if fData.Sewn_crown == nil then
+        if fData.Sewn_crownPositionOffset ~= nil then
+            pos = pos - fData.Sewn_crownPositionOffset
+        end
         fData.Sewn_crown = Sprite()
         fData.Sewn_crown:Load("gfx/sewn_familiar_crown.anm2", false)
         if sewingMachineMod:isSuper(fData) then

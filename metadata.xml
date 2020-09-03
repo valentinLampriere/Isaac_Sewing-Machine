@@ -50,6 +50,14 @@
 
 --------------------------------
 
+[h1]Modded familiars[/h1]
+[b]Some modded familiars can work with the machine, including : [/b]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=1991915308]Lost And Forgotten[/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
+
+--------------------------------
+
 [h1]Make your familiars stronger ![/h1]
 
 The [b]Sewing Machine[/b] is a brand new machine which allow you to [b]upgrade your familiars[/b] during a run !
@@ -98,7 +106,13 @@ Have a 50% chance to reduce the cost for upgrades to half the normal price
 
 [b]Pin Cushion[/b] / Trinket
 &quot;Choose the good one&quot;
-When player can't afford the upgrade of the familiar in a machine, interacting with the machine gives the familiar back
+Interacting with the machine gives the familiar back
+
+--------------------------------
+
+[b]Known Bugs[/b]
+
+When doing victory laps, the sewing machine does not work 
 
 --------------------------------
 
@@ -124,7 +138,7 @@ Special Thanks to
 
 Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
 Discord : valentinL#3711</description>
-    <version>1.9</version>
+    <version>1.10</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Active Items"/>
