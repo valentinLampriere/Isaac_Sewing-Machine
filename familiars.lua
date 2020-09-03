@@ -1568,8 +1568,11 @@ function sewnFamiliars:familiarSpawnAdditionalSpider(familiar, amountSpiders)
         newBlueSpider:GetData().Sewn_flySpiderParentIndex = GetPtrHash(familiar)
     end
 end
-function sewnFamiliars:familiarSpawnAdditionalLocust(familiar, amountLocust, spawnSameLocusts)
+function sewnFamiliars:familiarSpawnAdditionalLocust(familiar, amountLocust, spawnSameLocusts, locustType)
     local rollLocust = sewingMachineMod.rng:RandomInt(5) + 1
+    if locustType then
+        rollLocust = locustType
+    end
     if amountLocust == nil then
         amountLocust = 1
     end
@@ -1582,7 +1585,7 @@ function sewnFamiliars:familiarSpawnAdditionalLocust(familiar, amountLocust, spa
     
     for i = 1, amountLocust do
         local nb = 1
-        if spawnSameLocusts == false then
+        if spawnSameLocusts == false and locustType == nil then
             rollLocust = sewingMachineMod.rng:RandomInt(5) + 1
         end
         if rollLocust == 5 then -- Spawn 2 conquest locusts
@@ -2628,6 +2631,154 @@ function sewnFamiliars:custom_animation_hushy(hushy)
         end
     else
         fData.Sewn_hushy_cooldown = fData.Sewn_hushy_cooldown - 1
+    end
+end
+
+-- LIL HARBINGERS
+local LIL_HARBINGERS = {
+    WAR = 0,
+    PESTILENCE = 1,
+    FAMINE = 2,
+    DEATH = 3,
+    CONQUEST = 4
+}
+function sewnFamiliars:upLilHarbingers(lilHarbinger)
+    local fData = lilHarbinger:GetData()
+    sewingMachineMod:addCrownOffset(lilHarbinger, Vector(0, 14))
+    sewnFamiliars:customUpdate(lilHarbinger, sewnFamiliars.custom_update_lilHarbinger)
+    sewnFamiliars:customUpdate(lilHarbinger, sewnFamiliars.custom_animation_lilHarbinger, ANIMATION_NAMES.SPAWN)
+    sewnFamiliars:customPlayerTakeDamage(lilHarbinger, sewnFamiliars.custom_playerTakeDamage_lilHarbinger)
+    fData.Sewn_lilHarbinger_attackCooldown = sewingMachineMod.rng:RandomInt(200) + 100
+end
+function sewnFamiliars:custom_update_lilHarbinger(lilHarbinger)
+    local fData = lilHarbinger:GetData()
+    lilHarbinger.SubType = LIL_HARBINGERS.FAMINE
+    if lilHarbinger.SubType == LIL_HARBINGERS.PESTILENCE then
+        for _, effect in pairs(Isaac.FindInRadius(lilHarbinger.Position, lilHarbinger.Size, EntityPartition.EFFECT)) do
+            if effect.Variant == EffectVariant.PLAYER_CREEP_GREEN and effect.FrameCount == 1 then
+                local creep = effect:ToEffect()
+                creep.CollisionDamage = 1
+            end
+        end
+    elseif lilHarbinger.SubType == LIL_HARBINGERS.DEATH then
+        if lilHarbinger.State == 1 then
+            lilHarbinger.CollisionDamage = 2
+        end
+    end
+    local room = game:GetLevel():GetCurrentRoom()
+    if sewingMachineMod:isUltra(fData) and lilHarbinger.State < 275 and room:GetAliveEnemiesCount() > 0 then
+        if fData.Sewn_lilHarbinger_attackCooldown <= 0 then
+            lilHarbinger:GetSprite():Play("Spawn")
+            sewingMachineMod:delayFunction(sewnFamiliars.lilHarbinger_attack, 20, lilHarbinger)
+            fData.Sewn_lilHarbinger_attackCooldown = 200
+        else
+            fData.Sewn_lilHarbinger_attackCooldown = fData.Sewn_lilHarbinger_attackCooldown - 1
+        end
+    end
+end
+function sewnFamiliars:lilHarbinger_attack(lilHarbinger)
+    local fData = lilHarbinger:GetData()
+    local room = game:GetLevel():GetCurrentRoom()
+    local npcs = {}
+    for _, npc in pairs(Isaac.FindInRadius(lilHarbinger.Position, 1500, EntityPartition.ENEMY)) do
+        if npc:IsVulnerableEnemy() then
+            npcs[#npcs + 1] = npc
+        end
+    end
+    if #npcs == 0 then return end
+    local randomNpc = npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]
+    if lilHarbinger.SubType == LIL_HARBINGERS.WAR then
+        local velo = (randomNpc.Position - lilHarbinger.Position):Normalized() * 10
+        for i  = 1, 2 do
+            velo = velo + Vector(math.random()-0.5, math.random()-0.5)
+            local bomb = Isaac.Spawn(EntityType.ENTITY_BOMBDROP, BombVariant.BOMB_NORMAL, 0, lilHarbinger.Position, velo, lilHarbinger):ToBomb()
+            bomb:GetSprite().Scale = Vector(0.5,0.5)
+        end
+        
+    elseif lilHarbinger.SubType == LIL_HARBINGERS.PESTILENCE then
+        local velo = (randomNpc.Position - lilHarbinger.Position) / 30
+        local ipecac = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, lilHarbinger.Position, velo, lilHarbinger):ToTear()
+        ipecac.CollisionDamage = 40
+        ipecac.TearFlags = TearFlags.TEAR_EXPLOSIVE | TearFlags.TEAR_SPECTRAL
+        ipecac.Scale = 1.25
+        ipecac:SetColor(Color(0.5, 0.9, 0.4, 1, 0, 0, 0), -1, 2, false, false)
+        ipecac.FallingSpeed = -10
+        ipecac.FallingAcceleration = 0.5
+    elseif lilHarbinger.SubType == LIL_HARBINGERS.FAMINE then
+        sewnFamiliars:lilHarbinger_famine_attack({LIL_HARBINGER = lilHarbinger, TARGET = randomNpc})
+    elseif lilHarbinger.SubType == LIL_HARBINGERS.DEATH then
+        local roll = sewingMachineMod.rng:RandomInt(4) + 3
+        for i = 1, roll do
+            local randomNpc = npc[sewingMachineMod.rng:RandomInt(#npc) + 1]
+            local pos = room:FindFreePickupSpawnPosition(Isaac.GetRandomPosition(), 0, true)
+            local velo = (randomNpc.Position - pos):Normalized() * 12
+            local schythe = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.SCHYTHE, 0, pos, velo, lilHarbinger):ToTear()
+            schythe.CollisionDamage = 7 + lilHarbinger.Player.Damage / 2
+            schythe.TearFlags = schythe.TearFlags | TearFlags.TEAR_HOMING
+        end
+    end
+end
+function sewnFamiliars:custom_animation_lilHarbinger(lilHarbinger)
+    local fData = lilHarbinger:GetData()
+    for _, locust in pairs(Isaac.FindInRadius(lilHarbinger.Position, lilHarbinger.Size, EntityPartition.FAMILIAR)) do
+        if locust.Variant == FamiliarVariant.BLUE_FLY and locust.SubType > 0 and locust.FrameCount == 1 then
+            if lilHarbinger.SubType == LIL_HARBINGERS.CONQUEST then
+                sewnFamiliars:familiarSpawnAdditionalLocust(lilHarbinger, 1, true, 5)
+                if sewingMachineMod:isUltra(fData) then
+                    sewnFamiliars:customCollision(locust, sewnFamiliars.lilHarbinger_conquestLocust_collision)
+                end
+            elseif lilHarbinger.SubType == LIL_HARBINGERS.WAR then
+                fData.Sewn_lilHarbinger_locustExplode = false
+                locust:GetData().Sewn_lilHarbinger_locustParent = lilHarbinger
+                sewnFamiliars:customCollision(locust, sewnFamiliars.lilHarbinger_warLocust_collision)
+            elseif lilHarbinger.SubType == LIL_HARBINGERS.FAMINE then
+                locust.CollisionDamage = locust.CollisionDamage * 1.5
+            end
+        end
+    end
+end
+function sewnFamiliars:lilHarbinger_famine_attack(param)
+    local lilHarbinger = param.LIL_HARBINGER
+    local target = param.TARGET
+    local nbTears = param.NB_TEARS or 3
+    local velo = (target.Position - lilHarbinger.Position):Normalized() * 6
+    for i = 1, nbTears do
+        velo = velo:Rotated(10*i - 10 * nbTears / 2)
+        local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, lilHarbinger.Position, velo, lilHarbinger):ToTear()
+        tear.TearFlags = TearFlags.TEAR_SPECTRAL
+        tear.CollisionDamage = 7.5
+        tear.Scale = 1.05
+    end
+    if nbTears == 3 then
+        sewingMachineMod:delayFunction(sewnFamiliars.lilHarbinger_famine_attack, 10, {LIL_HARBINGER = lilHarbinger, TARGET = target, NB_TEARS = 4})
+    end
+end
+function sewnFamiliars:lilHarbinger_conquestLocust_collision(locust, collider)
+    if collider:IsVulnerableEnemy() then
+        local roll = sewingMachineMod.rng:RandomInt(100)
+        if roll < 20 then
+            local light = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, collider.Position, Vector(0, 0), locust):ToTear()
+            light.CollisionDamage = locust.CollisionDamage
+            light.TearFlags = TearFlags.TEAR_LIGHT_FROM_HEAVEN
+            light.Visible = false
+        end
+    end
+end
+function sewnFamiliars:lilHarbinger_warLocust_collision(locust, collider)
+    if collider:IsVulnerableEnemy() then
+        locust:GetData().Sewn_lilHarbinger_locustParent:GetData().Sewn_lilHarbinger_locustExplode = true
+    end
+end
+function sewnFamiliars:custom_playerTakeDamage_lilHarbinger(lilHarbinger, damageSource, damageAmount, damageFlags)
+    local fData = lilHarbinger:GetData()
+    if damageSource.Type == EntityType.ENTITY_FAMILIAR and damageSource.Variant == FamiliarVariant.BLUE_FLY and damageFlags & DamageFlag.DAMAGE_EXPLOSION ~= 0 then -- Damage taken from a red locustWAR LOCUST EXPLOD
+        if fData.Sewn_lilHarbinger_locustExplode == true then
+            fData.Sewn_lilHarbinger_locustExplode = false
+            return false
+        end
+    end
+    if damageSource.Type == EntityType.ENTITY_TEAR and damageFlags & DamageFlag.DAMAGE_EXPLOSION ~= 0 and damageSource.Entity.SpawnerType == EntityType.ENTITY_FAMILIAR and damageSource.Entity.SpawnerVariant == FamiliarVariant.LIL_HARBINGERS then -- Damage taken from an explosive tear from lil harbingers (ipecac pestilence shots)
+        return false
     end
 end
 

@@ -68,6 +68,23 @@
 --
 -- sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgrade, secondUpgrade, color, optionalName)
 
+-- HIDE CROWN --
+-- Description :
+-- Hide or unhide the crown of a familiar
+-- Parameters :
+--   familiar  (EntityFamiliar) : The familiar
+--   hideCrown (boolean) : OPTIONNAL true or missing hide the crown ; false unhide the crown
+--
+-- sewingMachineMod:hideCrown(familiar, hideCrown)
+
+-- ADD CROWN OFFSET --
+-- Description :
+-- Add an offset to the ground for a specific familiar, like so it's possible to choose where the crown will be displayed
+-- Parameters :
+--   familiar (EntityFamiliar) : The familiar
+--   offset   (Vector) : The offset position of the crown
+--
+-- sewingMachineMod:addCrownOffset(familiar, offset)
 
 -------------------------
 -- FAMILIARS FUNCTIONS --
@@ -295,6 +312,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.KING_BABY] = {472, sewingMachineMod.sewnFamiliars.upKingBaby},
     [FamiliarVariant.BLOODSHOT_EYE] = {509, sewingMachineMod.sewnFamiliars.upBloodshotEye},
     [FamiliarVariant.BUDDY_IN_A_BOX] = {518, sewingMachineMod.sewnFamiliars.upBuddyInABox},
+    [FamiliarVariant.LIL_HARBINGERS] = {526, sewingMachineMod.sewnFamiliars.upLilHarbingers},
     [FamiliarVariant.ANGELIC_PRISM] = {528, sewingMachineMod.sewnFamiliars.upAngelicPrism},
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
@@ -972,8 +990,6 @@ end
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
-
-
     -- If a pickup spawn from a sewing machine, it means the machine as been bombed
     -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
     if type == EntityType.ENTITY_PICKUP then
@@ -1057,6 +1073,12 @@ function sewingMachineMod:hideCrown(familiar, hideCrown)
     end
     fData.Sewn_crown_hide = hideCrown
 end
+function sewingMachineMod:addCrownOffset(familiar, offset)
+    local fData = familiar:GetData()
+    -- If offset isn't a Vector -> return
+    if offset == nil or offset.X == nil or offset.Y == nil then return end
+    fData.Sewn_crownPositionOffset = offset
+end
 
 -----------------------------
 -- MC_POST_FAMILIAR_RENDER --
@@ -1068,6 +1090,9 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
         pos = Vector(pos.X-1, pos.Y - familiar.Size * 2)
     elseif sewingMachineMod.Config.familiarCrownPosition == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_CROWN_POSITION.RIGHT then
         pos = Vector(pos.X + familiar.Size, pos.Y - familiar.Size * 2)
+    end
+    if fData.Sewn_crownPositionOffset ~= nil then
+        pos = pos - fData.Sewn_crownPositionOffset
     end
 
     if fData.Sewn_crown == nil then
@@ -1586,7 +1611,7 @@ function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, da
             local d = {}
             for i, f in ipairs(fData.Sewn_custom_playerTakeDamage) do
                 d.customFunction = f
-                d:customFunction(familiar, damageSource, damageAmount, damageFlags)
+                return d:customFunction(familiar, damageSource, damageAmount, damageFlags)
             end
         end
     end
@@ -1742,30 +1767,6 @@ function sewingMachineMod:loadSave(isExistingRun)
     -- Set familiar description
     sewingMachineMod:InitFamiliarDescription()
 end
-
-
--- Used for debug
-function sewingMachineMod:printTables(table, indent)
-    if type(table) == "table" then
-        if indent == nil then
-            Isaac.DebugString("-------- PRINT_TABLE --------")
-            indent = 0
-        end
-        local strIndent = ""
-        for i = 0, indent * 3 do
-            strIndent = strIndent .. " "
-        end
-        for key, value in pairs(table) do
-            if type(value) ~= "table" then
-                Isaac.DebugString(strIndent .. tostring(key) .. " ; " .. tostring(value))
-            else
-                Isaac.DebugString(strIndent .. tostring(key))
-                sewingMachineMod:printTables(value, indent +1)
-            end
-        end
-    end
-end
-
 
 ---------------
 -- CALLBACKS --
