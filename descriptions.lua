@@ -331,6 +331,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Deal more than 3x Isaac's damage",
         ConvertRGBToIsaac({219, 219, 219})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.LIL_HARBINGERS,
+        "Improve harbingers in different ways#WAR : War's red locuts can't hurt the player#FAMINE : Famine's locusts deal more damage#DEATH : Deal more collision damage#PESTILENCE : Pestilence's creep deal more damage#CONQUEST : Spawns more locusts",
+        "Each harbingers have an additional attack :#WAR : Throw tiny bombs. \3 Warning those bombs can hurt the player#FAMINE : Fire tears at random enemy#DEATH : Throw scythe tears to an enemy#PESTILENCE : Fire an ipecac tear toward an enemy (can't hurt the player)#CONQUEST : Conquest's locust have a chance to summon a light beam which deal damages to enemies",
+        ConvertRGBToIsaac({219, 219, 219})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

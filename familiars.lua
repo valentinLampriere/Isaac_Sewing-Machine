@@ -2652,7 +2652,6 @@ function sewnFamiliars:upLilHarbingers(lilHarbinger)
 end
 function sewnFamiliars:custom_update_lilHarbinger(lilHarbinger)
     local fData = lilHarbinger:GetData()
-    lilHarbinger.SubType = LIL_HARBINGERS.FAMINE
     if lilHarbinger.SubType == LIL_HARBINGERS.PESTILENCE then
         for _, effect in pairs(Isaac.FindInRadius(lilHarbinger.Position, lilHarbinger.Size, EntityPartition.EFFECT)) do
             if effect.Variant == EffectVariant.PLAYER_CREEP_GREEN and effect.FrameCount == 1 then
@@ -2704,12 +2703,13 @@ function sewnFamiliars:lilHarbinger_attack(lilHarbinger)
         ipecac:SetColor(Color(0.5, 0.9, 0.4, 1, 0, 0, 0), -1, 2, false, false)
         ipecac.FallingSpeed = -10
         ipecac.FallingAcceleration = 0.5
+        fData.Sewn_lilHarbinger_attackCooldown = fData.Sewn_lilHarbinger_attackCooldown - 25
     elseif lilHarbinger.SubType == LIL_HARBINGERS.FAMINE then
         sewnFamiliars:lilHarbinger_famine_attack({LIL_HARBINGER = lilHarbinger, TARGET = randomNpc})
+        fData.Sewn_lilHarbinger_attackCooldown = fData.Sewn_lilHarbinger_attackCooldown - math.random(50) + 30
     elseif lilHarbinger.SubType == LIL_HARBINGERS.DEATH then
         local roll = sewingMachineMod.rng:RandomInt(4) + 3
         for i = 1, roll do
-            local randomNpc = npc[sewingMachineMod.rng:RandomInt(#npc) + 1]
             local pos = room:FindFreePickupSpawnPosition(Isaac.GetRandomPosition(), 0, true)
             local velo = (randomNpc.Position - pos):Normalized() * 12
             local schythe = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.SCHYTHE, 0, pos, velo, lilHarbinger):ToTear()
@@ -2732,7 +2732,7 @@ function sewnFamiliars:custom_animation_lilHarbinger(lilHarbinger)
                 locust:GetData().Sewn_lilHarbinger_locustParent = lilHarbinger
                 sewnFamiliars:customCollision(locust, sewnFamiliars.lilHarbinger_warLocust_collision)
             elseif lilHarbinger.SubType == LIL_HARBINGERS.FAMINE then
-                locust.CollisionDamage = locust.CollisionDamage * 1.5
+                locust.CollisionDamage = locust.CollisionDamage * 2
             end
         end
     end
@@ -2741,18 +2741,20 @@ function sewnFamiliars:lilHarbinger_famine_attack(param)
     local lilHarbinger = param.LIL_HARBINGER
     local target = param.TARGET
     local nbTears = param.NB_TEARS or 3
-    local velo = (target.Position - lilHarbinger.Position):Normalized() * 6
     for i = 1, nbTears do
-        velo = velo:Rotated(10*i - 10 * nbTears / 2)
+        local velo = (target.Position - lilHarbinger.Position):Normalized() * 7
+        velo = velo:Rotated(15 * i - 15 * math.ceil(nbTears/2))
         local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, lilHarbinger.Position, velo, lilHarbinger):ToTear()
+        tear.FallingAcceleration = -0.03
         tear.TearFlags = TearFlags.TEAR_SPECTRAL
         tear.CollisionDamage = 7.5
         tear.Scale = 1.05
     end
     if nbTears == 3 then
-        sewingMachineMod:delayFunction(sewnFamiliars.lilHarbinger_famine_attack, 10, {LIL_HARBINGER = lilHarbinger, TARGET = target, NB_TEARS = 4})
+        sewingMachineMod:delayFunction(sewnFamiliars.lilHarbinger_famine_attack, 20, {LIL_HARBINGER = lilHarbinger, TARGET = target, NB_TEARS = 4})
     end
 end
+
 function sewnFamiliars:lilHarbinger_conquestLocust_collision(locust, collider)
     if collider:IsVulnerableEnemy() then
         local roll = sewingMachineMod.rng:RandomInt(100)
