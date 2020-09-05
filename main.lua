@@ -270,6 +270,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.SACK_OF_PENNIES] = {94, sewingMachineMod.sewnFamiliars.upSackOfPennies},
     [FamiliarVariant.ROBO_BABY] = {95, sewingMachineMod.sewnFamiliars.upRoboBaby},
     [FamiliarVariant.LITTLE_CHAD] = {96, sewingMachineMod.sewnFamiliars.upLittleChad},
+    [FamiliarVariant.RELIC] = {98, sewingMachineMod.sewnFamiliars.upTheRelic},
     [FamiliarVariant.LITTLE_GISH] = {99, sewingMachineMod.sewnFamiliars.upLittleGish},
     [FamiliarVariant.LITTLE_STEVEN] = {100, sewingMachineMod.sewnFamiliars.upLittleSteven},
     [FamiliarVariant.GUARDIAN_ANGEL] = {112, sewingMachineMod.sewnFamiliars.upGuardianAngel},

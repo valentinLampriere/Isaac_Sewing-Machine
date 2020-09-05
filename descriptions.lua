@@ -279,8 +279,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CAINS_OTHER_EYE,
-        "Tears have a 50% chance to apply confusion#Tears take a Glaucoma aspect, but confusion isn't permanent unlike Glaucoma tears",
-        "Fire 8 tears in all directions",
+        "Fire 2 tears instead of one#Tears gain a Rubber Cement effect",
+        "Fire 4 tears#Range up",
         ConvertRGBToIsaac({255, 233, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

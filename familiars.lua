@@ -2358,27 +2358,36 @@ function sewnFamiliars:upCainsOtherEye(cainsOtherEye)
 end
 function sewnFamiliars:custom_fireInit_cainsOtherEye(cainsOtherEye, tear)
     local fData = cainsOtherEye:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        local nbTears = 1
-        if sewingMachineMod:isUltra(fData) then
-            nbTears = 8
-        end
-        for i = 1, nbTears do
-            local roll = sewingMachineMod.rng:RandomInt(2)
-            local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, cainsOtherEye.Position, tear.Velocity:Rotated(i + 45 * (i - 1)), cainsOtherEye):ToTear()
-            newTear.CollisionDamage = tear.CollisionDamage
-            newTear.TearFlags = tear.TearFlags
-            newTear.Scale = tear.Scale
-            sewnFamiliars:toBabyBenderTear(cainsOtherEye, newTear)
-            if roll == 0 then
-                newTear.TearFlags = newTear.TearFlags | TearFlags.TEAR_CONFUSION
-                newTear:ChangeVariant(TearVariant.GLAUCOMA)
-            end
-            tear:Remove()
-        end
-    end
+    
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_BOUNCE
+    
+    sewingMachineMod:delayFunction(sewnFamiliars.cainsOtherEye_fireTear, 2, {FAMILIAR = cainsOtherEye, TEAR = tear})
 end
-
+function sewnFamiliars:cainsOtherEye_fireTear(param)
+    local cainsOtherEye = param.FAMILIAR
+    local tear = param.TEAR
+    local nbTear = param.NB_TEAR or 1
+    
+    local nbTearMax = 2
+    if sewingMachineMod:isUltra(cainsOtherEye:GetData()) then
+        nbTearMax = 4
+    end
+    
+    if nbTear >= nbTearMax then return end
+    
+    local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, cainsOtherEye.Position, tear.Velocity, cainsOtherEye):ToTear()
+    newTear.CollisionDamage = tear.CollisionDamage
+    newTear.TearFlags = tear.TearFlags
+    newTear.Scale = tear.Scale
+    newTear.TearFlags = tear.TearFlags | TearFlags.TEAR_BOUNCE
+    if sewingMachineMod:isUltra(cainsOtherEye:GetData()) then
+        newTear.FallingAcceleration = -0.05
+    end
+    sewnFamiliars:toBabyBenderTear(cainsOtherEye, newTear)
+    
+    param.NB_TEAR = nbTear + 1
+    sewingMachineMod:delayFunction(sewnFamiliars.cainsOtherEye_fireTear, 3, param)
+end
 
 -- ???'S ONLY FRIEND
 function sewnFamiliars:upBlueBabysOnlyFriend(blueBabysOnlyFriend)
