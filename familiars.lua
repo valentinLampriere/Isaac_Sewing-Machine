@@ -1847,7 +1847,7 @@ function sewnFamiliars:custom_animation_theRelic(theRelic)
         local pos = room:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
         if roll < 33 then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, Vector(0, 0), theRelic)
-        elseif roll < 50
+        elseif roll < 50 then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, Vector(0, 0), theRelic)
         end
     end

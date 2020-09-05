@@ -388,7 +388,7 @@ function sewingMachineMod:getFamiliarItemGfx(familiarVariant)
     --    end
     --    familiarVariant = keyset[sewingMachineMod.rng:RandomInt(#keyset) + 1]
     --end
-    if familiarVariant ~= nil then
+    if familiarVariant ~= nil and sewingMachineMod.availableFamiliar[familiarVariant] ~= nil then
         local collectible = Isaac.GetItemConfig():GetCollectible(sewingMachineMod.availableFamiliar[familiarVariant][1])
         if collectible ~= nil then
             return collectible.GfxFileName
