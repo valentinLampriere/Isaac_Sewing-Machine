@@ -337,6 +337,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Each harbingers have an additional attack :#WAR : Throw tiny bombs. \3 Warning those bombs can hurt the player#FAMINE : Fire tears at random enemy#DEATH : Throw scythe tears to an enemy#PESTILENCE : Fire an ipecac tear toward an enemy (can't hurt the player)#CONQUEST : Conquest's locust have a chance to summon a light beam which deal damages to enemies",
         ConvertRGBToIsaac({225, 211, 211})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.RELIC,
+        "Heal the player every 3 rooms",
+        "Chance to spawn an additional soul heart or half soul heart",
+        ConvertRGBToIsaac({59, 107, 203})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

@@ -1602,10 +1602,8 @@ end
 -- ROTTEN BABY
 function sewnFamiliars:upRottenBaby(rottenBaby)
     local fData = rottenBaby:GetData()
-    if rottenBaby.Variant == FamiliarVariant.ROTTEN_BABY then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customAnimation(rottenBaby, sewnFamiliars.custom_animation_rottenBaby, ANIMATION_NAMES.SHOOT)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(rottenBaby, sewnFamiliars.custom_animation_rottenBaby, ANIMATION_NAMES.SHOOT)
     end
 end
 function sewnFamiliars:custom_animation_rottenBaby(rottenBaby)
@@ -1826,43 +1824,33 @@ function sewnFamiliars:custom_animation_sackOfPennies(sackOfPennies)
     end
 end
 
--- CHARGED BABY
-function sewnFamiliars:upChargedBaby(chargedBaby)
-    local fData = chargedBaby:GetData()
-    if chargedBaby.Variant == FamiliarVariant.CHARGED_BABY then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customUpdate(chargedBaby, sewnFamiliars.custom_update_chargedBaby)
-            sewnFamiliars:customNewRoom(chargedBaby, sewnFamiliars.custom_newRoom_chargedBaby)
+-- THE RELIC
+function sewnFamiliars:upTheRelic(theRelic)
+    local fData = theRelic:GetData()
+    sewnFamiliars:customCleanAward(theRelic, sewnFamiliars.custom_cleanAward_theRelic)
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(theRelic, sewnFamiliars.custom_animation_theRelic, ANIMATION_NAMES.SPAWN)
+    end
+end
+function sewnFamiliars:custom_cleanAward_theRelic(theRelic)
+    if theRelic.RoomClearCount % 3 == 0 and theRelic.Player then
+        if not theRelic.Player:HasFullHearts() then
+            local heartEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, theRelic.Position-Vector(0, 50), Vector(0, 0), nil)
+            theRelic.Player:AddHearts(1)
         end
     end
 end
-function sewnFamiliars:custom_update_chargedBaby(chargedBaby)
-    local fData = chargedBaby:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if chargedBaby.Velocity:LengthSquared() >= 3 ^ 2 and chargedBaby.FrameCount % 3 == 0 then
-            if fData.Sewn_chargedBaby_lastLaserPos ~= nil then
-                local angle = math.atan(fData.Sewn_chargedBaby_lastLaserPos.Y - chargedBaby.Position.Y, fData.Sewn_chargedBaby_lastLaserPos.X - chargedBaby.Position.X) * 180 / math.pi;
-                local laser = EntityLaser.ShootAngle(2, chargedBaby.Position, angle, 50, Vector(0,0), chargedBaby)
-                
-                laser.MaxDistance = laser.Position:Distance(fData.Sewn_chargedBaby_lastLaserPos)
-                laser.DisableFollowParent = true
-                laser:SetColor(Color(1, 1, 1, 1, 50, 200, 0), -1, 1, false, false)
-                laser:GetData().Sewn_chargedBaby_isLaserChargedBaby = true
-                
-            end
-            fData.Sewn_chargedBaby_lastLaserPos = chargedBaby.Position
-        end
-        for _, laserImpact in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.LASER_IMPACT, -1, false, false)) do
-            if laserImpact.Parent:GetData().Sewn_chargedBaby_isLaserChargedBaby then
-                laserImpact:Remove()
-                SFXManager():Stop(SoundEffect.SOUND_REDLIGHTNING_ZAP)
-            end
+function sewnFamiliars:custom_animation_theRelic(theRelic)
+    if theRelic:GetSprite():GetFrame() == 0 then
+        local roll = sewingMachineMod.rng:RandomInt(100)
+        local room = game:GetLevel():GetCurrentRoom()
+        local pos = room:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
+        if roll < 33 then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, Vector(0, 0), theRelic)
+        elseif roll < 50
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, Vector(0, 0), theRelic)
         end
     end
-end
-function sewnFamiliars:custom_newRoom_chargedBaby(chargedBaby)
-    local fData = chargedBaby:GetData()
-    fData.Sewn_chargedBaby_lastLaserPos = nil
 end
 
 -----------------------

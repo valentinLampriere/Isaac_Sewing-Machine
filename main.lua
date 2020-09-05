@@ -1229,7 +1229,6 @@ function sewingMachineMod:finishRoom(rng, spawnPosition)
         sewingMachineMod:spawnMachine(nil, true)
     end
 
-    -- It's supposed to be in the "familiars.lua" but it seems having several "MC_PRE_SPAWN_CLEAN_AWARD" cause error
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
