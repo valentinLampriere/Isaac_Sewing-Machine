@@ -397,21 +397,6 @@ function sewingMachineMod:getFamiliarItemGfx(familiarVariant)
     return "gfx/items/collectibles/questionmark.png"
 end
 
-------------------------------------------
--- MC_USE_ITEM - COLLECTIBLE_SEWING_BOX --
-------------------------------------------
-function sewingMachineMod:useSewingBox(collectibleType, rng)
-    local player = GetPlayerUsingItem()
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        familiar = familiar:ToFamiliar()
-        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-            sewingMachineMod:temporaryUpgradeFamiliar(familiar)
-        end
-    end
-    player:GetData().Sewn_hasTemporaryUpgradedFamiliars = true
-    return true
-end
 
 
 function sewingMachineMod:temporaryUpgradeFamiliar(familiar, delay)
@@ -454,71 +439,8 @@ function GetPlayerUsingItem()
     return player
 end
 
------------------------------------
--- MC_USE_CARD - CARD_RUNE_WUNJO --
------------------------------------
-function sewingMachineMod:useWunjo(card)
-    local player = GetPlayerUsingItem()
-    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
-    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_wunjo.png")
-    GiantBook:LoadGraphics()
-    GiantBook:Play("Appear", true)
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        familiar = familiar:ToFamiliar()
-        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-            sewingMachineMod:temporaryUpgradeFamiliar(familiar, 30 * 30)
-        end
-    end
-end
-
-------------------------------------
--- MC_USE_CARD - CARD_RUNE_NAUDIZ --
-------------------------------------
-function sewingMachineMod:useNaudiz(card)
-    local player = GetPlayerUsingItem()
-    local room = game:GetLevel():GetCurrentRoom()
-    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
-    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_naudiz.png")
-    GiantBook:LoadGraphics()
-    GiantBook:Play("Appear", true)
 
 
-    sewingMachineMod:spawnMachine(room:FindFreePickupSpawnPosition(player.Position, 0, true), true)
-end
-
--------------------------
--- MC_POST_PICKUP_INIT --
--------------------------
-function sewingMachineMod:initPickup(pickup)
-    if pickup.Type == EntityType.ENTITY_PICKUP and pickup.Variant == PickupVariant.PICKUP_TAROTCARD then
-        if pickup.SubType == Card.RUNE_WUNJO then
-            local sprite = pickup:GetSprite()
-            sprite:Load("gfx/005.303_rune1.anm2", true)
-            sprite:Play("Appear")
-        elseif pickup.SubType == Card.RUNE_NAUDIZ then
-            local sprite = pickup:GetSprite()
-            sprite:Load("gfx/005.304_rune2.anm2", true)
-            sprite:Play("Appear")
-        end
-    end
-end
-
------------------
--- MC_GET_CARD --
------------------
-function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
-    if includeRunes then
-        local roll = rng:RandomInt(100) + 1
-        if roll < 8 then
-            local rollRune = rng:RandomInt(2)
-            if rollRune == 0 then
-                return Card.RUNE_WUNJO
-            elseif rollRune == 1 then
-                return Card.RUNE_NAUDIZ
-            end
-        end
-    end
-end
 
 function sewingMachineMod:delayFunction(functionToDelay, delay, param)
     if functionToDelay ~= nil and delay ~= nil then
@@ -741,7 +663,7 @@ function sewingMachineMod:setFloatingAnim(machine)
     machine:GetSprite():LoadGraphics()
 end
 
--- Return boolean : true if the player has enough money to pay
+-- Return boolean : true if the player has enough money/hearts to pay
 function sewingMachineMod:canPayCost(machine, player)
     if player:GetData().Sewn_machine_upgradeFree == true then
         return true
@@ -785,6 +707,35 @@ function sewingMachineMod:payCost(machine, player)
         end
     end
 end
+
+function sewingMachineMod:hideCrown(familiar, hideCrown)
+    local fData = familiar:GetData()
+    if hideCrown == nil then
+        hideCrown = true
+    end
+    fData.Sewn_crown_hide = hideCrown
+end
+
+function sewingMachineMod:addCrownOffset(familiar, offset)
+    local fData = familiar:GetData()
+    -- If offset isn't a Vector -> return
+    if offset == nil or offset.X == nil or offset.Y == nil then return end
+    fData.Sewn_crownPositionOffset = offset
+end
+
+function sewingMachineMod:removeAnnsTaintedHead()
+    for _, annsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, -1, false, false)) do
+        annsHead:Remove()
+    end
+end
+
+function sewingMachineMod:removeAnnsPureBody()
+    for _, annsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, -1, false, false)) do
+        annsBody:Remove()
+    end
+end
+
+
 
 ----------------------------
 -- MC_POST_PEFFECT_UPDATE --
@@ -884,6 +835,150 @@ function sewingMachineMod:onPlayerUpdate(player)
         player:DropTrinket(player.Position, false);
     end
 end
+---------------------------------------
+-- MC_ENTITY_TAKE_DMG - EntityPlayer --
+---------------------------------------
+function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
+    local countCrowns = 0
+    local allowedFamiliars = {}
+    player = player:ToPlayer()
+    if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = familiar:GetData()
+            familiar = familiar:ToFamiliar()
+            if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
+                table.insert(allowedFamiliars, familiar)
+                countCrowns = countCrowns + fData.Sewn_upgradeState
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+
+                table.insert(player:GetData().Sewn_familiars, familiars[familiar_index])
+
+                sewingMachineMod:resetFamiliarData(familiar)
+            end
+        end
+        while #allowedFamiliars > 0 and countCrowns > 0 do
+            local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
+            local fData = allowedFamiliars[familiar_index]:GetData()
+            if not sewingMachineMod:isUltra(fData) then
+                fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+                countCrowns = countCrowns -1
+
+                sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
+            end
+            if sewingMachineMod:isUltra(fData) then
+                table.remove(allowedFamiliars, familiar_index)
+                table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
+            end
+        end
+    end
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if fData.Sewn_custom_playerTakeDamage ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_playerTakeDamage) do
+                d.customFunction = f
+                return d:customFunction(familiar, damageSource, damageAmount, damageFlags)
+            end
+        end
+    end
+end
+-----------------------
+-- MC_EVALUATE_CACHE --
+-----------------------
+function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
+    local pData = player:GetData()
+
+    if pData.Sewn_hasItem == nil then
+        pData.Sewn_hasItem = {}
+    end
+
+    if cacheFlag == CacheFlag.CACHE_FAMILIARS then
+        -- Remove familiars which are supposed to be in the machine
+        if pData.Sewn_familiarsInMachine ~= nil then
+            for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
+                local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
+
+
+                fams[#fams]:Remove()
+            end
+        end
+
+        -- Player get "Ann's Tainted Head"
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
+            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
+                local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
+                annsHead:AddToFollowers()
+            end
+            -- Upgrade familiars
+            for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                local fData = fam:GetData()
+                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) then
+                    fData.Sewn_upgradeState = 1
+                    sewingMachineMod:callFamiliarUpgrade(fam)
+                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not sewingMachineMod:isUltra(fData) then
+                    fData.Sewn_upgradeState = 2
+                    sewingMachineMod:callFamiliarUpgrade(fam)
+                end
+            end
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = true
+        end
+        -- Player lose "Ann's Tainted Head"
+        if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
+            sewingMachineMod:removeAnnsTaintedHead()
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = false
+        end
+
+
+        -- Player get "Ann's Pure Body"
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
+            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
+                local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
+                annsBody:AddToFollowers()
+            end
+            -- Upgrade familiars
+            for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                local fData = fam:GetData()
+                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) then
+                    fData.Sewn_upgradeState = 1
+                    sewingMachineMod:callFamiliarUpgrade(fam)
+                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not sewingMachineMod:isUltra(fData) then
+                    fData.Sewn_upgradeState = 2
+                    sewingMachineMod:callFamiliarUpgrade(fam)
+                end
+            end
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = true
+        end
+        -- Player lose "Ann's Pure Body"
+        if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
+            sewingMachineMod:removeAnnsPureBody()
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = false
+        end
+
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasFullAnn then
+            local ann = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN, 0, player.Position, Vector(0,0), player):ToFamiliar()
+            ann:AddToFollowers()
+            sewingMachineMod:removeAnnsTaintedHead()
+            sewingMachineMod:removeAnnsPureBody()
+            pData.Sewn_hasFullAnn = true
+        end
+    end
+
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        familiar = familiar:ToFamiliar()
+        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
+            local fData = familiar:GetData()
+            if fData.Sewn_custom_cache ~= nil then
+                local d = {}
+                for i, f in ipairs(fData.Sewn_custom_cache) do
+                    d.customFunction = f
+                    d:customFunction(familiar, cacheFlag)
+                end
+            end
+        end
+    end
+end
+
 
 
 ------------------------
@@ -986,101 +1081,6 @@ function sewingMachineMod:updateFamiliar(familiar)
         end
     end
 end
-
--------------------------
--- MC_PRE_ENTITY_SPAWN --
--------------------------
-function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
-    -- If a pickup spawn from a sewing machine, it means the machine as been bombed
-    -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
-    if type == EntityType.ENTITY_PICKUP then
-        local room = game:GetLevel():GetCurrentRoom()
-        for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
-            local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-
-            if machine.Position:Distance(pos, machine.Position) < 5 then
-
-                if mData.Sewn_currentFamiliarVariant ~= nil then
-                    sewingMachineMod:getFamiliarBack(machine, false)
-                end
-
-                mData.Sewn_machineBombed = true
-
-                if mData.Sewn_isMachineBroken == true then
-                    machine:GetSprite():Play("Broken", true)
-                end
-
-                return {1000, EffectVariant.EFFECT_NULL, 0}
-            end
-        end
-    end
-
-    -- Burning Farts effect
-    if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
-        for _, npc in pairs(Isaac.FindInRadius(pos, 100, EntityPartition.ENEMY)) do
-            if npc:IsVulnerableEnemy() then
-                npc:TakeDamage(5, DamageFlag.DAMAGE_POISON_BURN, EntityRef(spawner), 5)
-                npc:AddBurn(EntityRef(spawner), sewingMachineMod.rng:RandomInt(180) + 60, 3.5)
-            end
-        end
-    end
-end
-
----------------------------
--- MC_POST_EFFECT_UPDATE --
----------------------------
-function sewingMachineMod:effectUpdate(effect)
-    if effect.Variant == EffectVariant.SPIDER_MOD_EGG then
-        local eData = effect:GetData()
-
-        if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
-            effect:Remove()
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, Vector(0, 0), nil)
-        end
-
-        for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
-            if npc:IsVulnerableEnemy() then
-                if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
-                    local roll = sewingMachineMod.rng:RandomInt(8)
-                    local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
-                    if roll == 0 then
-                        npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
-                    elseif roll == 1 then
-                        npc:AddFreeze(EntityRef(egg), rollDuration)
-                    elseif roll == 2 then
-                        npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
-                    elseif roll == 3 then
-                        npc:AddCharmed(rollDuration)
-                    elseif roll == 4 then
-                        npc:AddConfusion(EntityRef(egg), rollDuration, false)
-                    elseif roll == 5 then
-                        npc:AddFear(EntityRef(egg), rollDuration)
-                    elseif roll == 6 then
-                        npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
-                    elseif roll == 7 then
-                        npc:AddShrink(EntityRef(egg), rollDuration)
-                    end
-                    eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
-                end
-            end
-        end
-    end
-end
-
-function sewingMachineMod:hideCrown(familiar, hideCrown)
-    local fData = familiar:GetData()
-    if hideCrown == nil then
-        hideCrown = true
-    end
-    fData.Sewn_crown_hide = hideCrown
-end
-function sewingMachineMod:addCrownOffset(familiar, offset)
-    local fData = familiar:GetData()
-    -- If offset isn't a Vector -> return
-    if offset == nil or offset.X == nil or offset.Y == nil then return end
-    fData.Sewn_crownPositionOffset = offset
-end
-
 -----------------------------
 -- MC_POST_FAMILIAR_RENDER --
 -----------------------------
@@ -1119,7 +1119,6 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
         end
     end
 end
-
 -------------------------------
 -- MC_PRE_FAMILIAR_COLLISION --
 -------------------------------
@@ -1135,143 +1134,8 @@ function sewingMachineMod:familiarCollision(familiar, collider, low)
         end
     end
 end
-----------------------
--- MC_POST_NEW_ROOM --
-----------------------
-function sewingMachineMod:newRoom()
-    local room = game:GetLevel():GetCurrentRoom()
-
-    sewingMachineMod.displayTrueCoopMessage = false
-
-    for i, familiar in ipairs(temporaryFamiliars) do
-        -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
-        if familiar:Exists() then
-            table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
-            temporaryFamiliars[i] = nil
-        end
-    end
-
-    -- Remove temporary upgardes (for Sewing Box only)
-    for i = 1, game:GetNumPlayers() do
-        local player = Isaac.GetPlayer(i - 1)
-        local sprite = player:GetSprite()
-
-        if player:GetData().Sewn_hasTemporaryUpgradedFamiliars == true then
-            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                local fData = familiar:GetData()
-                familiar = familiar:ToFamiliar()
-
-                if fData.Sewn_upgradeState_temporary_delay == nil then
-                    sewingMachineMod:removeTemporaryUpgrade(familiar)
-                end
-            end
-            player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
-        end
-    end
-
-    if room:IsFirstVisit() == true then
-        if room:GetType() == RoomType.ROOM_ARCADE then
-            --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
-            for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
-                if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
-                    local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
-                    if rollChanceSpawn == 1 then
-                        local pos = Vector(slot.Position.X, slot.Position.Y)
-                        slot:Remove()
-                        sewingMachineMod:spawnMachine(pos)
-                    end
-                end
-            end
-        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
-            sewingMachineMod:spawnMachine()
-        elseif room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
-            if room:IsClear() then
-                sewingMachineMod:spawnMachine()
-            end
-        elseif room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_DEVIL then
-            for i = 1, game:GetNumPlayers() do
-                local player = Isaac.GetPlayer(i - 1)
-                local roll = sewingMachineMod.rng:RandomInt(100) + 1
-                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and roll < 50 then
-                    sewingMachineMod:spawnMachine(nil, true)
-                end
-            end
-        end
-    end
-
-    for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
-        if sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
-            sewingMachineMod:setFloatingAnim(machine)
-        end
-    end
-
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        familiar = familiar:ToFamiliar()
-        if fData.Sewn_custom_newRoom ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_newRoom) do
-                d.customFunction = f
-                d:customFunction(familiar, room)
-            end
-        end
-    end
-end
 
 
-------------------------------
--- MC_PRE_SPAWN_CLEAN_AWARD --
-------------------------------
-function sewingMachineMod:finishRoom(rng, spawnPosition)
-    local room = game:GetLevel():GetCurrentRoom()
-    if room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
-        -- Spawn machine when the shop is cleared
-        sewingMachineMod:spawnMachine(nil, true)
-    end
-
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        familiar = familiar:ToFamiliar()
-        if fData.Sewn_custom_cleanAward ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_cleanAward) do
-                d.customFunction = f
-                d:customFunction(familiar)
-            end
-        end
-    end
-end
-
------------------------
--- MC_POST_NEW_LEVEL --
------------------------
-function sewingMachineMod:onNewFloor()
-    sewingMachine_shouldAppear_shop = false
-    local level = game:GetLevel()
-    sewingMachineMod.sewingMachinesData = {}
-
-    local roll = sewingMachineMod.rng:RandomInt(101)
-    if roll < 20 then
-        sewingMachine_shouldAppear_shop = true
-    end
-
-    -- BLUE WOMB
-    if level:GetStage() == LevelStage.STAGE4_3 then
-        sewingMachine_shouldAppear_shop = true
-    end
-
-    for i = 1, game:GetNumPlayers() do
-        local player = Isaac.GetPlayer(i - 1)
-        if player:GetData().Sewn_familiarsInMachine ~= nil then
-            player:GetData().Sewn_familiarsInMachine = nil
-            player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
-            player:EvaluateItems()
-        end
-        if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
-            sewingMachine_shouldAppear_shop = true
-        end
-    end
-end
 
 --------------------------
 -- MC_POST_TEAR_UPDATE --
@@ -1427,113 +1291,303 @@ function sewingMachineMod:laserUpdate(laser)
     end
 end
 
------------------------
--- MC_EVALUATE_CACHE --
------------------------
-function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
-    local pData = player:GetData()
 
-    if pData.Sewn_hasItem == nil then
-        pData.Sewn_hasItem = {}
+
+------------------------------------------
+-- MC_USE_ITEM - COLLECTIBLE_SEWING_BOX --
+------------------------------------------
+function sewingMachineMod:useSewingBox(collectibleType, rng)
+    local player = GetPlayerUsingItem()
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
+            sewingMachineMod:temporaryUpgradeFamiliar(familiar)
+        end
+    end
+    player:GetData().Sewn_hasTemporaryUpgradedFamiliars = true
+    return true
+end
+-----------------
+-- MC_GET_CARD --
+-----------------
+function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
+    if includeRunes then
+        local roll = rng:RandomInt(100) + 1
+        if roll < 8 then
+            local rollRune = rng:RandomInt(2)
+            if rollRune == 0 then
+                return Card.RUNE_WUNJO
+            elseif rollRune == 1 then
+                return Card.RUNE_NAUDIZ
+            end
+        end
+    end
+end
+-----------------------------------
+-- MC_USE_CARD - CARD_RUNE_WUNJO --
+-----------------------------------
+function sewingMachineMod:useWunjo(card)
+    local player = GetPlayerUsingItem()
+    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
+    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_wunjo.png")
+    GiantBook:LoadGraphics()
+    GiantBook:Play("Appear", true)
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        familiar = familiar:ToFamiliar()
+        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
+            sewingMachineMod:temporaryUpgradeFamiliar(familiar, 30 * 30)
+        end
+    end
+end
+------------------------------------
+-- MC_USE_CARD - CARD_RUNE_NAUDIZ --
+------------------------------------
+function sewingMachineMod:useNaudiz(card)
+    local player = GetPlayerUsingItem()
+    local room = game:GetLevel():GetCurrentRoom()
+    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
+    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_naudiz.png")
+    GiantBook:LoadGraphics()
+    GiantBook:Play("Appear", true)
+
+    sewingMachineMod:spawnMachine(room:FindFreePickupSpawnPosition(player.Position, 0, true), true)
+end
+-------------------------
+-- MC_POST_PICKUP_INIT --
+-------------------------
+function sewingMachineMod:initPickup(pickup)
+    if pickup.Type == EntityType.ENTITY_PICKUP and pickup.Variant == PickupVariant.PICKUP_TAROTCARD then
+        if pickup.SubType == Card.RUNE_WUNJO then
+            local sprite = pickup:GetSprite()
+            sprite:Load("gfx/005.303_rune1.anm2", true)
+            sprite:Play("Appear")
+        elseif pickup.SubType == Card.RUNE_NAUDIZ then
+            local sprite = pickup:GetSprite()
+            sprite:Load("gfx/005.304_rune2.anm2", true)
+            sprite:Play("Appear")
+        end
+    end
+end
+
+
+
+----------------------
+-- MC_POST_NEW_ROOM --
+----------------------
+function sewingMachineMod:newRoom()
+    local room = game:GetLevel():GetCurrentRoom()
+
+    sewingMachineMod.displayTrueCoopMessage = false
+
+    for i, familiar in ipairs(temporaryFamiliars) do
+        -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
+        if familiar:Exists() then
+            table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+            temporaryFamiliars[i] = nil
+        end
     end
 
-    if cacheFlag == CacheFlag.CACHE_FAMILIARS then
-        -- Remove familiars which are supposed to be in the machine
-        if pData.Sewn_familiarsInMachine ~= nil then
-            for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
-                local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
+    -- Remove temporary upgardes (for Sewing Box only)
+    for i = 1, game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        local sprite = player:GetSprite()
 
+        if player:GetData().Sewn_hasTemporaryUpgradedFamiliars == true then
+            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                local fData = familiar:GetData()
+                familiar = familiar:ToFamiliar()
 
-                fams[#fams]:Remove()
-            end
-        end
-
-        -- Player get "Ann's Tainted Head"
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-                local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
-                annsHead:AddToFollowers()
-            end
-            -- Upgrade familiars
-            for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                local fData = fam:GetData()
-                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) then
-                    fData.Sewn_upgradeState = 1
-                    sewingMachineMod:callFamiliarUpgrade(fam)
-                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not sewingMachineMod:isUltra(fData) then
-                    fData.Sewn_upgradeState = 2
-                    sewingMachineMod:callFamiliarUpgrade(fam)
+                if fData.Sewn_upgradeState_temporary_delay == nil then
+                    sewingMachineMod:removeTemporaryUpgrade(familiar)
                 end
             end
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = true
+            player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
         end
-        -- Player lose "Ann's Tainted Head"
-        if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-            sewingMachineMod:removeAnnsTaintedHead()
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = false
-        end
+    end
 
-
-        -- Player get "Ann's Pure Body"
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-                local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
-                annsBody:AddToFollowers()
-            end
-            -- Upgrade familiars
-            for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                local fData = fam:GetData()
-                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) then
-                    fData.Sewn_upgradeState = 1
-                    sewingMachineMod:callFamiliarUpgrade(fam)
-                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not sewingMachineMod:isUltra(fData) then
-                    fData.Sewn_upgradeState = 2
-                    sewingMachineMod:callFamiliarUpgrade(fam)
+    if room:IsFirstVisit() == true then
+        if room:GetType() == RoomType.ROOM_ARCADE then
+            --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
+            for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
+                if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
+                    local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
+                    if rollChanceSpawn == 1 then
+                        local pos = Vector(slot.Position.X, slot.Position.Y)
+                        slot:Remove()
+                        sewingMachineMod:spawnMachine(pos)
+                    end
                 end
             end
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = true
+        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
+            sewingMachineMod:spawnMachine()
+        elseif room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+            if room:IsClear() then
+                sewingMachineMod:spawnMachine()
+            end
+        elseif room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_DEVIL then
+            for i = 1, game:GetNumPlayers() do
+                local player = Isaac.GetPlayer(i - 1)
+                local roll = sewingMachineMod.rng:RandomInt(100) + 1
+                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and roll < 50 then
+                    sewingMachineMod:spawnMachine(nil, true)
+                end
+            end
         end
-        -- Player lose "Ann's Pure Body"
-        if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-            sewingMachineMod:removeAnnsPureBody()
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = false
-        end
+    end
 
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasFullAnn then
-            local ann = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN, 0, player.Position, Vector(0,0), player):ToFamiliar()
-            ann:AddToFollowers()
-            sewingMachineMod:removeAnnsTaintedHead()
-            sewingMachineMod:removeAnnsPureBody()
-            pData.Sewn_hasFullAnn = true
+    for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
+        if sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
+            sewingMachineMod:setFloatingAnim(machine)
         end
     end
 
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
-        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-            local fData = familiar:GetData()
-            if fData.Sewn_custom_cache ~= nil then
-                local d = {}
-                for i, f in ipairs(fData.Sewn_custom_cache) do
-                    d.customFunction = f
-                    d:customFunction(familiar, cacheFlag)
+        if fData.Sewn_custom_newRoom ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_newRoom) do
+                d.customFunction = f
+                d:customFunction(familiar, room)
+            end
+        end
+    end
+end
+-----------------------
+-- MC_POST_NEW_LEVEL --
+-----------------------
+function sewingMachineMod:onNewFloor()
+    sewingMachine_shouldAppear_shop = false
+    local level = game:GetLevel()
+    sewingMachineMod.sewingMachinesData = {}
+
+    local roll = sewingMachineMod.rng:RandomInt(101)
+    if roll < 20 then
+        sewingMachine_shouldAppear_shop = true
+    end
+
+    -- BLUE WOMB
+    if level:GetStage() == LevelStage.STAGE4_3 then
+        sewingMachine_shouldAppear_shop = true
+    end
+
+    for i = 1, game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        if player:GetData().Sewn_familiarsInMachine ~= nil then
+            player:GetData().Sewn_familiarsInMachine = nil
+            player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+            player:EvaluateItems()
+        end
+        if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
+            sewingMachine_shouldAppear_shop = true
+        end
+    end
+end
+------------------------------
+-- MC_PRE_SPAWN_CLEAN_AWARD --
+------------------------------
+function sewingMachineMod:finishRoom(rng, spawnPosition)
+    local room = game:GetLevel():GetCurrentRoom()
+    if room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+        -- Spawn machine when the shop is cleared
+        sewingMachineMod:spawnMachine(nil, true)
+    end
+
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if fData.Sewn_custom_cleanAward ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_cleanAward) do
+                d.customFunction = f
+                d:customFunction(familiar)
+            end
+        end
+    end
+end
+
+
+
+-------------------------
+-- MC_PRE_ENTITY_SPAWN --
+-------------------------
+function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
+    -- If a pickup spawn from a sewing machine, it means the machine as been bombed
+    -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
+    if type == EntityType.ENTITY_PICKUP then
+        local room = game:GetLevel():GetCurrentRoom()
+        for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
+            local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
+
+            if machine.Position:Distance(pos, machine.Position) < 5 then
+
+                if mData.Sewn_currentFamiliarVariant ~= nil then
+                    sewingMachineMod:getFamiliarBack(machine, false)
+                end
+
+                mData.Sewn_machineBombed = true
+
+                if mData.Sewn_isMachineBroken == true then
+                    machine:GetSprite():Play("Broken", true)
+                end
+
+                return {1000, EffectVariant.EFFECT_NULL, 0}
+            end
+        end
+    end
+
+    -- Burning Farts effect
+    if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
+        for _, npc in pairs(Isaac.FindInRadius(pos, 100, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                npc:TakeDamage(5, DamageFlag.DAMAGE_POISON_BURN, EntityRef(spawner), 5)
+                npc:AddBurn(EntityRef(spawner), sewingMachineMod.rng:RandomInt(180) + 60, 3.5)
+            end
+        end
+    end
+end
+---------------------------
+-- MC_POST_EFFECT_UPDATE --
+---------------------------
+function sewingMachineMod:effectUpdate(effect)
+    if effect.Variant == EffectVariant.SPIDER_MOD_EGG then
+        local eData = effect:GetData()
+
+        if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
+            effect:Remove()
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, Vector(0, 0), nil)
+        end
+
+        for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
+                    local roll = sewingMachineMod.rng:RandomInt(8)
+                    local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
+                    if roll == 0 then
+                        npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 1 then
+                        npc:AddFreeze(EntityRef(egg), rollDuration)
+                    elseif roll == 2 then
+                        npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
+                    elseif roll == 3 then
+                        npc:AddCharmed(rollDuration)
+                    elseif roll == 4 then
+                        npc:AddConfusion(EntityRef(egg), rollDuration, false)
+                    elseif roll == 5 then
+                        npc:AddFear(EntityRef(egg), rollDuration)
+                    elseif roll == 6 then
+                        npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 7 then
+                        npc:AddShrink(EntityRef(egg), rollDuration)
+                    end
+                    eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
                 end
             end
         end
     end
 end
 
-function sewingMachineMod:removeAnnsTaintedHead()
-    for _, annsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, -1, false, false)) do
-        annsHead:Remove()
-    end
-end
-
-function sewingMachineMod:removeAnnsPureBody()
-    for _, annsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, -1, false, false)) do
-        annsBody:Remove()
-    end
-end
 
 
 --------------------
@@ -1557,7 +1611,6 @@ function sewingMachineMod:onUpdate()
         end
     end
 end
-
 --------------------
 -- MC_POST_RENDER --
 --------------------
@@ -1569,54 +1622,7 @@ function sewingMachineMod:onRender()
     sewingMachineMod:renderEID()
 end
 
----------------------------------------
--- MC_ENTITY_TAKE_DMG - EntityPlayer --
----------------------------------------
-function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
-    local countCrowns = 0
-    local allowedFamiliars = {}
-    player = player:ToPlayer()
-    if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
-        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-            local fData = familiar:GetData()
-            familiar = familiar:ToFamiliar()
-            if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
-                table.insert(allowedFamiliars, familiar)
-                countCrowns = countCrowns + fData.Sewn_upgradeState
-                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
 
-                table.insert(player:GetData().Sewn_familiars, familiars[familiar_index])
-
-                sewingMachineMod:resetFamiliarData(familiar)
-            end
-        end
-        while #allowedFamiliars > 0 and countCrowns > 0 do
-            local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
-            local fData = allowedFamiliars[familiar_index]:GetData()
-            if not sewingMachineMod:isUltra(fData) then
-                fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-                countCrowns = countCrowns -1
-
-                sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
-            end
-            if sewingMachineMod:isUltra(fData) then
-                table.remove(allowedFamiliars, familiar_index)
-                table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
-            end
-        end
-    end
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        local fData = familiar:GetData()
-        familiar = familiar:ToFamiliar()
-        if fData.Sewn_custom_playerTakeDamage ~= nil then
-            local d = {}
-            for i, f in ipairs(fData.Sewn_custom_playerTakeDamage) do
-                d.customFunction = f
-                return d:customFunction(familiar, damageSource, damageAmount, damageFlags)
-            end
-        end
-    end
-end
 
 ----------------------
 -- MC_PRE_GAME_EXIT --
@@ -1674,7 +1680,6 @@ function sewingMachineMod:saveGame()
 
     sewingMachineMod:SaveData(json.encode(saveData))
 end
-
 --------------------------
 -- MC_POST_GAME_STARTED --
 --------------------------
