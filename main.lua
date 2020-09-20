@@ -1155,16 +1155,22 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
         end
     end
     
-    if fData.Sewn_notReady_clock then
-        fData.Sewn_notReady_clock:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
-        fData.Sewn_notReady_clock.PlaybackSpeed = 0.3
-        fData.Sewn_notReady_clock:Update()
-        pos = pos + Vector(13, 0)
-    end
-    if fData.Sewn_notReady_door then
-        fData.Sewn_notReady_door:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
-        fData.Sewn_notReady_door.PlaybackSpeed = 0.4
-        fData.Sewn_notReady_door:Update()
+    if sewingMachineMod.Config.familiarNonReadyIndicator ~= sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.NONE then
+        if fData.Sewn_notReady_clock then
+            fData.Sewn_notReady_clock:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+            if sewingMachineMod.Config.familiarNonReadyIndicator == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
+                fData.Sewn_notReady_clock.PlaybackSpeed = 0.3
+                fData.Sewn_notReady_clock:Update()
+            end
+            pos = pos + Vector(13, 0)
+        end
+        if fData.Sewn_notReady_door then
+            fData.Sewn_notReady_door:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+            if sewingMachineMod.Config.familiarNonReadyIndicator == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
+                fData.Sewn_notReady_door.PlaybackSpeed = 0.4
+                fData.Sewn_notReady_door:Update()
+            end
+        end
     end
 end
 

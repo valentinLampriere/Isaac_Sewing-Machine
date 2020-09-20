@@ -16,11 +16,17 @@ sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_CROWN_POSITION = {
     CENTER = 1,
     RIGHT = 2
 }
+sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR = {
+    NONE = 1,
+    ANIMATED = 2,
+    STATIC = 3
+}
 
 local CONFIG = sewingMachineMod.CONFIG_CONSTANT
 
 sewingMachineMod.Config = {
-	familiarCrownPosition = CONFIG.EID.AUTO,
+	familiarCrownPosition = CONFIG.FAMILIAR_CROWN_POSITION.CENTER,
+	familiarNonReadyIndicator = CONFIG.FAMILIAR_NON_READY_INDICATOR.ANIMATED,
 	familiarAllowedEffect = CONFIG.ALLOWED_FAMILIARS_EFFECT.NONE,
 	familiarNotAllowedEffect = CONFIG.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT,
 	EID_enable = CONFIG.EID.AUTO,
@@ -74,6 +80,36 @@ if ModConfigMenu ~= nil then
 			"Set the position of the crown"
 		}
 	})
+
+    -- Non-Ready indicators
+    local familiars_non_ready_indicator = {1,2,3}
+    ModConfigMenu.AddSetting("Sewing Machine", {
+		Type = ModConfigMenuOptionType.NUMBER,
+		CurrentSetting = function()
+			return AnIndexOf(familiars_non_ready_indicator, sewingMachineMod.Config.familiarNonReadyIndicator)
+		end,
+		Minimum = 1,
+		Maximum = #familiars_non_ready_indicator,
+		Display = function()
+            local indicator
+            if AnIndexOf(familiars_non_ready_indicator, sewingMachineMod.Config.familiarNonReadyIndicator) == CONFIG.FAMILIAR_NON_READY_INDICATOR.NONE then
+                indicator = "None"
+            elseif AnIndexOf(familiars_non_ready_indicator, sewingMachineMod.Config.familiarNonReadyIndicator) == CONFIG.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
+                indicator = "Animated"
+            elseif AnIndexOf(familiars_non_ready_indicator, sewingMachineMod.Config.familiarNonReadyIndicator) == CONFIG.FAMILIAR_NON_READY_INDICATOR.STATIC then
+                indicator = "Static"
+            end
+			return "Non-ready familiars indicator : " .. indicator
+		end,
+		OnChange = function(num)
+			sewingMachineMod.Config.familiarNonReadyIndicator = familiars_non_ready_indicator[num]
+		end,
+		Info = {
+			"Set indicators for non-ready familiars",
+            "NB : Familiars have to visit a room and be 10s old"
+		}
+	})
+    
 
     -- Allowed Familiar Effect
     local allowed_familiars_effect = {1,2}
@@ -274,7 +310,7 @@ sewingMachineMod.descriptionValues.crown:LoadGraphics()
     ModConfigMenu.AddTitle("Sewing Machine", "True-Coop :")
     
 	ModConfigMenu.AddSpace("Sewing Machine")
-	ModConfigMenu.AddText("Sewing Machine", "Sewing machine are NOT")
+	ModConfigMenu.AddText("Sewing Machine", "Sewing machines are NOT")
 	ModConfigMenu.AddText("Sewing Machine", "compatible with True-Coop")
 	ModConfigMenu.AddSpace("Sewing Machine")
     
