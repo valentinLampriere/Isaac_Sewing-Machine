@@ -1404,7 +1404,7 @@ function sewingMachineMod:onNewFloor()
     if roll < 20 then
         sewingMachine_shouldAppear_shop = true
     end
-
+end
 
 
 --------------------------
