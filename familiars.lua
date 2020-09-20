@@ -2292,7 +2292,7 @@ function sewnFamiliars:custom_bbf_setPowderOnFire(powder)
     end
     
     local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HOT_BOMB_FIRE, 0, powder.Position, Vector(0, 0), nil):ToEffect()
-    fire.Timeout = 50
+    fire.Timeout = 80
     fire.Scale = 0.75
     fire.SpriteScale = Vector(0.75, 0.75)
     
@@ -2303,7 +2303,7 @@ function sewnFamiliars:custom_update_bbf(bbf)
     local fData = bbf:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         if not fData.Sewn_bbf_hasExplode then
-            if bbf.Player.Position:DistanceSquared(bbf.Position) < 100 ^2 then
+            if bbf.Player.Position:DistanceSquared(bbf.Position) < 100 ^2 and not (bbf.Player:HasCollectible(CollectibleType.COLLECTIBLE_HOST_HAT) or bbf.Player:HasCollectible(CollectibleType.COLLECTIBLE_PYROMANIAC)) then
                 bbf.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
                 bbf:SetColor(Color(1,1,1,0.5, 0,0,0), 5, 1, true, false)
             else
