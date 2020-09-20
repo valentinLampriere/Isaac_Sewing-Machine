@@ -980,6 +980,101 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
 end
 
 
+-------------------------
+-- MC_PRE_ENTITY_SPAWN --
+-------------------------
+function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
+    -- If a pickup spawn from a sewing machine, it means the machine as been bombed
+    -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
+    if type == EntityType.ENTITY_PICKUP then
+        local room = game:GetLevel():GetCurrentRoom()
+        for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
+            local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
+
+            if machine.Position:Distance(pos, machine.Position) < 5 then
+
+                if mData.Sewn_currentFamiliarVariant ~= nil then
+                    sewingMachineMod:getFamiliarBack(machine, false)
+                end
+
+                mData.Sewn_machineBombed = true
+
+                if mData.Sewn_isMachineBroken == true then
+                    machine:GetSprite():Play("Broken", true)
+                end
+
+                return {1000, EffectVariant.EFFECT_NULL, 0}
+            end
+        end
+    end
+
+    -- Burning Farts effect
+    if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
+        for _, npc in pairs(Isaac.FindInRadius(pos, 100, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                npc:TakeDamage(5, DamageFlag.DAMAGE_POISON_BURN, EntityRef(spawner), 5)
+                npc:AddBurn(EntityRef(spawner), sewingMachineMod.rng:RandomInt(180) + 60, 3.5)
+            end
+        end
+    end
+end
+
+---------------------------
+-- MC_POST_EFFECT_UPDATE --
+---------------------------
+function sewingMachineMod:effectUpdate(effect)
+    if effect.Variant == EffectVariant.SPIDER_MOD_EGG then
+        local eData = effect:GetData()
+
+        if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
+            effect:Remove()
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, Vector(0, 0), nil)
+        end
+
+        for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
+            if npc:IsVulnerableEnemy() then
+                if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
+                    local roll = sewingMachineMod.rng:RandomInt(8)
+                    local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
+                    if roll == 0 then
+                        npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 1 then
+                        npc:AddFreeze(EntityRef(egg), rollDuration)
+                    elseif roll == 2 then
+                        npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
+                    elseif roll == 3 then
+                        npc:AddCharmed(rollDuration)
+                    elseif roll == 4 then
+                        npc:AddConfusion(EntityRef(egg), rollDuration, false)
+                    elseif roll == 5 then
+                        npc:AddFear(EntityRef(egg), rollDuration)
+                    elseif roll == 6 then
+                        npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
+                    elseif roll == 7 then
+                        npc:AddShrink(EntityRef(egg), rollDuration)
+                    end
+                    eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
+                end
+            end
+        end
+    end
+end
+
+function sewingMachineMod:hideCrown(familiar, hideCrown)
+    local fData = familiar:GetData()
+    if hideCrown == nil then
+        hideCrown = true
+    end
+    fData.Sewn_crown_hide = hideCrown
+end
+function sewingMachineMod:addCrownOffset(familiar, offset)
+    local fData = familiar:GetData()
+    -- If offset isn't a Vector -> return
+    if offset == nil or offset.X == nil or offset.Y == nil then return end
+    fData.Sewn_crownPositionOffset = offset
+end
+
+
 
 ------------------------
 -- MC_FAMILIAR_UPDATE --
@@ -1043,6 +1138,26 @@ function sewingMachineMod:updateFamiliar(familiar)
                 local c = 255-math.floor(255*((familiar.FrameCount%40)/40))
                 familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,fColor.A,c,c,c),5,1,false,false)
             end
+
+            -- Familiar which aren't ready
+            if not fData.Sewn_familiarReady then
+                if familiar.FrameCount < 30 * 10 + 1 and not fData.Sewn_notReady_clock then
+                    fData.Sewn_notReady_clock = Sprite()
+                    fData.Sewn_notReady_clock:Load("gfx/familiarNotReady.anm2", false)
+                    fData.Sewn_notReady_clock:Play("Clock")
+                    fData.Sewn_notReady_clock:LoadGraphics()
+                elseif familiar.FrameCount > 30 * 10 + 1 and fData.Sewn_notReady_clock then
+                    fData.Sewn_notReady_clock = nil
+                end
+                if not fData.Sewn_newRoomVisited and not fData.Sewn_notReady_door then
+                    fData.Sewn_notReady_door = Sprite()
+                    fData.Sewn_notReady_door:Load("gfx/familiarNotReady.anm2", false)
+                    fData.Sewn_notReady_door:Play("Door")
+                    fData.Sewn_notReady_door:LoadGraphics()
+                elseif fData.Sewn_newRoomVisited and fData.Sewn_notReady_clock then
+                    fData.Sewn_notReady_door = nil
+                end
+            end
         end
         -- Not available familiars
         if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) then
@@ -1050,10 +1165,24 @@ function sewingMachineMod:updateFamiliar(familiar)
                 familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
             end
         end
+    else
+        fData.Sewn_notReady_clock = nil
+        fData.Sewn_notReady_door = nil
     end
 
     if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.ANN_S_PURE_BODY or familiar.Variant == FamiliarVariant.ANN then
         familiar:FollowParent()
+    end
+
+    if fData.Sewn_newRoomVisited and not fData.Sewn_familiarReady and familiar.FrameCount > 30 * 10 + 1 then
+        for i, f in ipairs(temporaryFamiliars) do
+            local fData = familiar:GetData()
+            if GetPtrHash(familiar) == GetPtrHash(f) then
+                table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+                temporaryFamiliars[i] = nil
+            end
+        end
+        fData.Sewn_familiarReady = true
     end
 
     --Sewn_spriteScale_multiplier
@@ -1107,15 +1236,35 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
         end
         fData.Sewn_crown:LoadGraphics()
     end
-    --if fData.Sewn_crown_hide == nil or fData.Sewn_crown_hide == false then
+
     if fData.Sewn_crown_hide ~= true then
         -- if familiar is super -> has a golden crown
         if sewingMachineMod:isSuper(fData) then
             fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
+            pos = pos + Vector(0, 15)
         end
         -- if familiar is ultra-> has a diamond crown
         if sewingMachineMod:isUltra(fData) then
             fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
+            pos = pos + Vector(0, 15)
+        end
+    end
+
+    if sewingMachineMod.Config.familiarNonReadyIndicator ~= sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.NONE then
+        if fData.Sewn_notReady_clock then
+            fData.Sewn_notReady_clock:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+            if sewingMachineMod.Config.familiarNonReadyIndicator == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
+                fData.Sewn_notReady_clock.PlaybackSpeed = 0.3
+                fData.Sewn_notReady_clock:Update()
+            end
+            pos = pos + Vector(13, 0)
+        end
+        if fData.Sewn_notReady_door then
+            fData.Sewn_notReady_door:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+            if sewingMachineMod.Config.familiarNonReadyIndicator == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
+                fData.Sewn_notReady_door.PlaybackSpeed = 0.4
+                fData.Sewn_notReady_door:Update()
+            end
         end
     end
 end
@@ -1134,6 +1283,127 @@ function sewingMachineMod:familiarCollision(familiar, collider, low)
         end
     end
 end
+----------------------
+-- MC_POST_NEW_ROOM --
+----------------------
+function sewingMachineMod:newRoom()
+    local room = game:GetLevel():GetCurrentRoom()
+
+    sewingMachineMod.displayTrueCoopMessage = false
+
+    for i, familiar in ipairs(temporaryFamiliars) do
+        local fData = familiar:GetData()
+        -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
+        if familiar:Exists() then
+            --table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+            --temporaryFamiliars[i] = nil
+            fData.Sewn_newRoomVisited = true
+        end
+    end
+
+    -- Remove temporary upgardes (for Sewing Box only)
+    for i = 1, game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        local sprite = player:GetSprite()
+
+        if player:GetData().Sewn_hasTemporaryUpgradedFamiliars == true then
+            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                local fData = familiar:GetData()
+                familiar = familiar:ToFamiliar()
+
+                if fData.Sewn_upgradeState_temporary_delay == nil then
+                    sewingMachineMod:removeTemporaryUpgrade(familiar)
+                end
+            end
+            player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
+        end
+    end
+
+    if room:IsFirstVisit() == true then
+        if room:GetType() == RoomType.ROOM_ARCADE then
+            --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
+            for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
+                if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
+                    local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
+                    if rollChanceSpawn == 1 then
+                        local pos = Vector(slot.Position.X, slot.Position.Y)
+                        slot:Remove()
+                        sewingMachineMod:spawnMachine(pos)
+                    end
+                end
+            end
+        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
+            sewingMachineMod:spawnMachine()
+        elseif room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+            if room:IsClear() then
+                sewingMachineMod:spawnMachine()
+            end
+        elseif room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_DEVIL then
+            for i = 1, game:GetNumPlayers() do
+                local player = Isaac.GetPlayer(i - 1)
+                local roll = sewingMachineMod.rng:RandomInt(100) + 1
+                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and roll < 50 then
+                    sewingMachineMod:spawnMachine(nil, true)
+                end
+            end
+        end
+    end
+
+    for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
+        if sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
+            sewingMachineMod:setFloatingAnim(machine)
+        end
+    end
+
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if fData.Sewn_custom_newRoom ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_newRoom) do
+                d.customFunction = f
+                d:customFunction(familiar, room)
+            end
+        end
+    end
+end
+
+
+------------------------------
+-- MC_PRE_SPAWN_CLEAN_AWARD --
+------------------------------
+function sewingMachineMod:finishRoom(rng, spawnPosition)
+    local room = game:GetLevel():GetCurrentRoom()
+    if room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+        -- Spawn machine when the shop is cleared
+        sewingMachineMod:spawnMachine(nil, true)
+    end
+
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if fData.Sewn_custom_cleanAward ~= nil then
+            local d = {}
+            for i, f in ipairs(fData.Sewn_custom_cleanAward) do
+                d.customFunction = f
+                d:customFunction(familiar)
+            end
+        end
+    end
+end
+
+-----------------------
+-- MC_POST_NEW_LEVEL --
+-----------------------
+function sewingMachineMod:onNewFloor()
+    sewingMachine_shouldAppear_shop = false
+    local level = game:GetLevel()
+    sewingMachineMod.sewingMachinesData = {}
+
+    local roll = sewingMachineMod.rng:RandomInt(101)
+    if roll < 20 then
+        sewingMachine_shouldAppear_shop = true
+    end
 
 
 
