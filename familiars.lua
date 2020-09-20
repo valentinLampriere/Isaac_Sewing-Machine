@@ -2156,13 +2156,16 @@ function sewnFamiliars:upSpiderMod(spiderMod)
 end
 function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
     for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
-        local nbSpiders = sewingMachineMod.rng:RandomInt(3)
-        for i = 1, nbSpiders do
-            local velocity = Vector(0, 0)
-            local force = 30
-            velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
-            velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
-            spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
+        local rollSpider = sewingMachineMod.rng:RandomInt(2)
+        if rollSpider == 0 then
+            local nbSpiders = sewingMachineMod.rng:RandomInt(4)
+            for i = 1, nbSpiders do
+                local velocity = Vector(0, 0)
+                local force = 30
+                velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+                velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+                spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
+            end
         end
         egg:Remove()
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
@@ -2292,7 +2295,7 @@ function sewnFamiliars:custom_bbf_setPowderOnFire(powder)
     end
     
     local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HOT_BOMB_FIRE, 0, powder.Position, Vector(0, 0), nil):ToEffect()
-    fire.Timeout = 50
+    fire.Timeout = 80
     fire.Scale = 0.75
     fire.SpriteScale = Vector(0.75, 0.75)
     
@@ -2303,7 +2306,7 @@ function sewnFamiliars:custom_update_bbf(bbf)
     local fData = bbf:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         if not fData.Sewn_bbf_hasExplode then
-            if bbf.Player.Position:DistanceSquared(bbf.Position) < 100 ^2 then
+            if bbf.Player.Position:DistanceSquared(bbf.Position) < 100 ^2 and not (bbf.Player:HasCollectible(CollectibleType.COLLECTIBLE_HOST_HAT) or bbf.Player:HasCollectible(CollectibleType.COLLECTIBLE_PYROMANIAC)) then
                 bbf.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
                 bbf:SetColor(Color(1,1,1,0.5, 0,0,0), 5, 1, true, false)
             else
