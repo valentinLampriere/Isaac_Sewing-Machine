@@ -2156,13 +2156,16 @@ function sewnFamiliars:upSpiderMod(spiderMod)
 end
 function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
     for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
-        local nbSpiders = sewingMachineMod.rng:RandomInt(3)
-        for i = 1, nbSpiders do
-            local velocity = Vector(0, 0)
-            local force = 30
-            velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
-            velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
-            spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
+        local rollSpider = sewingMachineMod.rng:RandomInt(2)
+        if rollSpider == 0 then
+            local nbSpiders = sewingMachineMod.rng:RandomInt(4)
+            for i = 1, nbSpiders do
+                local velocity = Vector(0, 0)
+                local force = 30
+                velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+                velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+                spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
+            end
         end
         egg:Remove()
         Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
