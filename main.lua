@@ -668,6 +668,7 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     machine:GetSprite():Play("Idle")
 
     sewnFamiliar:GetData().Sewn_collisionDamage = mData.Sewn_currentFamiliarCollisionDamage
+    sewnFamiliar:GetData().Sewn_familiarReady = true
 
     -- Upgrade the familiar
     if isUpgrade then
