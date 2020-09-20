@@ -885,108 +885,6 @@ function sewingMachineMod:onPlayerUpdate(player)
     end
 end
 
-
-------------------------
--- MC_FAMILIAR_UPDATE --
-------------------------
-function sewingMachineMod:updateFamiliar(familiar)
-    local fData = familiar:GetData()
-
-    -- We do nothing with blue flies and blue spiders
-    if familiar.Variant == FamiliarVariant.BLUE_FLY or familiar.Variant == FamiliarVariant.BLUE_SPIDER then
-        return
-    end
-
-    -- INIT
-    -- I use MC_FAMILIAR_UPDATE because MC_FAMILIAR_INIT is broken, and doesn't work well with most of familiars
-    if not familiar:GetData().Sewn_Init and familiar.FrameCount > 0 then
-        local player = familiar.Player
-
-        if sewingMachineMod:isAvailable(familiar.Variant) then
-            if not sewingMachineMod:isUltra(fData) or fData.Sewn_upgradeState == nil then
-                -- Set the familiar as an available familiar (available for the Sewing machine)
-                if familiar:GetData().Sewn_noUpgrade ~= true then
-                    -- Add the familiar to the "Temporary Familiars" table
-                    table.insert(temporaryFamiliars, familiar)
-                    --table.insert(player:GetData().Sewn_familiars, familiar)
-                end
-            end
-        end
-        if fData.Sewn_upgradeState == nil then
-            local hasAnnsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD)
-            local hasAnnsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY)
-            if hasAnnsHead and not hasAnnsBody or not hasAnnsHead and hasAnnsBody then
-                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
-                sewingMachineMod:callFamiliarUpgrade(familiar)
-            elseif hasAnnsHead and hasAnnsBody then
-                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
-                sewingMachineMod:callFamiliarUpgrade(familiar)
-            else
-                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
-            end
-        end
-
-        if player ~= nil and player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
-            fData.Sewn_collisionDamage = familiar.CollisionDamage / 2 or 0
-        else
-            fData.Sewn_collisionDamage = familiar.CollisionDamage or 0
-        end
-        fData.Sewn_Init = true
-    end
-
-    if fData.Sewn_upgradeState_temporary_delay ~= nil and fData.Sewn_upgradeState_temporary_delay <= game:GetFrameCount() then
-        sewingMachineMod:removeTemporaryUpgrade(familiar)
-    end
-
-    -- If a player is close from the machine
-    if sewingMachineMod.currentUpgradeInfo ~= nil then
-        local fColor = familiar:GetColor()
-
-        -- Available familiars
-        if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
-            if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
-                local c = 255-math.floor(255*((familiar.FrameCount%40)/40))
-                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,fColor.A,c,c,c),5,1,false,false)
-            end
-        end
-        -- Not available familiars
-        if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) then
-            if sewingMachineMod.Config.familiarNotAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT then
-                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
-            end
-        end
-    end
-
-    if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.ANN_S_PURE_BODY or familiar.Variant == FamiliarVariant.ANN then
-        familiar:FollowParent()
-    end
-
-    --Sewn_spriteScale_multiplier
-    if fData.Sewn_spriteScale_multiplier ~= nil then
-        familiar.SpriteScale = Vector(1 * fData.Sewn_spriteScale_multiplier, 1 * fData.Sewn_spriteScale_multiplier)
-    end
-    -- Custom update function
-    if fData.Sewn_custom_update ~= nil then
-        local d = {}
-        for i, f in ipairs(fData.Sewn_custom_update) do
-            d.customFunction = f
-            d:customFunction(familiar)
-        end
-    end
-
-    -- Custom animation
-    if fData.Sewn_custom_animation ~= nil then
-        for animationName, _function in pairs(fData.Sewn_custom_animation) do
-            -- If familiar plays an animation
-            if familiar:GetSprite():IsPlaying(animationName) or familiar:GetSprite():IsFinished(animationName) then
-                local d = {}
-                d.customFunction = _function
-                d:customFunction(familiar, effect)
-            end
-        end
-    end
-end
-
 -------------------------
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
@@ -1081,6 +979,142 @@ function sewingMachineMod:addCrownOffset(familiar, offset)
     fData.Sewn_crownPositionOffset = offset
 end
 
+
+
+------------------------
+-- MC_FAMILIAR_UPDATE --
+------------------------
+function sewingMachineMod:updateFamiliar(familiar)
+    local fData = familiar:GetData()
+
+    -- We do nothing with blue flies and blue spiders
+    if familiar.Variant == FamiliarVariant.BLUE_FLY or familiar.Variant == FamiliarVariant.BLUE_SPIDER then
+        return
+    end
+
+    -- INIT
+    -- I use MC_FAMILIAR_UPDATE because MC_FAMILIAR_INIT is broken, and doesn't work well with most of familiars
+    if not familiar:GetData().Sewn_Init and familiar.FrameCount > 0 then
+        local player = familiar.Player
+
+        if sewingMachineMod:isAvailable(familiar.Variant) then
+            if not sewingMachineMod:isUltra(fData) or fData.Sewn_upgradeState == nil then
+                -- Set the familiar as an available familiar (available for the Sewing machine)
+                if familiar:GetData().Sewn_noUpgrade ~= true then
+                    -- Add the familiar to the "Temporary Familiars" table
+                    table.insert(temporaryFamiliars, familiar)
+                    --table.insert(player:GetData().Sewn_familiars, familiar)
+                end
+            end
+        end
+        if fData.Sewn_upgradeState == nil then
+            local hasAnnsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD)
+            local hasAnnsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY)
+            if hasAnnsHead and not hasAnnsBody or not hasAnnsHead and hasAnnsBody then
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
+                sewingMachineMod:callFamiliarUpgrade(familiar)
+            elseif hasAnnsHead and hasAnnsBody then
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
+                sewingMachineMod:callFamiliarUpgrade(familiar)
+            else
+                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+            end
+        end
+
+        if player ~= nil and player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
+            fData.Sewn_collisionDamage = familiar.CollisionDamage / 2 or 0
+        else
+            fData.Sewn_collisionDamage = familiar.CollisionDamage or 0
+        end
+        fData.Sewn_Init = true
+    end
+
+    if fData.Sewn_upgradeState_temporary_delay ~= nil and fData.Sewn_upgradeState_temporary_delay <= game:GetFrameCount() then
+        sewingMachineMod:removeTemporaryUpgrade(familiar)
+    end
+
+    -- If a player is close from the machine
+    if sewingMachineMod.currentUpgradeInfo ~= nil then
+        local fColor = familiar:GetColor()
+
+        -- Available familiars
+        if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
+            if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
+                local c = 255-math.floor(255*((familiar.FrameCount%40)/40))
+                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,fColor.A,c,c,c),5,1,false,false)
+            end
+            
+            -- Familiar which aren't ready
+            if not fData.Sewn_familiarReady then
+                if familiar.FrameCount < 30 * 10 + 1 and not fData.Sewn_notReady_clock then
+                    fData.Sewn_notReady_clock = Sprite()
+                    fData.Sewn_notReady_clock:Load("gfx/familiarNotReady.anm2", false)
+                    fData.Sewn_notReady_clock:Play("Clock")
+                    fData.Sewn_notReady_clock:LoadGraphics()
+                elseif familiar.FrameCount > 30 * 10 + 1 and fData.Sewn_notReady_clock then
+                    fData.Sewn_notReady_clock = nil
+                end
+                if not fData.Sewn_newRoomVisited and not fData.Sewn_notReady_door then
+                    fData.Sewn_notReady_door = Sprite()
+                    fData.Sewn_notReady_door:Load("gfx/familiarNotReady.anm2", false)
+                    fData.Sewn_notReady_door:Play("Door")
+                    fData.Sewn_notReady_door:LoadGraphics()
+                elseif fData.Sewn_newRoomVisited and fData.Sewn_notReady_clock then
+                    fData.Sewn_notReady_door = nil
+                end
+            end
+        end
+        -- Not available familiars
+        if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) then
+            if sewingMachineMod.Config.familiarNotAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT then
+                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
+            end
+        end
+    else
+        fData.Sewn_notReady_clock = nil
+        fData.Sewn_notReady_door = nil
+    end
+
+    if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.ANN_S_PURE_BODY or familiar.Variant == FamiliarVariant.ANN then
+        familiar:FollowParent()
+    end
+
+    if fData.Sewn_newRoomVisited and not fData.Sewn_familiarReady and familiar.FrameCount > 30 * 10 + 1 then
+        for i, f in ipairs(temporaryFamiliars) do
+            local fData = familiar:GetData()
+            if GetPtrHash(familiar) == GetPtrHash(f) then
+                table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+                temporaryFamiliars[i] = nil
+            end
+        end
+        fData.Sewn_familiarReady = true
+    end
+
+    --Sewn_spriteScale_multiplier
+    if fData.Sewn_spriteScale_multiplier ~= nil then
+        familiar.SpriteScale = Vector(1 * fData.Sewn_spriteScale_multiplier, 1 * fData.Sewn_spriteScale_multiplier)
+    end
+    -- Custom update function
+    if fData.Sewn_custom_update ~= nil then
+        local d = {}
+        for i, f in ipairs(fData.Sewn_custom_update) do
+            d.customFunction = f
+            d:customFunction(familiar)
+        end
+    end
+
+    -- Custom animation
+    if fData.Sewn_custom_animation ~= nil then
+        for animationName, _function in pairs(fData.Sewn_custom_animation) do
+            -- If familiar plays an animation
+            if familiar:GetSprite():IsPlaying(animationName) or familiar:GetSprite():IsFinished(animationName) then
+                local d = {}
+                d.customFunction = _function
+                d:customFunction(familiar, effect)
+            end
+        end
+    end
+end
 -----------------------------
 -- MC_POST_FAMILIAR_RENDER --
 -----------------------------
@@ -1107,16 +1141,30 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
         end
         fData.Sewn_crown:LoadGraphics()
     end
-    --if fData.Sewn_crown_hide == nil or fData.Sewn_crown_hide == false then
+    
     if fData.Sewn_crown_hide ~= true then
         -- if familiar is super -> has a golden crown
         if sewingMachineMod:isSuper(fData) then
             fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
+            pos = pos + Vector(0, 15)
         end
         -- if familiar is ultra-> has a diamond crown
         if sewingMachineMod:isUltra(fData) then
             fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
+            pos = pos + Vector(0, 15)
         end
+    end
+    
+    if fData.Sewn_notReady_clock then
+        fData.Sewn_notReady_clock:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+        fData.Sewn_notReady_clock.PlaybackSpeed = 0.3
+        fData.Sewn_notReady_clock:Update()
+        pos = pos + Vector(13, 0)
+    end
+    if fData.Sewn_notReady_door then
+        fData.Sewn_notReady_door:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+        fData.Sewn_notReady_door.PlaybackSpeed = 0.4
+        fData.Sewn_notReady_door:Update()
     end
 end
 
@@ -1144,10 +1192,12 @@ function sewingMachineMod:newRoom()
     sewingMachineMod.displayTrueCoopMessage = false
 
     for i, familiar in ipairs(temporaryFamiliars) do
+        local fData = familiar:GetData()
         -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
         if familiar:Exists() then
-            table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
-            temporaryFamiliars[i] = nil
+            --table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+            --temporaryFamiliars[i] = nil
+            fData.Sewn_newRoomVisited = true
         end
     end
 
