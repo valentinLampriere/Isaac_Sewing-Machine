@@ -2784,4 +2784,14 @@ function sewnFamiliars:custom_playerTakeDamage_lilHarbinger(lilHarbinger, damage
     end
 end
 
+-- FINGER!
+function sewnFamiliars:upFinger(finger)
+    local fData = finger:GetData()
+    sewnFamiliars:customUpdate(finger, sewnFamiliars.custom_update_finger)
+end
+function sewnFamiliars:custom_update_finger(finger)
+    local fData = finger:GetData()
+    finger.CollisionDamage = fData.Sewn_collisionDamage + finger.Velocity:Length() / 10
+end
+
 sewingMachineMod.errFamiliars.Error()

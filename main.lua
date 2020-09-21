@@ -308,6 +308,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.OBSESSED_FAN] = {426, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.PAPA_FLY] = {430, sewingMachineMod.sewnFamiliars.upPapaFly},
     [FamiliarVariant.LIL_LOKI] = {435, sewingMachineMod.sewnFamiliars.upLilLoki},
+    [FamiliarVariant.FINGER] = {467, sewingMachineMod.sewnFamiliars.upFinger},
     [FamiliarVariant.HUSHY] = {470, sewingMachineMod.sewnFamiliars.upHushy},
     [FamiliarVariant.LIL_MONSTRO] = {471, sewingMachineMod.sewnFamiliars.upLilMonstro},
     [FamiliarVariant.KING_BABY] = {472, sewingMachineMod.sewnFamiliars.upKingBaby},
