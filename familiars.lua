@@ -1923,16 +1923,19 @@ function sewnFamiliars:custom_update_censer(censer)
             if #npcs > 0 then
                 local amount = math.floor(#npcs / 7) + 1
                 for i = 1, amount do
-                    if fData.Sewn_custom_censer_dazedCooldown <= 0 then
-                        npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddConfusion(EntityRef(censer), math.random(60, 190), true)
-                    end
-                    if fData.Sewn_custom_censer_freezeCooldown <= 0 then
-                        npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddFreeze(EntityRef(censer), math.random(60, 120))
+                    local randomNPC = npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:ToNPC()
+                    if randomNPC:IsVulnerableEnemy() then
+                        if fData.Sewn_custom_censer_dazedCooldown <= 0 then
+                            npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddConfusion(EntityRef(censer), math.random(60, 190), true)
+                        end
+                        if fData.Sewn_custom_censer_freezeCooldown <= 0 then
+                            npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddFreeze(EntityRef(censer), math.random(60, 120))
+                        end
                     end
                 end
             end
-            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(600) + 60
-            fData.Sewn_custom_censer_freezeCooldown = sewingMachineMod.rng:RandomInt(600) + 60
+            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(400) + 150
+            fData.Sewn_custom_censer_freezeCooldown = sewingMachineMod.rng:RandomInt(400) + 150
         end
         fData.Sewn_custom_censer_dazedCooldown = fData.Sewn_custom_censer_dazedCooldown - 1
         fData.Sewn_custom_censer_freezeCooldown = fData.Sewn_custom_censer_freezeCooldown - 1

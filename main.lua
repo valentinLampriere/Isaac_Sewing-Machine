@@ -172,7 +172,7 @@
 -- You can have a look on how I upgrade vanilla familiars in familiars.lua
 
 
--- *** Special thanks to Foks, SupremeElf, PixelPlz and Sentinel for their support and their help *** --
+-- *** Special thanks to Foks, SupremeElf, PixelPlz, Cadence and Sentinel for their support and their help *** --
 
 
 sewingMachineMod = RegisterMod("Sewing machine", 1)
@@ -1397,8 +1397,9 @@ end
 -- MC_POST_NEW_LEVEL --
 -----------------------
 function sewingMachineMod:onNewFloor()
-    sewingMachine_shouldAppear_shop = false
     local level = game:GetLevel()
+    sewingMachine_shouldAppear_shop = false
+    
     sewingMachineMod.sewingMachinesData = {}
 
     local roll = sewingMachineMod.rng:RandomInt(101)
