@@ -1402,6 +1402,10 @@ function sewingMachineMod:onNewFloor()
     
     sewingMachineMod.sewingMachinesData = {}
 
+    if level:GetStage() == LevelStage.STAGE4_3 then
+        sewingMachine_shouldAppear_shop = true
+    end
+
     local roll = sewingMachineMod.rng:RandomInt(101)
     if roll < 20 then
         sewingMachine_shouldAppear_shop = true
