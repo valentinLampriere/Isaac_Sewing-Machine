@@ -773,9 +773,9 @@ function sewingMachineMod:onPlayerUpdate(player)
         -- If the machine isn't broken
         if mData.Sewn_isMachineBroken ~= true then
 
-            if mData.Sewn_machineBombed == true then
-                local newMachine = sewingMachineMod:spawnMachine(machine.Position, nil, machine.SubType)
-                mData.Sewn_machineBombed = false
+            --[[ if mData.Sewn_machineBombed == true then
+                --local newMachine = sewingMachineMod:spawnMachine(machine.Position, nil, machine.SubType)
+                --mData.Sewn_machineBombed = false
                 machine:Remove()
                 sewingMachineMod.sewingMachinesData[newMachine.InitSeed] = mData
                 for i = 1, game:GetNumPlayers() do
@@ -786,7 +786,7 @@ function sewingMachineMod:onPlayerUpdate(player)
                     end
                 end
                 sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
-            end
+            end --]]
 
             -- When player touch a Sewing machine
             if (machine.Position - player.Position):Length() < machine.Size + player.Size and (mData.Sewn_lastTouched == nil or mData.Sewn_lastTouched < game:GetFrameCount() - 15) then
@@ -987,7 +987,7 @@ end
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
     -- If a pickup spawn from a sewing machine, it means the machine as been bombed
     -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
-    if type == EntityType.ENTITY_PICKUP then
+    --[[ if type == EntityType.ENTITY_PICKUP then
         local room = game:GetLevel():GetCurrentRoom()
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
             local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
@@ -1007,7 +1007,7 @@ function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner,
                 return {1000, EffectVariant.EFFECT_NULL, 0}
             end
         end
-    end
+    end --]]
 
     -- Burning Farts effect
     if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
@@ -1665,10 +1665,72 @@ function sewingMachineMod:onUpdate()
         end
     end
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
-        if machine:GetSprite():IsFinished("Appear") then
-            machine:GetSprite():Play("Idle")
-        elseif machine:GetSprite():IsFinished("Disappear") then
+        local machineSprite = machine:GetSprite()
+        
+        -- To stuff when machine animation are finished
+        if machineSprite:IsFinished("Appear") then
+            machineSprite:Play("Idle")
+        elseif machineSprite:IsFinished("Disappear") then
             machine:Remove()
+        end
+        
+        sewingMachineMod:StopExplosionHack(machine)
+    end
+end
+function sewingMachineMod:ManageMachineDestuction(machine)
+    local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
+    local room = game:GetLevel():GetCurrentRoom()
+    local pos = room:GetGridPosition(room:GetGridIndex(machine.Position))
+    local machineSubType = machine.SubType
+    
+    if mData.Sewn_currentFamiliarVariant ~= nil then
+        sewingMachineMod:getFamiliarBack(machine, false)
+    end
+
+    if mData.Sewn_isMachineBroken == true then
+        machine:GetSprite():Play("Broken", true)
+        return
+    end
+    
+    local newMachine = sewingMachineMod:spawnMachine(pos, false, machineSubType)
+    
+    sewingMachineMod.sewingMachinesData[newMachine.InitSeed] = mData
+    for i = 1, game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        if player:GetData().Sewn_familiarsInMachine  ~= nil then
+            player:GetData().Sewn_familiarsInMachine[newMachine.InitSeed] = player:GetData().Sewn_familiarsInMachine[machine.InitSeed]
+            player:GetData().Sewn_familiarsInMachine[machine.InitSeed] = nil
+        end
+    end
+    sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
+    
+    machine:Remove()
+end
+
+-- Functions given by @Sentinel
+function sewingMachineMod:StopExplosionHack(machine)
+    -- Check if the machine can be moved or not
+    local asploded = machine.GridCollisionClass == EntityGridCollisionClass.GRIDCOLL_GROUND
+    if not asploded then return end
+
+    -- Remove reward spawned from the machine
+    sewingMachineMod:RemoveRecentRewards(machine.Position)
+
+    sewingMachineMod:ManageMachineDestuction(machine)
+end
+function sewingMachineMod:RemoveRecentRewards(pos)
+    for _, pickup in ipairs(Isaac.FindByType(5, -1, -1)) do
+        if pickup.FrameCount <= 1 and pickup.SpawnerType == 0
+        and pickup.Position:DistanceSquared(pos) <= 400 then
+            pickup:Remove()
+        end
+    end
+
+    for _, trollbomb in ipairs(Isaac.FindByType(4, -1, -1)) do
+        if (trollbomb.Variant == 3 or trollbomb.Variant == 4)
+        and trollbomb.FrameCount <= 1 and trollbomb.SpawnerType == 0
+        and trollbomb.Position:DistanceSquared(pos) <= 400 then
+            trollbomb:Remove()
         end
     end
 end
