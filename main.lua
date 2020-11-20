@@ -556,6 +556,7 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, trinket, machine.Position + Vector(0,15), Vector(0,2):Rotated(math.random(-45,45)), machine)
             end
             machine:TakeDamage(100, DamageFlag.DAMAGE_EXPLOSION, EntityRef(machine), 1)
+            sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
         end
     end
 end
@@ -985,29 +986,18 @@ end
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
-    -- If a pickup spawn from a sewing machine, it means the machine as been bombed
-    -- So we remove those pickups and spawn a new sewing machine so it's like the machine hasn't been damaged
-    --[[ if type == EntityType.ENTITY_PICKUP then
-        local room = game:GetLevel():GetCurrentRoom()
+    local level = game:GetLevel()
+    
+    -- If a collectible spawn in the chest or in dark room
+    if level:GetStage() == LevelStage.STAGE6 and type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE then
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
             local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-
-            if machine.Position:Distance(pos, machine.Position) < 5 then
-
-                if mData.Sewn_currentFamiliarVariant ~= nil then
-                    sewingMachineMod:getFamiliarBack(machine, false)
-                end
-
-                mData.Sewn_machineBombed = true
-
-                if mData.Sewn_isMachineBroken == true then
-                    machine:GetSprite():Play("Broken", true)
-                end
-
+            if pos:DistanceSquared(machine.Position) == 0 and mData.Sewn_isMachineBroken ~= true then
+                sewingMachineMod:ManageMachineDestuction(machine)
                 return {1000, EffectVariant.EFFECT_NULL, 0}
             end
         end
-    end --]]
+    end
 
     -- Burning Farts effect
     if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
@@ -1351,7 +1341,7 @@ function sewingMachineMod:newRoom()
     end
 
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
-        if sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
+        if sewingMachineMod.sewingMachinesData[machine.InitSeed] and sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
             sewingMachineMod:setFloatingAnim(machine)
         end
     end
@@ -1707,7 +1697,7 @@ function sewingMachineMod:ManageMachineDestuction(machine)
     machine:Remove()
 end
 
--- Functions given by @Sentinel
+-- Function given by @Sentinel
 function sewingMachineMod:StopExplosionHack(machine)
     -- Check if the machine can be moved or not
     local asploded = machine.GridCollisionClass == EntityGridCollisionClass.GRIDCOLL_GROUND
