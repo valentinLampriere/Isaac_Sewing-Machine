@@ -901,6 +901,8 @@ function sewnFamiliars:upDemonBaby(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.DEMON_BABY then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+            fData.Sewn_demonBaby_lastDirection = nil
+            fData.Sewn_demonBaby_flipX = false
             sewnFamiliars:addTearFlag(familiar, TearFlags.TEAR_SPECTRAL)
             sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_demonBaby)
         end
@@ -908,6 +910,7 @@ function sewnFamiliars:upDemonBaby(familiar)
 end
 function sewnFamiliars:custom_update_demonBaby(familiar)
     local fData = familiar:GetData()
+    local sprite = familiar:GetSprite()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         
         local range = 160
@@ -927,27 +930,38 @@ function sewnFamiliars:custom_update_demonBaby(familiar)
             end
         end
         for _, npc in pairs(Isaac.FindInRadius(familiar.Position, range, EntityPartition.ENEMY)) do
-            if npc:IsVulnerableEnemy() and familiar.FireCooldown == 0 then
-                local velo = (npc.Position - familiar.Position)
-                velo = velo:Normalized() * 8
-                local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, familiar.Position, velo, familiar):ToTear()
-                newTear.CollisionDamage = 3
-                newTear.Parent = familiar
-                familiar.FireCooldown = 10
-                sewnFamiliars:toBabyBenderTear(familiar, newTear)
-            end
-            local angle = (npc.Position - familiar.Position):GetAngleDegrees()
-            local sprite = familiar:GetSprite()
-            if angle > 45 and angle < 135 then
-                sprite:Play(ANIMATION_NAMES.SHOOT[1], true)
-            elseif angle > 135 and angle < 180 or angle > -180 and angle < -135 then
-                sprite:Play(ANIMATION_NAMES.SHOOT[3], true)
-                sprite.FlipX = true
-            elseif angle > -135 and angle < -45 then
-                sprite:Play(ANIMATION_NAMES.SHOOT[2], true)
-            elseif angle > -45 and angle < 0 or angle > 0 and angle < 45 then
-                sprite:Play(ANIMATION_NAMES.SHOOT[3], true)
-                sprite.FlipX = false
+            if npc:IsVulnerableEnemy() then
+                if familiar.FireCooldown == 0 then
+                    local velo = (npc.Position - familiar.Position)
+                    velo = velo:Normalized() * 8
+                    local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, familiar.Position, velo, familiar):ToTear()
+                    newTear.CollisionDamage = 3
+                    newTear.Parent = familiar
+                    familiar.FireCooldown = 10
+                    sewnFamiliars:toBabyBenderTear(familiar, newTear)
+                    
+                    
+                    local angle = (npc.Position - familiar.Position):GetAngleDegrees()
+                    if angle > 45 and angle < 135 then
+                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[1]
+                        fData.Sewn_demonBaby_flipX = false
+                    elseif angle > 135 and angle < 180 or angle > -180 and angle < -135 then
+                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
+                        fData.Sewn_demonBaby_flipX = true
+                    elseif angle > -135 and angle < -45 then
+                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[2]
+                        fData.Sewn_demonBaby_flipX = false
+                    elseif angle > -45 and angle < 0 or angle > 0 and angle < 45 then
+                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
+                        fData.Sewn_demonBaby_flipX = false
+                    end
+                end
+                
+                if fData.Sewn_demonBaby_lastDirection ~= nil and familiar.FireCooldown > 0 then
+                    sprite:Play(fData.Sewn_demonBaby_lastDirection, true)
+                    sprite.FlipX = fData.Sewn_demonBaby_flipX
+                    break
+                end
             end
         end
         if familiar.FireCooldown > 0 then
