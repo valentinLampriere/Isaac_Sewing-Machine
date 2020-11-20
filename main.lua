@@ -1734,8 +1734,50 @@ function sewingMachineMod:onRender()
 
     sewingMachineMod:renderEID()
 end
-
-
+--------------------
+-- MC_EXECUTE_CMD --
+--------------------
+function sewingMachineMod:executeCommand(cmd, params)
+    params = split(params)
+    
+    if cmd == "sewn" then
+        if params[1] == "up" then
+            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                local fData = familiar:GetData()
+                
+                if params[2] == "ultra" then
+                    if fData.Sewn_upgradeState < 2 then
+                        fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
+                        sewingMachineMod:callFamiliarUpgrade(familiar)
+                    end
+                elseif params[2] == "super" then
+                    if fData.Sewn_upgradeState == 0 then
+                        fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
+                        sewingMachineMod:callFamiliarUpgrade(familiar)
+                    end
+                elseif fData.Sewn_upgradeState < 2 then
+                    fData.Sewn_upgradeState = fData.Sewn_upgradeState or 0
+                    fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+                    sewingMachineMod:callFamiliarUpgrade(familiar)
+                end
+            end
+        end
+    end
+end
+function split(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={}
+    if string.match(inputstr, sep) then
+        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+        end
+    else
+        table.insert(t, inputstr)
+    end
+    return t
+end
 
 ----------------------
 -- MC_PRE_GAME_EXIT --
@@ -1926,6 +1968,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMo
 -- Game related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
+sewingMachineMod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, sewingMachineMod.executeCommand)
 
 -- Saving/Loading related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, sewingMachineMod.saveGame)
