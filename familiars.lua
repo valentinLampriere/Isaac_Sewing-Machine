@@ -2817,8 +2817,8 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
     local player = deadCat.Player
     local pData = player:GetData()
     local deadCats = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
-        
-    if pData.Sewn_deadCat_counter ~= deadCats then
+    
+    if player:IsDead() and pData.Sewn_deadCat_counter ~= deadCats then
         if pData.Sewn_deadCat_counter > deadCats then
             if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
                 player:AddSoulHearts(2)
