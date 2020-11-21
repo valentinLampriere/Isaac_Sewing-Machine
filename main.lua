@@ -212,7 +212,8 @@ sewingMachineMod.SewingMachineSubType = {
 }
 sewingMachineMod.SewingMachineCost = {
     BEDROOM = 2,
-    SHOP = 10,
+    SHOP = 8,
+    SHOP_SALE = 5,
     ANGELIC = 0,
     EVIL = 2
 }
@@ -676,7 +677,7 @@ function sewingMachineMod:canPayCost(machine, player)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP then
         local cost = sewingMachineMod.SewingMachineCost.SHOP
         if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
-            cost = math.ceil(cost / 2)
+            cost = sewingMachineMod.SewingMachineCost.SHOP_SALE
         end
         return player:GetNumCoins() >= cost
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC then
@@ -695,7 +696,7 @@ function sewingMachineMod:payCost(machine, player)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.SHOP then
         local cost = sewingMachineMod.SewingMachineCost.SHOP
         if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
-            cost = math.ceil(cost / 2)
+            cost = sewingMachineMod.SewingMachineCost.SHOP_SALE
         end
         player:AddCoins(-cost)
     elseif machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC then
@@ -1724,7 +1725,13 @@ function sewingMachineMod:executeCommand(cmd, params)
     if cmd == "sewn" then
         if params[1] == "up" then
             for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                familiar = familiar:ToFamiliar()
                 local fData = familiar:GetData()
+                
+                -- The variable may be nil if the command is executed on the same frame as the familiar appears
+                if fData.Sewn_upgradeState == nil then
+                    fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+                end
                 
                 if params[2] == "ultra" then
                     if fData.Sewn_upgradeState < 2 then
