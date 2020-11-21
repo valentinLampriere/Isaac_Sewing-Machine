@@ -343,6 +343,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Chance to spawn an additional soul heart or half soul heart",
         ConvertRGBToIsaac({59, 107, 203})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.DEAD_CAT,
+        "When player dies, it respawn with an additional soul heart",
+        "When player dies, it respawn with an additional soul heart and an additional heart container",
+        ConvertRGBToIsaac({67, 67, 67})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

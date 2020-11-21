@@ -267,6 +267,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.BROTHER_BOBBY] = {8, sewingMachineMod.sewnFamiliars.upBrotherBobby},
     [FamiliarVariant.DISTANT_ADMIRATION] = {57, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.SISTER_MAGGY] = {67, sewingMachineMod.sewnFamiliars.upSisterMaggy},
+    [FamiliarVariant.DEAD_CAT] = {81, sewingMachineMod.sewnFamiliars.upDeadCat},
     [FamiliarVariant.SACK_OF_PENNIES] = {94, sewingMachineMod.sewnFamiliars.upSackOfPennies},
     [FamiliarVariant.ROBO_BABY] = {95, sewingMachineMod.sewnFamiliars.upRoboBaby},
     [FamiliarVariant.LITTLE_CHAD] = {96, sewingMachineMod.sewnFamiliars.upLittleChad},
@@ -738,7 +739,6 @@ function sewingMachineMod:removeAnnsPureBody()
 end
 
 
-
 ----------------------------
 -- MC_POST_PEFFECT_UPDATE --
 ----------------------------
@@ -773,22 +773,6 @@ function sewingMachineMod:onPlayerUpdate(player)
 
         -- If the machine isn't broken
         if mData.Sewn_isMachineBroken ~= true then
-
-            --[[ if mData.Sewn_machineBombed == true then
-                --local newMachine = sewingMachineMod:spawnMachine(machine.Position, nil, machine.SubType)
-                --mData.Sewn_machineBombed = false
-                machine:Remove()
-                sewingMachineMod.sewingMachinesData[newMachine.InitSeed] = mData
-                for i = 1, game:GetNumPlayers() do
-                    local player = Isaac.GetPlayer(i - 1)
-                    if player:GetData().Sewn_familiarsInMachine  ~= nil then
-                        player:GetData().Sewn_familiarsInMachine[newMachine.InitSeed] = player:GetData().Sewn_familiarsInMachine[machine.InitSeed]
-                        player:GetData().Sewn_familiarsInMachine[machine.InitSeed] = nil
-                    end
-                end
-                sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
-            end --]]
-
             -- When player touch a Sewing machine
             if (machine.Position - player.Position):Length() < machine.Size + player.Size and (mData.Sewn_lastTouched == nil or mData.Sewn_lastTouched < game:GetFrameCount() - 15) then
                 -- If the player who put the familiar in the machine is the same as the one who try to get the familiar back

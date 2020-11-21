@@ -2801,4 +2801,35 @@ function sewnFamiliars:custom_playerTakeDamage_lilHarbinger(lilHarbinger, damage
     end
 end
 
+-- DEAD CAT
+function sewnFamiliars:upDeadCat(deadCat)
+    local fData = deadCat:GetData()
+    local player = deadCat.Player
+    local pData = player:GetData()
+    if pData.Sewn_deadCat_counter == nil then
+        pData.Sewn_deadCat_counter = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
+    end
+    
+    sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat)
+end
+function sewnFamiliars:custom_update_deadCat(deadCat)
+    local fData = deadCat:GetData()
+    local player = deadCat.Player
+    local pData = player:GetData()
+    local deadCats = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
+        
+    if pData.Sewn_deadCat_counter ~= deadCats then
+        if pData.Sewn_deadCat_counter > deadCats then
+            if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+                player:AddSoulHearts(2)
+            end
+            if sewingMachineMod:isUltra(fData) then
+                player:AddMaxHearts(2, true)
+                player:AddHearts(2)
+            end
+        end
+        pData.Sewn_deadCat_counter = deadCats
+    end
+end
+
 sewingMachineMod.errFamiliars.Error()
