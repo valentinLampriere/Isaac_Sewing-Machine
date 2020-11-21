@@ -1071,9 +1071,9 @@ function sewingMachineMod:updateFamiliar(familiar)
             if not sewingMachineMod:isUltra(fData) or fData.Sewn_upgradeState == nil then
                 -- Set the familiar as an available familiar (available for the Sewing machine)
                 if familiar:GetData().Sewn_noUpgrade ~= true then
+                    
                     -- Add the familiar to the "Temporary Familiars" table
-                    table.insert(temporaryFamiliars, familiar)
-                    --table.insert(player:GetData().Sewn_familiars, familiar)
+                    temporaryFamiliars[GetPtrHash(familiar)] = familiar
                 end
             end
         end
@@ -1150,12 +1150,9 @@ function sewingMachineMod:updateFamiliar(familiar)
     end
 
     if fData.Sewn_newRoomVisited and not fData.Sewn_familiarReady and familiar.FrameCount > 30 * 10 + 1 then
-        for i, f in ipairs(temporaryFamiliars) do
-            local fData = familiar:GetData()
-            if GetPtrHash(familiar) == GetPtrHash(f) then
-                table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
-                temporaryFamiliars[i] = nil
-            end
+        if temporaryFamiliars[GetPtrHash(familiar)] ~= nil then
+            temporaryFamiliars[GetPtrHash(familiar)] = nil
+            table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
         end
         fData.Sewn_familiarReady = true
     end
@@ -1266,7 +1263,7 @@ function sewingMachineMod:newRoom()
 
     sewingMachineMod.displayTrueCoopMessage = false
 
-    for i, familiar in ipairs(temporaryFamiliars) do
+    for i, familiar in pairs(temporaryFamiliars) do
         local fData = familiar:GetData()
         -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
         if familiar:Exists() then
