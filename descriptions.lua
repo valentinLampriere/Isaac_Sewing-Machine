@@ -349,6 +349,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "When player dies, it respawn with an additional soul heart and an additional heart container",
         ConvertRGBToIsaac({67, 67, 67})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.LITTLE_CHUBBY,
+        "Reduce cooldown, can be thrown quickly",
+        "Stick to enemies for 0.5 seconds before continuing his path",
+        ConvertRGBToIsaac({255, 239, 203})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

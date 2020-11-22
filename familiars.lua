@@ -361,6 +361,20 @@ function sewnFamiliars:spawnFromPool(familiar, itemPoolType)
     Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemFromPool, pos, Vector(0,0), familiar.Player)
 end
 
+function sewnFamiliars:getDirectionFromAngle(angle)
+    if angle == nil then return Direction.NO_DIRECTION end
+    if angle > 45 and angle < 135 then
+        return Direction.DOWN
+    elseif angle > 135 and angle < 180 or angle > -180 and angle < -135 then
+        return Direction.LEFT
+    elseif angle > -135 and angle < -45 then
+        return Direction.UP
+    elseif angle > -45 and angle < 0 or angle > 0 and angle < 45 then
+        return Direction.RIGHT
+    end
+    return Direction.NO_DIRECTION
+end
+
 -----------------------
 -- Shooter Familiars --
 -----------------------
@@ -942,16 +956,17 @@ function sewnFamiliars:custom_update_demonBaby(familiar)
                     
                     
                     local angle = (npc.Position - familiar.Position):GetAngleDegrees()
-                    if angle > 45 and angle < 135 then
+                    local direction = sewnFamiliars:getDirectionFromAngle(angle)
+                    if direction == Direction.DOWN then
                         fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[1]
                         fData.Sewn_demonBaby_flipX = false
-                    elseif angle > 135 and angle < 180 or angle > -180 and angle < -135 then
+                    elseif direction == Direction.LEFT then
                         fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
                         fData.Sewn_demonBaby_flipX = true
-                    elseif angle > -135 and angle < -45 then
+                    elseif direction == Direction.UP then
                         fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[2]
                         fData.Sewn_demonBaby_flipX = false
-                    elseif angle > -45 and angle < 0 or angle > 0 and angle < 45 then
+                    elseif direction == Direction.RIGHT then
                         fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
                         fData.Sewn_demonBaby_flipX = false
                     end
@@ -1441,8 +1456,8 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
                 end
             end
             
-            -- If the enemy where the brain sticks is dead before it explodes
-            if fData.Sewn_custom_bobsBrain_stickNpc and fData.Sewn_custom_bobsBrain_stickNpc:IsDead() then
+            -- If the enemy where the brain sticks is dead before it explodes, or if the enemy jumps
+            if fData.Sewn_custom_bobsBrain_stickNpc and (fData.Sewn_custom_bobsBrain_stickNpc:IsDead() or fData.Sewn_custom_bobsBrain_stickNpc.EntityCollisionClass == EntityCollisionClass.ENTCOLL_NONE) then
                 sewnFamiliars:bobsBrain_getBack(bobsBrain)
             end
         end
@@ -1520,6 +1535,55 @@ function sewnFamiliars:custom_collision_jawBone(jawBone, collider)
         if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 30 < game:GetFrameCount() then
             Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, Vector(0, 0), jawBone)
             fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
+        end
+    end
+end
+
+-- LITTLE CHUBBY
+function sewnFamiliars:upLittleChubby(littleChubby)
+    local fData = littleChubby:GetData()
+    
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customUpdate(littleChubby, sewnFamiliars.custom_update_littleChubby)
+        fData.Sewn_custom_littleChubby_lastStickFrame = 0
+    end
+end
+function sewnFamiliars:custom_update_littleChubby(littleChubby)
+    local fData = littleChubby:GetData()
+    
+    if littleChubby.FireCooldown < -1 then
+        littleChubby.FireCooldown = 15
+    end
+    
+    if sewingMachineMod:isUltra(fData) then
+        -- If little chubby has been thrown AND it do not already stick to an enemy
+        if littleChubby.FireCooldown == -1 and fData.Sewn_custom_littleChubby_stickNpc == nil then
+            for _, npc in pairs(Isaac.FindInRadius(littleChubby.Position, littleChubby.Size - 2, EntityPartition.ENEMY)) do
+                if npc:IsVulnerableEnemy() and fData.Sewn_custom_littleChubby_lastStickFrame + 15 < game:GetFrameCount() then
+                    fData.Sewn_custom_littleChubby_stickNpc = npc
+                    fData.Sewn_custom_littleChubby_stickDistance = littleChubby.Position - npc.Position
+                    fData.Sewn_custom_littleChubby_stickFrame = game:GetFrameCount()
+                    fData.Sewn_custom_littleChubby_initialVelocity = littleChubby.Velocity
+                end
+            end
+        end
+
+        -- if little chubby is stick to an enemy
+        if fData.Sewn_custom_littleChubby_stickNpc ~= nil then
+            -- Really small velocity, so little chubby does not move, but keep his direction
+            littleChubby.Velocity = fData.Sewn_custom_littleChubby_initialVelocity * 0.01
+            littleChubby.Position = fData.Sewn_custom_littleChubby_stickNpc.Position + fData.Sewn_custom_littleChubby_stickDistance
+            
+            -- Un-Stick the enemy after half a second, or if the enemy died
+            if fData.Sewn_custom_littleChubby_stickFrame + 15 < game:GetFrameCount() or
+               fData.Sewn_custom_littleChubby_stickNpc and (fData.Sewn_custom_littleChubby_stickNpc:IsDead() or fData.Sewn_custom_littleChubby_stickNpc.EntityCollisionClass == EntityCollisionClass.ENTCOLL_NONE) then
+                fData.Sewn_custom_littleChubby_stickNpc = nil
+                
+                -- Continue his path
+                littleChubby.FireCooldown = -1
+                littleChubby.Velocity = fData.Sewn_custom_littleChubby_initialVelocity
+                fData.Sewn_custom_littleChubby_lastStickFrame = game:GetFrameCount()
+            end
         end
     end
 end
@@ -2809,8 +2873,9 @@ function sewnFamiliars:upDeadCat(deadCat)
     if pData.Sewn_deadCat_counter == nil then
         pData.Sewn_deadCat_counter = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
     end
-    
-    sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat)
+    if sewingMachineMod.isSuper(fData) or sewingMachineMod.isUltra(fData) then
+        sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat)
+    end
 end
 function sewnFamiliars:custom_update_deadCat(deadCat)
     local fData = deadCat:GetData()

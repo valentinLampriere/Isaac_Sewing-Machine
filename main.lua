@@ -269,6 +269,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.DISTANT_ADMIRATION] = {57, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.SISTER_MAGGY] = {67, sewingMachineMod.sewnFamiliars.upSisterMaggy},
     [FamiliarVariant.DEAD_CAT] = {81, sewingMachineMod.sewnFamiliars.upDeadCat},
+    [FamiliarVariant.LITTLE_CHUBBY] = {88, sewingMachineMod.sewnFamiliars.upLittleChubby},
     [FamiliarVariant.SACK_OF_PENNIES] = {94, sewingMachineMod.sewnFamiliars.upSackOfPennies},
     [FamiliarVariant.ROBO_BABY] = {95, sewingMachineMod.sewnFamiliars.upRoboBaby},
     [FamiliarVariant.LITTLE_CHAD] = {96, sewingMachineMod.sewnFamiliars.upLittleChad},
@@ -558,7 +559,8 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, trinket, machine.Position + Vector(0,15), Vector(0,2):Rotated(math.random(-45,45)), machine)
             end
             machine:TakeDamage(100, DamageFlag.DAMAGE_EXPLOSION, EntityRef(machine), 1)
-            sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
+            mData.Sewn_isMachineBroken = true
+            --sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
         end
     end
 end
@@ -1638,6 +1640,7 @@ function sewingMachineMod:onUpdate()
     end
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
         local machineSprite = machine:GetSprite()
+        local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
         
         -- To stuff when machine animation are finished
         if machineSprite:IsFinished("Appear") then
@@ -1645,6 +1648,7 @@ function sewingMachineMod:onUpdate()
         elseif machineSprite:IsFinished("Disappear") then
             machine:Remove()
         end
+        
         
         sewingMachineMod:StopExplosionHack(machine)
     end
