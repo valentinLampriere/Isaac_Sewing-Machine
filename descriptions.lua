@@ -461,6 +461,7 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
 end
 
 function sewingMachineMod:renderEID()
+    
     local curse = Game():GetLevel():GetCurses()
     
     -- Do not show EID when it's disable
@@ -475,15 +476,21 @@ function sewingMachineMod:renderEID()
     if curse == LevelCurse.CURSE_OF_BLIND and sewingMachineMod.Config.EID_hideCurseOfBlind == true then
         return
     end
-        
+    
     -- currentUpgradeInfo is updated when a familiar is put in or moved out of the machine. When it's not false it's the machine.
     if sewingMachineMod.currentUpgradeInfo ~= nil then
         local mData = sewingMachineMod.sewingMachinesData[sewingMachineMod.currentUpgradeInfo.InitSeed]
-        if mData == nil or mData.Sewn_currentFamiliarVariant == nil then return end -- This should never happen but it's not bad to make sure
+        
+        -- if the machine data is nil (should never happened) or there is no familiar on the machine
+        if mData == nil or mData.Sewn_currentFamiliarVariant == nil then
+            return
+        end
 
         -- Make sure the familiar has info
         local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
-        if info == false then return end -- This will happen if the familiars doesn't have descriptions
+        if info == false then
+            return
+        end -- This will happen if the familiars doesn't have descriptions
 
         -- Collect info
         local upgradeLevel = mData.Sewn_currentFamiliarState == 0 and "Super" or "Ultra"

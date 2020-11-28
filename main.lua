@@ -285,6 +285,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.HARLEQUIN_BABY] = {167, sewingMachineMod.sewnFamiliars.upHarlequinBaby},
     [FamiliarVariant.SACRIFICIAL_DAGGER] = {172, sewingMachineMod.sewnFamiliars.upSacrificialDagger},
     [FamiliarVariant.RAINBOW_BABY] = {174, sewingMachineMod.sewnFamiliars.upRainbowBaby},
+    [FamiliarVariant.HOLY_WATER] = {178, sewingMachineMod.sewnFamiliars.upHolyWater},
     [FamiliarVariant.ABEL] = {188, sewingMachineMod.sewnFamiliars.upAbel},
     [FamiliarVariant.JUICY_SACK] = {266, sewingMachineMod.sewnFamiliars.upJuicySack},
     [FamiliarVariant.ROBO_BABY_2] = {267, sewingMachineMod.sewnFamiliars.upRoboBaby2},
@@ -1109,7 +1110,7 @@ function sewingMachineMod:updateFamiliar(familiar)
     -- If a player is close from the machine
     if sewingMachineMod.currentUpgradeInfo ~= nil then
         local fColor = familiar:GetColor()
-
+        
         -- Available familiars
         if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
@@ -1547,7 +1548,9 @@ end
 -- MC_USE_ITEM - COLLECTIBLE_SEWING_BOX --
 ------------------------------------------
 function sewingMachineMod:useSewingBox(collectibleType, rng)
+    
     local player = GetPlayerUsingItem()
+    
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
@@ -1920,6 +1923,9 @@ function sewingMachineMod:loadSave(isExistingRun)
     -- Set familiar description
     sewingMachineMod:InitFamiliarDescription()
 end
+
+
+sewingMachineMod:InitFamiliarDescription()
 
 ---------------
 -- CALLBACKS --

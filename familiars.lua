@@ -295,6 +295,7 @@ function sewnFamiliars:familiarFollowTrail(familiar, position, forceChildLeash)
 end
 
 function sewnFamiliars:shootTearsCircular(familiar, amountTears, tearVariant, position, velocity, dmg, flags, notFireFromFamiliar)
+    local tearFired = {}
     local spawnerTear = familiar
     local player = familiar.Player
     tearVariant = tearVariant or TearVariant.BLOOD
@@ -316,7 +317,10 @@ function sewnFamiliars:shootTearsCircular(familiar, amountTears, tearVariant, po
             tear.TearFlags = tear.TearFlags | flags
         end
         sewnFamiliars:toBabyBenderTear(familiar, tear)
+        
+        table.insert(tearFired, tear)
     end
+    return tearFired
 end
 
 
@@ -2873,7 +2877,7 @@ function sewnFamiliars:upDeadCat(deadCat)
     if pData.Sewn_deadCat_counter == nil then
         pData.Sewn_deadCat_counter = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
     end
-    if sewingMachineMod.isSuper(fData) or sewingMachineMod.isUltra(fData) then
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat)
     end
 end
@@ -2899,6 +2903,55 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
         end
         pData.Sewn_deadCat_playerIsDead = false
         pData.Sewn_deadCat_counter = deadCats
+    end
+end
+
+-- HOLY WATER
+function sewnFamiliars:upHolyWater(holyWater)
+    local fData = holyWater:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customUpdate(holyWater, sewnFamiliars.custom_update_holyWater)
+        sewnFamiliars:customPlayerTakeDamage(holyWater, sewnFamiliars.custom_playerTakeDamage_holyWater)
+    end
+end
+function sewnFamiliars:custom_update_holyWater(holyWater)
+    local fData = holyWater:GetData()
+    
+    -- Prevent Holy Water from cracking
+    if sewingMachineMod:isUltra(fData) and fData.Sewn_holyWater_playerHit == true then
+        local sprite = holyWater:GetSprite()
+        sprite:Play("Idle", true)
+        holyWater:FollowParent()
+    end
+end
+function sewnFamiliars:custom_holyWater_setCreepVisible(creep)
+    creep.Visible = true
+end
+function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource)
+    local fData = holyWater:GetData()
+    
+    fData.Sewn_holyWater_playerHit = true
+    
+    if holyWater:IsVisible() then
+        local holyLight = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CRACK_THE_SKY, 0, holyWater.Position, Vector(0, 0), holyWater.Player):ToEffect()
+        holyLight.CollisionDamage = 20
+        for i = 0, 2 do
+            for j = 0, 2 do
+                if i ~= j or i ~= 1 then
+                    local _holyLight = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CRACK_THE_SKY, 0, holyWater.Position - Vector(-20 + 20 * i, -20 + 20 * j), Vector(0, 0), holyWater.Player):ToEffect()
+                    _holyLight.Visible = false
+                    _holyLight.CollisionDamage = 10
+                end
+            end
+        end
+    end
+    
+    if sewingMachineMod:isUltra(fData) then
+        -- Spawn the creep
+        local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, Vector(0, 0), holyWater):ToEffect()
+        creep.Visible = false
+        -- Prevent from a visual bug
+        sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
     end
 end
 
