@@ -319,6 +319,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.BUDDY_IN_A_BOX] = {518, sewingMachineMod.sewnFamiliars.upBuddyInABox},
     [FamiliarVariant.LIL_HARBINGERS] = {526, sewingMachineMod.sewnFamiliars.upLilHarbingers},
     [FamiliarVariant.ANGELIC_PRISM] = {528, sewingMachineMod.sewnFamiliars.upAngelicPrism},
+    [FamiliarVariant.LIL_SPEWER] = {537, sewingMachineMod.sewnFamiliars.upLilSpewer},
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 

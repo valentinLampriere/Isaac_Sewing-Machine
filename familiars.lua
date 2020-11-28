@@ -2955,4 +2955,194 @@ function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource
     end
 end
 
+-- LIL SPEWER
+local lil_spewer_state = {
+    NORMAL = 0,
+    WHITE = 1,
+    RED = 2,
+    BLACK = 3,
+    YELLOW = 4
+}
+local lil_spewer_sprite = {
+    "gfx/familiar/familiar_125_lilspewer.png",
+    "gfx/familiar/familiar_125_lilspewer_white.png",
+    "gfx/familiar/familiar_125_lilspewer_red.png",
+    "gfx/familiar/familiar_125_lilspewer_black.png",
+    "gfx/familiar/familiar_125_lilspewer_yellow.png"
+}
+function sewnFamiliars:upLilSpewer(lilSpewer)
+    local fData = lilSpewer:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_lilSpewer_firstState = lilSpewer.State
+            fData.Sewn_lilSpewer_secondState = sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
+            sewnFamiliars:custom_lilSpewer_updateUltraCostume(lilSpewer)
+        end
+        fData.Sewn_lilSpewer_fireFrame = -1
+        sewnFamiliars:customUpdate(lilSpewer, sewnFamiliars.custom_update_lilSpewer)
+    end
+end
+function sewnFamiliars:custom_lilSpewer_resetState(lilSpewer)
+    local fData = lilSpewer:GetData()
+    lilSpewer.State = fData.Sewn_lilSpewer_firstState
+end
+function sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
+    local fData = lilSpewer:GetData()
+    local roll = sewingMachineMod.rng:RandomInt(5)
+    
+    if roll == lilSpewer.State then
+        roll = sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
+    end
+    return roll
+end
+function sewnFamiliars:custom_lilSpewer_fireTears(data)
+    local lilSpewer = data[1]
+    local state = data[2]
+    
+    local fData = lilSpewer:GetData()
+    local velocity = Vector(0, 0)
+    local speed = 10
+    
+    local direction = lilSpewer.Player:GetFireDirection()
+    if direction == Direction.NO_DIRECTION then
+        direction = lilSpewer.Player:GetHeadDirection()
+    end
+    
+    if direction == Direction.LEFT then
+        velocity.X = -speed
+    elseif direction == Direction.RIGHT then
+        velocity.X = speed
+    elseif direction == Direction.UP then
+        velocity.Y = -speed
+    elseif direction == Direction.DOWN then
+        velocity.Y = speed
+    end
+    
+    local color = Color(0,0,0,0,0,0,0)
+    local flag = 0
+    
+    if state == lil_spewer_state.NORMAL or
+       state == lil_spewer_state.WHITE or
+       state == lil_spewer_state.BLACK then
+        if state == lil_spewer_state.NORMAL then
+            color = Color(1, 1, 0.95, 1, 20, 10, 0)
+        end
+        if state == lil_spewer_state.WHITE then
+            color = Color(1, 1, 1, 1, 50, 40, 35)
+            flag = flag | TearFlags.TEAR_SLOW
+        end
+        if state == lil_spewer_state.BLACK then
+            color = Color(0.1, 0.1, 0.1, 1, 0, 0, 0)
+            flag = flag | TearFlags.TEAR_GISH
+        end
+        for i = 0, 2 do
+            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, lilSpewer.Position, velocity:Rotated(-20 + 20 * i) + lilSpewer.Velocity * 0.5, lilSpewer):ToTear()
+            tear:SetColor(color, -1, 1, false, false)
+            tear.CollisionDamage = 5
+        end
+    end
+    if state == lil_spewer_state.YELLOW then
+        local data = {
+            LIL_SPEWER = lilSpewer,
+            VELOCITY = velocity + lilSpewer.Velocity * 0.5
+        }        
+        sewingMachineMod:delayFunction(sewnFamiliars.custom_lilSpewer_fireYellowTear, 1, data)
+        sewingMachineMod:delayFunction(sewnFamiliars.custom_lilSpewer_fireYellowTear, 3, data)
+        sewingMachineMod:delayFunction(sewnFamiliars.custom_lilSpewer_fireYellowTear, 5, data)
+    end
+    if state == lil_spewer_state.RED then
+        local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, lilSpewer.Position, velocity + lilSpewer.Velocity * 0.8, lilSpewer):ToTear()
+        tear.Scale = 1.25
+        tear.CollisionDamage = 15
+    end
+    
+    -- If lil spewer is ultra -> fire tears from his second state
+    if sewingMachineMod:isUltra(fData) and data[3] == nil then
+        data = {lilSpewer, fData.Sewn_lilSpewer_secondState, true}
+        sewingMachineMod:delayFunction(sewnFamiliars.custom_lilSpewer_fireTears, 2, data)
+    end
+end
+function sewnFamiliars:custom_lilSpewer_fireYellowTear(data)
+    local lilSpewer = data.LIL_SPEWER
+    local velocity = data.VELOCITY
+    local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, lilSpewer.Position, velocity, lilSpewer):ToTear()
+    tear:SetColor(Color(1, 1, 0, 1, 0, 0, 0), -1, 1, false, false)
+    tear.CollisionDamage = 5
+end
+function sewnFamiliars:custom_lilSpewer_updateUltraCostume(lilSpewer)
+    local fData = lilSpewer:GetData()
+    local sprite = lilSpewer:GetSprite()
+    fData.Sewn_lilSpewer_firstState = lilSpewer.State
+    fData.Sewn_lilSpewer_secondState = sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
+    
+    sprite:ReplaceSpritesheet(1, lil_spewer_sprite[fData.Sewn_lilSpewer_secondState + 1])
+    sprite:LoadGraphics()
+end
+function sewnFamiliars:custom_update_lilSpewer(lilSpewer)
+    local fData = lilSpewer:GetData()
+    local sprite = lilSpewer:GetSprite()
+    
+    
+    -- Loop through effects to upgrade creep
+    for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, -1, -1, false, true)) do
+        creep = creep:ToEffect()
+        if creep.FrameCount == 1 and EntityEffect.IsPlayerCreep(creep.Variant) and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.LIL_SPEWER then
+            local cData = creep:GetData()
+            
+            local multiplier = 1.1
+            if sewingMachineMod:isUltra(fData) then
+                multiplier = 1.33
+            end
+            
+            if not cData.Sewn_lilSpewer_creepSuper then
+                creep.Size = creep.Size * multiplier
+                creep.SpriteScale = creep.SpriteScale * multiplier
+                creep.CollisionDamage = creep.CollisionDamage * multiplier
+                cData.Sewn_lilSpewer_creepSuper = true
+            end
+        end
+    end
+    
+    
+    -- If lil' spewer is firing
+    if lilSpewer.FireCooldown == -15 and fData.Sewn_lilSpewer_fireFrame + 1 ~= lilSpewer.FrameCount then
+        
+        local data = {lilSpewer, lilSpewer.State}
+        sewnFamiliars:custom_lilSpewer_fireTears(data)
+        
+        if sewingMachineMod:isUltra(fData) then
+            
+            print("Shoot")
+            
+            -- Change his state
+            lilSpewer.State = fData.Sewn_lilSpewer_secondState
+            -- Reset the cooldown to 0 (ready to fire)
+            lilSpewer.FireCooldown = 0
+            -- Fire puddle with the new state
+            lilSpewer:Shoot()
+            --Fire aditionnal tears
+            
+            fData.Sewn_lilSpewer_fireFrame = lilSpewer.FrameCount
+            
+            -- On next frame, reset the state of lil' spewer
+            sewingMachineMod:delayFunction(sewnFamiliars.custom_lilSpewer_resetState, 1, lilSpewer)
+        end
+    end
+    
+    if sewingMachineMod:isUltra(fData) then
+        -- If lil spewer change his state (the player use a pill)
+        if lilSpewer.FireCooldown > 0 and fData.Sewn_lilSpewer_firstState ~= lilSpewer.State then
+            sewnFamiliars:custom_lilSpewer_updateUltraCostume(lilSpewer)
+        end
+        
+        if sprite.FlipX == true then
+            sprite:ReplaceSpritesheet(0, lil_spewer_sprite[fData.Sewn_lilSpewer_secondState + 1])
+            sprite:LoadGraphics()
+        else
+            sprite:ReplaceSpritesheet(0, lil_spewer_sprite[fData.Sewn_lilSpewer_firstState + 1])
+            sprite:LoadGraphics()
+        end
+    end
+end
+
 sewingMachineMod.errFamiliars.Error()

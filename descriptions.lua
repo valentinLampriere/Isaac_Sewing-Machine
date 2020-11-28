@@ -355,6 +355,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Stick to enemies for 0.5 seconds before continuing his path",
         ConvertRGBToIsaac({255, 239, 203})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.LIL_SPEWER,
+        "When it shoots, it fires aditional tears which depends on it color#Increase a bit the size and the damage deal by the creep",
+        "It has two colors as the same time#Increase again a bit the size and the damage deal by the creep",
+        ConvertRGBToIsaac({235, 210, 210})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
