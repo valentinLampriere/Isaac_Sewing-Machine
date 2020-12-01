@@ -333,8 +333,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LIL_HARBINGERS,
-        "Improve harbingers in different ways#WAR : War's red locusts can't hurt the player#FAMINE : Famine's locusts deal more damage#DEATH : Deal more collision damage#PESTILENCE : Pestilence's creep deal more damage#CONQUEST : Spawns more locusts",
-        "Each harbingers have an additional attack :#WAR : Throw tiny bombs. \3 Warning those bombs can hurt the player#FAMINE : Fire tears at random enemy#DEATH : Throw scythe tears to an enemy#PESTILENCE : Fire an ipecac tear toward an enemy (can't hurt the player)#CONQUEST : Conquest's locust have a chance to summon a light beam which deal damages to enemies",
+        "Improve harbingers in different ways#WAR : War's red locusts can't hurt the player#FAMINE : Famine's locusts deal way more damage#DEATH : Deal more collision damage#PESTILENCE : Pestilence's creep deal more damage#CONQUEST : Locusts have 15% chance to spawn a \"Crack the Sky\" effect",
+        "Double locust spawned by Harbingers",
         ConvertRGBToIsaac({225, 211, 211})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
