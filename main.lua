@@ -201,6 +201,7 @@ FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
 -- Effects
 EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02")
 EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
+EffectVariant.HALLOWED_GROUND_PERMANENT_AURA = Isaac.GetEntityVariantByName("Hallowed Ground Permanent Aura")
 
 sewingMachineMod.sewingMachinesData = {}
 
@@ -320,6 +321,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.LIL_HARBINGERS] = {526, sewingMachineMod.sewnFamiliars.upLilHarbingers},
     [FamiliarVariant.ANGELIC_PRISM] = {528, sewingMachineMod.sewnFamiliars.upAngelicPrism},
     [FamiliarVariant.LIL_SPEWER] = {537, sewingMachineMod.sewnFamiliars.upLilSpewer},
+    [FamiliarVariant.HALLOWED_GROUND] = {543, sewingMachineMod.sewnFamiliars.upHallowedGround},
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
@@ -1745,15 +1747,18 @@ function sewingMachineMod:executeCommand(cmd, params)
                     if fData.Sewn_upgradeState < 2 then
                         fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
                         sewingMachineMod:callFamiliarUpgrade(familiar)
+                        sewingMachineMod:resetFamiliarData(familiar)
                     end
                 elseif params[2] == "super" then
                     if fData.Sewn_upgradeState == 0 then
                         fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
+                        sewingMachineMod:resetFamiliarData(familiar)
                         sewingMachineMod:callFamiliarUpgrade(familiar)
                     end
                 elseif fData.Sewn_upgradeState < 2 then
                     fData.Sewn_upgradeState = fData.Sewn_upgradeState or 0
                     fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+                    sewingMachineMod:resetFamiliarData(familiar)
                     sewingMachineMod:callFamiliarUpgrade(familiar)
                 end
             end

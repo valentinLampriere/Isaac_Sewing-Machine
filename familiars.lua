@@ -3178,4 +3178,104 @@ function sewnFamiliars:custom_update_lilSpewer(lilSpewer)
     end
 end
 
+
+-- HALLOWED GROUND
+function sewnFamiliars:upHallowedGround(hallowedGround)
+    local fData = hallowedGround:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_hallowedGround_radius = 45
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_hallowedGround_radius = 55
+        end
+        sewnFamiliars:customUpdate(hallowedGround, sewnFamiliars.custom_update_hallowedGround)
+        sewnFamiliars:customCache(hallowedGround, sewnFamiliars.custom_cache_hallowedGround)
+        sewnFamiliars:customPlayerTakeDamage(hallowedGround, sewnFamiliars.custom_playerTakeDamage_hallowedGround)
+
+        -- Remove hallowed ground from previous update
+        sewnFamiliars:custom_hallowedGround_removeAura(hallowedGround)
+    end
+end
+function sewnFamiliars:custom_hallowedGround_removeAura(hallowedGround)
+    for _, aura in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.HALLOWED_GROUND_PERMANENT_AURA, -1, false, true)) do
+        aura:Remove()
+    end
+end
+function sewnFamiliars:custom_update_hallowedGround(hallowedGround)
+    local fData = hallowedGround:GetData()
+    local player = hallowedGround.Player
+
+    if fData.Sewn_hallowedGround_effect == nil or not fData.Sewn_hallowedGround_effect:Exists() then
+        fData.Sewn_hallowedGround_effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HALLOWED_GROUND_PERMANENT_AURA, 0, hallowedGround.Position, Vector(0, 0), hallowedGround):ToEffect()
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_hallowedGround_effect:GetSprite():Play("Ultra", true)
+        end
+    end
+
+    -- Aura follow Hallowed Ground
+    fData.Sewn_hallowedGround_effect.Position = hallowedGround.Position
+
+    if player and player.Position:DistanceSquared(hallowedGround.Position) <= fData.Sewn_hallowedGround_radius ^2 then
+        if fData.Sewn_hallowedGround_playerIsClose ~= true then
+            fData.Sewn_hallowedGround_playerIsClose = true
+            player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+            player:EvaluateItems()
+        end
+    else
+        if fData.Sewn_hallowedGround_playerIsClose == true then
+            fData.Sewn_hallowedGround_playerIsClose = false
+            player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+            player:EvaluateItems()
+        end
+    end
+
+    if sewingMachineMod:isUltra(fData) then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, true)) do
+            local familiarData = familiar:GetData()
+            familiar = familiar:ToFamiliar()
+            if GetPtrHash(familiar) ~= GetPtrHash(hallowedGround) then
+                if familiar.Position:DistanceSquared(hallowedGround.Position) <= fData.Sewn_hallowedGround_radius ^2 then
+                    if familiarData.Sewn_hallowedGround_isInRadius ~= true then
+                        local bonus = familiarData.Sewn_tearRate_bonus or 0
+                        familiarData.Sewn_hallowedGround_initialFireRateBonus = bonus
+                        local newBonus = bonus + 8 - math.ceil(bonus / 3)
+                        if newBonus < 0 then
+                            newBonus = 0
+                        end
+                        sewnFamiliars:setTearRateBonus(familiar, newBonus)
+                        familiarData.Sewn_hallowedGround_isInRadius = true
+                        familiar:SetColor(Color(1,1,1,1,0,20,50), -1, 1, true, false)
+                    end
+                else
+                    if familiarData.Sewn_hallowedGround_isInRadius == true then
+                        sewnFamiliars:setTearRateBonus(familiar, familiarData.Sewn_hallowedGround_initialFireRateBonus)
+                        familiarData.Sewn_hallowedGround_isInRadius = false
+                        familiar:SetColor(Color(1,1,1,1,0,0,0), -1, 1, true, false)
+                    end
+                end
+            end
+        end
+    end
+end
+function sewnFamiliars:custom_cache_hallowedGround(hallowedGround, cacheFlag)
+    local fData = hallowedGround:GetData()
+    local player = hallowedGround.Player
+    if cacheFlag == CacheFlag.CACHE_FIREDELAY then
+        if fData.Sewn_hallowedGround_effect ~= nil and fData.Sewn_hallowedGround_playerIsClose == true then
+            local fireDelay = player.MaxFireDelay - math.floor(player.MaxFireDelay / 10) - 1
+            if sewingMachineMod:isUltra(fData) then
+                fireDelay = player.MaxFireDelay - math.ceil(player.MaxFireDelay / 10) - 1
+            end
+            player.MaxFireDelay = fireDelay
+        end
+    end
+end
+function sewnFamiliars:custom_playerTakeDamage_hallowedGround(hallowedGround, dmgSource, dmgAmount, dmgFlags)
+    local fData = hallowedGround:GetData()
+    fData.Sewn_hallowedGround_playerIsClose = false
+    fData.Sewn_hallowedGround_effect = nil
+    sewnFamiliars:custom_hallowedGround_removeAura(hallowedGround)
+    player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+    player:EvaluateItems() 
+end
+
 sewingMachineMod.errFamiliars.Error()

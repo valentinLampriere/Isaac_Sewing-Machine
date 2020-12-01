@@ -361,6 +361,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "It has two colors as the same time#Increase again a bit the size and the damage deal by the creep",
         ConvertRGBToIsaac({235, 210, 210})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.HALLOWED_GROUND,
+        "Add a permanent halo around it#If the player is in the halo his fire delay is reduced",
+        "The halo is larger and decrease a bit more fire delay#Reduce also fire rate of familiars in the halo",
+        ConvertRGBToIsaac({127, 242, 255})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
