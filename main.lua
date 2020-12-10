@@ -327,6 +327,10 @@ sewingMachineMod.availableFamiliar = {
 
 __require("descriptions")
 
+if M_SYR ~= nil then
+    __require("syringe")
+end
+
 -------------------------------
 -- External Item Description --
 -------------------------------
