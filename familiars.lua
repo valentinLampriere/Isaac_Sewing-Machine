@@ -2863,51 +2863,48 @@ end
 function sewnFamiliars:upHolyWater(holyWater)
     local fData = holyWater:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        fData.Sewn_holyWater_orbitingTear = nil
-        fData.Sewn_holyWater_orbitingTear_dieFrame = 0
-        fData.Sewn_holyWater_orbitingTear_cooldown = 250
-        fData.Sewn_holyWater_orbitingTear_distance = sewingMachineMod.rng:RandomInt(75) + 25
         sewnFamiliars:customUpdate(holyWater, sewnFamiliars.custom_update_holyWater)
         sewnFamiliars:customPlayerTakeDamage(holyWater, sewnFamiliars.custom_playerTakeDamage_holyWater)
-        sewnFamiliars:customNewRoom(holyWater, sewnFamiliars.custom_newRoom_holyWater)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customCollision(holyWater, sewnFamiliars.custom_collision_holyWater)
+        end
     end
 end
-function sewnFamiliars:custom_newRoom_holyWater(holyWater)
-    local fData = holyWater:GetData()
+function sewnFamiliars:custom_holyWater_crack(holyWater, puddleSizeMultiplier)
+
+    if puddleSizeMultiplier == nil then 
+        puddleSizeMultiplier = 1
+    end
     
-    fData.Sewn_holyWater_orbitingTear_isDead = true
-    if fData.Sewn_holyWater_orbitingTear and not fData.Sewn_holyWater_orbitingTear:IsDead() then
-        fData.Sewn_holyWater_orbitingTear_dieFrame = 0
+    -- Spawn the creep
+    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, Vector(0, 0), holyWater):ToEffect()
+    --creep.Size = creep.Size * puddleSizeMultiplier
+    --creep.SpriteScale = creep.SpriteScale * puddleSizeMultiplier
+    
+    creep.CollisionDamage = creep.CollisionDamage * math.min(1, puddleSizeMultiplier)
+
+    creep.Visible = false
+
+    -- Prevent from a visual bug
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
+
+    return creep
+end
+function sewnFamiliars:custom_collision_holyWater(holyWater, collider)
+    if collider.Type == EntityType.ENTITY_PROJECTILE then
+        local roll = sewingMachineMod.rng:RandomInt(100)
+
+        roll = 1
+
+        if roll <= 25 then
+            sewnFamiliars:custom_holyWater_crack(holyWater, 0.5)
+        end
+
+        collider:Die()
     end
 end
 function sewnFamiliars:custom_update_holyWater(holyWater)
     local fData = holyWater:GetData()
-
-    if holyWater:IsVisible() and sewingMachineMod:isUltra(fData) then
-        if (fData.Sewn_holyWater_orbitingTear == nil or not fData.Sewn_holyWater_orbitingTear:Exists()) then
-            if fData.Sewn_holyWater_orbitingTear_isDead ~= true then
-                fData.Sewn_holyWater_orbitingTear_dieFrame = holyWater.FrameCount
-                fData.Sewn_holyWater_orbitingTear_distance = sewingMachineMod.rng:RandomInt(75) + 25
-                fData.Sewn_holyWater_orbitingTear_isDead = true
-            end
-            if fData.Sewn_holyWater_orbitingTear_dieFrame < holyWater.FrameCount - fData.Sewn_holyWater_orbitingTear_cooldown then
-                fData.Sewn_holyWater_orbitingTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, holyWater.Position, Vector(0, 0), holyWater.Player):ToTear()
-
-                fData.Sewn_holyWater_orbitingTear.GridCollisionClass = GridCollisionClass.COLLISION_NONE 
-                fData.Sewn_holyWater_orbitingTear.TearFlags = TearFlags.TEAR_LIGHT_FROM_HEAVEN
-                fData.Sewn_holyWater_orbitingTear_height = fData.Sewn_holyWater_orbitingTear.Height
-
-            end
-        else
-            fData.Sewn_holyWater_orbitingTear.Height = fData.Sewn_holyWater_orbitingTear_height
-            local targetPos = Vector(
-                holyWater.Position.X + math.cos(0.1 * holyWater.FrameCount) * fData.Sewn_holyWater_orbitingTear_distance,
-                holyWater.Position.Y + math.sin(0.1 * holyWater.FrameCount) * fData.Sewn_holyWater_orbitingTear_distance
-            )
-            fData.Sewn_holyWater_orbitingTear.Velocity = targetPos - fData.Sewn_holyWater_orbitingTear.Position
-            fData.Sewn_holyWater_orbitingTear_isDead = false
-        end
-    end
 
     -- Prevent Holy Water from cracking
     if fData.Sewn_holyWater_playerHit == true then
@@ -2924,11 +2921,12 @@ function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource
     
     fData.Sewn_holyWater_playerHit = true
     
-    -- Spawn the creep
-    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, Vector(0, 0), holyWater):ToEffect()
-    creep.Visible = false
-    -- Prevent from a visual bug
-    sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
+    local creep
+    if sewingMachineMod:isUltra(fData) then
+        creep = sewnFamiliars:custom_holyWater_crack(holyWater, 1.5)
+    else
+        creep = sewnFamiliars:custom_holyWater_crack(holyWater)
+    end
 end
 
 -- LIL SPEWER
