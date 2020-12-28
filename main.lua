@@ -192,7 +192,6 @@ CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
 CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD = Isaac.GetItemIdByName("Ann's Tainted Head")
 CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY = Isaac.GetItemIdByName("Ann's Pure Body")
 -- Cards --
-Card.RUNE_WUNJO = Isaac.GetCardIdByName("Wunjo")
 Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
 -- Familiars --
 FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
@@ -354,7 +353,6 @@ __eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every f
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA"
 __eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA"
 -- EID Cards
-__eidCardDescriptions[Card.RUNE_WUNJO] = "Upgrade every familiars for 30 seconds"
 __eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a sewing machine"
 
 function sewingMachineMod:isAvailable(familiarVariant)
@@ -410,7 +408,7 @@ end
 
 
 
-function sewingMachineMod:temporaryUpgradeFamiliar(familiar, delay)
+function sewingMachineMod:temporaryUpgradeFamiliar(familiar)
     local fData = familiar:GetData()
     if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
         sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
@@ -422,19 +420,8 @@ function sewingMachineMod:temporaryUpgradeFamiliar(familiar, delay)
         else
             fData.Sewn_upgradeState_temporary = fData.Sewn_upgradeState_temporary + 1
         end
-
-        if delay ~= nil then
-            fData.Sewn_upgradeState_temporary_delay = game:GetFrameCount() + delay
-        end
-
         sewingMachineMod:callFamiliarUpgrade(familiar)
     end
-end
-function sewingMachineMod:removeTemporaryUpgrade(familiar)
-    local fData = familiar:ToFamiliar()
-    sewingMachineMod:resetFamiliarData(familiar)
-
-    sewingMachineMod:callFamiliarUpgrade(familiar)
 end
 
 -- Code given by Xalum
@@ -1110,10 +1097,6 @@ function sewingMachineMod:updateFamiliar(familiar)
         fData.Sewn_Init = true
     end
 
-    if fData.Sewn_upgradeState_temporary_delay ~= nil and fData.Sewn_upgradeState_temporary_delay <= game:GetFrameCount() then
-        sewingMachineMod:removeTemporaryUpgrade(familiar)
-    end
-
     -- If a player is close from the machine
     if sewingMachineMod.currentUpgradeInfo ~= nil then
         local fColor = familiar:GetColor()
@@ -1294,9 +1277,8 @@ function sewingMachineMod:newRoom()
                 local fData = familiar:GetData()
                 familiar = familiar:ToFamiliar()
 
-                if fData.Sewn_upgradeState_temporary_delay == nil then
-                    sewingMachineMod:removeTemporaryUpgrade(familiar)
-                end
+                sewingMachineMod:resetFamiliarData(familiar)
+                sewingMachineMod:callFamiliarUpgrade(familiar)
             end
             player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
         end
@@ -1575,28 +1557,7 @@ function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, o
     if includeRunes then
         local roll = rng:RandomInt(100) + 1
         if roll < 8 then
-            local rollRune = rng:RandomInt(2)
-            if rollRune == 0 then
-                return Card.RUNE_WUNJO
-            elseif rollRune == 1 then
-                return Card.RUNE_NAUDIZ
-            end
-        end
-    end
-end
------------------------------------
--- MC_USE_CARD - CARD_RUNE_WUNJO --
------------------------------------
-function sewingMachineMod:useWunjo(card)
-    local player = GetPlayerUsingItem()
-    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
-    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_wunjo.png")
-    GiantBook:LoadGraphics()
-    GiantBook:Play("Appear", true)
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        familiar = familiar:ToFamiliar()
-        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-            sewingMachineMod:temporaryUpgradeFamiliar(familiar, 30 * 30)
+            return Card.RUNE_NAUDIZ
         end
     end
 end
@@ -1618,11 +1579,7 @@ end
 -------------------------
 function sewingMachineMod:initPickup(pickup)
     if pickup.Type == EntityType.ENTITY_PICKUP and pickup.Variant == PickupVariant.PICKUP_TAROTCARD then
-        if pickup.SubType == Card.RUNE_WUNJO then
-            local sprite = pickup:GetSprite()
-            sprite:Load("gfx/005.303_rune1.anm2", true)
-            sprite:Play("Appear")
-        elseif pickup.SubType == Card.RUNE_NAUDIZ then
+        if pickup.SubType == Card.RUNE_NAUDIZ then
             local sprite = pickup:GetSprite()
             sprite:Load("gfx/005.304_rune2.anm2", true)
             sprite:Play("Appear")
@@ -1960,7 +1917,6 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 -- Pickups related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
-sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWunjo, Card.RUNE_WUNJO)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useNaudiz, Card.RUNE_NAUDIZ)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.initPickup)
 
