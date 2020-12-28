@@ -43,36 +43,16 @@ end
 function sewnSyringes.familiarsBuff_onUse(idx)
 	local sData = sewnSyringes.data[M_SYR.TOT_SYR.familiarBuff]
 
-	sewnSyringes:loopThroughFamiliars(function(familiar)
-		local fData = familiar:GetData()
-		-- Save the original level
-		sData.familiarsLevels[GetPtrHash(familiar)] = fData.Sewn_upgradeState or 0
-				
-		sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
-
-		-- Set the familiar's level (unless it is already ultra)
-		if fData.Sewn_upgradeState ~= sewingMachineMod.UpgradeState.ULTRA then
-			fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-		end
-
-		-- Upgrade the familiar
-		sewingMachineMod:callFamiliarUpgrade(familiar)
+	sewnSyringes:loopThroughFamiliars(function(familiar)	
+		sewingMachineMod:temporaryUpgradeFamiliar(familiar)
 	end)
 end
 function sewnSyringes.familiarsBuff_post(player)
 	local sData = sewnSyringes.data[M_SYR.TOT_SYR.familiarBuff]
 
 	sewnSyringes:loopThroughFamiliars(function(familiar)
-		local fData = familiar:GetData()
-		-- If there is a saved level for the familiar
-		if sData.familiarsLevels[GetPtrHash(familiar)] then
-			-- Set the level of the familiar depending on the saved one
-			fData.Sewn_upgradeState = sData.familiarsLevels[GetPtrHash(familiar)]
-			
-			-- Upgrade the familiar
-			sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
-			sewingMachineMod:callFamiliarUpgrade(familiar)
-		end
+		sewingMachineMod:resetFamiliarData(familiar)
+		sewingMachineMod:callFamiliarUpgrade(familiar)
 	end)
 end
 sewnSyringes:addSyringe(
@@ -86,8 +66,7 @@ sewnSyringes:addSyringe(
 	1.1,
 	{},
 	sewnSyringes.familiarsBuff_onUse,
-	sewnSyringes.familiarsBuff_post,
-	{familiarsLevels = {}}
+	sewnSyringes.familiarsBuff_post
 )
 
 
@@ -99,33 +78,17 @@ function sewnSyringes.loneliness_onUse(idx)
 
 	sewnSyringes:loopThroughFamiliars(function(familiar)
 		local fData = familiar:GetData()
-		-- Save the original level
-		sData.familiarsLevels[GetPtrHash(familiar)] = fData.Sewn_upgradeState or 0
-			
-		sewingMachineMod:resetFamiliarData(familiar)
-
-		-- Set the familiar's level to 0 (NORMAL, no upgrade)
-		fData.Sewn_upgradeState = 0
+		sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
+        fData.Sewn_upgradeState_temporary = 0
+        sewingMachineMod:callFamiliarUpgrade(familiar)
 	end)
 end
 function sewnSyringes.loneliness_post(player)
 	local sData = sewnSyringes.data[M_SYR.TOT_SYR.loneliness]
-
 	
 	sewnSyringes:loopThroughFamiliars(function(familiar)
-		local fData = familiar:GetData()
-		-- Check if the familiar is from the current player
-		if GetPtrHash(familiar.Player) == GetPtrHash(player) then
-			-- If there is a saved level for the familiar
-			if sData.familiarsLevels[GetPtrHash(familiar)] then
-				-- Set the level of the familiar depending on the saved one
-				fData.Sewn_upgradeState = sData.familiarsLevels[GetPtrHash(familiar)]
-				
-				-- Upgrade the familiar
-				sewingMachineMod:resetFamiliarData(familiar)
-				sewingMachineMod:callFamiliarUpgrade(familiar)
-			end
-		end
+		sewingMachineMod:resetFamiliarData(familiar)
+		sewingMachineMod:callFamiliarUpgrade(familiar)
 	end)
 end
 sewnSyringes:addSyringe(
@@ -139,8 +102,7 @@ sewnSyringes:addSyringe(
 	1.1,
 	{},
 	sewnSyringes.loneliness_onUse,
-	sewnSyringes.loneliness_post,
-	{familiarsLevels = {}}
+	sewnSyringes.loneliness_post
 )
 
 sewingMachineMod.errFamiliars.Error()

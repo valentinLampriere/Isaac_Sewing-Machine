@@ -1270,11 +1270,9 @@ function sewingMachineMod:newRoom()
     -- Remove temporary upgardes (for Sewing Box only)
     for i = 1, game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
-        local sprite = player:GetSprite()
 
         if player:GetData().Sewn_hasTemporaryUpgradedFamiliars == true then
             for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                local fData = familiar:GetData()
                 familiar = familiar:ToFamiliar()
 
                 sewingMachineMod:resetFamiliarData(familiar)
