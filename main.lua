@@ -1750,8 +1750,8 @@ function sewingMachineMod:executeCommand(cmd, params)
                 if params[2] == "ultra" then
                     if fData.Sewn_upgradeState < 2 then
                         fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
-                        sewingMachineMod:callFamiliarUpgrade(familiar)
                         sewingMachineMod:resetFamiliarData(familiar)
+                        sewingMachineMod:callFamiliarUpgrade(familiar)
                     end
                 elseif params[2] == "super" then
                     if fData.Sewn_upgradeState == 0 then
