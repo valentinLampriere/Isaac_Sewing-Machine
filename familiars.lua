@@ -5,6 +5,7 @@ require("scripts.embeddablecallbackhack")
 require("scripts.apioverride")
 
 local game = Game()
+local v0 = Vector(0,0)
 
 local ANIMATION_NAMES = {
     SPAWN = {"Spawn"},
@@ -2860,73 +2861,77 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
 end
 
 -- HOLY WATER
+
+
+
+-- If player has not Holy Mantle -> Give holy mantle effect in some rooms
+
+
+
 function sewnFamiliars:upHolyWater(holyWater)
     local fData = holyWater:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customUpdate(holyWater, sewnFamiliars.custom_update_holyWater)
         sewnFamiliars:customPlayerTakeDamage(holyWater, sewnFamiliars.custom_playerTakeDamage_holyWater)
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customCollision(holyWater, sewnFamiliars.custom_collision_holyWater)
+            fData.Sewn_holyWater_hasHolyMantle = holyWater.Player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
+            sewnFamiliars:customNewRoom(holyWater, sewnFamiliars.custom_newRoom_holyWater)
         end
-    end
-end
-function sewnFamiliars:custom_holyWater_crack(holyWater, puddleSizeMultiplier)
-
-    if puddleSizeMultiplier == nil then 
-        puddleSizeMultiplier = 1
-    end
-    
-    -- Spawn the creep
-    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, Vector(0, 0), holyWater):ToEffect()
-    --creep.Size = creep.Size * puddleSizeMultiplier
-    --creep.SpriteScale = creep.SpriteScale * puddleSizeMultiplier
-    
-    creep.CollisionDamage = creep.CollisionDamage * math.min(1, puddleSizeMultiplier)
-
-    creep.Visible = false
-
-    -- Prevent from a visual bug
-    sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
-
-    return creep
-end
-function sewnFamiliars:custom_collision_holyWater(holyWater, collider)
-    if collider.Type == EntityType.ENTITY_PROJECTILE then
-        local roll = sewingMachineMod.rng:RandomInt(100)
-
-        roll = 1
-
-        if roll <= 25 then
-            sewnFamiliars:custom_holyWater_crack(holyWater, 0.5)
-        end
-
-        collider:Die()
     end
 end
 function sewnFamiliars:custom_update_holyWater(holyWater)
     local fData = holyWater:GetData()
 
     -- Prevent Holy Water from cracking
-    if fData.Sewn_holyWater_playerHit == true then
-        local sprite = holyWater:GetSprite()
-        sprite:Play("Idle", true)
-        holyWater:FollowParent()
+    local sprite = holyWater:GetSprite()
+    sprite:Play("Idle", true)
+    holyWater:FollowParent()
+
+    if sewingMachineMod:isUltra(fData) then
+        -- If the player lose his holy mantle effect -> spawn water
+        if fData.Sewn_holyWater_hasHolyMantle == true and holyWater.Player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) == false then
+            sewnFamiliars:custom_holyWater_spawnWater(holyWater)
+            fData.Sewn_holyWater_hasHolyMantle = false
+        end
+    end
+
+end
+function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource)
+    sewnFamiliars:custom_holyWater_spawnWater(holyWater)
+end
+
+function sewnFamiliars:custom_newRoom_holyWater(holyWater)
+    local fData = holyWater:GetData()
+
+    fData.Sewn_holyWater_hasHolyMantle = false
+    
+    -- if the player has Holy Mantle
+    if holyWater.Player:HasCollectible(CollectibleType.COLLECTIBLE_HOLY_MANTLE) then
+        fData.Sewn_holyWater_hasHolyMantle = true
+    else
+        local chance = 25
+        local roll = sewingMachineMod.rng:RandomInt(100)
+        local room = game:GetLevel():GetCurrentRoom()
+
+        if holyWater.Player:HasPlayerForm(PlayerForm.PLAYERFORM_ANGEL) then
+            chance = chance + 15
+        end
+
+        if room:IsFirstVisit() and roll < chance then
+            holyWater.Player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, true)
+            fData.Sewn_holyWater_hasHolyMantle = true
+        end
     end
 end
 function sewnFamiliars:custom_holyWater_setCreepVisible(creep)
     creep.Visible = true
 end
-function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource)
-    local fData = holyWater:GetData()
+function sewnFamiliars:custom_holyWater_spawnWater(holyWater)
+    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, Vector(0, 0), holyWater):ToEffect()
     
-    fData.Sewn_holyWater_playerHit = true
-    
-    local creep
-    if sewingMachineMod:isUltra(fData) then
-        creep = sewnFamiliars:custom_holyWater_crack(holyWater, 1.5)
-    else
-        creep = sewnFamiliars:custom_holyWater_crack(holyWater)
-    end
+    -- Prevent from a visual bug
+    creep.Visible = false
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
 end
 
 -- LIL SPEWER

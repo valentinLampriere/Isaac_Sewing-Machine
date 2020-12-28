@@ -367,6 +367,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "The halo is larger and decrease a bit more fire delay#Reduce also fire rate of familiars in the halo",
         ConvertRGBToIsaac({127, 242, 255})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.HOLY_WATER,
+        "Can be used an unlimited times each rooms",
+        "Give a holy Mantle effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim, increase chances to get Holy Mantle effect",
+        ConvertRGBToIsaac({127, 242, 255})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
