@@ -268,7 +268,7 @@ function sewingMachineMod:resetFamiliarData(familiar, keepValues)
                 end
             end
             if keepValue == false then
-                if key ~= "Sewn_upgradeState" and key ~= "Sewn_Init" and key ~= "Sewn_collisionDamage" and key ~= "Sewn_upgradeFunction" then
+                if key ~= "Sewn_upgradeState" and key ~= "Sewn_Init" and key ~= "Sewn_collisionDamage" and key ~= "Sewn_upgradeFunction" and key ~= "Sewn_newRoomVisited" then
                     fData[key] = nil
                 end
                 if key == "Sewn_custom_cache" and familiar.Player then

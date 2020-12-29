@@ -343,8 +343,8 @@ end
 if EID then
     -- EID Collectibles
     EID:addCollectible(CollectibleType.COLLECTIBLE_SEWING_BOX, "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded")
-    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD, "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA")
-    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY, "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA")
+    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD, "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA#Has a chance to spawn a Sewing machine in Devil rooms {{DevilRoom}}")
+    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY, "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA#Has a chance to spawn a Sewing machine in Angel rooms {{AngelRoom}}")
 
     -- EID Trinkets
     EID:addTrinket(TrinketType.TRINKET_THIMBLE, "Have a 50% chance to upgrade a familiar for free")
@@ -1305,8 +1305,15 @@ function sewingMachineMod:newRoom()
         elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL then
             for i = 1, game:GetNumPlayers() do
                 local player = Isaac.GetPlayer(i - 1)
-                local roll = sewingMachineMod.rng:RandomInt(100) + 1
-                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and roll < 50 then
+                local rollContrastedButton = sewingMachineMod.rng:RandomInt(100)
+                local rollAnn = sewingMachineMod.rng:RandomInt(100)
+                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 then
+                    sewingMachineMod:spawnMachine(nil, true)
+                end
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and rollAnn < 20 then
+                    sewingMachineMod:spawnMachine(nil, true)
+                end
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and rollAnn < 20 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
             end
