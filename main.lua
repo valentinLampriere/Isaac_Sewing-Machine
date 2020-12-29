@@ -326,6 +326,10 @@ sewingMachineMod.availableFamiliar = {
 
 __require("descriptions")
 
+---------------
+-- Syringes! --
+---------------
+
 if M_SYR ~= nil then
     __require("syringe")
 end
@@ -333,27 +337,24 @@ end
 -------------------------------
 -- External Item Description --
 -------------------------------
-if not __eidTrinketDescriptions then
-	__eidTrinketDescriptions = {};
+
+if EID then
+    -- EID Collectibles
+    EID:addCollectible(CollectibleType.COLLECTIBLE_SEWING_BOX, "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded")
+    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD, "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA")
+    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY, "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA")
+
+    -- EID Trinkets
+    EID:addTrinket(TrinketType.TRINKET_THIMBLE, "Have a 50% chance to upgrade a familiar for free")
+    EID:addTrinket(TrinketType.TRINKET_CRACKED_THIMBLE, "Reroll familiars crowns when getting hit")
+    EID:addTrinket(TrinketType.TRINKET_LOST_BUTTON, "100% chance to spawn sewing machine in Shops for next floors")
+    EID:addTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON, "50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
+    EID:addTrinket(TrinketType.TRINKET_PIN_CUSHION, "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button")
+
+    -- EID Cards
+    EID:addCard(Card.RUNE_NAUDIZ, "Spawn a sewing machine#The Sewing machine change depending on the room type")
 end
-if not __eidItemDescriptions then
-	__eidItemDescriptions = {};
-end
-if not __eidCardDescriptions then
-  __eidCardDescriptions = {};
-end
--- EID Trinkets
-__eidTrinketDescriptions[TrinketType.TRINKET_THIMBLE] = "Have a 50% chance to upgrade a familiar for free"
-__eidTrinketDescriptions[TrinketType.TRINKET_CRACKED_THIMBLE] = "Reroll familiars crowns when getting hit"
-__eidTrinketDescriptions[TrinketType.TRINKET_LOST_BUTTON] = "100% chance to spawn sewing machine in Shops for next floors"
-__eidTrinketDescriptions[TrinketType.TRINKET_CONTRASTED_BUTTON] = "50% chance to find a sewing machine in angel rooms or devil rooms"
-__eidTrinketDescriptions[TrinketType.TRINKET_PIN_CUSHION] = "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button"
--- EID Collectibles
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_SEWING_BOX] = "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded"
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA"
-__eidItemDescriptions[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA"
--- EID Cards
-__eidCardDescriptions[Card.RUNE_NAUDIZ] = "Spawn a sewing machine"
+
 
 function sewingMachineMod:isAvailable(familiarVariant)
     return sewingMachineMod.availableFamiliar[familiarVariant] ~= nil
