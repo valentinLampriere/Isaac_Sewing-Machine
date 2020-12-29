@@ -7,7 +7,7 @@ M_SYR.TOT_SYR.lonerEssence = M_SYR.GetSyringeIdByName("Loner Essence")
 
 sewnSyringes.data = {}
 
-function sewnSyringes:addSyringe(id, type, name, description, EIDDescription, duration, counterpart, weight, effect, onuse, post, data)
+function sewnSyringes:addSyringe(id, type, name, description, EIDDescription, duration, counterpart, weight, effect, onuse, post)
 	M_SYR.EFF_TAB[id] = {
 		ID = id,
 		Type = type,
@@ -21,8 +21,17 @@ function sewnSyringes:addSyringe(id, type, name, description, EIDDescription, du
 		OnUse = onuse,
 		Post = post
 	}
+end
 
-	sewnSyringes.data[id] = data
+function sewnSyringes:goodSyringeOnUse()
+	local player = M_SYR.GetPlayerUsingActive()
+	player:AnimateSad()
+	Sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0, false, 1)
+end
+function sewnSyringes:badSyringeOnUse()
+	local player = M_SYR.GetPlayerUsingActive()
+	player:AnimateSad()
+	Sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0, false, 1)
 end
 
 function sewnSyringes:loopThroughFamiliars(_function)
@@ -41,15 +50,12 @@ end
 -- FAMILIARS BUFF --
 --------------------
 function sewnSyringes.familiarsBuff_onUse(idx)
-	local sData = sewnSyringes.data[M_SYR.TOT_SYR.familiarBuff]
-
 	sewnSyringes:loopThroughFamiliars(function(familiar)	
 		sewingMachineMod:temporaryUpgradeFamiliar(familiar)
 	end)
+	sewnSyringes:goodSyringeOnUse()
 end
 function sewnSyringes.familiarsBuff_post(player)
-	local sData = sewnSyringes.data[M_SYR.TOT_SYR.familiarBuff]
-
 	sewnSyringes:loopThroughFamiliars(function(familiar)
 		sewingMachineMod:resetFamiliarData(familiar)
 		sewingMachineMod:callFamiliarUpgrade(familiar)
@@ -64,28 +70,24 @@ sewnSyringes:addSyringe(
 	45 * 30,
 	M_SYR.TOT_SYR.lonerEssence,
 	1.1,
-	{},
+	nil,
 	sewnSyringes.familiarsBuff_onUse,
 	sewnSyringes.familiarsBuff_post
 )
-
 
 -------------------
 -- LONER ESSENCE --
 -------------------
 function sewnSyringes.lonerEssence_onUse(idx)
-	local sData = sewnSyringes.data[M_SYR.TOT_SYR.loneliness]
-
 	sewnSyringes:loopThroughFamiliars(function(familiar)
 		local fData = familiar:GetData()
 		sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
         fData.Sewn_upgradeState_temporary = 0
         sewingMachineMod:callFamiliarUpgrade(familiar)
 	end)
+	sewnSyringes:badSyringeOnUse()
 end
 function sewnSyringes.lonerEssence_post(player)
-	local sData = sewnSyringes.data[M_SYR.TOT_SYR.loneliness]
-	
 	sewnSyringes:loopThroughFamiliars(function(familiar)
 		sewingMachineMod:resetFamiliarData(familiar)
 		sewingMachineMod:callFamiliarUpgrade(familiar)
@@ -100,7 +102,7 @@ sewnSyringes:addSyringe(
 	60 * 30,
 	M_SYR.TOT_SYR.familiarBuff,
 	1.1,
-	{},
+	nil,
 	sewnSyringes.lonerEssence_onUse,
 	sewnSyringes.lonerEssence_post
 )
