@@ -2,7 +2,7 @@ sewingMachineMod.sewnSyringes = {}
 sewnSyringes = sewingMachineMod.sewnSyringes
 
 M_SYR.TOT_SYR.familiarBuff = M_SYR.GetSyringeIdByName("Familiar Buff")
-M_SYR.TOT_SYR.loneliness = M_SYR.GetSyringeIdByName("Loneliness")
+M_SYR.TOT_SYR.lonerEssence = M_SYR.GetSyringeIdByName("Loner Essence")
 
 
 sewnSyringes.data = {}
@@ -62,7 +62,7 @@ sewnSyringes:addSyringe(
 	"Upgrade familiars", 
 	"Upgrade your familiar from Normal to Super or Super to Ultra",
 	45 * 30,
-	M_SYR.TOT_SYR.loneliness,
+	M_SYR.TOT_SYR.lonerEssence,
 	1.1,
 	{},
 	sewnSyringes.familiarsBuff_onUse,
@@ -70,10 +70,10 @@ sewnSyringes:addSyringe(
 )
 
 
-----------------
--- LONELINESS --
-----------------
-function sewnSyringes.loneliness_onUse(idx)
+-------------------
+-- LONER ESSENCE --
+-------------------
+function sewnSyringes.lonerEssence_onUse(idx)
 	local sData = sewnSyringes.data[M_SYR.TOT_SYR.loneliness]
 
 	sewnSyringes:loopThroughFamiliars(function(familiar)
@@ -83,7 +83,7 @@ function sewnSyringes.loneliness_onUse(idx)
         sewingMachineMod:callFamiliarUpgrade(familiar)
 	end)
 end
-function sewnSyringes.loneliness_post(player)
+function sewnSyringes.lonerEssence_post(player)
 	local sData = sewnSyringes.data[M_SYR.TOT_SYR.loneliness]
 	
 	sewnSyringes:loopThroughFamiliars(function(familiar)
@@ -92,17 +92,17 @@ function sewnSyringes.loneliness_post(player)
 	end)
 end
 sewnSyringes:addSyringe(
-	M_SYR.TOT_SYR.loneliness,
+	M_SYR.TOT_SYR.lonerEssence,
 	M_SYR.TYPES.Negative,
-	"Loneliness",
+	"Loner Essence",
 	"Crownless familiars", 
 	"Familiars lose their crowns and their abilities",
 	60 * 30,
 	M_SYR.TOT_SYR.familiarBuff,
 	1.1,
 	{},
-	sewnSyringes.loneliness_onUse,
-	sewnSyringes.loneliness_post
+	sewnSyringes.lonerEssence_onUse,
+	sewnSyringes.lonerEssence_post
 )
 
 sewingMachineMod.errFamiliars.Error()
