@@ -1250,7 +1250,7 @@ function sewnFamiliars:custom_update_bloodshotEye(bloodshotEye)
         tear = tear:ToTear()
         if tear ~= nil and tear.FrameCount == 1 and tear.SpawnerType == EntityType.ENTITY_FAMILIAR and tear.SpawnerVariant == FamiliarVariant.BLOODSHOT_EYE then
             tear.CollisionDamage = 5
-            tear.Scale = 1.1
+            tear.Scale = 1.06
             if sewingMachineMod:isSuper(fData) then
                 if tear:GetData().Sewn_bloodshotEye_additionalTear ~= true then
                     for i = 1, 2 do
@@ -1273,6 +1273,7 @@ function sewnFamiliars:custom_update_bloodshotEye(bloodshotEye)
                 else
                     laser.DepthOffset = 1
                 end
+                laser:SetTimeout(5)
                 laser.CollisionDamage = 3
                 tear:Remove()
             end
