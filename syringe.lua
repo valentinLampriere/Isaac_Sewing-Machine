@@ -4,9 +4,6 @@ sewnSyringes = sewingMachineMod.sewnSyringes
 M_SYR.TOT_SYR.familiarBuff = M_SYR.GetSyringeIdByName("Familiar Buff")
 M_SYR.TOT_SYR.lonerEssence = M_SYR.GetSyringeIdByName("Loner Essence")
 
-
-sewnSyringes.data = {}
-
 function sewnSyringes:addSyringe(id, type, name, description, EIDDescription, duration, counterpart, weight, effect, onuse, post)
 	M_SYR.EFF_TAB[id] = {
 		ID = id,
@@ -25,13 +22,11 @@ end
 
 function sewnSyringes:goodSyringeOnUse()
 	local player = M_SYR.GetPlayerUsingActive()
-	player:AnimateSad()
-	Sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0, false, 1)
+	player:AnimateHappy()
 end
 function sewnSyringes:badSyringeOnUse()
 	local player = M_SYR.GetPlayerUsingActive()
 	player:AnimateSad()
-	Sfx:Play(SoundEffect.SOUND_THUMBS_DOWN, 1, 0, false, 1)
 end
 
 function sewnSyringes:loopThroughFamiliars(_function)
@@ -70,7 +65,7 @@ sewnSyringes:addSyringe(
 	45 * 30,
 	M_SYR.TOT_SYR.lonerEssence,
 	1.1,
-	nil,
+	{},
 	sewnSyringes.familiarsBuff_onUse,
 	sewnSyringes.familiarsBuff_post
 )
@@ -102,7 +97,7 @@ sewnSyringes:addSyringe(
 	60 * 30,
 	M_SYR.TOT_SYR.familiarBuff,
 	1.1,
-	nil,
+	{},
 	sewnSyringes.lonerEssence_onUse,
 	sewnSyringes.lonerEssence_post
 )
