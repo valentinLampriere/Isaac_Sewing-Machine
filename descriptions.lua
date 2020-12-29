@@ -480,7 +480,7 @@ end
 
 function sewingMachineMod:renderEID()
     
-    local curse = Game():GetLevel():GetCurses()
+    local curse = sewingMachineMod.currentLevel:GetCurses()
     
     -- Do not show EID when it's disable
     if sewingMachineMod.Config.EID_enable == sewingMachineMod.CONFIG_CONSTANT.EID.DISABLED then

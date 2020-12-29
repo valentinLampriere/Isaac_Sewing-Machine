@@ -744,7 +744,7 @@ function sewnFamiliars:custom_update_roboBaby2(familiar)
         end
     end
 end
-function sewnFamiliars:custom_newRoom_roboBaby2(familiar, room)
+function sewnFamiliars:custom_newRoom_roboBaby2(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.ROBO_BABY_2 then
         if sewingMachineMod:isSuper(fData) then
@@ -1273,7 +1273,7 @@ function sewnFamiliars:custom_update_bloodshotEye(bloodshotEye)
                 else
                     laser.DepthOffset = 1
                 end
-                laser:SetTimeout(5)
+                laser:SetTimeout(4)
                 laser.CollisionDamage = 3
                 tear:Remove()
             end
@@ -1927,8 +1927,7 @@ end
 function sewnFamiliars:custom_animation_theRelic(theRelic)
     if theRelic:GetSprite():GetFrame() == 0 then
         local roll = sewingMachineMod.rng:RandomInt(100)
-        local room = game:GetLevel():GetCurrentRoom()
-        local pos = room:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
+        local pos = sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
         if roll < 33 then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, v0, theRelic)
         elseif roll < 50 then
@@ -1952,8 +1951,7 @@ function sewnFamiliars:upFartingBaby(fartingBaby)
 end
 function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
     local fData = fartingBaby:GetData()
-    local room = game:GetLevel():GetCurrentRoom()
-    if room:IsClear() then
+    if sewingMachineMod.currentRoom:IsClear() then
         return
     end
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -2260,8 +2258,7 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
 end
 function sewnFamiliars:custom_update_spiderMod(spiderMod)
     local fData = spiderMod:GetData()
-    local room = game:GetLevel():GetCurrentRoom()
-    if room:IsClear() then
+    if sewingMachineMod.currentRoom:IsClear() then
         return
     end
     if spiderMod.FrameCount % 30 == 0 then
@@ -2478,8 +2475,7 @@ end
 function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
     local fData = blueBabysOnlyFriend:GetData()
     local sprite = blueBabysOnlyFriend:GetSprite()
-    local level = game:GetLevel()
-    local room = level:GetCurrentRoom()
+    
     if sprite:IsFinished("Crush") then
         sprite:Play("Idle", false)
     end
@@ -2493,8 +2489,8 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
             -- Destroy rocks
             for i = -20, 20, 20 do
                 for j = -20, 20, 20 do
-                    local index = room:GetGridIndex(blueBabysOnlyFriend.Position + Vector(i, j))
-                    room:DestroyGrid(index, true)
+                    local index = sewingMachineMod.currentRoom:GetGridIndex(blueBabysOnlyFriend.Position + Vector(i, j))
+                    sewingMachineMod.currentRoom:DestroyGrid(index, true)
                 end
             end
         end
@@ -2510,7 +2506,7 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
         local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
         for i = 1, nbParticules do
             local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
-            if level:GetStage() == LevelStage.STAGE1_1 or level:GetStage() == LevelStage.STAGE1_2 then
+            if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_1 or sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_2 then
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.WOOD_PARTICLE, -1, blueBabysOnlyFriend.Position, velocity, nil)
             else
                 Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.ROCK_PARTICLE, -1, blueBabysOnlyFriend.Position,velocity, nil)
@@ -2912,13 +2908,12 @@ function sewnFamiliars:custom_newRoom_holyWater(holyWater)
     else
         local chance = 25
         local roll = sewingMachineMod.rng:RandomInt(100)
-        local room = game:GetLevel():GetCurrentRoom()
 
         if holyWater.Player:HasPlayerForm(PlayerForm.PLAYERFORM_ANGEL) then
             chance = chance + 15
         end
 
-        if room:IsFirstVisit() and roll < chance then
+        if sewingMachineMod.currentRoom:IsFirstVisit() and roll < chance then
             holyWater.Player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, true)
             fData.Sewn_holyWater_hasHolyMantle = true
         end

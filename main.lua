@@ -245,7 +245,8 @@ GiantBook:Load("gfx/ui/giantbook/giantbook.anm2", false)
 
 
 sewingMachineMod.displayTrueCoopMessage = false
-
+sewingMachineMod.currentRoom = nil
+sewingMachineMod.currentLevel = nil
 sewingMachineMod.moddedFamiliar = {
     MARSHMALLOW = Isaac.GetEntityVariantByName("Marshmallow")
 }
@@ -387,7 +388,7 @@ function sewingMachineMod:callFamiliarUpgrade(familiar)
     end
 end
 function sewingMachineMod:getFamiliarItemGfx(familiarVariant)
-    local curse = game:GetLevel():GetCurses()
+    local curse = sewingMachineMod.currentLevel:GetCurses()
     if curse == LevelCurse.CURSE_OF_BLIND then
         familiarVariant = nil
     end
@@ -451,7 +452,7 @@ end
 
 -- Remove every Sewing Machines and spawn an new one
 function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
-    local room = game:GetLevel():GetCurrentRoom()
+    local room = sewingMachineMod.currentRoom
     local subType
 
     if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
@@ -970,10 +971,8 @@ end
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
-    local level = game:GetLevel()
-    
     -- If a collectible spawn in the chest or in dark room
-    if level:GetStage() == LevelStage.STAGE6 and type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE then
+    if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE6 and type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE then
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
             local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
             if pos:DistanceSquared(machine.Position) == 0 and mData.Sewn_isMachineBroken ~= true then
@@ -1255,7 +1254,7 @@ end
 -- MC_POST_NEW_ROOM --
 ----------------------
 function sewingMachineMod:newRoom()
-    local room = game:GetLevel():GetCurrentRoom()
+    sewingMachineMod.currentRoom = game:GetRoom()
 
     sewingMachineMod.displayTrueCoopMessage = false
 
@@ -1284,8 +1283,8 @@ function sewingMachineMod:newRoom()
         end
     end
 
-    if room:IsFirstVisit() == true then
-        if room:GetType() == RoomType.ROOM_ARCADE then
+    if sewingMachineMod.currentRoom:IsFirstVisit() == true then
+        if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ARCADE then
             --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
             for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
                 if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
@@ -1297,13 +1296,13 @@ function sewingMachineMod:newRoom()
                     end
                 end
             end
-        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
+        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ISAACS or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_BARREN then
             sewingMachineMod:spawnMachine()
-        elseif room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
-            if room:IsClear() then
+        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+            if sewingMachineMod.currentRoom:IsClear() then
                 sewingMachineMod:spawnMachine()
             end
-        elseif room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_DEVIL then
+        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL then
             for i = 1, game:GetNumPlayers() do
                 local player = Isaac.GetPlayer(i - 1)
                 local roll = sewingMachineMod.rng:RandomInt(100) + 1
@@ -1327,7 +1326,7 @@ function sewingMachineMod:newRoom()
             local d = {}
             for i, f in ipairs(fData.Sewn_custom_newRoom) do
                 d.customFunction = f
-                d:customFunction(familiar, room)
+                d:customFunction(familiar, sewingMachineMod.currentRoom)
             end
         end
     end
@@ -1338,8 +1337,7 @@ end
 -- MC_PRE_SPAWN_CLEAN_AWARD --
 ------------------------------
 function sewingMachineMod:finishRoom(rng, spawnPosition)
-    local room = game:GetLevel():GetCurrentRoom()
-    if room:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+    if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
         -- Spawn machine when the shop is cleared
         sewingMachineMod:spawnMachine(nil, true)
     end
@@ -1361,12 +1359,12 @@ end
 -- MC_POST_NEW_LEVEL --
 -----------------------
 function sewingMachineMod:onNewFloor()
-    local level = game:GetLevel()
+    sewingMachineMod.currentLevel = game:GetLevel()
     sewingMachine_shouldAppear_shop = false
     
     sewingMachineMod.sewingMachinesData = {}
 
-    if level:GetStage() == LevelStage.STAGE4_3 then
+    if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE4_3 then
         sewingMachine_shouldAppear_shop = true
     end
 
@@ -1566,13 +1564,12 @@ end
 ------------------------------------
 function sewingMachineMod:useNaudiz(card)
     local player = GetPlayerUsingItem()
-    local room = game:GetLevel():GetCurrentRoom()
     player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
     GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_naudiz.png")
     GiantBook:LoadGraphics()
     GiantBook:Play("Appear", true)
 
-    sewingMachineMod:spawnMachine(room:FindFreePickupSpawnPosition(player.Position, 0, true), true)
+    sewingMachineMod:spawnMachine(sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
 -------------------------
 -- MC_POST_PICKUP_INIT --
@@ -1622,8 +1619,7 @@ function sewingMachineMod:onUpdate()
 end
 function sewingMachineMod:ManageMachineDestuction(machine)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-    local room = game:GetLevel():GetCurrentRoom()
-    local pos = room:GetGridPosition(room:GetGridIndex(machine.Position))
+    local pos = sewingMachineMod.currentRoom:GetGridPosition(sewingMachineMod.currentRoom:GetGridIndex(machine.Position))
     local machineSubType = machine.SubType
     
     if mData.Sewn_currentFamiliarVariant ~= nil then
@@ -1801,8 +1797,6 @@ end
 -- MC_POST_GAME_STARTED --
 --------------------------
 function sewingMachineMod:loadSave(isExistingRun)
-    local room = game:GetLevel():GetCurrentRoom()
-
     -- If Marshmallow exists
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:makeFamiliarAvailable(sewingMachineMod.moddedFamiliar.MARSHMALLOW, Isaac.GetItemIdByName("Marshmallow"), sewingMachineMod.sewnFamiliars.upMarshmallow)
