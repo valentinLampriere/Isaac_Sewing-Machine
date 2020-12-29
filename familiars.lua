@@ -334,7 +334,7 @@ function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differen
     force = force or 5
     damage = damage or 3.5
     for i = 1, amountTears do
-        local velocity = Vector(0, 0)
+        local velocity = v0
         velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
         velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
         local t = Isaac.Spawn(EntityType.ENTITY_TEAR, tearVariant, 0, position, velocity, familiar):ToTear()
@@ -363,7 +363,7 @@ end
 function sewnFamiliars:spawnFromPool(familiar, itemPoolType)
     local itemFromPool = game:GetItemPool():GetCollectible(itemPoolType, true, game:GetSeeds():GetNextSeed())
     local pos = Isaac.GetFreeNearPosition(familiar.Position, 35)
-    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemFromPool, pos, Vector(0,0), familiar.Player)
+    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, itemFromPool, pos, v0, familiar.Player)
 end
 
 function sewnFamiliars:getDirectionFromAngle(angle)
@@ -471,7 +471,7 @@ function sewnFamiliars:custom_tearCollision_littleGish(familiar, tear, collider)
     local fData = familiar:GetData()
     if tear:GetData().Sewn_gish_creep == true then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_BLACK, 0, tear.Position, Vector(0, 0), familiar):ToEffect()
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_BLACK, 0, tear.Position, v0, familiar):ToEffect()
             if sewingMachineMod:isUltra(fData) then
                 creep.Size = creep.Size * 2
                 creep.SpriteScale = creep.SpriteScale * 2
@@ -705,7 +705,7 @@ function sewnFamiliars:custom_update_roboBaby2(familiar)
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         if math.abs(familiar.Velocity.X) > 0.5 or math.abs(familiar.Velocity.Y) > 0.5 then
             if fData.Sewn_roboBaby2_continiousLaser == nil then
-                fData.Sewn_roboBaby2_continiousLaser = Isaac.Spawn(EntityType.ENTITY_LASER, 2, 0, familiar.Position, Vector(0, 0), familiar):ToLaser()
+                fData.Sewn_roboBaby2_continiousLaser = Isaac.Spawn(EntityType.ENTITY_LASER, 2, 0, familiar.Position, v0, familiar):ToLaser()
             end
         else
             if fData.Sewn_roboBaby2_continiousLaser ~= nil then
@@ -1203,7 +1203,7 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             rollSoulHeartDrop = sewingMachineMod.rng:RandomInt(20)
             if rollSoulHeartDrop == 0 and fData.Sewn_swornProtector_nbProjectileBlockedSinceLastDrop >= 10 then
-                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, swornProtector.Position, Vector(0, 0), swornProtector)
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, swornProtector.Position, v0, swornProtector)
                 fData.Sewn_swornProtector_nbProjectileBlockedSinceLastDrop = 0
             end
             fData.Sewn_swornProtector_nbProjectileBlockedSinceLastDrop = fData.Sewn_swornProtector_nbProjectileBlockedSinceLastDrop + 1
@@ -1221,7 +1221,7 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
                     
                 for i = 1, 4 do
                     -- Laser variant = 8 -> Lite Light laser
-                    local laser = EntityLaser.ShootAngle(8, swornProtector.Position + Vector(0, -20), 90 * i + offsetLasers, 4, Vector(0,0), swornProtector):ToLaser()
+                    local laser = EntityLaser.ShootAngle(8, swornProtector.Position + Vector(0, -20), 90 * i + offsetLasers, 4, v0, swornProtector):ToLaser()
                     laser.Radius = 30
                     sewnFamiliars:toBabyBenderTear(swornProtector, laser)
                 end
@@ -1413,7 +1413,7 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then 
         -- When it explodes
         if bobsBrain.State == 1 then
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_GREEN, 0, bobsBrain.Position, Vector(0, 0), bobsBrain):ToEffect()
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_GREEN, 0, bobsBrain.Position, v0, bobsBrain):ToEffect()
             creep.Size = 3
             creep.SpriteScale = Vector(3, 3)
             creep.Timeout = 50
@@ -1447,7 +1447,7 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
             end
         end
         if fData.Sewn_custom_bobsBrain_stickNpc ~= nil then
-            bobsBrain.Velocity = Vector(0, 0)
+            bobsBrain.Velocity = v0
             bobsBrain.Position = fData.Sewn_custom_bobsBrain_stickNpc.Position + fData.Sewn_custom_bobsBrain_stickDistance
             if fData.Sewn_custom_bobsBrain_stickFrame + 30 < game:GetFrameCount() then
                 sprite.PlaybackSpeed = 1.5
@@ -1506,7 +1506,7 @@ function sewnFamiliars:custom_animationDash_lilGurdy(lilGurdy)
             end
         end
         if lilGurdy.FrameCount % creepPerFrame == 0 then
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, lilGurdy.Position, Vector(0, 0), lilGurdy)
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, lilGurdy.Position, v0, lilGurdy)
             creep.CollisionDamage = 1
         end
     end
@@ -1538,7 +1538,7 @@ function sewnFamiliars:custom_collision_jawBone(jawBone, collider)
     local fData = jawBone:GetData()
     if jawBone:GetSprite():IsPlaying("Throw") and collider:IsVulnerableEnemy() then
         if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 30 < game:GetFrameCount() then
-            Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, Vector(0, 0), jawBone)
+            Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, v0, jawBone)
             fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
         end
     end
@@ -1675,7 +1675,7 @@ function sewnFamiliars:familiarSpawnAdditionalLocust(familiar, amountLocust, spa
             nb = 2
         end
         for i = 1, nb do
-            local newLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rollLocust, familiar.Position, Vector(0, 0), familiar)
+            local newLocust = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_FLY, rollLocust, familiar.Position, v0, familiar)
             newLocust:GetData().Sewn_flySpiderParentIndex = GetPtrHash(familiar)
         end
     end
@@ -1886,12 +1886,12 @@ function sewnFamiliars:custom_animation_sackOfPennies(sackOfPennies)
             end
             
             if sewingMachineMod:isUltra(fData) and #fData.Sewn_sackOfPennies_items > 0 and roll > 97 + fData.Sewn_sackOfPennies_itemSpawned then -- Spawn an item from the PENNY pool
-                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, sewnFamiliars:sackOfPennies_rollItem(sackOfPennies), sackOfPennies.Position, Vector(0, 0), sackOfPennies)
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, sewnFamiliars:sackOfPennies_rollItem(sackOfPennies), sackOfPennies.Position, v0, sackOfPennies)
                 coin:Remove()
                 fData.Sewn_sackOfPennies_itemSpawned = fData.Sewn_sackOfPennies_itemSpawned + 1
             elseif roll > trinketChance and #fData.Sewn_sackOfPennies_trinkets > 0 then -- Spawn a trinket
                 local rollTrinket = sewingMachineMod.rng:RandomInt(#fData.Sewn_sackOfPennies_trinkets) + 1
-                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, fData.Sewn_sackOfPennies_trinkets[rollTrinket], sackOfPennies.Position, Vector(0, 0), sackOfPennies)
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, fData.Sewn_sackOfPennies_trinkets[rollTrinket], sackOfPennies.Position, v0, sackOfPennies)
                 coin:Remove()
                 table.remove(fData.Sewn_sackOfPennies_trinkets, rollTrinket)
             elseif roll < dimeChance then -- Higher chance to spawn a dime
@@ -1918,7 +1918,7 @@ end
 function sewnFamiliars:custom_cleanAward_theRelic(theRelic)
     if theRelic.RoomClearCount % 3 == 0 and theRelic.Player then
         if not theRelic.Player:HasFullHearts() then
-            local heartEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, theRelic.Position-Vector(0, 50), Vector(0, 0), nil)
+            local heartEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, theRelic.Position-Vector(0, 50), v0, nil)
             theRelic.Player:AddHearts(1)
         end
     end
@@ -1929,9 +1929,9 @@ function sewnFamiliars:custom_animation_theRelic(theRelic)
         local room = game:GetLevel():GetCurrentRoom()
         local pos = room:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
         if roll < 33 then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, Vector(0, 0), theRelic)
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, v0, theRelic)
         elseif roll < 50 then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, Vector(0, 0), theRelic)
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, v0, theRelic)
         end
     end
 end
@@ -1976,7 +1976,7 @@ function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
                     game:ButterBeanFart(fartingBaby.Position, 100, fartingBaby.Player, true)
                 elseif rollFart == 3 then
                     -- Spawn a Burning fart
-                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, Vector(0, 0), fartingBaby)
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, v0, fartingBaby)
                 end
             end
             fData.Sewn_custom_fartingBaby_randomFartCooldown = sewingMachineMod.rng:RandomInt(minCooldown * 1.5) + minCooldown
@@ -2092,7 +2092,7 @@ function sewnFamiliars:custom_cache_peeper(peeper, cacheFlag)
                 secondEye_pos = fData.Sewn_custom_peeper_secondEye.Position
             end
             -- Creating a second peeper
-            fData.Sewn_custom_peeper_secondEye = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.PEEPER, 0, secondEye_pos, Vector(0, 0), peeper.Player)
+            fData.Sewn_custom_peeper_secondEye = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.PEEPER, 0, secondEye_pos, v0, peeper.Player)
             -- Setting this second peeper ULTRA
             fData.Sewn_custom_peeper_secondEye:GetData().Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
             sewnFamiliars:upPeeper(fData.Sewn_custom_peeper_secondEye)
@@ -2159,7 +2159,7 @@ function sewnFamiliars:custom_update_kingBaby(kingBaby)
                     -- Check if the familiar is a follower
                     if sewnFamiliars:kingBaby_isFollower(fam) and fam.Variant ~= kingBaby.Variant then
                         -- Duplicate the familiar
-                        local newFam = Isaac.Spawn(fam.Type, fam.Variant, fam.SubType, kingBaby.Player.Position, Vector(0, 0), nil):ToFamiliar()
+                        local newFam = Isaac.Spawn(fam.Type, fam.Variant, fam.SubType, kingBaby.Player.Position, v0, nil):ToFamiliar()
                         
                         -- Register the duped familiar
                         newFam:GetData().Sewn_kingBaby_parentFollower = shouldFollow -- Store who that familiar should follow
@@ -2246,7 +2246,7 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
         if rollSpider == 0 then
             local nbSpiders = sewingMachineMod.rng:RandomInt(4)
             for i = 1, nbSpiders do
-                local velocity = Vector(0, 0)
+                local velocity = v0
                 local force = 30
                 velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
                 velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
@@ -2254,7 +2254,7 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
             end
         end
         egg:Remove()
-        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, Vector(0, 0), nil)
+        Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, egg.Position, v0, nil)
     end
 end
 function sewnFamiliars:custom_update_spiderMod(spiderMod)
@@ -2275,7 +2275,7 @@ function sewnFamiliars:custom_update_spiderMod(spiderMod)
                 end
             end
             spiderMod:GetSprite():Play("Appear", false)
-            local egg = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, Vector(0, 0), spiderMod):ToEffect()
+            local egg = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, v0, spiderMod):ToEffect()
             egg.Timeout = 20 * 30
             -- Flip the egg sprite
             egg.FlipX = sewingMachineMod.rng:RandomInt(2) == 1
@@ -2293,7 +2293,7 @@ function sewnFamiliars:upIsaacsHeart(isaacsHeart)
             isaacsHeart.SizeMulti = Vector(0.75, 0.75)
         end
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            local fly = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, 42842, 1, isaacsHeart.Position + Vector(0, 20), Vector(0, 0), isaacsHeart):ToFamiliar()
+            local fly = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, 42842, 1, isaacsHeart.Position + Vector(0, 20), v0, isaacsHeart):ToFamiliar()
             fly.Parent = isaacsHeart
             fly.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
             sewnFamiliars:customUpdate(fly, sewnFamiliars.custom_isaacsHeart_updateFly)
@@ -2341,7 +2341,7 @@ function sewnFamiliars:custom_update_leech(leech)
     for _, npc in pairs(Isaac.FindInRadius(leech.Position, leech.Size, EntityPartition.ENEMY)) do
         if npc:IsVulnerableEnemy() then
             if leech.FrameCount % 8 == 0 then
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, Vector(0, 0), nil)
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, v0, nil)
             end
             if sewingMachineMod:isUltra(fData) and npc.HitPoints - leech.CollisionDamage <= 0 then
                 local nbTears = sewingMachineMod.rng:RandomInt(math.min(npc.MaxHitPoints, 20)) + 8
@@ -2380,7 +2380,7 @@ function sewnFamiliars:custom_bbf_setPowderOnFire(powder)
         return
     end
     
-    local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HOT_BOMB_FIRE, 0, powder.Position, Vector(0, 0), nil):ToEffect()
+    local fire = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HOT_BOMB_FIRE, 0, powder.Position, v0, nil):ToEffect()
     fire.Timeout = 80
     fire.Scale = 0.75
     fire.SpriteScale = Vector(0.75, 0.75)
@@ -2401,7 +2401,7 @@ function sewnFamiliars:custom_update_bbf(bbf)
         end
         if sewingMachineMod:isUltra(fData) then
             if bbf.FrameCount % 6 == 0 and not fData.Sewn_bbf_hasExplode then
-                local bbfPowder = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_BLACKPOWDER, 0, bbf.Position, Vector(0, 0), bbf):ToEffect()
+                local bbfPowder = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_BLACKPOWDER, 0, bbf.Position, v0, bbf):ToEffect()
                 bbfPowder.Timeout = 50
                 fData.Sewn_bbf_lastPowder = bbfPowder
             end
@@ -2560,7 +2560,7 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
     local fData = punchingBag:GetData()
     if fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.STRONG_LIME_GREEN then
         if punchingBag.FrameCount % 15 == 0 then
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_GREEN, 0, punchingBag.Position, Vector(0,0), punchingBag):ToEffect()
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_GREEN, 0, punchingBag.Position, v0, punchingBag):ToEffect()
             creep.Timeout = 75
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.PURE_MAGENTA then
@@ -2577,7 +2577,7 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.MOSTLY_PURE_VIOLET then 
         if fData.Sewn_punchingBag_mostlyPureViolet_pullEffect == nil or not fData.Sewn_punchingBag_mostlyPureViolet_pullEffect:Exists() then
-            fData.Sewn_punchingBag_mostlyPureViolet_pullEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PULLING_EFFECT_2, 0, punchingBag.Position, Vector(0, 0), punchingBag):ToEffect()
+            fData.Sewn_punchingBag_mostlyPureViolet_pullEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PULLING_EFFECT_2, 0, punchingBag.Position, v0, punchingBag):ToEffect()
         end
         --fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Timeout = fData.Sewn_punchingBag_championCooldown
         fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Velocity = punchingBag.Position - fData.Sewn_punchingBag_mostlyPureViolet_pullEffect.Position
@@ -2668,7 +2668,7 @@ function sewnFamiliars:hushy_fireContinuumTears(hushy)
     if fData.Sewn_hushy_continuumTears == nil then
         fData.Sewn_hushy_continuumTears = sewingMachineMod.rng:RandomInt(20) + 10
     end
-    local velo = Vector(0, 0)
+    local velo = v0
     local dir = hushy.Player:GetFireDirection()
     if dir == Direction.LEFT then
         velo.X = -5
@@ -2770,7 +2770,7 @@ function sewnFamiliars:custom_update_lilHarbinger(lilHarbinger)
             end
 
             if not locustData.Sewn_lilHarbingers_additionalLocust and sewingMachineMod:isUltra(fData) then
-                local additionalLocust = Isaac.Spawn(locust.Type, locust.Variant, locust.SubType, locust.Position, Vector(0, 0), lilHarbinger)
+                local additionalLocust = Isaac.Spawn(locust.Type, locust.Variant, locust.SubType, locust.Position, v0, lilHarbinger)
                 additionalLocust:GetData().Sewn_lilHarbingers_additionalLocust = true
             end
             locustData.Sewn_lilHarbingers_locustInit = true
@@ -2799,7 +2799,7 @@ function sewnFamiliars:lilHarbinger_conquestLocust_collision(locust, collider)
     if collider:IsVulnerableEnemy() then
         local roll = sewingMachineMod.rng:RandomInt(100)
         if roll < 15 then
-            local crackTheSky = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CRACK_THE_SKY, 0, collider.Position, Vector(0, 0), locust.Player):ToEffect()
+            local crackTheSky = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CRACK_THE_SKY, 0, collider.Position, v0, locust.Player):ToEffect()
 
             crackTheSky.CollisionDamage = crackTheSky.CollisionDamage + math.min(locust.Player.Damage, 20)
         end
@@ -2927,7 +2927,7 @@ function sewnFamiliars:custom_holyWater_setCreepVisible(creep)
     creep.Visible = true
 end
 function sewnFamiliars:custom_holyWater_spawnWater(holyWater)
-    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, Vector(0, 0), holyWater):ToEffect()
+    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, v0, holyWater):ToEffect()
     
     -- Prevent from a visual bug
     creep.Visible = false
@@ -2979,7 +2979,7 @@ function sewnFamiliars:custom_lilSpewer_fireTears(data)
     local state = data[2]
     
     local fData = lilSpewer:GetData()
-    local velocity = Vector(0, 0)
+    local velocity = v0
     local speed = 10
     
     local direction = lilSpewer.Player:GetFireDirection()
@@ -3155,7 +3155,7 @@ function sewnFamiliars:custom_update_hallowedGround(hallowedGround)
     end
 
     if fData.Sewn_hallowedGround_effect == nil or not fData.Sewn_hallowedGround_effect:Exists() then
-        fData.Sewn_hallowedGround_effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HALLOWED_GROUND_PERMANENT_AURA, 0, hallowedGround.Position, Vector(0, 0), hallowedGround):ToEffect()
+        fData.Sewn_hallowedGround_effect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HALLOWED_GROUND_PERMANENT_AURA, 0, hallowedGround.Position, v0, hallowedGround):ToEffect()
         if sewingMachineMod:isUltra(fData) then
             fData.Sewn_hallowedGround_effect:GetSprite():Play("Ultra", true)
         end

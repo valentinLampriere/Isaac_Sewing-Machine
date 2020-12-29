@@ -228,6 +228,7 @@ sewingMachineMod.currentUpgradeInfo = nil
 sewingMachineMod.rng = RNG()
 
 local json = require("json")
+local v0 = Vector(0, 0)
 
 --local sewingMachineMod.rng = RNG()
 local game = Game()
@@ -485,7 +486,7 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
         subType = machineSubType
     end
 
-    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, subType, position, Vector(0, 0), nil)
+    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, subType, position, v0, nil)
     if playAppearAnim == true then
         machine:GetSprite():Play("Appear", true)
     end
@@ -547,7 +548,7 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
             mData.Sewn_isMachineBroken = true
             machine:GetSprite():Play("Disappear")
         else
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, Vector(0, 0), nil)
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, v0, nil)
             mData.Sewn_isMachineBroken = true
             if rollTrinket < 5 then
                 local rollTrinket = sewingMachineMod.rng:RandomInt(#trinketSewingMachine) + 1
@@ -892,7 +893,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         -- Player get "Ann's Tainted Head"
         if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
             if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-                local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, 0, player.Position, Vector(0,0), player):ToFamiliar()
+                local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, 0, player.Position, v0, player):ToFamiliar()
                 annsHead:AddToFollowers()
             end
             -- Upgrade familiars
@@ -918,7 +919,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         -- Player get "Ann's Pure Body"
         if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
             if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-                local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, 0, player.Position, Vector(0,0), player):ToFamiliar()
+                local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, 0, player.Position, v0, player):ToFamiliar()
                 annsBody:AddToFollowers()
             end
             -- Upgrade familiars
@@ -941,7 +942,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         end
 
         if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasFullAnn then
-            local ann = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN, 0, player.Position, Vector(0,0), player):ToFamiliar()
+            local ann = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN, 0, player.Position, v0, player):ToFamiliar()
             ann:AddToFollowers()
             sewingMachineMod:removeAnnsTaintedHead()
             sewingMachineMod:removeAnnsPureBody()
@@ -1002,7 +1003,7 @@ function sewingMachineMod:effectUpdate(effect)
 
         if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
             effect:Remove()
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, Vector(0, 0), nil)
+            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, v0, nil)
         end
 
         for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
@@ -1207,19 +1208,19 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
     if fData.Sewn_crown_hide ~= true then
         -- if familiar is super -> has a golden crown
         if sewingMachineMod:isSuper(fData) then
-            fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
+            fData.Sewn_crown:Render(pos, v0, v0)
             pos = pos + Vector(0, 15)
         end
         -- if familiar is ultra-> has a diamond crown
         if sewingMachineMod:isUltra(fData) then
-            fData.Sewn_crown:Render(pos, Vector(0,0), Vector(0,0))
+            fData.Sewn_crown:Render(pos, v0, v0)
             pos = pos + Vector(0, 15)
         end
     end
 
     if sewingMachineMod.Config.familiarNonReadyIndicator ~= sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.NONE then
         if fData.Sewn_notReady_clock then
-            fData.Sewn_notReady_clock:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+            fData.Sewn_notReady_clock:Render(pos + Vector(13, 0), v0, v0)
             if sewingMachineMod.Config.familiarNonReadyIndicator == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
                 fData.Sewn_notReady_clock.PlaybackSpeed = 0.3
                 fData.Sewn_notReady_clock:Update()
@@ -1227,7 +1228,7 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
             pos = pos + Vector(13, 0)
         end
         if fData.Sewn_notReady_door then
-            fData.Sewn_notReady_door:Render(pos + Vector(13, 0), Vector(0,0), Vector(0,0))
+            fData.Sewn_notReady_door:Render(pos + Vector(13, 0), v0, v0)
             if sewingMachineMod.Config.familiarNonReadyIndicator == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_NON_READY_INDICATOR.ANIMATED then
                 fData.Sewn_notReady_door.PlaybackSpeed = 0.4
                 fData.Sewn_notReady_door:Update()
