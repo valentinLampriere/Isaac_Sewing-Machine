@@ -972,7 +972,7 @@ end
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
     -- If a collectible spawn in the chest or in dark room
-    if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE6 and type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE then
+    if type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE and sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE6 then
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
             local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
             if pos:DistanceSquared(machine.Position) == 0 and mData.Sewn_isMachineBroken ~= true then

@@ -2469,7 +2469,8 @@ function sewnFamiliars:upBlueBabysOnlyFriend(blueBabysOnlyFriend)
     local fData = blueBabysOnlyFriend:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customUpdate(blueBabysOnlyFriend, sewnFamiliars.custom_update_blueBabysOnlyFriend)
-        fData.Sewn_blueBabysOnlyFriend_crushCooldown = 60
+        fData.Sewn_blueBabysOnlyFriend_crushCooldown = math.random(150) + 30
+        fData.Sewn_blueBabysOnlyFriend_lastCrush = blueBabysOnlyFriend.FrameCount
     end
 end
 function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
@@ -2479,18 +2480,28 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
     if sprite:IsFinished("Crush") then
         sprite:Play("Idle", false)
     end
-    if fData.Sewn_blueBabysOnlyFriend_crushCooldown <= game:GetFrameCount() and math.random(50) == 1 then
-        local damages = 10 + blueBabysOnlyFriend.Player.Damage
+    if fData.Sewn_blueBabysOnlyFriend_lastCrush + fData.Sewn_blueBabysOnlyFriend_crushCooldown <= blueBabysOnlyFriend.FrameCount then
+        local damages = 30 + blueBabysOnlyFriend.Player.Damage
         local range = 60
         
         if sewingMachineMod:isUltra(fData) then
-            damages = 15 + blueBabysOnlyFriend.Player.Damage * 2
+            damages = 45 + blueBabysOnlyFriend.Player.Damage * 2
             range = 90
             -- Destroy rocks
             for i = -20, 20, 20 do
                 for j = -20, 20, 20 do
                     local index = sewingMachineMod.currentRoom:GetGridIndex(blueBabysOnlyFriend.Position + Vector(i, j))
                     sewingMachineMod.currentRoom:DestroyGrid(index, true)
+                end
+            end
+            
+            local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
+            for i = 1, nbParticules do
+                local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
+                if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_1 or sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_2 then
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.WOOD_PARTICLE, -1, blueBabysOnlyFriend.Position, velocity, nil)
+                else
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.ROCK_PARTICLE, -1, blueBabysOnlyFriend.Position,velocity, nil)
                 end
             end
         end
@@ -2503,16 +2514,8 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
                 npc:TakeDamage(damages, 0, EntityRef(blueBabysOnlyFriend), 0) 
             end
         end
-        local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
-        for i = 1, nbParticules do
-            local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
-            if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_1 or sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_2 then
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.WOOD_PARTICLE, -1, blueBabysOnlyFriend.Position, velocity, nil)
-            else
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.ROCK_PARTICLE, -1, blueBabysOnlyFriend.Position,velocity, nil)
-            end
-        end
-        fData.Sewn_blueBabysOnlyFriend_crushCooldown = game:GetFrameCount() + 60
+        fData.Sewn_blueBabysOnlyFriend_crushCooldown = math.random(150) + 30
+        fData.Sewn_blueBabysOnlyFriend_lastCrush = blueBabysOnlyFriend.FrameCount
     end
 end
 
