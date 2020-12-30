@@ -3227,4 +3227,41 @@ function sewnFamiliars:custom_playerTakeDamage_hallowedGround(hallowedGround, dm
     player:EvaluateItems() 
 end
 
+-- DRY BABY
+function sewnFamiliars:upDryBaby(dryBaby)
+    local fData = dryBaby:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(dryBaby, sewnFamiliars.custom_animation_dryBaby, ANIMATION_NAMES.HIT)
+        sewnFamiliars:customCollision(dryBaby, sewnFamiliars.custom_collision_dryBaby)
+    end
+end
+function sewnFamiliars:custom_animationDash_dryBaby(dryBaby)
+    if dryBaby:GetSprite():GetFrame() < 23 then return end
+    for i, bullet in pairs(Isaac.FindInRadius(dryBaby.Position, 500, EntityPartition.BULLET)) do
+        bullet:Die()
+    end
+end
+function sewnFamiliars:custom_collision_dryBaby(dryBaby, collider)
+    if collider.Type == EntityType.ENTITY_PROJECTILE then
+        local roll = sewingMachineMod.rng:RandomInt(100)
+        local chance = 5
+        local sprite = dryBaby:GetSprite()
+        
+        if sewingMachineMod:isUltra(fData) then
+            chance = 25
+        end
+        if roll < chance then
+            sprite:Play("Hit")
+        end
+    end
+end
+
+-- GUPPY'S HAIRBALL
+function sewnFamiliars:upGuppysHairball(guppysHairball)
+    local fData = guppysHairball:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customUpdate(guppysHairball, sewnFamiliars.custom_update_guppysHairball)
+    end
+end
+
 sewingMachineMod.errFamiliars.Error()

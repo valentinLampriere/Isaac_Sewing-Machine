@@ -373,6 +373,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Give a holy Mantle effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim, increase chances to get Holy Mantle effect",
         ConvertRGBToIsaac({127, 242, 255})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.DRY_BABY,
+        "Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
+        "More Necronomicon effect !",
+        ConvertRGBToIsaac({127, 242, 255})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
