@@ -1697,7 +1697,7 @@ end
 --------------------
 function sewingMachineMod:executeCommand(cmd, params)
     params = split(params)
-    
+
     if cmd == "sewn" then
         if params[1] == "up" then
             for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do

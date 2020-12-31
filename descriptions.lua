@@ -379,6 +379,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "More Necronomicon effect !",
         ConvertRGBToIsaac({127, 242, 255})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.GUPPYS_HAIRBALL,
+        "Starts with the second size#Have a chance to spawn flies when it kills an enemy",
+        "Starts with the third size#Spawn more flies when it kills an enemy",
+        ConvertRGBToIsaac({127, 242, 255})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
@@ -485,7 +491,7 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
 end
 
 function sewingMachineMod:renderEID()
-    
+
     local curse = sewingMachineMod.currentLevel:GetCurses()
     
     -- Do not show EID when it's disable

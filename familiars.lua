@@ -3260,7 +3260,35 @@ end
 function sewnFamiliars:upGuppysHairball(guppysHairball)
     local fData = guppysHairball:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:customUpdate(guppysHairball, sewnFamiliars.custom_update_guppysHairball)
+        sewnFamiliars:customNewRoom(guppysHairball, sewnFamiliars.custom_newRoom_guppysHairball)
+        sewnFamiliars:customCollision(guppysHairball, sewnFamiliars.custom_collision_guppysHairball)
+    end
+end
+function sewnFamiliars:custom_newRoom_guppysHairball(guppysHairball)
+    local fData = guppysHairball:GetData()
+
+    if guppysHairball.SubType < 2 and sewingMachineMod:isUltra(fData) then
+        guppysHairball.SubType = 2
+    elseif guppysHairball.SubType == 0 then
+        guppysHairball.SubType = 1
+    end
+end
+function sewnFamiliars:custom_collision_guppysHairball(guppysHairball, collider)
+    if collider:IsEnemy() and not collider.Type == EntityType.ENTITY_FIREPLACE then
+        local fData = guppysHairball:GetData()
+
+        local roll = sewingMachineMod.rng:RandomInt(100)
+        if sewingMachineMod:isUltra(fData) then
+            roll = roll + 30
+        end
+        if collider.HitPoints - guppysHairball.CollisionDamage <= 0 and roll > 60 then
+            local amount = sewingMachineMod.rng:RandomInt(3)
+            for i = 1, amount do
+                local velo = Vector(math.random(-25.0, 25.0), math.random(-25.0, 25.0))
+                local blueFly = guppysHairball.Player:AddBlueFlies(1, guppysHairball.Position, guppysHairball.Player)
+                blueFly.Velocity = velo
+            end
+        end
     end
 end
 
