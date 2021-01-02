@@ -158,7 +158,7 @@
 -- The function will have 2 parameters : The familiar, and the evaluated CacheFlag
 
 -- Called when the familiar kill an enemy
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customEntityKill(familiar, functionName)
+-- sewingMachineMod.sewnFamiliars:sewnFamiliars:customKillEnemy(familiar, functionName)
 -- The function will have 2 parameters : The familiar, and the killed enemy
 
 
@@ -1035,6 +1035,26 @@ function sewingMachineMod:effectUpdate(effect)
         end
     end
 end
+
+------------------------
+-- MC_ENTITY_TAKE_DMG --
+------------------------
+function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countdown)
+    if entity:IsVulnerableEnemy() and entity.HitPoints - amount <= 0 then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = familiar:GetData()
+            familiar = familiar:ToFamiliar()
+            if fData.Sewn_custom_killEnemy ~= nil and GetPtrHash(source.Entity) == GetPtrHash(familiar) then
+                local d = {}
+                for i, f in ipairs(fData.Sewn_custom_killEnemy) do
+                    d.customFunction = f
+                    d:customFunction(familiar, entity)
+                end
+            end
+        end
+    end
+end
+
 
 function sewingMachineMod:hideCrown(familiar, hideCrown)
     local fData = familiar:GetData()
@@ -1931,6 +1951,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 -- Entities related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, sewingMachineMod.entitySpawn)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMod.effectUpdate)
+sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.entityTakeDamage)
 
 -- Game related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)

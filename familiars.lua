@@ -255,6 +255,15 @@ function sewnFamiliars:customPlayerTakeDamage(familiar, functionName)
     table.insert(fData.Sewn_custom_playerTakeDamage, functionName)
 end
 
+-- CUSTOM KILL ENEMY
+function sewnFamiliars:customKillEnemy(familiar, functionName)
+    local fData = familiar:GetData()
+    if fData.Sewn_custom_killEnemy == nil then
+        fData.Sewn_custom_killEnemy = {}
+    end
+    table.insert(fData.Sewn_custom_killEnemy, functionName)
+end
+
 -- Remove custom familiar datas
 function sewingMachineMod:resetFamiliarData(familiar, keepValues)
     local fData = familiar:GetData()
@@ -1518,8 +1527,12 @@ function sewnFamiliars:upJawBone(jawBone)
     local fData = jawBone:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         fData.Sewn_jawBone_colliderCooldown = {}
+        sewnFamiliars:customUpdate(jawBone, sewnFamiliars.custom_update_jawBone)
         sewnFamiliars:customCollision(jawBone, sewnFamiliars.custom_collision_jawBone)
         sewnFamiliars:customNewRoom(jawBone, sewnFamiliars.custom_newRoom_jawBone)
+        
+        jawBone.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
+
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customCache(jawBone, sewnFamiliars.custom_cache_jawBone)
             jawBone.CollisionDamage = jawBone.Player.Damage * 3 + 3.5
@@ -1538,9 +1551,24 @@ end
 function sewnFamiliars:custom_collision_jawBone(jawBone, collider)
     local fData = jawBone:GetData()
     if jawBone:GetSprite():IsPlaying("Throw") and collider:IsVulnerableEnemy() then
-        if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 30 < game:GetFrameCount() then
-            Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, v0, jawBone)
-            fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = game:GetFrameCount()
+        if collider.HitPoints - jawBone.CollisionDamage <= 0 then
+            sewnFamiliars:custom_jawBone_spawnBones(jawBone, collider, 0, 2)
+        end
+    end
+end
+function sewnFamiliars:custom_jawBone_spawnBones(jawBone, collider, min, max)
+    local fData = jawBone:GetData()
+
+    min = min or 0
+    max = max or 1
+
+    if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 60 < jawBone.FrameCount then
+        local amount = math.random(min, max)
+        for i = 1, amount do
+            local velo = Vector(math.random(-15.0, 15.0), math.random(-15.0, 15.0))
+            local bone = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, v0, jawBone)
+            bone.Velocity = velo
+            fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = jawBone.FrameCount
         end
     end
 end
@@ -3261,7 +3289,7 @@ function sewnFamiliars:upGuppysHairball(guppysHairball)
     local fData = guppysHairball:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customNewRoom(guppysHairball, sewnFamiliars.custom_newRoom_guppysHairball)
-        sewnFamiliars:customCollision(guppysHairball, sewnFamiliars.custom_collision_guppysHairball)
+        sewnFamiliars:customKillEnemy(guppysHairball, sewnFamiliars.custom_killEnemy_guppysHairball)
     end
 end
 function sewnFamiliars:custom_newRoom_guppysHairball(guppysHairball)
@@ -3273,21 +3301,21 @@ function sewnFamiliars:custom_newRoom_guppysHairball(guppysHairball)
         guppysHairball.SubType = 1
     end
 end
-function sewnFamiliars:custom_collision_guppysHairball(guppysHairball, collider)
-    if collider:IsEnemy() and not collider.Type == EntityType.ENTITY_FIREPLACE then
-        local fData = guppysHairball:GetData()
+function sewnFamiliars:custom_killEnemy_guppysHairball(guppysHairball, enemy)    
+    local fData = guppysHairball:GetData()
+    local chance = 60
+    local roll = sewingMachineMod.rng:RandomInt(100)
+    local amount = 1
 
-        local roll = sewingMachineMod.rng:RandomInt(100)
-        if sewingMachineMod:isUltra(fData) then
-            roll = roll + 30
-        end
-        if collider.HitPoints - guppysHairball.CollisionDamage <= 0 and roll > 60 then
-            local amount = sewingMachineMod.rng:RandomInt(3)
-            for i = 1, amount do
-                local velo = Vector(math.random(-25.0, 25.0), math.random(-25.0, 25.0))
-                local blueFly = guppysHairball.Player:AddBlueFlies(1, guppysHairball.Position, guppysHairball.Player)
-                blueFly.Velocity = velo
-            end
+    if sewingMachineMod:isUltra(fData) then
+        chance = 90
+        amount = sewingMachineMod.rng:RandomInt(3) + 1
+    end
+    if roll < chance then
+        for i = 1, amount do
+            local velo = Vector(math.random(-25.0, 25.0), math.random(-25.0, 25.0))
+            local blueFly = guppysHairball.Player:AddBlueFlies(1, enemy.Position, guppysHairball.Player)
+            blueFly.Velocity = velo
         end
     end
 end

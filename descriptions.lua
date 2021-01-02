@@ -381,8 +381,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.GUPPYS_HAIRBALL,
-        "Starts with the second size#Have a chance to spawn flies when it kills an enemy",
-        "Starts with the third size#Spawn more flies when it kills an enemy",
+        "Grow to it second size#Have a chance to spawn flies when it kills an enemy",
+        "Grow to it third size#Spawn more flies when it kills an enemy",
         ConvertRGBToIsaac({127, 242, 255})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
@@ -491,6 +491,10 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
 end
 
 function sewingMachineMod:renderEID()
+
+    if sewingMachineMod.currentLevel == nil then
+        sewingMachineMod.currentLevel = Game():GetLevel()
+    end
 
     local curse = sewingMachineMod.currentLevel:GetCurses()
     
