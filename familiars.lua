@@ -343,7 +343,7 @@ function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differen
     force = force or 5
     damage = damage or 3.5
     for i = 1, amountTears do
-        local velocity = v0
+        local velocity = Vector(0, 0)
         velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
         velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
         local t = Isaac.Spawn(EntityType.ENTITY_TEAR, tearVariant, 0, position, velocity, familiar):ToTear()
@@ -1457,7 +1457,7 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
             end
         end
         if fData.Sewn_custom_bobsBrain_stickNpc ~= nil then
-            bobsBrain.Velocity = v0
+            bobsBrain.Velocity = Vector(0, 0)
             bobsBrain.Position = fData.Sewn_custom_bobsBrain_stickNpc.Position + fData.Sewn_custom_bobsBrain_stickDistance
             if fData.Sewn_custom_bobsBrain_stickFrame + 30 < game:GetFrameCount() then
                 sprite.PlaybackSpeed = 1.5
@@ -2273,7 +2273,7 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
         if rollSpider == 0 then
             local nbSpiders = sewingMachineMod.rng:RandomInt(4)
             for i = 1, nbSpiders do
-                local velocity = v0
+                local velocity = Vector(0, 0)
                 local force = 30
                 velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
                 velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
@@ -2356,25 +2356,40 @@ end
 -- LEECH
 function sewnFamiliars:upLeech(leech)
     local fData = leech:GetData()
-    if leech.Variant == FamiliarVariant.LEECH then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customUpdate(leech, sewnFamiliars.custom_update_leech)
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customCollision(leech, sewnFamiliars.custom_collision_leech)
+        --sewnFamiliars:customUpdate(leech, sewnFamiliars.custom_update_leech)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customKillEnemy(leech, sewnFamiliars.custom_killEnemy_leech)
         end
     end
 end
-function sewnFamiliars:custom_update_leech(leech)
-    local fData = leech:GetData()
-    for _, npc in pairs(Isaac.FindInRadius(leech.Position, leech.Size, EntityPartition.ENEMY)) do
-        if npc:IsVulnerableEnemy() then
-            if leech.FrameCount % 8 == 0 then
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, v0, nil)
-            end
-            if sewingMachineMod:isUltra(fData) and npc.HitPoints - leech.CollisionDamage <= 0 then
-                local nbTears = sewingMachineMod.rng:RandomInt(math.min(npc.MaxHitPoints, 20)) + 8
-                sewnFamiliars:burstTears(leech, nbTears, 2.5, 7, true, nil, nil, npc.Position)
-            end
+function sewnFamiliars:custom_collision_leech(leech, collider)
+    if collider:IsVulnerableEnemy() then
+        if leech.FrameCount % 10 == 0 then
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, v0, nil)
+            creep.CollisionDamage = 1
         end
     end
+end
+function sewnFamiliars:custom_leech_burstTears(data)
+    sewnFamiliars:burstTears(data.FAMILIAR, data.AMOUNT_TEARS, data.DAMAGE, data.FORCE, data.DIFFERENT_SIZE, data.TEAR_VARIANT, data.TEAR_FLAGS, data.POSITION)
+end
+function sewnFamiliars:custom_killEnemy_leech(leech, enemy)
+    local enemyHP = math.floor(enemy.MaxHitPoints / 2)
+    local nbTears = sewingMachineMod.rng:RandomInt(math.min(enemyHP, 15)) + 5
+    
+    local data = {
+        FAMILIAR = leech,
+        AMOUNT_TEARS = nbTears, 
+        DAMAGE = 3.5,
+        FORCE = 8,
+        DIFFERENT_SIZE = true,
+        TEAR_VARIANT = nil,
+        TEAR_FLAGS = nil,
+        POSITION = enemy.Position
+    }
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_leech_burstTears, 1, data)
 end
 
 -- BBF
@@ -2696,7 +2711,7 @@ function sewnFamiliars:hushy_fireContinuumTears(hushy)
     if fData.Sewn_hushy_continuumTears == nil then
         fData.Sewn_hushy_continuumTears = sewingMachineMod.rng:RandomInt(20) + 10
     end
-    local velo = v0
+    local velo = Vector(0, 0)
     local dir = hushy.Player:GetFireDirection()
     if dir == Direction.LEFT then
         velo.X = -5
@@ -3006,7 +3021,7 @@ function sewnFamiliars:custom_lilSpewer_fireTears(data)
     local state = data[2]
     
     local fData = lilSpewer:GetData()
-    local velocity = v0
+    local velocity = Vector(0, 0)
     local speed = 10
     
     local direction = lilSpewer.Player:GetFireDirection()
