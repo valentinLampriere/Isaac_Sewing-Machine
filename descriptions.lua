@@ -538,4 +538,42 @@ function sewingMachineMod:renderEID()
     end
 end
 
+local function loopThroughAvailableFamiliars(_function)
+    for familiarID, data in pairs(sewingMachineMod.availableFamiliar) do
+        _function(data[1])
+    end
+end
+function sewingMachineMod:addEIDDescriptionForCollectible()
+    if EID then
+        if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NONE then
+            return
+        end
+        
+    
+        local crownSprite = Sprite()
+        crownSprite:Load("gfx/sewn_familiar_crown.anm2", false)
+        crownSprite:LoadGraphics()
+
+        EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
+        EID:addIcon("SewnCrownSuper", "Super", 0, 12, 9, 1, 10, crownSprite)
+
+        if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.TOP then
+            EID:createTransformation("FamiliarUpgradable", "Upgradable")
+            EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
+
+            loopThroughAvailableFamiliars(function(itemID) 
+                EID:assignTransformation("collectible", itemID, "FamiliarUpgradable")
+            end)
+        elseif sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE then
+            loopThroughAvailableFamiliars(function(itemID)
+                local description = "#{{SewnCrownSuper}} Upgradable"
+                if EID.descriptions["en_us"].collectibles[itemID] ~= nil then
+                    description = EID.descriptions["en_us"].collectibles[itemID][3] .. description
+                end
+                EID:addCollectible(itemID, description)
+            end)
+        end
+    end
+end
+
 sewingMachineMod.errFamiliars.Error()

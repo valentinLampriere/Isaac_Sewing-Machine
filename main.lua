@@ -1912,10 +1912,10 @@ function sewingMachineMod:loadSave(isExistingRun)
 
     -- Set familiar description
     sewingMachineMod:InitFamiliarDescription()
+
+    -- Add an indication in the EID Description of familiar collectible
+    sewingMachineMod:addEIDDescriptionForCollectible()
 end
-
-
-sewingMachineMod:InitFamiliarDescription()
 
 ---------------
 -- CALLBACKS --
@@ -1951,6 +1951,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 -- Entities related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, sewingMachineMod.entitySpawn)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMod.effectUpdate)
+-- might use MC_POST_NPC_DEATH instead
 sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.entityTakeDamage)
 
 -- Game related callbacks
