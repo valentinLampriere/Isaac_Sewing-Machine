@@ -1,5 +1,5 @@
 <AnimatedActor>
-	<Info CreatedBy="Unknown" CreatedOn="03/02/2021 22:10:57" Version="15" Fps="30"/>
+	<Info CreatedBy="Unknown" CreatedOn="03/02/2021 20:52:19" Version="14" Fps="30"/>
 	<Content>
 		<Spritesheets>
 			<Spritesheet Path="ui_warrantycard.png" Id="0"/>
@@ -10,8 +10,8 @@
 		<Nulls/>
 		<Events/>
 	</Content>
-	<Animations DefaultAnimation="warrantyCard">
-		<Animation Name="warrantyCard" FrameNum="1" Loop="false">
+	<Animations DefaultAnimation="SewingCard">
+		<Animation Name="SewingCard" FrameNum="1" Loop="false">
 			<RootAnimation>
 				<Frame XPosition="0" YPosition="0" XScale="100" YScale="100" Delay="1" Visible="true" RedTint="255" GreenTint="255" BlueTint="255" AlphaTint="255" RedOffset="0" GreenOffset="0" BlueOffset="0" Rotation="0" Interpolated="false"/>
 			</RootAnimation>

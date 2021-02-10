@@ -1996,11 +1996,11 @@ function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
             if fData.Sewn_custom_fartingBaby_randomFartCooldown == 0 then
                 local rollFart = sewingMachineMod.rng:RandomInt(rollMax)
                 if rollFart == 0 then
-                    game:Fart(fartingBaby.Position, 100, fartingBaby.Player, 1, 0)
+                    game:Fart(fartingBaby.Position, 75, fartingBaby.Player, 1, 0)
                 elseif rollFart == 1 then
-                    game:CharmFart(fartingBaby.Position, 100, fartingBaby.Player)
+                    game:CharmFart(fartingBaby.Position, 75, fartingBaby.Player)
                 elseif rollFart == 2 then
-                    game:ButterBeanFart(fartingBaby.Position, 100, fartingBaby.Player, true)
+                    game:ButterBeanFart(fartingBaby.Position, 75, fartingBaby.Player, true)
                 elseif rollFart == 3 then
                     -- Spawn a Burning fart
                     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, v0, fartingBaby)
@@ -3132,9 +3132,6 @@ function sewnFamiliars:custom_update_lilSpewer(lilSpewer)
         sewnFamiliars:custom_lilSpewer_fireTears(data)
         
         if sewingMachineMod:isUltra(fData) then
-            
-            print("Shoot")
-            
             -- Change his state
             lilSpewer.State = fData.Sewn_lilSpewer_secondState
             -- Reset the cooldown to 0 (ready to fire)

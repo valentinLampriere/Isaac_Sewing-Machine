@@ -69,7 +69,7 @@ function sewingMachineMod:initMCM()
 		-- Familiar's crown position
 		local familiars_crown_pos = {1,2}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(familiars_crown_pos, sewingMachineMod.Config.familiarCrownPosition)
 			end,
@@ -95,7 +95,7 @@ function sewingMachineMod:initMCM()
 		-- Non-Ready indicators
 		local familiars_non_ready_indicator = {1,2,3}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(familiars_non_ready_indicator, sewingMachineMod.Config.familiarNonReadyIndicator)
 			end,
@@ -125,7 +125,7 @@ function sewingMachineMod:initMCM()
 		-- Allowed Familiar Effect
 		local allowed_familiars_effect = {1,2}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(allowed_familiars_effect, sewingMachineMod.Config.familiarAllowedEffect)
 			end,
@@ -152,7 +152,7 @@ function sewingMachineMod:initMCM()
 		-- Not Allowed Familiar Effect
 		local not_allowed_familiars_effect = {1,2}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(not_allowed_familiars_effect, sewingMachineMod.Config.familiarNotAllowedEffect)
 			end,
@@ -187,7 +187,7 @@ function sewingMachineMod:initMCM()
 		-- EID ENABLE
 		local eid_enable = {1,2,3}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(eid_enable, sewingMachineMod.Config.EID_enable)
 			end,
@@ -214,7 +214,7 @@ function sewingMachineMod:initMCM()
 		-- TEXT SIZE
 		local textSizes = {0.45,0.5,0.55,0.6,0.65,0.7}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(textSizes, sewingMachineMod.Config.EID_textSize)
 			end,
@@ -250,7 +250,7 @@ function sewingMachineMod:initMCM()
 
 		-- TEXT COLOR
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.BOOLEAN,
+			Type = ModConfigMenu.OptionType.BOOLEAN,
 			CurrentSetting = function()
 				return sewingMachineMod.Config.EID_textColored
 			end,
@@ -274,7 +274,7 @@ function sewingMachineMod:initMCM()
 		-- TEXT TRANSPARENCY
 		local transparencies = {0.25,0.3,0.4,0.5,0.6,0.75,0.8,0.9,1}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(transparencies, sewingMachineMod.Config.EID_textTransparency)
 			end,
@@ -293,7 +293,7 @@ function sewingMachineMod:initMCM()
 
 		-- HIDE ON CURSE OF THE BLIND
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.BOOLEAN,
+			Type = ModConfigMenu.OptionType.BOOLEAN,
 			CurrentSetting = function()
 				return sewingMachineMod.Config.EID_hideCurseOfBlind
 			end,
@@ -316,7 +316,7 @@ function sewingMachineMod:initMCM()
 		-- INDICATOR ON FAMILIAR COLLECTIBLE
 		local eid_indicator_item = {1,2,3}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.NUMBER,
 			CurrentSetting = function()
 				return AnIndexOf(eid_indicator_item, sewingMachineMod.Config.EID_indicateFamiliarUpgradable)
 			end,
@@ -357,7 +357,7 @@ function sewingMachineMod:initMCM()
 		ModConfigMenu.AddSpace("Sewing Machine")
 		
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.BOOLEAN,
+			Type = ModConfigMenu.OptionType.BOOLEAN,
 			CurrentSetting = function()
 				return sewingMachineMod.Config.TrueCoop_removeMachine
 			end,
@@ -378,7 +378,7 @@ function sewingMachineMod:initMCM()
 		})
 		
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenuOptionType.BOOLEAN,
+			Type = ModConfigMenu.OptionType.BOOLEAN,
 			CurrentSetting = function()
 				return sewingMachineMod.Config.TrueCoop_displayText
 			end,

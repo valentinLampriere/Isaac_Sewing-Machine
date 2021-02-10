@@ -193,6 +193,7 @@ CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD = Isaac.GetItemIdByName("Ann's Ta
 CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY = Isaac.GetItemIdByName("Ann's Pure Body")
 -- Cards --
 Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
+Card.CARD_WARRANTY = Isaac.GetCardIdByName("warrantyCard")
 -- Familiars --
 FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
 FamiliarVariant.ANN_S_PURE_BODY = Isaac.GetEntityVariantByName("Ann's Pure Body")
@@ -329,6 +330,29 @@ sewingMachineMod.availableFamiliar = {
 }
 
 __require("descriptions")
+
+
+
+function sewingMachineMod.initModNotification()    
+    local initial_Sprite = Sprite()
+    initial_Sprite:Load("gfx/ui/notifications/_initial.png")
+    initial_Sprite:LoadGraphics()
+    
+    local divine_Sprite = Sprite()
+    divine_Sprite:Load("gfx/ui/notifications/_divine.png")
+    divine_Sprite:LoadGraphics()
+    
+    sewingMachineMod.modUpdate = {
+        isOpen = false,
+        images = {
+            INITIAL = initial_Sprite,
+            DIVINE = divine_Sprite
+        },
+        currentUpdate = 2
+    }
+end
+
+sewingMachineMod.initModNotification()
 
 ---------------
 -- Syringes! --
@@ -973,6 +997,11 @@ end
 -- MC_PRE_ENTITY_SPAWN --
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
+
+    if sewingMachineMod.currentLevel == nil then 
+        sewingMachineMod.currentLevel = game:GetLevel()
+    end
+
     -- If a collectible spawn in the chest or in dark room
     if type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE and sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE6 then
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
@@ -1588,16 +1617,11 @@ function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, o
         end
     end
 end
-------------------------------------
--- MC_USE_CARD - CARD_RUNE_NAUDIZ --
-------------------------------------
-function sewingMachineMod:useNaudiz(card)
+--------------------------------------
+-- MC_USE_CARD - Card.CARD_WARRANTY --
+--------------------------------------
+function sewingMachineMod:useWarrantyCard(card)
     local player = GetPlayerUsingItem()
-    player:AnimateCard(Card.RUNE_BERKANO, "UseItem")
-    GiantBook:ReplaceSpritesheet(0, "gfx/ui/giantbook/rune_naudiz.png")
-    GiantBook:LoadGraphics()
-    GiantBook:Play("Appear", true)
-
     sewingMachineMod:spawnMachine(sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
 -------------------------
@@ -1710,6 +1734,18 @@ function sewingMachineMod:onRender()
         GiantBook:RenderLayer(0, Isaac.WorldToRenderPosition(Vector(320,300), true))
     end
 
+    if sewingMachineMod.modUpdate.isOpen == true then
+
+        local img = sewingMachineMod.modUpdate.images[sewingMachineMod.modUpdate.currentUpdate]
+
+        if img ~= nil then
+
+            img:Render(v0, v0, v0)
+
+        end
+    end
+
+
     sewingMachineMod:renderEID()
 end
 --------------------
@@ -1748,6 +1784,8 @@ function sewingMachineMod:executeCommand(cmd, params)
                     sewingMachineMod:callFamiliarUpgrade(familiar)
                 end
             end
+        elseif param[1] == "updates" then
+            sewingMachineMod.modUpdate.isOpen = true
         end
     end
 end
@@ -1907,6 +1945,8 @@ function sewingMachineMod:loadSave(isExistingRun)
         end
     end
 
+
+
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
 
@@ -1941,6 +1981,8 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useNaudiz, Card.RUNE_NAUDIZ)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
+
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.initPickup)
 
 -- Rooms related callbacks
@@ -1951,7 +1993,6 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 -- Entities related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, sewingMachineMod.entitySpawn)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMod.effectUpdate)
--- might use MC_POST_NPC_DEATH instead
 sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.entityTakeDamage)
 
 -- Game related callbacks
