@@ -261,8 +261,8 @@ local function __require(file)
       Isaac.ConsoleOutput("Failed to load module: " .. tostring(err) .. "\n")
     end
 end
-__require("config")
-__require("familiars")
+__require("sewn_scripts.config")
+__require("sewn_scripts.familiars")
 
 -------------------------
 -- AVAILABLE FAMILIARS --
@@ -329,7 +329,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
-__require("descriptions")
+__require("sewn_scripts.descriptions")
 
 
 
@@ -359,7 +359,7 @@ sewingMachineMod.initModNotification()
 ---------------
 
 if M_SYR ~= nil then
-    __require("syringe")
+    __require("sewn_scripts.syringe")
 end
 
 -------------------------------
