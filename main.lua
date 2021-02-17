@@ -193,6 +193,7 @@ CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD = Isaac.GetItemIdByName("Ann's Ta
 CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY = Isaac.GetItemIdByName("Ann's Pure Body")
 -- Cards --
 Card.CARD_WARRANTY = Isaac.GetCardIdByName("warrantyCard")
+Card.CARD_STITCHING = Isaac.GetCardIdByName("stitchingCard")
 -- Familiars --
 FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
 FamiliarVariant.ANN_S_PURE_BODY = Isaac.GetEntityVariantByName("Ann's Pure Body")
@@ -357,6 +358,7 @@ if EID then
 
     -- EID Cards
     EID:addCard(Card.CARD_WARRANTY, "Spawn a sewing machine#The Sewing machine change depending on the room type")
+    EID:addCard(Card.CARD_STITCHING, "Reroll familiar crowns")
 end
 
 
@@ -411,7 +413,40 @@ function sewingMachineMod:getFamiliarItemGfx(familiarVariant)
     return "gfx/items/collectibles/questionmark.png"
 end
 
+function sewingMachineMod:rerollFamilarsCrowns(player)
+    local pData = player:GetData()
 
+    local allowedFamiliars = {}
+    local countCrowns = 0
+
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
+            table.insert(allowedFamiliars, familiar)
+            countCrowns = countCrowns + fData.Sewn_upgradeState
+            fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
+
+            --table.insert(pData.Sewn_familiars, familiars[familiar_index])
+
+            sewingMachineMod:resetFamiliarData(familiar)
+        end
+    end
+    while #allowedFamiliars > 0 and countCrowns > 0 do
+        local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
+        local fData = allowedFamiliars[familiar_index]:GetData()
+        if not sewingMachineMod:isUltra(fData) then
+            fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
+            countCrowns = countCrowns -1
+
+            sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
+        end
+        if sewingMachineMod:isUltra(fData) then
+            table.remove(allowedFamiliars, familiar_index)
+            --table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
+        end
+    end
+end
 
 function sewingMachineMod:temporaryUpgradeFamiliar(familiar)
     local fData = familiar:GetData()
@@ -830,33 +865,7 @@ function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, da
     local allowedFamiliars = {}
     player = player:ToPlayer()
     if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
-        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-            local fData = familiar:GetData()
-            familiar = familiar:ToFamiliar()
-            if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
-                table.insert(allowedFamiliars, familiar)
-                countCrowns = countCrowns + fData.Sewn_upgradeState
-                fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
-
-                table.insert(player:GetData().Sewn_familiars, familiars[familiar_index])
-
-                sewingMachineMod:resetFamiliarData(familiar)
-            end
-        end
-        while #allowedFamiliars > 0 and countCrowns > 0 do
-            local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
-            local fData = allowedFamiliars[familiar_index]:GetData()
-            if not sewingMachineMod:isUltra(fData) then
-                fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-                countCrowns = countCrowns -1
-
-                sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
-            end
-            if sewingMachineMod:isUltra(fData) then
-                table.remove(allowedFamiliars, familiar_index)
-                table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
-            end
-        end
+        sewingMachineMod:rerollFamilarsCrowns(player)
     end
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
@@ -1585,9 +1594,11 @@ end
 -----------------
 function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
     if not includeRunes then
-        local roll = rng:RandomInt(100) + 1
-        if roll < 5 then
+        local roll = rng:RandomInt(1000)
+        if roll < 10 then
             return Card.CARD_WARRANTY
+        elseif roll < 20 then
+            return Card.CARD_STITCHING
         end
     end
 end
@@ -1598,15 +1609,21 @@ function sewingMachineMod:useWarrantyCard(card)
     local player = GetPlayerUsingItem()
     sewingMachineMod:spawnMachine(sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
+---------------------------------------
+-- MC_USE_CARD - Card.CARD_STITCHING --
+---------------------------------------
+function sewingMachineMod:useStitchingCard(card)
+    sewingMachineMod:rerollFamilarsCrowns(GetPlayerUsingItem())
+end
 ---------------------------
 -- MC_POST_PICKUP_UPDATE --
 ---------------------------
 function sewingMachineMod:updateCard(card)
-    if card.SubType == Card.CARD_WARRANTY then
+    if card.SubType == Card.CARD_WARRANTY or card.SubType == Card.CARD_STITCHING then
         local cData = card:GetData()
         if cData.Sewn_isInit == nil then
             local sprite = card:GetSprite()
-            sprite:Load("gfx/005_warranty_card.anm2", true)
+            sprite:Load("gfx/005_sewing_card.anm2", true)
 
             if card.FrameCount == 0 then
                 sprite:Play("Idle")
@@ -1618,10 +1635,6 @@ function sewingMachineMod:updateCard(card)
         end
     end
 end
-
-
-
-
 
 
 --------------------
@@ -1945,6 +1958,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, sewingMachineMod.updateCard, PickupVariant.PICKUP_TAROTCARD)
 
 -- Rooms related callbacks
