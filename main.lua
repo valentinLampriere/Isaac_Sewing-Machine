@@ -192,7 +192,6 @@ CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
 CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD = Isaac.GetItemIdByName("Ann's Tainted Head")
 CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY = Isaac.GetItemIdByName("Ann's Pure Body")
 -- Cards --
-Card.RUNE_NAUDIZ = Isaac.GetCardIdByName("Naudiz")
 Card.CARD_WARRANTY = Isaac.GetCardIdByName("warrantyCard")
 -- Familiars --
 FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
@@ -234,15 +233,14 @@ local v0 = Vector(0, 0)
 --local sewingMachineMod.rng = RNG()
 local game = Game()
 local sewingMachine_shouldAppear_shop = false
-local spawnMachineAfterGreed
 local temporaryFamiliars = {}
 local trinketSewingMachine = {
     TrinketType.TRINKET_THIMBLE,
     TrinketType.TRINKET_LOST_BUTTON,
-    TrinketType.TRINKET_PIN_CUSHION
+    TrinketType.TRINKET_PIN_CUSHION,
+    TrinketType.TRINKET_CRACKED_THIMBLE,
+    TrinketType.TRINKET_CONTRASTED_BUTTON
 }
-local GiantBook = Sprite()
-GiantBook:Load("gfx/ui/giantbook/giantbook.anm2", false)
 
 
 sewingMachineMod.displayTrueCoopMessage = false
@@ -332,28 +330,6 @@ sewingMachineMod.availableFamiliar = {
 __require("sewn_scripts.descriptions")
 
 
-
-function sewingMachineMod.initModNotification()    
-    local initial_Sprite = Sprite()
-    initial_Sprite:Load("gfx/ui/notifications/_initial.png")
-    initial_Sprite:LoadGraphics()
-    
-    local divine_Sprite = Sprite()
-    divine_Sprite:Load("gfx/ui/notifications/_divine.png")
-    divine_Sprite:LoadGraphics()
-    
-    sewingMachineMod.modUpdate = {
-        isOpen = false,
-        images = {
-            INITIAL = initial_Sprite,
-            DIVINE = divine_Sprite
-        },
-        currentUpdate = 2
-    }
-end
-
-sewingMachineMod.initModNotification()
-
 ---------------
 -- Syringes! --
 ---------------
@@ -380,7 +356,7 @@ if EID then
     EID:addTrinket(TrinketType.TRINKET_PIN_CUSHION, "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button")
 
     -- EID Cards
-    EID:addCard(Card.RUNE_NAUDIZ, "Spawn a sewing machine#The Sewing machine change depending on the room type")
+    EID:addCard(Card.CARD_WARRANTY, "Spawn a sewing machine#The Sewing machine change depending on the room type")
 end
 
 
@@ -771,8 +747,6 @@ end
 ----------------------------
 function sewingMachineMod:onPlayerUpdate(player)
     local pData = player:GetData()
-
-    GiantBook:Update()
 
     -- Prepare proper sewingMachineMod.rng
     sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
@@ -1610,10 +1584,10 @@ end
 -- MC_GET_CARD --
 -----------------
 function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
-    if includeRunes then
+    if not includeRunes then
         local roll = rng:RandomInt(100) + 1
-        if roll < 8 then
-            return Card.RUNE_NAUDIZ
+        if roll < 5 then
+            return Card.CARD_WARRANTY
         end
     end
 end
@@ -1624,15 +1598,23 @@ function sewingMachineMod:useWarrantyCard(card)
     local player = GetPlayerUsingItem()
     sewingMachineMod:spawnMachine(sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
--------------------------
--- MC_POST_PICKUP_INIT --
--------------------------
-function sewingMachineMod:initPickup(pickup)
-    if pickup.Type == EntityType.ENTITY_PICKUP and pickup.Variant == PickupVariant.PICKUP_TAROTCARD then
-        if pickup.SubType == Card.RUNE_NAUDIZ then
-            local sprite = pickup:GetSprite()
-            sprite:Load("gfx/005.304_rune2.anm2", true)
-            sprite:Play("Appear")
+---------------------------
+-- MC_POST_PICKUP_UPDATE --
+---------------------------
+function sewingMachineMod:updateCard(card)
+    if card.SubType == Card.CARD_WARRANTY then
+        local cData = card:GetData()
+        if cData.Sewn_isInit == nil then
+            local sprite = card:GetSprite()
+            sprite:Load("gfx/005_warranty_card.anm2", true)
+
+            if card.FrameCount == 0 then
+                sprite:Play("Idle")
+            end
+            if card.FrameCount == 1 then
+                sprite:Play("Appear")
+            end
+            cData.Sewn_isInit = true
         end
     end
 end
@@ -1730,22 +1712,6 @@ end
 -- MC_POST_RENDER --
 --------------------
 function sewingMachineMod:onRender()
-    if GiantBook:IsPlaying("Appear") then
-        GiantBook:RenderLayer(0, Isaac.WorldToRenderPosition(Vector(320,300), true))
-    end
-
-    if sewingMachineMod.modUpdate.isOpen == true then
-
-        local img = sewingMachineMod.modUpdate.images[sewingMachineMod.modUpdate.currentUpdate]
-
-        if img ~= nil then
-
-            img:Render(v0, v0, v0)
-
-        end
-    end
-
-
     sewingMachineMod:renderEID()
 end
 --------------------
@@ -1784,8 +1750,6 @@ function sewingMachineMod:executeCommand(cmd, params)
                     sewingMachineMod:callFamiliarUpgrade(familiar)
                 end
             end
-        elseif param[1] == "updates" then
-            sewingMachineMod.modUpdate.isOpen = true
         end
     end
 end
@@ -1980,10 +1944,8 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 -- Pickups related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
-sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useNaudiz, Card.RUNE_NAUDIZ)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
-
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_INIT, sewingMachineMod.initPickup)
+sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, sewingMachineMod.updateCard, PickupVariant.PICKUP_TAROTCARD)
 
 -- Rooms related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewingMachineMod.newRoom)
