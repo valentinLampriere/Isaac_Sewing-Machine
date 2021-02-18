@@ -1606,7 +1606,7 @@ function sewingMachineMod:useGlowingHourglass(collectibleType, rng)
             table.insert(familiarStates[familiar.Variant], fData.Sewn_upgradeState)
         end
     end
-    sewingMachineMod:delayFunction(sewingMachineMod.glowingHourglassResetFamiliars, 1, familiarStates)
+    sewingMachineMod:delayFunction(sewingMachineMod.glowingHourglassResetFamiliars, -game:GetRoom():GetFrameCount(), familiarStates)
 end
 function sewingMachineMod:glowingHourglassResetFamiliars(familiarStates)
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
