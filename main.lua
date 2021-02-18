@@ -1590,6 +1590,38 @@ function sewingMachineMod:useSewingBox(collectibleType, rng)
     player:GetData().Sewn_hasTemporaryUpgradedFamiliars = true
     return true
 end
+
+-------------------------------------------------
+-- MC_USE_ITEM - COLLECTIBLE_GLOWING_HOURGLASS --
+-------------------------------------------------
+function sewingMachineMod:useGlowingHourglass(collectibleType, rng)
+    local familiarStates = {}
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        familiar = familiar:ToFamiliar()
+        local fData = familiar:GetData()
+        if fData.Sewn_upgradeState > 0 then
+            if familiarStates[familiar.Variant] == nil then
+                familiarStates[familiar.Variant] = {}
+            end
+            table.insert(familiarStates[familiar.Variant], fData.Sewn_upgradeState)
+        end
+    end
+    sewingMachineMod:delayFunction(sewingMachineMod.glowingHourglassResetFamiliars, 1, familiarStates)
+end
+function sewingMachineMod:glowingHourglassResetFamiliars(familiarStates)
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        familiar = familiar:ToFamiliar()
+        local fData = familiar:GetData()
+
+        if familiarStates[familiar.Variant] ~= nil then
+            fData.Sewn_upgradeState = familiarStates[familiar.Variant][#familiarStates[familiar.Variant]]
+            table.remove(familiarStates[familiar.Variant], #familiarStates[familiar.Variant])
+            
+            sewingMachineMod:resetFamiliarData(familiar)
+            sewingMachineMod:callFamiliarUpgrade(familiar)
+        end
+    end
+end
 -----------------
 -- MC_GET_CARD --
 -----------------
@@ -1957,6 +1989,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 
 -- Pickups related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOURGLASS)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
