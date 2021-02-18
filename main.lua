@@ -825,7 +825,8 @@ function sewingMachineMod:onPlayerUpdate(player)
                         end
                     end
 
-                    if mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
+                    --if mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
+                    if mData.Sewn_currentFamiliarVariant ~= nil and (player:GetTrinket(0) == TrinketType.TRINKET_PIN_CUSHION or player:GetTrinket(1) == TrinketType.TRINKET_PIN_CUSHION) then
                         -- If the player has the Pin Cushion trinket : Get back for free the familiar
                         sewingMachineMod:getFamiliarBack(machine, false)
                     elseif mData.Sewn_currentFamiliarVariant ~= nil and sewingMachineMod:canPayCost(machine, player) then
