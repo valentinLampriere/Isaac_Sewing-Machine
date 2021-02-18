@@ -213,7 +213,7 @@ sewingMachineMod.SewingMachineSubType = {
 }
 sewingMachineMod.SewingMachineCost = {
     BEDROOM = 2,
-    SHOP = 8,
+    SHOP = 10,
     SHOP_SALE = 5,
     ANGELIC = 0,
     EVIL = 2
@@ -315,6 +315,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.FARTING_BABY] = {404, sewingMachineMod.sewnFamiliars.upFartingBaby},
     [FamiliarVariant.OBSESSED_FAN] = {426, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.PAPA_FLY] = {430, sewingMachineMod.sewnFamiliars.upPapaFly},
+    [FamiliarVariant.MULTIDIMENSIONAL_BABY] = {431, sewingMachineMod.sewnFamiliars.upMultidimensionalBaby},
     [FamiliarVariant.LIL_LOKI] = {435, sewingMachineMod.sewnFamiliars.upLilLoki},
     [FamiliarVariant.HUSHY] = {470, sewingMachineMod.sewnFamiliars.upHushy},
     [FamiliarVariant.LIL_MONSTRO] = {471, sewingMachineMod.sewnFamiliars.upLilMonstro},
