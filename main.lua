@@ -79,7 +79,7 @@
 
 -- ADD CROWN OFFSET --
 -- Description :
--- Add an offset to the ground for a specific familiar, like so it's possible to choose where the crown will be displayed
+-- Add an offset to the crown for a specific familiar, like so it's possible to choose where the crown will be displayed
 -- Parameters :
 --   familiar (EntityFamiliar) : The familiar
 --   offset   (Vector) : The offset position of the crown
@@ -859,6 +859,22 @@ function sewingMachineMod:onPlayerUpdate(player)
     if player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) and Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) then
         player:DropTrinket(player.Position, false);
     end
+
+    if player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = familiar:GetData()
+            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage * 2
+        end
+        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = true
+    end
+    if not player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = familiar:GetData()
+            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage / 2
+        end
+        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = nil
+    end
+
 end
 ---------------------------------------
 -- MC_ENTITY_TAKE_DMG - EntityPlayer --

@@ -3388,7 +3388,11 @@ function sewnFamiliars:custom_collision_slippedRib(slippedRib, collider)
     local fData = slippedRib:GetData()
     
     if collider:IsVulnerableEnemy() then
-        collider:TakeDamage(math.max(3.5, slippedRib.Player.Damage * 0.75), DamageFlag.DAMAGE_COUNTDOWN, EntityRef(slippedRib), 5)
+        local dmg = math.max(3.5, slippedRib.Player.Damage * 0.75)
+        if slippedRib.Player and slippedRib.Player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
+            dmg = dmg * 2
+        end
+        collider:TakeDamage(dmg, DamageFlag.DAMAGE_COUNTDOWN, EntityRef(slippedRib), 5)
     elseif collider.Type == EntityType.ENTITY_PROJECTILE and sewingMachineMod:isUltra(fData) then
         if fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] + 30 < collider.FrameCount then
             local rollBone = sewingMachineMod.rng:RandomInt(100)
