@@ -6,9 +6,9 @@
 		<Item Name="Sewing Box" Weight="1" DecreaseBy="0.5" RemoveOn="0.1" />
 	</Pool>
 	<Pool Name="devil">
-		<Item Name="Doll's Tainted Head" Weight="1" DecreaseBy="1" RemoveOn="0.1" />
+		<Item Name="Doll's Tainted Head" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.1" />
 	</Pool>
 	<Pool Name="angel">
-		<Item Name="Doll's Pure Body" Weight="1" DecreaseBy="1" RemoveOn="0.1" />
+		<Item Name="Doll's Pure Body" Weight="0.8" DecreaseBy="0.8" RemoveOn="0.1" />
 	</Pool>
 </ItemPools>
