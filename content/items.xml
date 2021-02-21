@@ -1,7 +1,7 @@
 <items gfxroot="gfx/items/" version="1">
 	<active description="Temporary super familiar" gfx="sewingBox.png" name="Sewing Box" maxcharges="4" />
-	<familiar description="???" gfx="annsTaintedHead.png" name="Ann's Tainted Head" />
-	<familiar description="???" gfx="annsPureBody.png" name="Ann's Pure Body" />
+	<familiar description="???" gfx="dollsTaintedHead.png" name="Doll's Tainted Head" />
+	<familiar description="???" gfx="dollsPureBody.png" name="Doll's Pure Body" />
 	<trinket cache="" description="Safety crowns" gfx="thimble.png" name="Thimble"/>
 	<trinket cache="" description="Cursed crowns ?" gfx="crackedThimble.png" name="Cracked Thimble"/>
 	<trinket cache="" description="More sewing machines !" gfx="lostButton.png" name="Lost Button"/>

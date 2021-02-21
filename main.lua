@@ -189,15 +189,15 @@ TrinketType.TRINKET_CONTRASTED_BUTTON = Isaac.GetTrinketIdByName("Contrasted But
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
 -- Collectibles --
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
-CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD = Isaac.GetItemIdByName("Ann's Tainted Head")
-CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY = Isaac.GetItemIdByName("Ann's Pure Body")
+CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD = Isaac.GetItemIdByName("Doll's Tainted Head")
+CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY = Isaac.GetItemIdByName("Doll's Pure Body")
 -- Cards --
 Card.CARD_WARRANTY = Isaac.GetCardIdByName("warrantyCard")
 Card.CARD_STITCHING = Isaac.GetCardIdByName("stitchingCard")
 -- Familiars --
-FamiliarVariant.ANN_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Ann's Tainted Head")
-FamiliarVariant.ANN_S_PURE_BODY = Isaac.GetEntityVariantByName("Ann's Pure Body")
-FamiliarVariant.ANN = Isaac.GetEntityVariantByName("Ann")
+FamiliarVariant.DOLL_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Doll's Tainted Head")
+FamiliarVariant.DOLL_S_PURE_BODY = Isaac.GetEntityVariantByName("Doll's Pure Body")
+FamiliarVariant.SEWN_DOLL = Isaac.GetEntityVariantByName("Sewn Doll")
 -- Effects
 EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02")
 EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
@@ -348,8 +348,8 @@ end
 if EID then
     -- EID Collectibles
     EID:addCollectible(CollectibleType.COLLECTIBLE_SEWING_BOX, "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded")
-    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD, "Every familiars will be SUPER#With Ann's Pure Body every familiars will be ULTRA#Has a chance to spawn a Sewing machine in Devil rooms {{DevilRoom}}")
-    EID:addCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY, "Every familiars will be SUPER#With Ann's Tainted Head every familiars will be ULTRA#Has a chance to spawn a Sewing machine in Angel rooms {{AngelRoom}}")
+    EID:addCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Every familiars will be SUPER#With Doll's Pure Body every familiars will be ULTRA#Has a chance to spawn a Sewing machine in Devil rooms {{DevilRoom}}")
+    EID:addCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Every familiars will be SUPER#With Doll's Tainted Head every familiars will be ULTRA#Has a chance to spawn a Sewing machine in Angel rooms {{AngelRoom}}")
 
     -- EID Trinkets
     EID:addTrinket(TrinketType.TRINKET_THIMBLE, "Have a 50% chance to upgrade a familiar for free")
@@ -766,15 +766,15 @@ function sewingMachineMod:addCrownOffset(familiar, offset)
     fData.Sewn_crownPositionOffset = offset
 end
 
-function sewingMachineMod:removeAnnsTaintedHead()
-    for _, annsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, -1, false, false)) do
-        annsHead:Remove()
+function sewingMachineMod:removeDollsTaintedHead()
+    for _, dollsHead in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.DOLL_S_TAINTED_HEAD, -1, false, false)) do
+        dollsHead:Remove()
     end
 end
 
-function sewingMachineMod:removeAnnsPureBody()
-    for _, annsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, -1, false, false)) do
-        annsBody:Remove()
+function sewingMachineMod:removeDollsPureBody()
+    for _, dollsBody in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.DOLL_S_PURE_BODY, -1, false, false)) do
+        dollsBody:Remove()
     end
 end
 
@@ -903,63 +903,63 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             end
         end
 
-        -- Player get "Ann's Tainted Head"
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-                local annsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_TAINTED_HEAD, 0, player.Position, v0, player):ToFamiliar()
-                annsHead:AddToFollowers()
+        -- Player get "Doll's Tainted Head"
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD] then
+            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY] then
+                local dollsHead = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.DOLL_S_TAINTED_HEAD, 0, player.Position, v0, player):ToFamiliar()
+                dollsHead:AddToFollowers()
             end
             -- Upgrade familiars
             for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
                 local fData = fam:GetData()
-                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) then
+                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) then
                     fData.Sewn_upgradeState = 1
                     sewingMachineMod:callFamiliarUpgrade(fam)
-                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not sewingMachineMod:isUltra(fData) then
+                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and not sewingMachineMod:isUltra(fData) then
                     fData.Sewn_upgradeState = 2
                     sewingMachineMod:callFamiliarUpgrade(fam)
                 end
             end
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = true
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD] = true
         end
-        -- Player lose "Ann's Tainted Head"
-        if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-            sewingMachineMod:removeAnnsTaintedHead()
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] = false
+        -- Player lose "Doll's Tainted Head"
+        if not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD] then
+            sewingMachineMod:removeDollsTaintedHead()
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD] = false
         end
 
 
-        -- Player get "Ann's Pure Body"
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD] then
-                local annsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN_S_PURE_BODY, 0, player.Position, v0, player):ToFamiliar()
-                annsBody:AddToFollowers()
+        -- Player get "Doll's Pure Body"
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY] then
+            if not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD] then
+                local dollsBody = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.DOLL_S_PURE_BODY, 0, player.Position, v0, player):ToFamiliar()
+                dollsBody:AddToFollowers()
             end
             -- Upgrade familiars
             for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
                 local fData = fam:GetData()
-                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) then
+                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) then
                     fData.Sewn_upgradeState = 1
                     sewingMachineMod:callFamiliarUpgrade(fam)
-                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not sewingMachineMod:isUltra(fData) then
+                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and not sewingMachineMod:isUltra(fData) then
                     fData.Sewn_upgradeState = 2
                     sewingMachineMod:callFamiliarUpgrade(fam)
                 end
             end
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = true
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY] = true
         end
-        -- Player lose "Ann's Pure Body"
-        if not player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] then
-            sewingMachineMod:removeAnnsPureBody()
-            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY] = false
+        -- Player lose "Doll's Pure Body"
+        if not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY] then
+            sewingMachineMod:removeDollsPureBody()
+            pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY] = false
         end
 
-        if player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and not pData.Sewn_hasFullAnn then
-            local ann = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ANN, 0, player.Position, v0, player):ToFamiliar()
-            ann:AddToFollowers()
-            sewingMachineMod:removeAnnsTaintedHead()
-            sewingMachineMod:removeAnnsPureBody()
-            pData.Sewn_hasFullAnn = true
+        if player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and not pData.Sewn_hasSewnDoll then
+            local sewnDoll = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SEWN_DOLL, 0, player.Position, v0, player):ToFamiliar()
+            sewnDoll:AddToFollowers()
+            sewingMachineMod:removeDollsTaintedHead()
+            sewingMachineMod:removeDollsPureBody()
+            pData.Sewn_hasSewnDoll = true
         end
     end
 
@@ -1114,12 +1114,12 @@ function sewingMachineMod:updateFamiliar(familiar)
             end
         end
         if fData.Sewn_upgradeState == nil then
-            local hasAnnsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD)
-            local hasAnnsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY)
-            if hasAnnsHead and not hasAnnsBody or not hasAnnsHead and hasAnnsBody then
+            local hasDollsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
+            local hasDollsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
+            if hasDollsHead and not hasDollsBody or not hasDollsHead and hasDollsBody then
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
                 sewingMachineMod:callFamiliarUpgrade(familiar)
-            elseif hasAnnsHead and hasAnnsBody then
+            elseif hasDollsHead and hasDollsBody then
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
                 sewingMachineMod:callFamiliarUpgrade(familiar)
             else
@@ -1177,7 +1177,7 @@ function sewingMachineMod:updateFamiliar(familiar)
         fData.Sewn_notReady_door = nil
     end
 
-    if familiar.Variant == FamiliarVariant.ANN_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.ANN_S_PURE_BODY or familiar.Variant == FamiliarVariant.ANN then
+    if familiar.Variant == FamiliarVariant.DOLL_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.DOLL_S_PURE_BODY or familiar.Variant == FamiliarVariant.SEWN_DOLL then
         familiar:FollowParent()
     end
 
@@ -1343,14 +1343,14 @@ function sewingMachineMod:newRoom()
             for i = 1, game:GetNumPlayers() do
                 local player = Isaac.GetPlayer(i - 1)
                 local rollContrastedButton = sewingMachineMod.rng:RandomInt(100)
-                local rollAnn = sewingMachineMod.rng:RandomInt(100)
+                local rollDoll = sewingMachineMod.rng:RandomInt(100)
                 if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_PURE_BODY) and rollAnn < 20 then
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and rollDoll < 20 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and player:HasCollectible(CollectibleType.COLLECTIBLE_ANN_S_TAINTED_HEAD) and rollAnn < 20 then
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and rollDoll < 20 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
             end
