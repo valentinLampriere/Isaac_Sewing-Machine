@@ -360,6 +360,18 @@ function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differen
     end
 end
 
+function sewnFamiliars:spawnBonesOrbitals(boneFamiliar, min, max, force)
+    min = min or 1
+    max = max or 1
+    force = force or 15.0
+
+    local amount = math.random(min, max)
+    for i = 1, amount do
+        local velo = Vector(math.random(-force, force), math.random(-force, force))
+        local bone = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, boneFamiliar.Position, v0, boneFamiliar)
+        bone.Velocity = velo
+    end
+end
 
 function sewnFamiliars:toBabyBenderTear(familiar, tear)
     local player = familiar.Player
@@ -753,7 +765,7 @@ function sewnFamiliars:custom_update_roboBaby2(familiar)
         end
     end
 end
-function sewnFamiliars:custom_newRoom_roboBaby2(familiar)
+function sewnFamiliars:custom_newRoom_roboBaby2(familiar, room)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.ROBO_BABY_2 then
         if sewingMachineMod:isSuper(fData) then
@@ -1026,7 +1038,7 @@ function sewnFamiliars:custom_collision_abel(familiar, collider)
         end
     end
 end
-function sewnFamiliars:custom_newRoom_abel(familiar)
+function sewnFamiliars:custom_newRoom_abel(familiar, room)
     local fData = familiar:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         fData.Sewn_custom_abel_enterRoomFrame = game:GetFrameCount()
@@ -1141,7 +1153,7 @@ function sewnFamiliars:upGuardianAngel(guardianAngel)
         end
     end
 end
-function sewnFamiliars:custom_newRoom_guardianAngel(guardianAngel)
+function sewnFamiliars:custom_newRoom_guardianAngel(guardianAngel, room)
     local fData = guardianAngel:GetData()
     fData.Sewn_guardianAngel_collideTear = {}
 end
@@ -1300,7 +1312,7 @@ function sewnFamiliars:upAngelicPrism(angelicPrism)
         fData.Sewn_angelicPrism_collideTear = {}
     end
 end
-function sewnFamiliars:custom_newRoom_angelicPrism(angelicPrism)
+function sewnFamiliars:custom_newRoom_angelicPrism(angelicPrism, room)
     local fData = angelicPrism:GetData()
     fData.Sewn_angelicPrism_collideTear = {}
 end
@@ -1544,7 +1556,7 @@ function sewnFamiliars:custom_cache_jawBone(jawBone, cacheFlag)
         jawBone.CollisionDamage = jawBone.Player.Damage * 3 + 2
     end
 end
-function sewnFamiliars:custom_newRoom_jawBone(jawBone)
+function sewnFamiliars:custom_newRoom_jawBone(jawBone, room)
     local fData = jawBone:GetData()
     fData.Sewn_jawBone_colliderCooldown = {}
 end
@@ -1552,23 +1564,10 @@ function sewnFamiliars:custom_collision_jawBone(jawBone, collider)
     local fData = jawBone:GetData()
     if jawBone:GetSprite():IsPlaying("Throw") and collider:IsVulnerableEnemy() then
         if collider.HitPoints - jawBone.CollisionDamage <= 0 then
-            sewnFamiliars:custom_jawBone_spawnBones(jawBone, collider, 0, 2)
-        end
-    end
-end
-function sewnFamiliars:custom_jawBone_spawnBones(jawBone, collider, min, max)
-    local fData = jawBone:GetData()
-
-    min = min or 0
-    max = max or 1
-
-    if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 60 < jawBone.FrameCount then
-        local amount = math.random(min, max)
-        for i = 1, amount do
-            local velo = Vector(math.random(-15.0, 15.0), math.random(-15.0, 15.0))
-            local bone = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BONE_ORBITAL, 0, jawBone.Position, v0, jawBone)
-            bone.Velocity = velo
-            fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = jawBone.FrameCount
+            if fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] == nil or fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] + 60 < jawBone.FrameCount then
+                sewnFamiliars:spawnBonesOrbitals(jawBone, 0, 2)
+                fData.Sewn_jawBone_colliderCooldown[GetPtrHash(collider)] = jawBone.FrameCount
+            end
         end
     end
 end
@@ -2145,7 +2144,7 @@ function sewnFamiliars:kingBaby_isPlayingStopAnim(kingBaby)
 	end
 	return false
 end
-function sewnFamiliars:custom_newRoom_kingBaby(kingBaby)
+function sewnFamiliars:custom_newRoom_kingBaby(kingBaby, room)
     local fData = kingBaby:GetData()
     -- Remove all copy familiars
     local player = kingBaby.Player
@@ -2943,7 +2942,7 @@ function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource
     sewnFamiliars:custom_holyWater_spawnWater(holyWater)
 end
 
-function sewnFamiliars:custom_newRoom_holyWater(holyWater)
+function sewnFamiliars:custom_newRoom_holyWater(holyWater, room)
     local fData = holyWater:GetData()
 
     fData.Sewn_holyWater_hasHolyMantle = false
@@ -3304,7 +3303,7 @@ function sewnFamiliars:upGuppysHairball(guppysHairball)
         sewnFamiliars:customKillEnemy(guppysHairball, sewnFamiliars.custom_killEnemy_guppysHairball)
     end
 end
-function sewnFamiliars:custom_newRoom_guppysHairball(guppysHairball)
+function sewnFamiliars:custom_newRoom_guppysHairball(guppysHairball, room)
     local fData = guppysHairball:GetData()
 
     if guppysHairball.SubType < 2 and sewingMachineMod:isUltra(fData) then
@@ -3330,6 +3329,78 @@ function sewnFamiliars:custom_killEnemy_guppysHairball(guppysHairball, enemy)
             blueFly.Velocity = velo
         end
     end
+end
+
+-- POINTY RIB
+function sewnFamiliars:upPointyRib(pointyRib)
+    local fData = pointyRib:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_pointyRib_colliders = {}
+        sewnFamiliars:customCollision(pointyRib, sewnFamiliars.custom_collision_pointyRib)
+        sewnFamiliars:customNewRoom(pointyRib, sewnFamiliars.custom_newRoom_pointyRib)
+        sewnFamiliars:customKillEnemy(pointyRib, sewnFamiliars.custom_killEnemy_pointyRib)
+    end
+end
+function sewnFamiliars:custom_collision_pointyRib(pointyRib, collider)
+    local fData = pointyRib:GetData()
+    if not collider:IsVulnerableEnemy() then return end
+    
+    -- Has a chance to apply bleed to non-boss 
+    if not collider:IsBoss() and (fData.Sewn_pointyRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_pointyRib_colliders[GetPtrHash(collider)] + 60 < collider.FrameCount) then
+        local roll = sewingMachineMod.rng:RandomInt(101)
+        local chanceBleed = 33
+        if sewingMachineMod:isUltra(fData) then
+            chanceBleed = 66
+        end
+        if roll < chanceBleed then
+            collider:AddEntityFlags(EntityFlag.FLAG_BLEED_OUT)
+        end
+        fData.Sewn_pointyRib_colliders[GetPtrHash(collider)] = collider.FrameCount
+    end
+
+    -- Take more damage when Ultra
+    if sewingMachineMod:isUltra(fData) then
+        collider:TakeDamage(pointyRib.Player.Damage * 0.5, DamageFlag.DAMAGE_COUNTDOWN, EntityRef(pointyRib), 5)
+    end
+end
+function sewnFamiliars:custom_newRoom_pointyRib(pointyRib, room)
+    local fData = pointyRib:GetData()
+    fData.Sewn_pointyRib_colliders = {}
+end
+function sewnFamiliars:custom_killEnemy_pointyRib(pointyRib, enemy)
+    sewnFamiliars:spawnBonesOrbitals(pointyRib, 0, 1)
+end
+
+
+-- SLIPPED RIB
+function sewnFamiliars:upSlippedRib(slippedRib)
+    local fData = slippedRib:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_slippedRib_colliders = {}
+        sewnFamiliars:customCollision(slippedRib, sewnFamiliars.custom_collision_slippedRib)
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_slippedRib_colliders = {}
+            sewnFamiliars:customNewRoom(slippedRib, sewnFamiliars.custom_newRoom_slippedRib)
+        end
+    end
+end
+function sewnFamiliars:custom_collision_slippedRib(slippedRib, collider)
+    local fData = slippedRib:GetData()
+    
+    if collider:IsVulnerableEnemy() then
+        collider:TakeDamage(math.max(3.5, slippedRib.Player.Damage * 0.75), DamageFlag.DAMAGE_COUNTDOWN, EntityRef(slippedRib), 5)
+    elseif collider.Type == EntityType.ENTITY_PROJECTILE and sewingMachineMod:isUltra(fData) then
+        if fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] + 30 < collider.FrameCount then
+            local rollBone = sewingMachineMod.rng:RandomInt(100)
+            if rollBone < 20 then
+                sewnFamiliars:spawnBonesOrbitals(slippedRib)
+            end
+        end
+    end
+end
+function sewnFamiliars:custom_newRoom_slippedRib(slippedRib, room)
+    local fData = slippedRib:GetData()
+    fData.Sewn_slippedRib_colliders = {}
 end
 
 sewingMachineMod.errFamiliars.Error()

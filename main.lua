@@ -315,7 +315,6 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.FARTING_BABY] = {404, sewingMachineMod.sewnFamiliars.upFartingBaby},
     [FamiliarVariant.OBSESSED_FAN] = {426, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.PAPA_FLY] = {430, sewingMachineMod.sewnFamiliars.upPapaFly},
-    [FamiliarVariant.MULTIDIMENSIONAL_BABY] = {431, sewingMachineMod.sewnFamiliars.upMultidimensionalBaby},
     [FamiliarVariant.LIL_LOKI] = {435, sewingMachineMod.sewnFamiliars.upLilLoki},
     [FamiliarVariant.HUSHY] = {470, sewingMachineMod.sewnFamiliars.upHushy},
     [FamiliarVariant.LIL_MONSTRO] = {471, sewingMachineMod.sewnFamiliars.upLilMonstro},
@@ -325,7 +324,9 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.LIL_HARBINGERS] = {526, sewingMachineMod.sewnFamiliars.upLilHarbingers},
     [FamiliarVariant.ANGELIC_PRISM] = {528, sewingMachineMod.sewnFamiliars.upAngelicPrism},
     [FamiliarVariant.LIL_SPEWER] = {537, sewingMachineMod.sewnFamiliars.upLilSpewer},
+    [FamiliarVariant.SLIPPED_RIB] = {542, sewingMachineMod.sewnFamiliars.upSlippedRib},
     [FamiliarVariant.HALLOWED_GROUND] = {543, sewingMachineMod.sewnFamiliars.upHallowedGround},
+    [FamiliarVariant.POINTY_RIB] = {544, sewingMachineMod.sewnFamiliars.upPointyRib},
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
@@ -1058,7 +1059,7 @@ function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countd
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
             local fData = familiar:GetData()
             familiar = familiar:ToFamiliar()
-            if fData.Sewn_custom_killEnemy ~= nil and GetPtrHash(source.Entity) == GetPtrHash(familiar) then
+            if fData.Sewn_custom_killEnemy ~= nil and source.Entity ~= nil and GetPtrHash(source.Entity) == GetPtrHash(familiar) then
                 local d = {}
                 for i, f in ipairs(fData.Sewn_custom_killEnemy) do
                     d.customFunction = f

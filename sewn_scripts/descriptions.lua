@@ -327,7 +327,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.JAW_BONE,
-        "When it collide with an enemy it spawns a bone orbital",
+        "Spawn bone orbitals when it hit an enemy",
         "Deal more than 3x Isaac's damage",
         ConvertRGBToIsaac({219, 219, 219})
     )
@@ -371,19 +371,31 @@ function sewingMachineMod:InitFamiliarDescription()
         FamiliarVariant.HOLY_WATER,
         "Can be used an unlimited times each rooms",
         "Give a holy Mantle effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim, increase chances to get Holy Mantle effect",
-        ConvertRGBToIsaac({127, 242, 255})
+        ConvertRGBToIsaac({93, 134, 182})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DRY_BABY,
         "Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
         "More Necronomicon effect !",
-        ConvertRGBToIsaac({127, 242, 255})
+        ConvertRGBToIsaac({219, 219, 219})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.GUPPYS_HAIRBALL,
         "Grow to it second size#Have a chance to spawn flies when it kills an enemy",
         "Grow to it third size#Spawn more flies when it kills an enemy",
-        ConvertRGBToIsaac({127, 242, 255})
+        ConvertRGBToIsaac({88, 76, 59})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.POINTY_RIB,
+        "Has a chance to spawn a bone orbital when it kill an enemy#Has 1/3 chance to apply bleed effect to non- boss enemies",
+        "Deal more damages#Has 2/3 chance to aplly bleed effect to non-boss enemies",
+        ConvertRGBToIsaac({255, 255, 255})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.SLIPPED_RIB,
+        "Deal damage eaquals to 0.75 x Isaac's damage with a minimum of 3.5",
+        "When blocking a projectile it has a chance to spawn a bone orbital",
+        ConvertRGBToIsaac({255, 255, 255})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
