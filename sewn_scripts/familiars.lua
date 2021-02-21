@@ -2312,44 +2312,39 @@ end
 -- ISAAC'S HEART
 function sewnFamiliars:upIsaacsHeart(isaacsHeart)
     local fData = isaacsHeart:GetData()
-    if isaacsHeart.Variant == FamiliarVariant.ISAACS_HEART then
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customUpdate(isaacsHeart, sewnFamiliars.custom_update_isaacsHeart)
-            isaacsHeart.SizeMulti = Vector(0.75, 0.75)
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        isaacsHeart.SizeMulti = Vector(0.8, 0.8)
+        --isaacsHeart.Size = 0.8
+        if sewingMachineMod:isSuper(fData) then
+            sewnFamiliars:customPlayerTakeDamage(isaacsHeart, sewnFamiliars.custom_playerTakeDamage_isaacsHeart_super)
+        else
+            sewnFamiliars:customPlayerTakeDamage(isaacsHeart, sewnFamiliars.custom_playerTakeDamage_isaacsHeart_ultra)
         end
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            local fly = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, 42842, 1, isaacsHeart.Position + Vector(0, 20), v0, isaacsHeart):ToFamiliar()
-            fly.Parent = isaacsHeart
-            fly.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
-            sewnFamiliars:customUpdate(fly, sewnFamiliars.custom_isaacsHeart_updateFly)
-            sewnFamiliars:customCollision(fly, sewnFamiliars.custom_isaacsHeart_collideFly)
+        sewnFamiliars:customUpdate(isaacsHeart, sewnFamiliars.custom_update_isaacsHeart)
+    end
+end
+function sewnFamiliars:custom_playerTakeDamage_isaacsHeart_super(isaacsHeart, source, amount, flag)
+    if source.Type == EntityType.ENTITY_PROJECTILE then
+        local rollPrevent = sewingMachineMod.rng:RandomInt(100)
+        if rollPrevent < 20 then
+            return false
         end
     end
 end
-function sewnFamiliars:custom_isaacsHeart_updateFly(fly)
-    if fly.Parent == nil then
-        fly:Remove()
-        return
+function sewnFamiliars:custom_playerTakeDamage_isaacsHeart_ultra(isaacsHeart, source, amount, flag)
+    local rollPrevent = sewingMachineMod.rng:RandomInt(100)
+    for i = 1, 8 do
+        local velo = Vector(5, 5)
+        velo = velo:Rotated((360 / 8) * i)
+        isaacsHeart.Player:FireTear(isaacsHeart.Position, velo)
     end
-    if index == 1 then
-        fly.OrbitDistance = Vector(15, 15)
-    else
-        fly.OrbitDistance = Vector(-15, -15)
-    end
-    fly.OrbitLayer = 48
-    fly.OrbitSpeed = 0.04
-    fly.Velocity = fly:GetOrbitPosition(fly.Parent.Position + fly.Parent.Velocity) - fly.Position
-end
-function sewnFamiliars:custom_isaacsHeart_collideFly(fly, collider)
-    if collider.Type == EntityType.ENTITY_PROJECTILE then
-        collider:Die()
+
+    if rollPrevent < 20 then
+        return false
     end
 end
 function sewnFamiliars:custom_update_isaacsHeart(isaacsHeart)
-    local fData = isaacsHeart:GetData()
-    if sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:familiarFollowTrail(isaacsHeart, isaacsHeart.Player.Position, true)
-    end
+    sewnFamiliars:familiarFollowTrail(isaacsHeart, isaacsHeart.Player.Position, true)
 end
 
 -- LEECH

@@ -397,6 +397,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "When blocking a projectile it has a chance to spawn a bone orbital",
         ConvertRGBToIsaac({255, 255, 255})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.ISAACS_HEART,
+        "Has 20% chance to prevent damage when it is hit by a projectile#Move closer to the player",
+        "Has 20% chance to prevent damage from any sources#On hit, fire 8 tears in all directions",
+        ConvertRGBToIsaac({179, 0, 0})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
