@@ -400,7 +400,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.ISAACS_HEART,
         "Has 20% chance to prevent damage when it is hit by a projectile#Move closer to the player",
-        "Has 20% chance to prevent damage from any sources#On hit, fire 8 tears in all directions",
+        "Has 20% chance to prevent damage from any sources#When player is hit, fire 8 tears in all directions",
         ConvertRGBToIsaac({179, 0, 0})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
