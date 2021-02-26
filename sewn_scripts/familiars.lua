@@ -2979,11 +2979,11 @@ local lil_spewer_state = {
     YELLOW = 4
 }
 local lil_spewer_sprite = {
-    "gfx/familiar/familiar_125_lilspewer.png",
-    "gfx/familiar/familiar_125_lilspewer_white.png",
-    "gfx/familiar/familiar_125_lilspewer_red.png",
-    "gfx/familiar/familiar_125_lilspewer_black.png",
-    "gfx/familiar/familiar_125_lilspewer_yellow.png"
+    "gfx/familiar/lilSpewer/familiar_125_lilspewer.png",
+    "gfx/familiar/lilSpewer/familiar_125_lilspewer_white.png",
+    "gfx/familiar/lilSpewer/familiar_125_lilspewer_red.png",
+    "gfx/familiar/lilSpewer/familiar_125_lilspewer_black.png",
+    "gfx/familiar/lilSpewer/familiar_125_lilspewer_yellow.png"
 }
 function sewnFamiliars:upLilSpewer(lilSpewer)
     local fData = lilSpewer:GetData()
@@ -2991,6 +2991,7 @@ function sewnFamiliars:upLilSpewer(lilSpewer)
         if sewingMachineMod:isUltra(fData) then
             fData.Sewn_lilSpewer_firstState = lilSpewer.State
             fData.Sewn_lilSpewer_secondState = sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
+            
             sewnFamiliars:custom_lilSpewer_updateUltraCostume(lilSpewer)
         end
         fData.Sewn_lilSpewer_fireFrame = -1
@@ -3401,5 +3402,122 @@ function sewnFamiliars:custom_newRoom_slippedRib(slippedRib, room)
     local fData = slippedRib:GetData()
     fData.Sewn_slippedRib_colliders = {}
 end
+
+-- MILK!
+local milkFlavours = { NORMAL = 1, CHOCOLATE = 2, SOY = 3, STRAWBERRY = 4 }
+local milkFlavoursSprite = { "gfx/familiar/milk/milk.png", "gfx/familiar/milk/chocolateMilk.png", "gfx/familiar/milk/soyMilk.png", "gfx/familiar/milk/strawberryMilk.png" }
+local milkBoosts = { DAMAGE = 1, FIRE_DELAY = 2, SPEED = 3 }
+function sewnFamiliars:upMilk(milk)
+    local fData = milk:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_milk_flavour = milkFlavours.NORMAL
+        fData.Sewn_milk_boosts = {}
+        sewnFamiliars:customNewRoom(milk, sewnFamiliars.custom_newRoom_milk)
+        sewnFamiliars:customPlayerTakeDamage(milk, sewnFamiliars.custom_playerTakeDamage_milk)
+        sewnFamiliars:customCache(milk, sewnFamiliars.custom_cache_milk)
+    end
+end
+function sewnFamiliars:custom_newRoom_milk(milk, room)
+    local fData = milk:GetData()
+    local rollFlavour = sewingMachineMod.rng:RandomInt(4) + 1
+    local sprite = milk:GetSprite()
+    
+    -- TODO !
+    fData.Sewn_milk_boosts = {}
+
+    if fData.Sewn_milk_hit == true then
+        sewnFamiliars:custom_milk_removeEffects(milk)
+    end
+    
+    fData.Sewn_milk_flavour = rollFlavour
+    sprite:ReplaceSpritesheet(0, milkFlavoursSprite[fData.Sewn_milk_flavour])
+    sprite:LoadGraphics()
+    
+    fData.Sewn_milk_hit = nil
+end
+function sewnFamiliars:custom_playerTakeDamage_milk(milk, amount)
+    local fData = milk:GetData()
+
+    fData.Sewn_milk_roomDamage = sewingMachineMod.currentRoom
+    
+    if fData.Sewn_milk_hit ~= nil then return true end
+
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_milk_setPosition, 2, milk)
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_milk_changePuddleColor, 3, milk)
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_milk_applyEffects, 4, milk)
+
+    fData.Sewn_milk_hit = true
+end
+function sewnFamiliars:custom_cache_milk(milk, cacheFlag)
+    local fData = milk:GetData()
+    if cacheFlag == CacheFlag.CACHE_FIREDELAY and fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] ~= nil then
+        milk.Player.MaxFireDelay = fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY]
+    elseif cacheFlag == CacheFlag.CACHE_DAMAGE and fData.Sewn_milk_boosts[milkBoosts.DAMAGE] ~= nil then
+        milk.Player.Damage = fData.Sewn_milk_boosts[milkBoosts.DAMAGE]
+    elseif cacheFlag == CacheFlag.CACHE_SPEED and fData.Sewn_milk_boosts[milkBoosts.SPEED] ~= nil then
+        milk.Player.MoveSpeed = fData.Sewn_milk_boosts[milkBoosts.SPEED]
+    end
+end
+function sewnFamiliars:custom_milk_setPosition(milk)
+    local fData = milk:GetData()
+
+    if fData.Sewn_milk_roomDamage ~= sewingMachineMod.currentRoom then return end
+
+    fData.Sewn_milk_positionOnHit = milk.Position
+end
+function sewnFamiliars:custom_milk_changePuddleColor(milk)
+    local fData = milk:GetData()
+
+    if fData.Sewn_milk_roomDamage ~= sewingMachineMod.currentRoom then return end
+
+    for _, puddle in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_PUDDLE_MILK, -1, false, true)) do
+
+        if (puddle.Position - fData.Sewn_milk_positionOnHit):LengthSquared() < 5 then
+            local puddleSprite = puddle:GetSprite()
+            puddleSprite:ReplaceSpritesheet(0, milkFlavoursSprite[fData.Sewn_milk_flavour])
+            puddleSprite:LoadGraphics()
+        end
+    end
+
+end
+function sewnFamiliars:custom_milk_applyEffects(milk)
+    local fData = milk:GetData()
+    
+    if fData.Sewn_milk_roomDamage ~= sewingMachineMod.currentRoom then return end
+    
+    if fData.Sewn_milk_flavour == milkFlavours.NORMAL then
+        fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = milk.Player.MaxFireDelay - 1 - math.floor((milk.Player.MaxFireDelay -1) / 10)
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+    elseif fData.Sewn_milk_flavour == milkFlavours.CHOCOLATE then
+        fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = milk.Player.MaxFireDelay + 2
+        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = milk.Player.Damage + 1 + milk.Player.Damage * 0.2
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY)
+    elseif fData.Sewn_milk_flavour == milkFlavours.SOY then
+        fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = math.ceil(milk.Player.MaxFireDelay / 2 - 1)
+        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = milk.Player.Damage * 0.5
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY)
+    elseif fData.Sewn_milk_flavour == milkFlavours.STRAWBERRY then
+        fData.Sewn_milk_boosts[milkBoosts.SPEED] = milk.Player.MoveSpeed * 1.15
+        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = 0.75 + milk.Player.Damage * 1.08
+
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_SPEED)
+    end
+    milk.Player:EvaluateItems()
+end
+function sewnFamiliars:custom_milk_removeEffects(milk)
+    local fData = milk:GetData()
+    
+    if fData.Sewn_milk_flavour == milkFlavours.NORMAL then
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+    elseif fData.Sewn_milk_flavour == milkFlavours.CHOCOLATE then
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY)
+    elseif fData.Sewn_milk_flavour == milkFlavours.SOY then
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY)
+    elseif fData.Sewn_milk_flavour == milkFlavours.STRAWBERRY then
+        milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY | CacheFlag.CACHE_SPEED)
+    end
+    milk.Player:EvaluateItems()
+end
+
 
 sewingMachineMod.errFamiliars.Error()

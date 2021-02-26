@@ -317,6 +317,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.OBSESSED_FAN] = {426, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.PAPA_FLY] = {430, sewingMachineMod.sewnFamiliars.upPapaFly},
     [FamiliarVariant.LIL_LOKI] = {435, sewingMachineMod.sewnFamiliars.upLilLoki},
+    [FamiliarVariant.MILK] = {436, sewingMachineMod.sewnFamiliars.upMilk},
     [FamiliarVariant.HUSHY] = {470, sewingMachineMod.sewnFamiliars.upHushy},
     [FamiliarVariant.LIL_MONSTRO] = {471, sewingMachineMod.sewnFamiliars.upLilMonstro},
     [FamiliarVariant.KING_BABY] = {472, sewingMachineMod.sewnFamiliars.upKingBaby},
@@ -2006,9 +2007,10 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, sewingMachineMod.
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, sewingMachineMod.tearCollision)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod.laserUpdate)
 
+
 -- Pickups related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
-sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOURGLASS)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
