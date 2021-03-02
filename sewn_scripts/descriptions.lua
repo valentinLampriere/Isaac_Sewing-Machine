@@ -403,6 +403,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Has 20% chance to prevent damage from any sources#When player is hit, fire 8 tears in all directions",
         ConvertRGBToIsaac({179, 0, 0})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.MILK,
+        "Milk! puddle deals damages",
+        "Change Milk! flavours. On hit, apply different changement :#Milk : -3 Tear Delay#Chocolate Milk! : No Tears up, but Damage up (1 + Isaac damage * 0.5)#Soy Milk! : Reduce Damage and Fire Delay#Berry Milk! : Tears up, Damage up, Speed up",
+        ConvertRGBToIsaac({255, 255, 255})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

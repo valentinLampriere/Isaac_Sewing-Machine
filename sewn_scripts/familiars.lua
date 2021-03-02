@@ -3497,21 +3497,24 @@ function sewnFamiliars:custom_milk_applyEffects(milk)
     
     if fData.Sewn_milk_roomDamage ~= sewingMachineMod.currentRoom then return end
     
+    fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = nil
+    fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = nil
+    fData.Sewn_milk_boosts[milkBoosts.SPEED] = nil
+
     if fData.Sewn_milk_flavour == milkFlavours.NORMAL then
         fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = milk.Player.MaxFireDelay - 1 - math.floor((milk.Player.MaxFireDelay -1) / 10)
         milk.Player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
     elseif fData.Sewn_milk_flavour == milkFlavours.CHOCOLATE then
         fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = milk.Player.MaxFireDelay + 2
-        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = milk.Player.Damage + 1 + milk.Player.Damage * 0.35
+        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = milk.Player.Damage + 1 + milk.Player.Damage * 0.5
         milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY)
     elseif fData.Sewn_milk_flavour == milkFlavours.SOY then
         fData.Sewn_milk_boosts[milkBoosts.FIRE_DELAY] = math.ceil((milk.Player.MaxFireDelay + 2) / 2 - 1)
-        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = milk.Player.Damage * 0.5
+        fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = milk.Player.Damage * 0.7
         milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_FIREDELAY)
     elseif fData.Sewn_milk_flavour == milkFlavours.STRAWBERRY then
         fData.Sewn_milk_boosts[milkBoosts.SPEED] = milk.Player.MoveSpeed * 1.15
         fData.Sewn_milk_boosts[milkBoosts.DAMAGE] = 0.75 + milk.Player.Damage * 1.08
-
         milk.Player:AddCacheFlags(CacheFlag.CACHE_DAMAGE | CacheFlag.CACHE_SPEED)
     end
     milk.Player:EvaluateItems()
