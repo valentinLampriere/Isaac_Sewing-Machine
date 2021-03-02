@@ -409,6 +409,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Change Milk! flavours. On hit, apply different changement :#Milk : -3 Tear Delay#Chocolate Milk! : No Tears up, but Damage up (1 + Isaac damage * 0.5)#Soy Milk! : Reduce Damage and Fire Delay#Berry Milk! : Tears up, Damage up, Speed up",
         ConvertRGBToIsaac({255, 255, 255})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.DEPRESSION,
+        "Every 2 projectiles it collide with, fire 4 tears which spawn puddle",
+        "Fire 4 tears which spawn puddle when colliding with a projectile#Puddle is larger an deal more damage",
+        ConvertRGBToIsaac({172, 162, 195})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

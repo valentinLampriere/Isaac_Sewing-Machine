@@ -3448,8 +3448,6 @@ function sewnFamiliars:custom_playerTakeDamage_milk(milk, amount)
         
         if fData.Sewn_milk_hit ~= nil then return true end
 
-        --sewingMachineMod:delayFunction(sewnFamiliars.custom_milk_setPosition, 2, milk)
-        --sewingMachineMod:delayFunction(sewnFamiliars.custom_milk_changePuddleColor, 3, milk)
         sewingMachineMod:delayFunction(sewnFamiliars.custom_milk_applyEffects, 4, milk)
 
         fData.Sewn_milk_hit = true
@@ -3534,5 +3532,72 @@ function sewnFamiliars:custom_milk_removeEffects(milk)
     milk.Player:EvaluateItems()
 end
 
+-- DEPRESSION
+function sewnFamiliars:upDepression(depression)
+    local fData = depression:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_depression_collidersProjectile = {}
+        fData.Sewn_depression_counterProjectile = 0
+        fData.Sewn_depression_requiredAmountProjectile = 2
+        sewnFamiliars:customNewRoom(depression, sewnFamiliars.custom_newRoom_depression)
+        sewnFamiliars:customCollision(depression, sewnFamiliars.custom_collision_depression)
+        sewnFamiliars:customTearFall(depression, sewnFamiliars.custom_tearFall_depression)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customUpdate(depression, sewnFamiliars.custom_update_depression)
+            fData.Sewn_depression_requiredAmountProjectile = 1
+        end
+    end
+end
+function sewnFamiliars:custom_update_depression(depression)
+    local fData = depression:GetData()
+    for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, -1, false, true)) do
+        if creep.FrameCount == 0 and creep.SpawnerType == depression.Type and creep.SpawnerVariant == depression.Variant then
+            local cData = creep:GetData()
+            if not cData.Sewn_creepIsScaled then
+                creep.Size = creep.Size * 1.5
+                creep.SpriteScale = creep.SpriteScale * 1.5
+                creep.CollisionDamage = creep.CollisionDamage * 1.5
+                cData.Sewn_creepIsScaled = true
+            end
+        end
+    end
+end
+function sewnFamiliars:custom_newRoom_depression(depression, room)
+    local fData = depression:GetData()
+    fData.Sewn_depression_collidersProjectile = {}
+end
+function sewnFamiliars:custom_collision_depression(depression, collider)
+    local fData = depression:GetData()
+    if collider.Type == EntityType.ENTITY_PROJECTILE then
+        if fData.Sewn_depression_collidersProjectile[GetPtrHash(collider)] == nil then
+            fData.Sewn_depression_counterProjectile = fData.Sewn_depression_counterProjectile + 1
+
+            if fData.Sewn_depression_counterProjectile >= fData.Sewn_depression_requiredAmountProjectile then
+                sewnFamiliars:custom_depression_fireTears(depression)
+                collider:Die()
+                fData.Sewn_depression_counterProjectile = 0
+            end
+            fData.Sewn_depression_collidersProjectile[GetPtrHash(collider)] = true
+        end
+    end
+end
+function sewnFamiliars:custom_tearFall_depression(depression, tear)
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, 0, tear.Position, v0, depression)
+end
+function sewnFamiliars:custom_depression_fireTears(depression)
+    local force = 3
+
+    for i = 0, 2, 2 do
+        for j = 0, 2, 2 do
+            local velocity = Vector(i * force - force, j * force - force)
+            local tear = depression:FireProjectile(velocity * 0.1)
+            tear.CollisionDamage = 5
+            tear.Velocity = velocity
+            tear.FallingSpeed = -8
+            tear.FallingAcceleration = 0.8
+        end
+    end
+
+end
 
 sewingMachineMod.errFamiliars.Error()

@@ -318,6 +318,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.PAPA_FLY] = {430, sewingMachineMod.sewnFamiliars.upPapaFly},
     [FamiliarVariant.LIL_LOKI] = {435, sewingMachineMod.sewnFamiliars.upLilLoki},
     [FamiliarVariant.MILK] = {436, sewingMachineMod.sewnFamiliars.upMilk},
+    [FamiliarVariant.DEPRESSION] = {469, sewingMachineMod.sewnFamiliars.upDepression},
     [FamiliarVariant.HUSHY] = {470, sewingMachineMod.sewnFamiliars.upHushy},
     [FamiliarVariant.LIL_MONSTRO] = {471, sewingMachineMod.sewnFamiliars.upLilMonstro},
     [FamiliarVariant.KING_BABY] = {472, sewingMachineMod.sewnFamiliars.upKingBaby},
@@ -1441,6 +1442,7 @@ end
 -- MC_POST_TEAR_UPDATE --
 --------------------------
 function sewingMachineMod:tearUpdate(tear)
+    local tData = tear:GetData()
     local familiar = tear.Parent
     local fData
 
@@ -1452,10 +1454,8 @@ function sewingMachineMod:tearUpdate(tear)
     familiar = familiar:ToFamiliar()
     fData = familiar:GetData()
 
-    player = familiar.Player:ToPlayer()
-
     -- TEAR INIT
-    if not tear:GetData().Sewn_Init then
+    if not tData.Sewn_Init then
 
         -- Give a damage upgrade (from tears)
         if fData.Sewn_damageTear_multiplier ~= nil then
@@ -1511,17 +1511,18 @@ function sewingMachineMod:tearUpdate(tear)
             end
         end
 
-        tear:GetData().Sewn_Init = true
+        tData.Sewn_Init = true
     end -- End Init tear
 
     -- If the tear hit the ground
     if fData.Sewn_custom_tearFall ~= nil then
-        if tear.Height > -5 then
+        if tear.Height > -5 and tData.Sewn_isTearFall == nil then
             local d = {}
             for i, f in ipairs(fData.Sewn_custom_tearFall) do
                 d.customFunction = f
                 d:customFunction(familiar, tear)
             end
+            tData.Sewn_isTearFall = true
         end
     end
 end
