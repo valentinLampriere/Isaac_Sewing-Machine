@@ -415,6 +415,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Every projectile it collides with, it blocks it and fires 4 creep-leaving tear#Puddle is larger an deal more damage",
         ConvertRGBToIsaac({172, 162, 195})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.SAMSONS_CHAINS,
+        "Deal damage depending on the velocity of the ball",
+        "Can be thrown in front of the player to deal massive damage",
+        ConvertRGBToIsaac({70, 70, 70})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
