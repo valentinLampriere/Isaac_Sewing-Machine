@@ -411,8 +411,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DEPRESSION,
-        "Every 2 projectiles it collide with, fire 4 tears which spawn puddle",
-        "Fire 4 tears which spawn puddle when colliding with a projectile#Puddle is larger an deal more damage",
+        "Every 2nd projectile this collides with, it blocks it and fires 4 creep-leaving tears",
+        "Every projectile it collides with, it blocks it and fires 4 creep-leaving tear#Puddle is larger an deal more damage",
         ConvertRGBToIsaac({172, 162, 195})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then

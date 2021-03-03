@@ -304,6 +304,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.PUNCHING_BAG] = {281, sewingMachineMod.sewnFamiliars.upPunchingBag},
     [FamiliarVariant.CAINS_OTHER_EYE] = {319, sewingMachineMod.sewnFamiliars.upCainsOtherEye},
     [FamiliarVariant.BLUEBABYS_ONLY_FRIEND] = {320, sewingMachineMod.sewnFamiliars.upBlueBabysOnlyFriend},
+    [FamiliarVariant.SAMSONS_CHAINS] = {321, sewingMachineMod.sewnFamiliars.upSamsonsChains},
     [FamiliarVariant.MONGO_BABY] = {322, sewingMachineMod.sewnFamiliars.upMongoBaby},
     [FamiliarVariant.FATES_REWARD] = {361, sewingMachineMod.sewnFamiliars.upFatesReward},
     [FamiliarVariant.SWORN_PROTECTOR] = {363, sewingMachineMod.sewnFamiliars.upSwornProtector},
@@ -427,6 +428,11 @@ function sewingMachineMod:rerollFamilarsCrowns(player)
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
+
+        if fData.Sewn_upgradeState == nil then
+            fData.Sewn_upgradeState = 0
+        end
+
         if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
             table.insert(allowedFamiliars, familiar)
             countCrowns = countCrowns + fData.Sewn_upgradeState
@@ -1074,7 +1080,7 @@ end
 -- MC_ENTITY_TAKE_DMG --
 ------------------------
 function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countdown)
-    if entity:IsVulnerableEnemy() and entity.HitPoints - amount <= 0 then
+    --[[if entity:IsVulnerableEnemy() and entity.HitPoints - amount <= 0 then
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
             local fData = familiar:GetData()
             familiar = familiar:ToFamiliar()
@@ -1083,6 +1089,30 @@ function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countd
                 for i, f in ipairs(fData.Sewn_custom_killEnemy) do
                     d.customFunction = f
                     d:customFunction(familiar, entity)
+                end
+            end
+        end
+    end--]]
+    if source.Entity ~= nil and source.Type == EntityType.ENTITY_FAMILIAR and entity:IsVulnerableEnemy() then
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            local fData = familiar:GetData()
+            familiar = familiar:ToFamiliar()
+            if source.Entity ~= nil and GetPtrHash(source.Entity) == GetPtrHash(familiar) then
+                local d = {}
+                if fData.Sewn_custom_hitEnemy ~= nil then
+                    for i, f in ipairs(fData.Sewn_custom_hitEnemy) do
+                        d.customFunction = f
+                        local getDamage = d:customFunction(familiar, entity)
+                        if getDamage == false then return
+                            false
+                        end
+                    end
+                end
+                if fData.Sewn_custom_killEnemy ~= nil and entity.HitPoints - amount <= 0 then
+                    for i, f in ipairs(fData.Sewn_custom_hitEnemy) do
+                        d.Sewn_custom_killEnemy = f
+                        d:customFunction(familiar, entity)
+                    end
                 end
             end
         end
@@ -1166,7 +1196,7 @@ function sewingMachineMod:updateFamiliar(familiar)
             end
 
             -- Familiar which aren't ready
-            if not fData.Sewn_familiarReady then
+            if not fData.Sewn_familiarReady and fData.Sewn_noUpgrade ~= true then
                 if familiar.FrameCount < 30 * 10 + 1 and not fData.Sewn_notReady_clock then
                     fData.Sewn_notReady_clock = Sprite()
                     fData.Sewn_notReady_clock:Load("gfx/familiarNotReady.anm2", false)

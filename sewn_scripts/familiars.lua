@@ -255,6 +255,14 @@ function sewnFamiliars:customPlayerTakeDamage(familiar, functionName)
     table.insert(fData.Sewn_custom_playerTakeDamage, functionName)
 end
 
+-- CUSTOM HIT ENEMY
+function sewnFamiliars:customHitEnemy(familiar, functionName)
+    local fData = familiar:GetData()
+    if fData.Sewn_custom_hitEnemy == nil then
+        fData.Sewn_custom_hitEnemy = {}
+    end
+    table.insert(fData.Sewn_custom_hitEnemy, functionName)
+end
 -- CUSTOM KILL ENEMY
 function sewnFamiliars:customKillEnemy(familiar, functionName)
     local fData = familiar:GetData()
@@ -689,7 +697,7 @@ function sewnFamiliars:custom_update_headlessBaby(familiar)
             if player:GetShootingInput():Length() > 0 then
                 local nbTears = sewingMachineMod.rng:RandomInt(7) + 3
                 sewnFamiliars:burstTears(familiar, nbTears)
-                familiar.FireCooldown = 60
+                familiar.FireCooldown = 45
             end
         else
             familiar.FireCooldown = familiar.FireCooldown - 1
@@ -1757,7 +1765,7 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
             if player:GetShootingInput():Length() > 0 then
                 local nbTears = sewingMachineMod.rng:RandomInt(5) + 1
                 sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
-                juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 45
+                juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 30
             end
         else
             juicySack.FireCooldown = juicySack.FireCooldown - 1
@@ -2186,11 +2194,12 @@ function sewnFamiliars:custom_update_kingBaby(kingBaby)
                     if sewnFamiliars:kingBaby_isFollower(fam) and fam.Variant ~= kingBaby.Variant then
                         -- Duplicate the familiar
                         local newFam = Isaac.Spawn(fam.Type, fam.Variant, fam.SubType, kingBaby.Player.Position, v0, nil):ToFamiliar()
+                        local newFData = newFam:GetData()
                         
                         -- Register the duped familiar
-                        newFam:GetData().Sewn_kingBaby_parentFollower = shouldFollow -- Store who that familiar should follow
-                        newFam:GetData().Sewn_kingBaby_isCopyFamiliar = true
-                        newFam:GetData().Sewn_noUpgrade = true
+                        newFData.Sewn_kingBaby_parentFollower = shouldFollow -- Store who that familiar should follow
+                        newFData.Sewn_kingBaby_isCopyFamiliar = true
+                        newFData.Sewn_noUpgrade = true
                         newFam:RemoveFromFollowers() -- Remove it from the normal familiar chain
                         newFam:ClearEntityFlags(EntityFlag.FLAG_APPEAR) -- Disable the "Poof" effect when it appears
                         if not sewingMachineMod:isUltra(fData) then
@@ -3599,5 +3608,125 @@ function sewnFamiliars:custom_depression_fireTears(depression)
     end
 
 end
+
+-- SAMSON'S CHAINS
+function sewnFamiliars:upSamsonsChains(samsonsChains)
+    local fData = samsonsChains:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_samsonsChains_isOrbiting = false
+        fData.Sewn_samsonsChains_orbitingPlayerOffset = Vector(0, 0)
+        fData.Sewn_samsonsChains_orbitingDistance = 0
+        fData.Sewn_samsonsChains_orbitingSpeed = 0
+        sewnFamiliars:customHitEnemy(samsonsChains, sewnFamiliars.custom_hitEnemy_samsonsChains)
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_samsonsChains_isOrbiting = false
+            fData.Sewn_samsonsChains_orbitingPlayerOffset = Vector(0, 0)
+            fData.Sewn_samsonsChains_orbitingDistance = 0
+            fData.Sewn_samsonsChains_orbitingSpeed = 0
+            sewnFamiliars:customUpdate(samsonsChains, sewnFamiliars.custom_update_samsonsChains)
+        end
+    end
+end
+function sewnFamiliars:custom_hitEnemy_samsonsChains(samsonsChains, enemy)
+    local eData = enemy:GetData()
+    if eData.Sewn_samsonsChains_hasTakeFakeDamage == true then
+        
+    else
+        eData.Sewn_samsonsChains_hasTakeFakeDamage = true
+        enemy:TakeDamage(math.max(3.5, samsonsChains.Velocity:Length()), DamageFlag.DAMAGE_COUNTDOWN, EntityRef(samsonsChains), 6)
+        eData.Sewn_samsonsChains_hasTakeFakeDamage = false
+        return false
+    end
+end
+function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
+    local fData = samsonsChains:GetData()
+    local player = samsonsChains.Player
+    local deltaTime = 1 / 30
+
+    local isPlayerShooting = player:GetShootingInput():LengthSquared() > 0
+
+    -- When Player is firing
+    if isPlayerShooting and samsonsChains.FireCooldown == 0 then
+        -- First frame where player is firing
+        if fData.Sewn_samsonsChains_isOrbiting ~= true then
+            
+            -- Spawn an additional Samson's Chains
+            fData.Sewn_samsonsChains_newChains = Isaac.Spawn(samsonsChains.Type, samsonsChains.Variant, samsonsChains.SubType, samsonsChains.Position, samsonsChains.Velocity, samsonsChains)
+            fData.Sewn_samsonsChains_newChains:ClearEntityFlags(EntityFlag.FLAG_APPEAR) -- Disable the "Poof" effect when it appears
+            fData.Sewn_samsonsChains_newChains:SetColor(Color(0,0,0,0,0,0,0),0,0,false,false)
+            fData.Sewn_samsonsChains_newChains.Visible = false
+            fData.Sewn_samsonsChains_newChains.CollisionDamage = 0
+            fData.Sewn_samsonsChains_newChains.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
+            fData.Sewn_samsonsChains_newChains.GridCollisionClass = GridCollisionClass.COLLISION_NONE
+            
+            fData.Sewn_samsonsChains_newChains:GetData().Sewn_noUpgrade = true
+
+            fData.Sewn_samsonsChains_isOrbiting = true
+        end
+        samsonsChains.Velocity = Vector(
+            fData.Sewn_samsonsChains_newChains.Position.X + math.cos(samsonsChains.FrameCount * 0.8) * 10,
+            fData.Sewn_samsonsChains_newChains.Position.Y + math.sin(samsonsChains.FrameCount * 0.8) * 10) - samsonsChains.Position
+
+        fData.Sewn_samsonsChains_playerFireDirection = player:GetFireDirection()
+    end
+    -- When player isn't firing
+    if not isPlayerShooting then
+        -- First frame where player stop firing
+        if fData.Sewn_samsonsChains_isOrbiting == true then
+            if fData.Sewn_samsonsChains_newChains ~= nil then
+                fData.Sewn_samsonsChains_newChains:Remove()
+                fData.Sewn_samsonsChains_newChains = nil
+            end
+
+            samsonsChains.FireCooldown = 15
+
+            -- Throw the ball
+            local newVelocity = Vector(0, 0)
+            if fData.Sewn_samsonsChains_playerFireDirection == Direction.LEFT then
+                newVelocity.X = -1
+            elseif fData.Sewn_samsonsChains_playerFireDirection == Direction.UP then
+                newVelocity.Y = -1
+            elseif fData.Sewn_samsonsChains_playerFireDirection == Direction.RIGHT then
+                newVelocity.X = 1
+            elseif fData.Sewn_samsonsChains_playerFireDirection == Direction.DOWN then
+                newVelocity.Y = 1
+            end
+            samsonsChains.Velocity = (newVelocity + (player.Position - samsonsChains.Position):Normalized() * 0.1 + player.Velocity * 0.2):Normalized() * 35
+            fData.Sewn_samsonsChains_isOrbiting = false
+        end
+    end
+    if samsonsChains.FireCooldown > 0 then
+        samsonsChains.FireCooldown = samsonsChains.FireCooldown - 1
+    end
+
+    -- Prevent a bug where the ball is stuck
+    -- If the ball do not move, and it is far from the player
+    if samsonsChains.Velocity:LengthSquared() < 1 and (samsonsChains.Position - player.Position):LengthSquared() > 110 ^2 then
+        samsonsChains.Velocity = (player.Position - samsonsChains.Position):Normalized() * 5
+    end
+end
+--[[function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
+    local fData = samsonsChains:GetData()
+    local player = samsonsChains.Player
+
+    -- When Player is firing
+    if player:GetShootingInput():Length() > 0 then
+        -- First frame where player is firing
+        if fData.Sewn_samsonsChains_isOrbiting ~= true then
+            fData.Sewn_samsonsChains_stayPosition = samsonsChains.Position
+            fData.Sewn_samsonsChains_isOrbiting = true
+        end
+        
+        samsonsChains.Velocity = Vector(
+            fData.Sewn_samsonsChains_stayPosition.X + math.cos(samsonsChains.FrameCount * 0.8) * 15,
+            fData.Sewn_samsonsChains_stayPosition.Y + math.sin(samsonsChains.FrameCount * 0.8) * 15) - samsonsChains.Position
+    else -- When player isn't firing
+        -- First frame where player stop firing
+        if fData.Sewn_samsonsChains_isOrbiting == true then
+            samsonsChains.Velocity = (player.Position - fData.Sewn_samsonsChains_stayPosition):Normalized() * 30 
+        end
+        fData.Sewn_samsonsChains_isOrbiting = false
+    end
+end--]]
 
 sewingMachineMod.errFamiliars.Error()
