@@ -3613,16 +3613,10 @@ end
 function sewnFamiliars:upSamsonsChains(samsonsChains)
     local fData = samsonsChains:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        fData.Sewn_samsonsChains_isOrbiting = false
-        fData.Sewn_samsonsChains_orbitingPlayerOffset = Vector(0, 0)
-        fData.Sewn_samsonsChains_orbitingDistance = 0
-        fData.Sewn_samsonsChains_orbitingSpeed = 0
         sewnFamiliars:customHitEnemy(samsonsChains, sewnFamiliars.custom_hitEnemy_samsonsChains)
         if sewingMachineMod:isUltra(fData) then
             fData.Sewn_samsonsChains_isOrbiting = false
-            fData.Sewn_samsonsChains_orbitingPlayerOffset = Vector(0, 0)
-            fData.Sewn_samsonsChains_orbitingDistance = 0
-            fData.Sewn_samsonsChains_orbitingSpeed = 0
+            fData.Sewn_samsonsChains_orbitingFrames = 0
             sewnFamiliars:customUpdate(samsonsChains, sewnFamiliars.custom_update_samsonsChains)
         end
     end
@@ -3643,7 +3637,9 @@ function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
     local player = samsonsChains.Player
     local deltaTime = 1 / 30
 
-    local isPlayerShooting = player:GetShootingInput():LengthSquared() > 0
+    ---local isPlayerShooting = player:GetShootingInput():LengthSquared() > 0
+
+    local isPlayerShooting = player:GetFireDirection() ~= Direction.NO_DIRECTION
 
     -- When Player is firing
     if isPlayerShooting and samsonsChains.FireCooldown == 0 then
@@ -3668,6 +3664,7 @@ function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
             fData.Sewn_samsonsChains_newChains.Position.Y + math.sin(samsonsChains.FrameCount * 0.8) * 10) - samsonsChains.Position
 
         fData.Sewn_samsonsChains_playerFireDirection = player:GetFireDirection()
+        fData.Sewn_samsonsChains_orbitingFrames = fData.Sewn_samsonsChains_orbitingFrames + 1
     end
     -- When player isn't firing
     if not isPlayerShooting then
@@ -3678,7 +3675,7 @@ function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
                 fData.Sewn_samsonsChains_newChains = nil
             end
 
-            samsonsChains.FireCooldown = 15
+            samsonsChains.FireCooldown = 30
 
             -- Throw the ball
             local newVelocity = Vector(0, 0)
@@ -3691,7 +3688,8 @@ function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
             elseif fData.Sewn_samsonsChains_playerFireDirection == Direction.DOWN then
                 newVelocity.Y = 1
             end
-            samsonsChains.Velocity = (newVelocity + (player.Position - samsonsChains.Position):Normalized() * 0.1 + player.Velocity * 0.2):Normalized() * 35
+            samsonsChains.Velocity = (newVelocity + (player.Position - samsonsChains.Position):Normalized() * 0.1 + player.Velocity * 0.2):Normalized() * math.min(5 + math.ceil(fData.Sewn_samsonsChains_orbitingFrames * 0.33), 35)
+            fData.Sewn_samsonsChains_orbitingFrames = 0
             fData.Sewn_samsonsChains_isOrbiting = false
         end
     end
