@@ -436,7 +436,7 @@ end
 -- EID style description --
 ---------------------------
 
-sewingMachineMod.descriptionOffset = Vector(-40, -60) -- Position offset from the screen position of the machine. I just eyeballed it until it looked good.
+sewingMachineMod.descriptionOffset = Vector(-20 * EID.Config.Scale, -30 * EID.Config.Scale) -- Position offset from the screen position of the machine. I just eyeballed it until it looked good.
 
 local function getPositionForInfo(machine)
     return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionOffset
@@ -449,7 +449,7 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
     local kcolor = KColor(color[1], color[2], color[3], EID.Config.Transparency)
     
     local icon = "{{SewnCrown" .. upgradeLevel .. "}}"
-    EID:renderString(icon .. " " .. familiarName, position - Vector(0, EID.lineHeight), Vector(EID.Config.Scale, EID.Config.Scale), kcolor)
+    EID:renderString(icon .. " " .. familiarName, position - Vector(0, 12 * EID.Config.Scale), Vector(EID.Config.Scale, EID.Config.Scale), kcolor)
     EID:printBulletPoints(upgradeDescription, position)
     
     --[[local i = 0
@@ -458,21 +458,6 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
         EID:renderString(line, position + Vector(0, i * 12 * s), Vector(s, s), kcolor)
         i = i + 1
     end--]]
-
-    --[[
-    local longestLine = familiarName
-    local position = getPositionForInfo(machine)
-
-    -- Upgrade desciption
-    local spaceNeeded = printBulletPointsForDesc(upgradeDescription, position.Y + sewingMachineMod.descriptionValues.LINE_HEIGHT * sewingMachineMod.descriptionValues.TEXT_SCALE, position.X, {1, 1, 1}, transparency, longestLine)
-
-    -- Crown icon
-    sewingMachineMod.descriptionValues.crown.Color=Color(1,1,1,transparency,0,0,0)
-    sewingMachineMod.descriptionValues.crown:Play("Descr" .. upgradeLevel)
-    sewingMachineMod.descriptionValues.crown:Render(Vector(position.X - spaceNeeded + sewingMachineMod.descriptionValues.TITLE_OFFSET_X - 15 * sewingMachineMod.descriptionValues.TEXT_SCALE, position.Y + sewingMachineMod.descriptionValues.LINE_HEIGHT * sewingMachineMod.descriptionValues.TEXT_SCALE / 2), Vector(0, 0), Vector(0, 0))
-    
-    Isaac.RenderScaledText(familiarName, position.X - spaceNeeded + sewingMachineMod.descriptionValues.TITLE_OFFSET_X, position.Y, sewingMachineMod.descriptionValues.TEXT_SCALE, sewingMachineMod.descriptionValues.TEXT_SCALE, color[1], color[2], color[3], transparency)
-    --]]
 end
 
 function sewingMachineMod:renderEID()
