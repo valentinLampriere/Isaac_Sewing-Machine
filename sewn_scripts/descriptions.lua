@@ -23,6 +23,9 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
     if sewingMachineMod.Config.EID_textColored == false then
         color = {1, 1, 1}
     end
+    if color ~= nil then
+        EID:addColor("SewnColor_".. name, KColor(color[1], color[2], color[3], 1))
+    end
 
     sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] = {
         name = name,

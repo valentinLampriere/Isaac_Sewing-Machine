@@ -717,13 +717,14 @@ function sewingMachineMod:updateSewingMachineDescription(machine)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
     if info == false then
-        EID.descriptions["en_us"].custom[machine.Type .. "." .. machine.Variant .. "." .. machine.SubType] = nil
+        machine:GetData()["EID_Description"] = nil
+        sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = nil
         return
     end
     local upgradeDescription = mData.Sewn_currentFamiliarState == 0 and info.firstUpgrade or info.secondUpgrade
 
     machine:GetData()["EID_Description"] = {
-        ["Name"] = info.name,
+        ["Name"] = "{{SewnColor_"..info.name .. "}}" .. info.name,
         ["Description"] = upgradeDescription
     }
     sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = machine:GetData()["EID_Description"]
