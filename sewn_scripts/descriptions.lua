@@ -23,7 +23,7 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
     if sewingMachineMod.Config.EID_textColored == false then
         color = {1, 1, 1}
     end
-    
+
     sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] = {
         name = name,
         firstUpgrade = firstUpgrade,

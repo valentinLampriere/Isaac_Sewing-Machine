@@ -674,6 +674,7 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     if not hasPinCushion then
         sewingMachineMod:breakMachine(machine, isUpgrade)
     end
+    sewingMachineMod:updateSewingMachineDescription(machine)
 end
 
 -- Called when a player touch a Sewing Machine (and there is no familiar in it)
@@ -702,12 +703,30 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
 
     pData.Sewn_familiarsInMachine[machine.InitSeed] = pData.Sewn_familiars[roll].Variant
 
+    sewingMachineMod:updateSewingMachineDescription(machine)
     pData.Sewn_familiars[roll]:Remove()
 
     -- Update description
     sewingMachineMod.currentUpgradeInfo = machine
 
     table.remove(player:GetData().Sewn_familiars, roll)
+end
+
+-- Link the familiar description to the machine
+function sewingMachineMod:updateSewingMachineDescription(machine)
+    local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
+    local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
+    if info == false then
+        EID.descriptions["en_us"].custom[machine.Type .. "." .. machine.Variant .. "." .. machine.SubType] = nil
+        return
+    end
+    local upgradeDescription = mData.Sewn_currentFamiliarState == 0 and info.firstUpgrade or info.secondUpgrade
+
+    machine:GetData()["EID_Description"] = {
+        ["Name"] = info.name,
+        ["Description"] = upgradeDescription
+    }
+    sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = machine:GetData()["EID_Description"]
 end
 
 function sewingMachineMod:setFloatingAnim(machine)
@@ -1410,6 +1429,8 @@ function sewingMachineMod:newRoom()
 
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
         if sewingMachineMod.sewingMachinesData[machine.InitSeed] and sewingMachineMod.sewingMachinesData[machine.InitSeed].Sewn_currentFamiliarVariant ~= nil then
+            local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
+            machine:GetData()["EID_Description"] = mData["EID_Description"]
             sewingMachineMod:setFloatingAnim(machine)
         end
     end
@@ -1812,7 +1833,7 @@ end
 -- MC_POST_RENDER --
 --------------------
 function sewingMachineMod:onRender()
-    sewingMachineMod:renderEID()
+    --sewingMachineMod:renderEID()
 end
 --------------------
 -- MC_EXECUTE_CMD --
