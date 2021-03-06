@@ -3703,28 +3703,5 @@ function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
         samsonsChains.Velocity = (player.Position - samsonsChains.Position):Normalized() * 5
     end
 end
---[[function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
-    local fData = samsonsChains:GetData()
-    local player = samsonsChains.Player
-
-    -- When Player is firing
-    if player:GetShootingInput():Length() > 0 then
-        -- First frame where player is firing
-        if fData.Sewn_samsonsChains_isOrbiting ~= true then
-            fData.Sewn_samsonsChains_stayPosition = samsonsChains.Position
-            fData.Sewn_samsonsChains_isOrbiting = true
-        end
-        
-        samsonsChains.Velocity = Vector(
-            fData.Sewn_samsonsChains_stayPosition.X + math.cos(samsonsChains.FrameCount * 0.8) * 15,
-            fData.Sewn_samsonsChains_stayPosition.Y + math.sin(samsonsChains.FrameCount * 0.8) * 15) - samsonsChains.Position
-    else -- When player isn't firing
-        -- First frame where player stop firing
-        if fData.Sewn_samsonsChains_isOrbiting == true then
-            samsonsChains.Velocity = (player.Position - fData.Sewn_samsonsChains_stayPosition):Normalized() * 30 
-        end
-        fData.Sewn_samsonsChains_isOrbiting = false
-    end
-end--]]
 
 sewingMachineMod.errFamiliars.Error()

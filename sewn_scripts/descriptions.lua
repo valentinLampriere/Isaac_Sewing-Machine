@@ -506,11 +506,27 @@ local function printBulletPointsForDesc(Description, padding, xposition, color, 
 end
 
 local function getPositionForInfo(machine)
-    return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) + sewingMachineMod.descriptionValues.POSITION_OFFSET
+    return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionValues.POSITION_OFFSET
 end
 
 -- Helper to render upgrade info (name and desc)
 local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgradeLevel, color, transparency)
+    
+    local position = getPositionForInfo(machine)
+    local kcolor = KColor(color[1], color[2], color[3], EID.Config.Transparency)
+    
+    local icon = "{{SewnCrown" .. upgradeLevel .. "}}"
+    EID:renderString(icon .. " " .. familiarName, position - Vector(0, EID.lineHeight), Vector(EID.Config.Scale, EID.Config.Scale), kcolor)
+    EID:printBulletPoints(upgradeDescription, position)
+    
+    --[[local i = 0
+    for line in string.gmatch(upgradeDescription, '([^#]+)') do
+        local s = sewingMachineMod.Config.EID_textSize
+        EID:renderString(line, position + Vector(0, i * 12 * s), Vector(s, s), kcolor)
+        i = i + 1
+    end--]]
+
+    --[[
     local longestLine = familiarName
     local position = getPositionForInfo(machine)
 
@@ -523,27 +539,23 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
     sewingMachineMod.descriptionValues.crown:Render(Vector(position.X - spaceNeeded + sewingMachineMod.descriptionValues.TITLE_OFFSET_X - 15 * sewingMachineMod.descriptionValues.TEXT_SCALE, position.Y + sewingMachineMod.descriptionValues.LINE_HEIGHT * sewingMachineMod.descriptionValues.TEXT_SCALE / 2), Vector(0, 0), Vector(0, 0))
     
     Isaac.RenderScaledText(familiarName, position.X - spaceNeeded + sewingMachineMod.descriptionValues.TITLE_OFFSET_X, position.Y, sewingMachineMod.descriptionValues.TEXT_SCALE, sewingMachineMod.descriptionValues.TEXT_SCALE, color[1], color[2], color[3], transparency)
-    
+    --]]
 end
 
 function sewingMachineMod:renderEID()
 
-    if sewingMachineMod.currentLevel == nil then
-        sewingMachineMod.currentLevel = Game():GetLevel()
+    -- If External Item Description is disabled
+    if EID == nil then
+        return
     end
 
-    local curse = sewingMachineMod.currentLevel:GetCurses()
-    
     -- Do not show EID when it's disable
     if sewingMachineMod.Config.EID_enable == sewingMachineMod.CONFIG_CONSTANT.EID.DISABLED then
         return
     end
-    -- Do not show EID when it's auto and EID mod isn't enable
-    if sewingMachineMod.Config.EID_enable == sewingMachineMod.CONFIG_CONSTANT.EID.AUTO and not EID then
-        return
-    end
-    
-    if curse == LevelCurse.CURSE_OF_BLIND and sewingMachineMod.Config.EID_hideCurseOfBlind == true then
+
+    -- Hide description on curse of the blind
+    if sewingMachineMod.currentCurse == LevelCurse.CURSE_OF_BLIND and sewingMachineMod.Config.EID_hideCurseOfBlind == true then
         return
     end
     
@@ -559,8 +571,8 @@ function sewingMachineMod:renderEID()
         -- Make sure the familiar has info
         local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
         if info == false then
-            return
-        end -- This will happen if the familiars doesn't have descriptions
+            return -- This will happen if the familiars doesn't have descriptions
+        end
 
         -- Collect info
         local upgradeLevel = mData.Sewn_currentFamiliarState == 0 and "Super" or "Ultra"
@@ -579,6 +591,8 @@ local function loopThroughAvailableFamiliars(_function)
         _function(data[1])
     end
 end
+
+-- Add an indicator into the EID of collectibles
 function sewingMachineMod:addEIDDescriptionForCollectible()
     if EID then
         if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NONE then
@@ -592,6 +606,7 @@ function sewingMachineMod:addEIDDescriptionForCollectible()
 
         EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
         EID:addIcon("SewnCrownSuper", "Super", 0, 12, 9, 1, 10, crownSprite)
+        EID:addIcon("SewnCrownUltra", "Ultra", 0, 12, 9, 1, 10, crownSprite)
 
         if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.TOP then
             EID:createTransformation("FamiliarUpgradable", "Upgradable")

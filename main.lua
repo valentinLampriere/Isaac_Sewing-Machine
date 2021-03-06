@@ -226,6 +226,7 @@ sewingMachineMod.UpgradeState = {
 
 sewingMachineMod.delayedFunctions = {}
 sewingMachineMod.currentUpgradeInfo = nil
+sewingMachineMod.currentCurse = 0
 sewingMachineMod.rng = RNG()
 
 local json = require("json")
@@ -1453,6 +1454,7 @@ end
 -----------------------
 function sewingMachineMod:onNewFloor()
     sewingMachineMod.currentLevel = game:GetLevel()
+    sewingMachineMod.currentCurse = sewingMachineMod.currentLevel:GetCurses()
     sewingMachine_shouldAppear_shop = false
     
     sewingMachineMod.sewingMachinesData = {}
