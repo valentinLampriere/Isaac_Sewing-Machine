@@ -722,9 +722,12 @@ function sewingMachineMod:updateSewingMachineDescription(machine)
         return
     end
     local upgradeDescription = mData.Sewn_currentFamiliarState == 0 and info.firstUpgrade or info.secondUpgrade
-
+    local levelCrown = mData.Sewn_currentFamiliarState == 0 and "Super" or "Ultra"
+    --upgradeDescription = "{{SewnCrown" .. levelCrown .. "}}" .. "{{SewnColor_"..info.name .. "}}" .. info.name .. "#" .. upgradeDescription
+    --upgradeDescription = "{{SewnColor_"..info.name .. "}} " .. info.name .. "#" .. upgradeDescription
     machine:GetData()["EID_Description"] = {
-        ["Name"] = "{{SewnColor_"..info.name .. "}}" .. info.name,
+        --["Name"] = "{{SewnCrown" .. levelCrown .. "}}{{SewnColor_"..info.name .. "}} " .. info.name .." {{SewnSewingMachine}}",
+        ["Name"] = "{{SewnColor_"..info.name .. "}}{{SewnCrown" .. levelCrown .. "}}" .. info.name .." {{SewnSewingMachine}}",
         ["Description"] = upgradeDescription
     }
     sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = machine:GetData()["EID_Description"]

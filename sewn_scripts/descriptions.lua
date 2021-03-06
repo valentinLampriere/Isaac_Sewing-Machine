@@ -27,6 +27,8 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
         EID:addColor("SewnColor_".. name, KColor(color[1], color[2], color[3], 1))
     end
 
+    EID:createTransformation("SewnTransformation_" .. name, name)
+
     sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] = {
         name = name,
         firstUpgrade = firstUpgrade,
@@ -440,6 +442,12 @@ end
 ---------------------------
 
 sewingMachineMod.descriptionOffset = Vector(-20 * EID.Config.Scale, -30 * EID.Config.Scale) -- Position offset from the screen position of the machine. I just eyeballed it until it looked good.
+
+-- Create the Sewing Machine icon, and link it to the transformation
+local sewingMachineIcon = Sprite()
+sewingMachineIcon:Load("gfx/mapicon.anm2", true)
+EID:addIcon("SewnSewingMachine", "Icon", 0, 15, 12, 0, 0, sewingMachineIcon)
+--EID:createTransformation("SewnSewingMachine", "Sewing Machine")
 
 local function getPositionForInfo(machine)
     return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionOffset
