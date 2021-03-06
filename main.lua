@@ -335,8 +335,9 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
-__require("sewn_scripts.descriptions")
-
+if EID ~= nil then
+    __require("sewn_scripts.descriptions")
+end
 
 ---------------
 -- Syringes! --
@@ -2013,11 +2014,13 @@ function sewingMachineMod:loadSave(isExistingRun)
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
 
-    -- Set familiar description
-    sewingMachineMod:InitFamiliarDescription()
-
-    -- Add an indication in the EID Description of familiar collectible
-    sewingMachineMod:addEIDDescriptionForCollectible()
+    if EID ~= nil then
+        -- Set familiar description
+        sewingMachineMod:InitFamiliarDescription()
+        -- Add an indication in the EID Description of familiar collectible
+        sewingMachineMod:addEIDDescriptionForCollectible()
+    end
+    
 end
 
 ---------------
@@ -2061,7 +2064,9 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.e
 
 -- Game related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
+if EID ~= nil then
+    sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
+end
 sewingMachineMod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, sewingMachineMod.executeCommand)
 
 -- Saving/Loading related callbacks

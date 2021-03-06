@@ -436,77 +436,10 @@ end
 -- EID style description --
 ---------------------------
 
-sewingMachineMod.descriptionValues = {
-    TEXT_SCALE = 0.5, -- Size of the text. It looks best on 0.5 imp.
-    TEXT_BOX_WIDTH = 25, -- The limit of characters allowed in each line. The code splits the description to multiple lines based on this.
-    LINE_HEIGHT = 11, -- Don't touch this
-    POSITION_OFFSET = Vector(-20, -30), -- Position offset from the screen position of the machine. I just eyeballed it until it looked good.
-    TITLE_OFFSET_X = 5 -- Title (Name of the familiar) offset 
-}
-
-sewingMachineMod.descriptionValues.crown = Sprite()
-sewingMachineMod.descriptionValues.crown:Load("gfx/sewn_familiar_crown.anm2", false)
-sewingMachineMod.descriptionValues.crown.Scale = Vector(sewingMachineMod.descriptionValues.TEXT_SCALE, sewingMachineMod.descriptionValues.TEXT_SCALE)
-sewingMachineMod.descriptionValues.crown:LoadGraphics()
-
-
--- To support the EID style of desriptions, Thanks Wofsauge :)
-local function printBulletPointsForDesc(Description, padding, xposition, color, transparency, LongestLine)
-    local spaceNeeded = 0
-    local longestLine = LongestLine
-
-    for line in string.gmatch(Description, '([^#]+)') do
-        local array={}
-        local text = ""
-        for word in string.gmatch(line, '([^ ]+)') do
-            if string.len(text)+string.len(word)<=sewingMachineMod.descriptionValues.TEXT_BOX_WIDTH then
-                text = text.." "..word
-            else
-                table.insert(array, text)
-                text = word
-            end
-        end
-        table.insert(array, text)
-
-        for i, v in ipairs(array) do
-            if #v > #LongestLine then LongestLine = v end -- Find longest line in the description
-        end
-
-        spaceNeeded = (Isaac.GetTextWidth(LongestLine .. "  ")) * sewingMachineMod.descriptionValues.TEXT_SCALE -- Calc the amount of pixels the longest lines take
-    end
-
-    for line in string.gmatch(Description, '([^#]+)') do
-        local array={}
-        local text = ""
-        for word in string.gmatch(line, '([^ ]+)') do
-            if string.len(text)+string.len(word)<=sewingMachineMod.descriptionValues.TEXT_BOX_WIDTH then
-                text = text.." "..word
-            else
-                table.insert(array, text)
-                text = word
-            end
-        end
-        table.insert(array, text)
-
-        for i, v in ipairs(array) do
-            if i== 1 then 
-                if string.sub(v, 2, 2)=="\001" or string.sub(v, 2, 2)=="\002" or string.sub(v, 2, 2)=="\003" then 
-                    Isaac.RenderScaledText(string.sub(v, 2, 2)..string.sub(v,3,string.len(v)), xposition - spaceNeeded, padding, sewingMachineMod.descriptionValues.TEXT_SCALE, sewingMachineMod.descriptionValues.TEXT_SCALE, color[1], color[2], color[3], transparency)
-                else
-                    Isaac.RenderScaledText("\007"..v, xposition - spaceNeeded, padding, sewingMachineMod.descriptionValues.TEXT_SCALE, sewingMachineMod.descriptionValues.TEXT_SCALE, color[1] , color[2], color[3], transparency)
-                end
-            else
-                Isaac.RenderScaledText("  "..v, xposition - spaceNeeded, padding, sewingMachineMod.descriptionValues.TEXT_SCALE, sewingMachineMod.descriptionValues.TEXT_SCALE, color[1] , color[2], color[3], transparency)
-            end
-
-            padding = padding + sewingMachineMod.descriptionValues.LINE_HEIGHT * sewingMachineMod.descriptionValues.TEXT_SCALE
-        end
-    end
-    return spaceNeeded
-end
+sewingMachineMod.descriptionOffset = Vector(-40, -60) -- Position offset from the screen position of the machine. I just eyeballed it until it looked good.
 
 local function getPositionForInfo(machine)
-    return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionValues.POSITION_OFFSET
+    return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionOffset
 end
 
 -- Helper to render upgrade info (name and desc)
@@ -543,11 +476,6 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
 end
 
 function sewingMachineMod:renderEID()
-
-    -- If External Item Description is disabled
-    if EID == nil then
-        return
-    end
 
     -- Do not show EID when it's disable
     if sewingMachineMod.Config.EID_enable == sewingMachineMod.CONFIG_CONSTANT.EID.DISABLED then
@@ -594,36 +522,34 @@ end
 
 -- Add an indicator into the EID of collectibles
 function sewingMachineMod:addEIDDescriptionForCollectible()
-    if EID then
-        if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NONE then
-            return
-        end
-        
+    if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NONE then
+        return
+    end
     
-        local crownSprite = Sprite()
-        crownSprite:Load("gfx/sewn_familiar_crown.anm2", false)
-        crownSprite:LoadGraphics()
 
+    local crownSprite = Sprite()
+    crownSprite:Load("gfx/sewn_familiar_crown.anm2", false)
+    crownSprite:LoadGraphics()
+
+    EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
+    EID:addIcon("SewnCrownSuper", "Super", 0, 12, 9, 1, 10, crownSprite)
+    EID:addIcon("SewnCrownUltra", "Ultra", 0, 12, 9, 1, 10, crownSprite)
+
+    if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.TOP then
+        EID:createTransformation("FamiliarUpgradable", "Upgradable")
         EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
-        EID:addIcon("SewnCrownSuper", "Super", 0, 12, 9, 1, 10, crownSprite)
-        EID:addIcon("SewnCrownUltra", "Ultra", 0, 12, 9, 1, 10, crownSprite)
 
-        if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.TOP then
-            EID:createTransformation("FamiliarUpgradable", "Upgradable")
-            EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
-
-            loopThroughAvailableFamiliars(function(itemID) 
-                EID:assignTransformation("collectible", itemID, "FamiliarUpgradable")
-            end)
-        elseif sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE then
-            loopThroughAvailableFamiliars(function(itemID)
-                local description = "#{{SewnCrownSuper}} Upgradable"
-                if EID.descriptions["en_us"].collectibles[itemID] ~= nil then
-                    description = EID.descriptions["en_us"].collectibles[itemID][3] .. description
-                end
-                EID:addCollectible(itemID, description)
-            end)
-        end
+        loopThroughAvailableFamiliars(function(itemID) 
+            EID:assignTransformation("collectible", itemID, "FamiliarUpgradable")
+        end)
+    elseif sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE then
+        loopThroughAvailableFamiliars(function(itemID)
+            local description = "#{{SewnCrownSuper}} Upgradable"
+            if EID.descriptions["en_us"].collectibles[itemID] ~= nil then
+                description = EID.descriptions["en_us"].collectibles[itemID][3] .. description
+            end
+            EID:addCollectible(itemID, description)
+        end)
     end
 end
 
