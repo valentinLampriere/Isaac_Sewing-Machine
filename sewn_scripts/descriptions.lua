@@ -9,7 +9,7 @@ function sewingMachineMod:GetInfoForFamiliar(familiarVariant)
 end
 
 function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgrade, secondUpgrade, color, optionalName)
-    
+    local kColor
     local name
     if optionalName ~= nil then
         name = optionalName
@@ -21,11 +21,14 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
     end
     
     if sewingMachineMod.Config.EID_textColored == false then
-        color = {1, 1, 1}
+        kColor = {1, 1, 1}
     end
     if color ~= nil then
-        EID:addColor("SewnColor_".. name, KColor(color[1], color[2], color[3], 1))
+        kColor = {color[1], color[2], color[3]}
+    else
+        kColor = {1, 1, 1}
     end
+    EID:addColor("SewnColor_".. name, KColor(kColor[1], kColor[2], kColor[3], 1))
 
     EID:createTransformation("SewnTransformation_" .. name, name)
 
@@ -33,80 +36,80 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
         name = name,
         firstUpgrade = firstUpgrade,
         secondUpgrade = secondUpgrade,
-        color = color or {1, 1, 1}
+        color = kColor
     }
 end
 
 function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BROTHER_BOBBY,
-        "\1 Damage Up (x2)",
-        "\1 Damage Up#\1 Tears Up",
+        "{{ArrowUp}} Damage Up (x2)",
+        "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({139, 145, 181})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SISTER_MAGGY,
-        "\1 Tears Up",
-        "\1 Tears Up#\1 Damage Up",
+        "{{ArrowUp}} Tears Up",
+        "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({203, 0, 0})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.GHOST_BABY,
-        "Gain piercing Pupula tears#\1 Slight Damage Up",
-        "Tears are larger#\1 Damage Up",
+        "Gain piercing Pupula tears#{{ArrowUp}} Slight Damage Up",
+        "Tears are larger#{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({255, 255, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.ROBO_BABY,
-        "\1 Tears Up",
-        "\1 Tears Up",
+        "{{ArrowUp}} Tears Up",
+        "{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({219, 219, 239})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LITTLE_GISH,
-        "Tears create a puddle of creep on hit#\1 Slight Tears Up",
-        "Larger creep#\1 Tears Up",
+        "Tears create a puddle of creep on hit#{{ArrowUp}} Slight Tears Up",
+        "Larger creep#{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({67, 67, 67})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SERAPHIM,
         "Have a chance to fire Holy Tears",
-        "Higher chance to fire Holy Tears#\1 Slight Tears Up",
+        "Higher chance to fire Holy Tears#{{ArrowUp}} Slight Tears Up",
         ConvertRGBToIsaac({227, 198, 197})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HARLEQUIN_BABY,
         "Fire an additional shot on each sides",
-        "\1 Damage Up",
+        "{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({202, 158, 158})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LIL_LOKI,
         "Fire in 8 directions",
-        "\1 Damage Up",
+        "{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({203, 0, 0})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BUDDY_IN_A_BOX,
-        "Gain a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy#\1 Slight Tears Up",
-        "Gain an other random additional tear effect#\1 Slight Tears Up"
+        "Gain a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy#{{ArrowUp}} Slight Tears Up",
+        "Gain an other random additional tear effect#{{ArrowUp}} Slight Tears Up"
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.RAINBOW_BABY,
-        "\1 Tears Up",
-        "\1 Tears Up",
+        "{{ArrowUp}} Tears Up",
+        "{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({244, 69, 173})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LITTLE_STEVEN,
-        "\1 Range Up#\2 Shot Speed Down#\1 Damage Up",
-        "\1 Range Up#\2 Shot Speed Down#\1 Damage Up#\1 Tears Up",
+        "{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up",
+        "{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({8, 0, 0})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HEADLESS_BABY,
-        "Spawn large creep#Creep deal more damage",
-        "Fire burst of tears while isaac is firing#Creep deal more damage",
+        "Spawn large creep#{{ArrowUp}} Creep deal more damage",
+        "Fire burst of tears while isaac is firing#{{ArrowUp}} Creep deal more damage",
         ConvertRGBToIsaac({205, 196, 209})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -117,19 +120,19 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.FATES_REWARD,
-        "\1 Tears Up#\1 Slight Damage Up",
+        "{{ArrowUp}} Tears Up#{{ArrowUp}} Slight Damage Up",
         "Fire rate scale with player fire rate",
         ConvertRGBToIsaac({87, 135, 231})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.MONGO_BABY,
-        "Copy Super upgrade",
-        "Copy Ultra upgrade",
+        "{{SewnCrownSuper}} Copy Super upgrade",
+        "{{SewnCrownUltra}} Copy Ultra upgrade",
         ConvertRGBToIsaac({223, 182, 178})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LIL_BRIMSTONE,
-        "\1 Damage Up",
+        "{{ArrowUp}} Damage Up",
         "Laser last longer",
         ConvertRGBToIsaac({135, 135, 135})
     )
@@ -142,19 +145,19 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DEMON_BABY,
         "Fire automatically through walls",
-        "\1 Higher Range",
+        "{{ArrowUp}} Higher Range",
         ConvertRGBToIsaac({45, 45, 45})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.ABEL,
-        "\1 Damage Up#Block projectiles",
+        "{{ArrowUp}} Damage Up#Block projectiles",
         "Deal collision damage#Amount of damage scale with the distance with the player",
         ConvertRGBToIsaac({227, 198, 197})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SACRIFICIAL_DAGGER,
         "Apply bleed effect",
-        "\1  Damage Up",
+        "{{ArrowUp}}  Damage Up",
         ConvertRGBToIsaac({193, 189, 207})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -165,7 +168,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SWORN_PROTECTOR,
-        "Has a chance to spawn half a soul heart when blocking a projectile",
+        "Has a chance to spawn half a soul heart {{HalfSoulHeart}} when blocking a projectile",
         "Every few projectile blocked, it fire 4 lasers in four directions",
         ConvertRGBToIsaac({227, 198, 197})
     )
@@ -190,7 +193,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.ROTTEN_BABY,
         "Spawn an additional spider",
-        "Spawn an additional locust#\3 Can be red locust",
+        "Spawn an additional locust#{{Warning}} Can be red locust",
         ConvertRGBToIsaac({119, 179, 103})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -207,8 +210,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LITTLE_CHAD,
-        "Has 33% chance to spawn a full red heart",
-        "Has 33% chance to spawn half a soul heart",
+        "Has 33% chance to spawn a full red heart {{Heart}}",
+        "Has 33% chance to spawn half a soul heart {{HalfSoulHeart}}",
         ConvertRGBToIsaac({254, 0, 0})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -220,13 +223,13 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CENSER,
         "Sometimes apply a dazed effect or freeze effect",
-        "Slighly deflect tears from player",
+        "Slighly deflect tears from player similar to the Soul item {{Collectible".. CollectibleType.COLLECTIBLE_SOUL .."}}",
         ConvertRGBToIsaac({204, 204, 204})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PEEPER,
         "Fire 5 tears in differents directions every few seconds",
-        "Spawn an additional Peeper Eye#New peeper eye spawn Ultra",
+        "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#New peeper eye spawn Ultra {{SewnCrownUltra}}",
         ConvertRGBToIsaac({204, 204, 204})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -237,31 +240,31 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DISTANT_ADMIRATION,
-        "Contact damage up#Damage scale with player damage",
-        "Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         ConvertRGBToIsaac({203, 0, 0})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.FOREVER_ALONE,
-        "Contact damage up#Damage scale with player damage",
-        "Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         ConvertRGBToIsaac({51, 95, 179})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.FRIEND_ZONE,
-        "Contact damage up#Damage scale with player damage",
-        "Contact damage up#Damage scale with player damage"
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage"
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.OBSESSED_FAN,
-        "Contact damage up#Damage scale with player damage",
-        "Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         ConvertRGBToIsaac({108, 53, 116})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LOST_FLY,
-        "Contact damage up#Damage scale with player damage",
-        "Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
+        "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         ConvertRGBToIsaac({194, 194, 194})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -284,7 +287,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CAINS_OTHER_EYE,
-        "Fire 2 tears instead of one#Tears gain a Rubber Cement effect",
+        "Fire 2 tears instead of one#Tears gain a Rubber Cement effect {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} ",
         "Fire 4 tears#Range up",
         ConvertRGBToIsaac({255, 233, 255})
     )
@@ -297,7 +300,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PAPA_FLY,
         "Block projectiles#Has a chance to spawn a fly turret when blocking a projectile",
-        "Fire three tears instead of one#Range Up#Higher chance to spawn a fly turret",
+        "Fire three tears instead of one#{{ArrowUp}} Range Up#Higher chance to spawn a fly turret",
         ConvertRGBToIsaac({59, 107, 203})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -327,13 +330,13 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HUSHY,
         "Gain two attacks when he stop moving#Fire tears in circle directions#Fire couple of tears to the player",
-        "Fire more tears during his attacks#Gain an additional attack which allow him to fire continuum tears in the direction the player is firing",
+        "Fire more tears during his attacks#Gain an additional attack which allow him to fire continuum {{Collectible".. CollectibleType.COLLECTIBLE_CONTINUUM .."}} tears in the direction the player is firing",
         ConvertRGBToIsaac({67, 86, 121})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.JAW_BONE,
         "Spawn bone orbitals when it hit an enemy",
-        "Deal more than 3x Isaac's damage",
+        "{{ArrowUp}} Deal more than 3x Isaac's damage",
         ConvertRGBToIsaac({219, 219, 219})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -345,7 +348,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.RELIC,
         "Heal the player every 3 rooms",
-        "Chance to spawn an additional soul heart or half soul heart",
+        "Chance to spawn an additional soul heart {{SoulHeart}} or half soul heart {{HalfSoulHeart}}",
         ConvertRGBToIsaac({59, 107, 203})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -362,8 +365,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LIL_SPEWER,
-        "When it shoots, it fires aditional tears which depends on it color#Increase a bit the size and the damage deal by the creep",
-        "It has two colors as the same time#Increase again a bit the size and the damage deal by the creep",
+        "When it shoots, it fires aditional tears which depends on it color#{{ArrowUp}} Increase a bit the size and the damage deal by the creep",
+        "It has two colors as the same time#{{ArrowUp}} Increase again a bit the size and the damage deal by the creep",
         ConvertRGBToIsaac({235, 210, 210})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -375,12 +378,12 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HOLY_WATER,
         "Can be used an unlimited times each rooms",
-        "Give a holy Mantle effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim, increase chances to get Holy Mantle effect",
+        "Give a holy Mantle {{Collectible".. CollectibleType.COLLECTIBLE_HOLY_MANTLE .."}} effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim {{Seraphim}}, increase chances to get Holy Mantle effect",
         ConvertRGBToIsaac({93, 134, 182})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DRY_BABY,
-        "Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
+        "{{ArrowUp}} Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
         "More Necronomicon effect !",
         ConvertRGBToIsaac({219, 219, 219})
     )
@@ -393,7 +396,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.POINTY_RIB,
         "Has a chance to spawn a bone orbital when it kill an enemy#Has 1/3 chance to apply bleed effect to non- boss enemies",
-        "Deal more damages#Has 2/3 chance to aplly bleed effect to non-boss enemies",
+        "{{ArrowUp}} Deal more damages#Has 2/3 chance to aplly bleed effect to non-boss enemies",
         ConvertRGBToIsaac({255, 255, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
