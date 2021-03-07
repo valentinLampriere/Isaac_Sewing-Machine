@@ -28,9 +28,9 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
     else
         kColor = {1, 1, 1}
     end
-    EID:addColor("SewnColor_".. name, KColor(kColor[1], kColor[2], kColor[3], 1))
-
-    EID:createTransformation("SewnTransformation_" .. name, name)
+    if EID ~= nil then
+        EID:addColor("SewnColor_".. name, KColor(kColor[1], kColor[2], kColor[3], 1))
+    end
 
     sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] = {
         name = name,
@@ -444,13 +444,12 @@ end
 -- EID style description --
 ---------------------------
 
-sewingMachineMod.descriptionOffset = Vector(-20 * EID.Config.Scale, -30 * EID.Config.Scale) -- Position offset from the screen position of the machine. I just eyeballed it until it looked good.
-
--- Create the Sewing Machine icon, and link it to the transformation
-local sewingMachineIcon = Sprite()
-sewingMachineIcon:Load("gfx/mapicon.anm2", true)
-EID:addIcon("SewnSewingMachine", "Icon", 0, 15, 12, 0, 0, sewingMachineIcon)
---EID:createTransformation("SewnSewingMachine", "Sewing Machine")
+if EID ~= nil then
+    -- Create the Sewing Machine icon, and link it to the transformation
+    local sewingMachineIcon = Sprite()
+    sewingMachineIcon:Load("gfx/mapicon.anm2", true)
+    EID:addIcon("SewnSewingMachine", "Icon", 0, 15, 12, 0, 0, sewingMachineIcon)
+end
 
 local function getPositionForInfo(machine)
     return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionOffset
@@ -459,6 +458,8 @@ end
 -- Helper to render upgrade info (name and desc)
 local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgradeLevel, color, transparency)
     
+    if EID == nil then return end
+
     local position = getPositionForInfo(machine)
     local kcolor = KColor(color[1], color[2], color[3], EID.Config.Transparency)
     
@@ -475,6 +476,8 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
 end
 
 function sewingMachineMod:renderEID()
+
+    if EID == nil then return end
 
     -- Do not show EID when it's disable
     if sewingMachineMod.Config.EID_enable == sewingMachineMod.CONFIG_CONSTANT.EID.DISABLED then
@@ -521,6 +524,9 @@ end
 
 -- Add an indicator into the EID of collectibles
 function sewingMachineMod:addEIDDescriptionForCollectible()
+
+    if EID == nil then return end
+
     if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NONE then
         return
     end

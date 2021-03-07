@@ -335,9 +335,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
-if EID ~= nil then
-    __require("sewn_scripts.descriptions")
-end
+__require("sewn_scripts.descriptions")
 
 ---------------
 -- Syringes! --
@@ -345,6 +343,14 @@ end
 
 if M_SYR ~= nil then
     __require("sewn_scripts.syringe")
+end
+
+------------------
+-- Encyclopedia --
+------------------
+
+if Encyclopedia ~= nil then
+    __require("sewn_scripts.encyclopedia")
 end
 
 -------------------------------
@@ -714,6 +720,9 @@ end
 
 -- Link the familiar description to the machine
 function sewingMachineMod:updateSewingMachineDescription(machine)
+
+    if EID == nil then return end
+
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
     if info == false then
@@ -1835,12 +1844,6 @@ function sewingMachineMod:RemoveRecentRewards(pos)
     end
 end
 --------------------
--- MC_POST_RENDER --
---------------------
-function sewingMachineMod:onRender()
-    --sewingMachineMod:renderEID()
-end
---------------------
 -- MC_EXECUTE_CMD --
 --------------------
 function sewingMachineMod:executeCommand(cmd, params)
@@ -2040,13 +2043,16 @@ function sewingMachineMod:loadSave(isExistingRun)
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
 
-    if EID ~= nil then
-        -- Set familiar description
-        sewingMachineMod:InitFamiliarDescription()
-        -- Add an indication in the EID Description of familiar collectible
-        sewingMachineMod:addEIDDescriptionForCollectible()
-    end
     
+    -- Set familiar description
+    sewingMachineMod:InitFamiliarDescription()
+    -- Add an indication in the EID Description of familiar collectible
+    sewingMachineMod:addEIDDescriptionForCollectible()
+
+    if Encyclopedia ~= nil then
+        -- Set wiki into encyclopedia
+        sewingMachineMod:SetEncyclopedia()
+    end
 end
 
 ---------------
@@ -2090,9 +2096,6 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.e
 
 -- Game related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_UPDATE, sewingMachineMod.onUpdate)
-if EID ~= nil then
-    sewingMachineMod:AddCallback(ModCallbacks.MC_POST_RENDER, sewingMachineMod.onRender)
-end
 sewingMachineMod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, sewingMachineMod.executeCommand)
 
 -- Saving/Loading related callbacks
