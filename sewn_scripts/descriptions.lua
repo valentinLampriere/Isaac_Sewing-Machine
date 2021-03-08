@@ -1,4 +1,5 @@
 sewingMachineMod.FamiliarsUpgradeDescriptions = {}
+sewingMachineMod.IsEidDescriptionLoaded = false
 
 local function ConvertRGBToIsaac(color)
     return {color[1]/255, color[2]/255, color[3]/255}
@@ -470,13 +471,6 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
     local icon = "{{SewnCrown" .. upgradeLevel .. "}}"
     EID:renderString(icon .. " " .. familiarName, position - Vector(0, 12 * EID.Config.Scale), Vector(EID.Config.Scale, EID.Config.Scale), kcolor)
     EID:printBulletPoints(upgradeDescription, position)
-    
-    --[[local i = 0
-    for line in string.gmatch(upgradeDescription, '([^#]+)') do
-        local s = sewingMachineMod.Config.EID_textSize
-        EID:renderString(line, position + Vector(0, i * 12 * s), Vector(s, s), kcolor)
-        i = i + 1
-    end--]]
 end
 
 function sewingMachineMod:renderEID()
@@ -553,13 +547,26 @@ function sewingMachineMod:addEIDDescriptionForCollectible()
         end)
     elseif sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE then
         loopThroughAvailableFamiliars(function(itemID)
-            local description = "#{{SewnCrownSuper}} Upgradable"
-            if EID.descriptions["en_us"].collectibles[itemID] ~= nil then
-                description = EID.descriptions["en_us"].collectibles[itemID][3] .. description
+            local additionalDescr = "#{{SewnCrownSuper}} Upgradable"
+            if itemID > CollectibleType.COLLECTIBLE_JAW_BONE then
+                print(EID.descriptions["5.100." .. itemID])
             end
-            EID:addCollectible(itemID, description)
+            -- Modded items, with old EID support
+            if __eidItemDescriptions ~= nil and __eidItemDescriptions[itemID] ~= nil then
+                __eidItemDescriptions[itemID] = __eidItemDescriptions[itemID] .. additionalDescr
+            else
+                for key, data in pairs(EID.descriptions) do
+                    if data.collectibles[itemID] ~= nil then -- Vanilla items
+                        data.collectibles[itemID][3] = data.collectibles[itemID][3] .. additionalDescr
+                    elseif data.custom["5.100." .. itemID] ~= nil then -- Modded items
+                        print("5.100." .. itemID)
+                        data.custom["5.100." .. itemID][3] = data.custom["5.100." .. itemID] .. additionalDescr
+                    end
+                end
+            end
         end)
     end
+    sewingMachineMod.IsEidDescriptionLoaded = true
 end
 
 sewingMachineMod.errFamiliars.Error()

@@ -2043,11 +2043,13 @@ function sewingMachineMod:loadSave(isExistingRun)
     sewingMachineMod.delayedFunctions = {}
     sewingMachineMod.currentUpgradeInfo = nil
 
-    
-    -- Set familiar description
-    sewingMachineMod:InitFamiliarDescription()
-    -- Add an indication in the EID Description of familiar collectible
-    sewingMachineMod:addEIDDescriptionForCollectible()
+    if sewingMachineMod.IsEidDescriptionLoaded == false then
+        -- Set familiar description
+        sewingMachineMod:InitFamiliarDescription()
+        -- Add an indication in the EID Description of familiar collectible
+        sewingMachineMod:addEIDDescriptionForCollectible()
+    end
+     
 end
 
 ---------------
