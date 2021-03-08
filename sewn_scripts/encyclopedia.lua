@@ -35,7 +35,8 @@ function sewingMachineMod:SetEncyclopedia(familiarCollectibleId, familiarVariant
     end
 end
 function sewingMachineMod:AddUpgradeToEncyclopedia(collectibleId, itemTab, familiarVariant)
-    if itemTab == nil or encyclopediaCollectibleLoaded[collectibleId] ~= nil then return end
+    if itemTab == nil or itemTab.WikiDesc == nil or encyclopediaCollectibleLoaded[collectibleId] ~= nil then return end
+    if sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] == nil or sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] == {} then return end
 
     local wiki = itemTab.WikiDesc
     
