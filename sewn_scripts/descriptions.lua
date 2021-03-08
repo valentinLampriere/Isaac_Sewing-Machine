@@ -548,9 +548,6 @@ function sewingMachineMod:addEIDDescriptionForCollectible()
     elseif sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE then
         loopThroughAvailableFamiliars(function(itemID)
             local additionalDescr = "#{{SewnCrownSuper}} Upgradable"
-            if itemID > CollectibleType.COLLECTIBLE_JAW_BONE then
-                print(EID.descriptions["5.100." .. itemID])
-            end
             -- Modded items, with old EID support
             if __eidItemDescriptions ~= nil and __eidItemDescriptions[itemID] ~= nil then
                 __eidItemDescriptions[itemID] = __eidItemDescriptions[itemID] .. additionalDescr
@@ -559,7 +556,6 @@ function sewingMachineMod:addEIDDescriptionForCollectible()
                     if data.collectibles[itemID] ~= nil then -- Vanilla items
                         data.collectibles[itemID][3] = data.collectibles[itemID][3] .. additionalDescr
                     elseif data.custom["5.100." .. itemID] ~= nil then -- Modded items
-                        print("5.100." .. itemID)
                         data.custom["5.100." .. itemID][3] = data.custom["5.100." .. itemID] .. additionalDescr
                     end
                 end
