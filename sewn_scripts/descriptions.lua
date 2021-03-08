@@ -38,6 +38,10 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
         secondUpgrade = secondUpgrade,
         color = kColor
     }
+
+    if Encyclopedia ~= nil then
+        sewingMachineMod:SetEncyclopedia(sewingMachineMod.availableFamiliar[familiarVariant][1], familiarVariant)
+    end
 end
 
 function sewingMachineMod:InitFamiliarDescription()

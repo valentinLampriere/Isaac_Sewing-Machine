@@ -2048,11 +2048,6 @@ function sewingMachineMod:loadSave(isExistingRun)
     sewingMachineMod:InitFamiliarDescription()
     -- Add an indication in the EID Description of familiar collectible
     sewingMachineMod:addEIDDescriptionForCollectible()
-
-    if Encyclopedia ~= nil then
-        -- Set wiki into encyclopedia
-        sewingMachineMod:SetEncyclopedia()
-    end
 end
 
 ---------------
