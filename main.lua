@@ -936,8 +936,7 @@ function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, da
         if fData.Sewn_custom_playerTakeDamage ~= nil then
             local d = {}
             for i, f in ipairs(fData.Sewn_custom_playerTakeDamage) do
-                d.customFunction = f
-                return d:customFunction(familiar, damageSource, damageAmount, damageFlags)
+                return f(_, familiar, damageSource, damageAmount, damageFlags)
             end
         end
     end
@@ -1030,8 +1029,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             if fData.Sewn_custom_cache ~= nil then
                 local d = {}
                 for i, f in ipairs(fData.Sewn_custom_cache) do
-                    d.customFunction = f
-                    d:customFunction(familiar, cacheFlag)
+                    f(_, familiar, cacheFlag)
                 end
             end
         end
@@ -1264,10 +1262,8 @@ function sewingMachineMod:updateFamiliar(familiar)
     end
     -- Custom update function
     if fData.Sewn_custom_update ~= nil then
-        local d = {}
         for i, f in ipairs(fData.Sewn_custom_update) do
-            d.customFunction = f
-            d:customFunction(familiar)
+            f(_, familiar)
         end
     end
 
@@ -1276,9 +1272,7 @@ function sewingMachineMod:updateFamiliar(familiar)
         for animationName, _function in pairs(fData.Sewn_custom_animation) do
             -- If familiar plays an animation
             if familiar:GetSprite():IsPlaying(animationName) or familiar:GetSprite():IsFinished(animationName) then
-                local d = {}
-                d.customFunction = _function
-                d:customFunction(familiar, effect)
+                _function(_, familiar, effect)
             end
         end
     end
@@ -1349,10 +1343,8 @@ function sewingMachineMod:familiarCollision(familiar, collider, low)
 
     -- Custom collision
     if fData.Sewn_custom_collision ~= nil then
-        local d = {}
         for i, f in ipairs(fData.Sewn_custom_collision) do
-            d.customFunction = f
-            d:customFunction(familiar, collider)
+            f(_, familiar, collider)
         end
     end
 end
@@ -1438,10 +1430,8 @@ function sewingMachineMod:newRoom()
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
         if fData.Sewn_custom_newRoom ~= nil then
-            local d = {}
             for i, f in ipairs(fData.Sewn_custom_newRoom) do
-                d.customFunction = f
-                d:customFunction(familiar, sewingMachineMod.currentRoom)
+                f(_, familiar, sewingMachineMod.currentRoom)
             end
         end
     end
@@ -1461,10 +1451,8 @@ function sewingMachineMod:finishRoom(rng, spawnPosition)
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
         if fData.Sewn_custom_cleanAward ~= nil then
-            local d = {}
             for i, f in ipairs(fData.Sewn_custom_cleanAward) do
-                d.customFunction = f
-                d:customFunction(familiar)
+                f(_, familiar)
             end
         end
     end
@@ -1557,10 +1545,8 @@ function sewingMachineMod:tearUpdate(tear)
 
         -- Custom tear init function
         if fData.Sewn_custom_fireInit ~= nil then
-            local d = {}
             for i, f in ipairs(fData.Sewn_custom_fireInit) do
-                d.customFunction = f
-                d:customFunction(familiar, tear)
+                f(_, familiar, tear)
             end
         end
 
@@ -1570,10 +1556,8 @@ function sewingMachineMod:tearUpdate(tear)
     -- If the tear hit the ground
     if fData.Sewn_custom_tearFall ~= nil then
         if tear.Height > -5 and tData.Sewn_isTearFall == nil then
-            local d = {}
             for i, f in ipairs(fData.Sewn_custom_tearFall) do
-                d.customFunction = f
-                d:customFunction(familiar, tear)
+                f(_, familiar, tear)
             end
             tData.Sewn_isTearFall = true
         end
@@ -1595,10 +1579,8 @@ function sewingMachineMod:tearCollision(tear, collider, low)
     fData = familiar:GetData()
 
     if fData.Sewn_custom_tearCollision ~= nil then
-        local d = {}
         for i, f in ipairs(fData.Sewn_custom_tearCollision) do
-            d.customFunction = f
-            d:customFunction(familiar, tear, collider)
+            f(_, familiar, tear, collider)
         end
     end
 end
@@ -1633,10 +1615,8 @@ function sewingMachineMod:laserUpdate(laser)
 
             -- Custom laser init function
             if fData.Sewn_custom_fireInit ~= nil then
-                local d = {}
                 for i, f in ipairs(fData.Sewn_custom_fireInit) do
-                    d.customFunction = f
-                    d:customFunction(familiar, laser)
+                    f(_, familiar, laser)
                 end
             end
 
@@ -1751,9 +1731,7 @@ function sewingMachineMod:onUpdate()
     -- Call delayed functions
     for i, data in pairs(sewingMachineMod.delayedFunctions) do
         if data.FRAME + data.DELAY < game:GetFrameCount() then
-            local f = {}
-            f.customFunction = data.FUNCTION
-            f:customFunction(data.PARAM)
+            data.FUNCTION(_, data.PARAM)
             table.remove(sewingMachineMod.delayedFunctions, i)
         end
     end
