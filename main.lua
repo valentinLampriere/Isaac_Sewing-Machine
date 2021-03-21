@@ -86,6 +86,15 @@
 --
 -- sewingMachineMod:addCrownOffset(familiar, offset)
 
+-- ADD IN MACHINE CALLBACK
+-- Description :
+-- Add a callback when a familiar is put in the machine. When a familiar is put in the machine, will call the given function with the EntityFamiliar as parameter
+-- This should be called once when you make the familiar available
+-- Parameters :
+--   familiarID   (int) : The ID of the familiar
+--   functionName (function) : The function to call when a familiar with this ID is put in a machine
+-- sewingMachineMod:AddInMachineCallback(familiarID, functionName)
+
 -------------------------
 -- FAMILIARS FUNCTIONS --
 -------------------------
@@ -225,6 +234,7 @@ sewingMachineMod.UpgradeState = {
 }
 
 sewingMachineMod.delayedFunctions = {}
+sewingMachineMod.customAddInMachine = {}
 sewingMachineMod.currentUpgradeInfo = nil
 sewingMachineMod.currentCurse = 0
 sewingMachineMod.rng = RNG()
@@ -619,6 +629,10 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
     end
 end
 
+function sewingMachineMod:AddInMachineCallback(familiarID, functionName)
+    sewingMachineMod.customAddInMachine[familiarID] = functionName
+end
+
 -- Called when a player interact a second time with a Sewing Machine, or when a sewing machine is bombed
 function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
@@ -698,7 +712,6 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     -- Store collision damage of the familiar
     mData.Sewn_currentFamiliarCollisionDamage = player:GetData().Sewn_familiars[roll]:GetData().Sewn_collisionDamage
 
-
     -- Replace the sprite with the familiar (the sprite is the image of the collectible, not the familiar itself)
     sewingMachineMod:setFloatingAnim(machine)
 
@@ -708,6 +721,10 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     end
 
     pData.Sewn_familiarsInMachine[machine.InitSeed] = pData.Sewn_familiars[roll].Variant
+    
+    if sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant] ~= nil then
+        sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant](_, pData.Sewn_familiars[roll])
+    end
 
     sewingMachineMod:updateSewingMachineDescription(machine)
     pData.Sewn_familiars[roll]:Remove()
@@ -1989,6 +2006,8 @@ function sewingMachineMod:loadSave(isExistingRun)
     end
      
 end
+
+sewingMachineMod:AddInMachineCallback(FamiliarVariant.HALLOWED_GROUND, sewnFamiliars.hallowedGround_addInMachine)
 
 ---------------
 -- CALLBACKS --

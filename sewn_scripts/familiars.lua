@@ -3162,6 +3162,9 @@ end
 
 
 -- HALLOWED GROUND
+function sewnFamiliars:hallowedGround_addInMachine(hallowedGround)
+    sewnFamiliars:custom_hallowedGround_removeAura(hallowedGround)
+end
 function sewnFamiliars:upHallowedGround(hallowedGround)
     local fData = hallowedGround:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -3272,13 +3275,14 @@ function sewnFamiliars:upDryBaby(dryBaby)
         sewnFamiliars:customCollision(dryBaby, sewnFamiliars.custom_collision_dryBaby)
     end
 end
-function sewnFamiliars:custom_animationDash_dryBaby(dryBaby)
+function sewnFamiliars:custom_animation_dryBaby(dryBaby)
     if dryBaby:GetSprite():GetFrame() < 23 then return end
     for i, bullet in pairs(Isaac.FindInRadius(dryBaby.Position, 500, EntityPartition.BULLET)) do
         bullet:Die()
     end
 end
 function sewnFamiliars:custom_collision_dryBaby(dryBaby, collider)
+    local fData = dryBaby:GetData()
     if collider.Type == EntityType.ENTITY_PROJECTILE then
         local roll = sewingMachineMod.rng:RandomInt(100)
         local chance = 5
@@ -3375,27 +3379,28 @@ function sewnFamiliars:upSlippedRib(slippedRib)
     local fData = slippedRib:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         fData.Sewn_slippedRib_colliders = {}
+        
+        fData.Sewn_slippedRib_colliders = {}
+        sewnFamiliars:customNewRoom(slippedRib, sewnFamiliars.custom_newRoom_slippedRib)
+
         sewnFamiliars:customCollision(slippedRib, sewnFamiliars.custom_collision_slippedRib)
-        if sewingMachineMod:isUltra(fData) then
-            fData.Sewn_slippedRib_colliders = {}
-            sewnFamiliars:customNewRoom(slippedRib, sewnFamiliars.custom_newRoom_slippedRib)
-        end
     end
 end
 function sewnFamiliars:custom_collision_slippedRib(slippedRib, collider)
     local fData = slippedRib:GetData()
     
-    if collider:IsVulnerableEnemy() then
-        local dmg = math.max(3.5, slippedRib.Player.Damage * 0.75)
+    if sewingMachineMod:isUltra(fData) and collider:IsVulnerableEnemy() then
+        local dmg = math.max(1, slippedRib.Player.Damage * 0.5)
         if slippedRib.Player and slippedRib.Player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
             dmg = dmg * 2
         end
-        collider:TakeDamage(dmg, DamageFlag.DAMAGE_COUNTDOWN, EntityRef(slippedRib), 5)
-    elseif collider.Type == EntityType.ENTITY_PROJECTILE and sewingMachineMod:isUltra(fData) then
+        collider:TakeDamage(dmg, DamageFlag.DAMAGE_COUNTDOWN, EntityRef(slippedRib), 6)
+    end
+    if collider.Type == EntityType.ENTITY_PROJECTILE then
         if fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] + 30 < collider.FrameCount then
             local rollBone = sewingMachineMod.rng:RandomInt(100)
             if rollBone < 20 then
-                sewnFamiliars:spawnBonesOrbitals(slippedRib)
+                sewnFamiliars:spawnBonesOrbitals(slippedRib, 0, 1)
             end
         end
     end
@@ -3583,8 +3588,14 @@ function sewnFamiliars:custom_collision_depression(depression, collider)
         end
     end
 end
+function sewnFamiliars:custom_depression_showCreepAfterOneFrame(creep)
+    creep.Visible = true
+end
 function sewnFamiliars:custom_tearFall_depression(depression, tear)
-    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, 0, tear.Position, v0, depression)
+    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, 0, tear.Position, v0, depression)
+    creep.Visible = false
+    -- Set the visibility one frame after it has spawn to prevent visual issue
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_depression_showCreepAfterOneFrame, 1, creep)
 end
 function sewnFamiliars:custom_depression_fireTears(depression)
     local force = 3

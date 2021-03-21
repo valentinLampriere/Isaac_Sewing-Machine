@@ -407,8 +407,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SLIPPED_RIB,
-        "Deal damage eaquals to 0.75 x Isaac's damage (with a minimum of 3.5)",
         "When blocking a projectile it has a chance to spawn a bone orbital",
+        "Deal damage eaquals to 0.5 x Isaac's damage (with a minimum of 1)",
         ConvertRGBToIsaac({255, 255, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
