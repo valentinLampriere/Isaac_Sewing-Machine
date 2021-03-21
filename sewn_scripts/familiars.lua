@@ -2907,13 +2907,6 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
 end
 
 -- HOLY WATER
-
-
-
--- If player has not Holy Mantle -> Give holy mantle effect in some rooms
-
-
-
 function sewnFamiliars:upHolyWater(holyWater)
     local fData = holyWater:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -3221,7 +3214,7 @@ function sewnFamiliars:custom_update_hallowedGround(hallowedGround)
         end
     end
 
-    if sewingMachineMod:isUltra(fData) then
+    --[[if sewingMachineMod:isUltra(fData) then
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, true)) do
             local familiarData = familiar:GetData()
             familiar = familiar:ToFamiliar()
@@ -3247,16 +3240,16 @@ function sewnFamiliars:custom_update_hallowedGround(hallowedGround)
                 end
             end
         end
-    end
+    end--]]
 end
 function sewnFamiliars:custom_cache_hallowedGround(hallowedGround, cacheFlag)
     local fData = hallowedGround:GetData()
     local player = hallowedGround.Player
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
         if fData.Sewn_hallowedGround_effect ~= nil and fData.Sewn_hallowedGround_playerIsClose == true then
-            local fireDelay = player.MaxFireDelay - math.floor(player.MaxFireDelay / 10) - 1
+            local fireDelay = player.MaxFireDelay - math.ceil(player.MaxFireDelay / 15)
             if sewingMachineMod:isUltra(fData) then
-                fireDelay = player.MaxFireDelay - math.ceil(player.MaxFireDelay / 10) - 1
+                fireDelay = fireDelay - math.floor(player.MaxFireDelay / 15)
             end
             player.MaxFireDelay = fireDelay
         end

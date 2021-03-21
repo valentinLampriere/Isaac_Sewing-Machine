@@ -314,18 +314,18 @@ function sewingMachineMod:InitFamiliarDescription()
         "When it hit the ground, it deals more damage and destroy rocks#Higher range",
         ConvertRGBToIsaac({0, 74, 128})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BOMB_BAG,
         "No more spawn Troll Bombs#Higher chance for better bombs (double pack and golden bombs)",
         "Can spawn items from the Bomb Bum pool#Higher chance for better bombs",
         ConvertRGBToIsaac({155, 161, 185})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    )--]]
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SACK_OF_PENNIES,
         "Higher chance for better coins (dimes, nickels, lucky pennies or double coins)#Can spawn a trinket (Bloody Penny, Flat Penny etc.)",
         "Can spawn an item (including A Dollar, Pageant Boy, Eye Of Greed etc.)#Higher chance for better coins and trinkets",
         ConvertRGBToIsaac({156, 133, 150})
-    )
+    )--]]
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PUNCHING_BAG,
         "Deal contact damage",

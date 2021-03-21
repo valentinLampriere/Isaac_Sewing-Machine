@@ -3,70 +3,68 @@
     <name>Sewing machine</name>
     <directory>sewing machine</directory>
     <id>2145452717</id>
-    <description>[h1]Divine update is here ![/h1]
+    <description>[h2]Pre-repentance update[/h2]
 
-[b]Angelic[/b] and [b]evil[/b] sewing machines can now be founded. Two new powerful passive items, two new trinkets and of course lots of new familiars... Want to play with better Spider mod, Hushy, Punchin Bag or even Marshmallow ?!
+New familiars upgrades, new cards, fix lots of bugs and better mod compatibility (including EID, Encyclopedia and Syringes!)
 
-[b]This update include :[/b]
+[h3]This update brings :[/h3]
+
+[b]Familiar upgrades :[/b]
+New upgrades for :
 [list]
-[*]Two sewing machine variants
- [list]
- [*] [b]Angelic Sewing machine[/b] - Free but can breaks quick
- [*] [b]Evil Sewing machine[/b] - Cost a full heart container but upgrade familiar twice
- [/list]
-[*]Two passive items
- [list]
- [*] [b]Ann' Tainted Head[/b] - Every new familiars will be SUPER / Synergies with Ann's Pure Body
- [*] [b]Ann's Pure Body[/b] - Every new familiars will be SUPER / Synergies with Ann' Tainted Head
- [/list]
-[*]Two trinkets
- [list]
- [*] [b]Cracked Thimble[/b] - Reroll familiar upgrades when getting hit
- [*] [b]Contrasted Button[/b] - Have a chance to spawn sewing machine in Angel rooms and devil rooms
- [/list]
-[*]New familiar upgrades
-[list]
- [*] [b]???'s Only Friend[/b] : Crush the ground to hit enemies / Deal more damage when crushing the ground and can destroy rocks
- [*] [b]Bomb Bag[/b] : Can't spawn troll bombs. Higher chance for better bombs / Higher chance for better bombs and can spawn items from the Bomb Bum pool
- [*] [b]Sack of Pennies[/b] : Higher chance for better coins and can spawn a trinket / Can spawn a coin related item
- [*] [b]Punching Bag[/b] : Deal contact damage / Turn to a random champion form. Change champion color every couple of seconds
- [*] [b]Hushy[/b] : Fire bullets in different directions / Fire continuum bullet in the same direction as his player
- [*] [b]Jaw Bone[/b] : Spawn orbital bone when it touch an enemy / Deal way more damage
- [*] [Updated] [b]Spider Mod[/b] : Spawn eggs on the ground which apply effect to ennemies which walks over them / Eggs spawn blue spider when clearing the room
- [*] [Modded] [b]Marshmallow[/b] : Fire 3 tears instead of one / Can upgrade itself when clearing a room
-[/list]
-[*]New Runes
- [list]
-  [*] Wunjo : Upgrade all familiars for 30 seconds
-  [*] Naudiz : Spawn a Sewing machine
- [/list]
-[*]Fix bugs
- [list]
- [*] Remove sewing machine in special [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1536643474&amp;searchtext=]Revelation[/url] rooms (including the Hub)
- [*] Make the Sewing machine compatible with [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2106770230]Crane Game Slot Machine[/url]
-[*] Fix an issue with temporary familiars. Note : familiars now have to visit at least one room to be upgradable
- [/list]
+[*]Dead Cat
+[*]Little Chubby
+[*]Lil' Spewer
+[*]Hallowed Ground
+[*]Holy Water
+[*]Dry Baby
+[*]Guppy's Hairball
+[*]Pointy Rib
+[*]Slipped Rib
+[*]Isaac's Heart
+[*]Milk
+[*]Depression
+[*]Samson's Chains
 [/list]
 
---------------------------------
+Remove upgrades for :
+[list]
+[*]Sack of Penny
+[*]Bomb Bag
+[/list]
 
-[h1]Modded familiars[/h1]
-[b]Some modded familiars can work with the machine, including : [/b]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=1991915308]Lost And Forgotten[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
+[b]Mod compatibility :[/b]
+
+[list]
+[*]Better EID support
+[*]Encyclopedia support. Familiar upgrade description will be accessible in the encyclopedia
+[*]Syringes! (see below)
+[/list]
+
+[b]Pickups :[/b]
+
+Naudiz and Wunjo runes have been removed
+
+[list]
+[*]Warranty Card : spawn a Sewing Machine (same effect as Naudiz rune)
+[*]Stitching Card : Reroll familiar crowns
+[*]Familiar Buff syringe : Upgrade every familiars (same effect as Wunjo rune) [i](Require Syringes! mod)[/i]
+[*]Loner Essence syringe : Remove familiar crowns [i](Require Syringes! mod)[/i]
+[/list]
 
 --------------------------------
 
 [h1]Make your familiars stronger ![/h1]
 
+
 The [b]Sewing Machine[/b] is a brand new machine which allow you to [b]upgrade your familiars[/b] during a run !
 
-More than 44 familiars are for now upgradable.
+63 familiars are for now upgradable !
 For more info about all those upgrades, check this link : 
+
 https://www.reddit.com/r/themoddingofisaac/comments/gwfffs/sewing_machine_mod_upgradable_familiars/
 
-This mod include also a new item and three new trinkets related to the Sewing Machine.
+This mod include also new items and new trinkets related to the Sewing Machine.
 
 This mod is NOT compatible with True-Coop !
 
@@ -77,42 +75,44 @@ Sewing machine can be found in [b]bedrooms[/b], [b]shops[/b] or [b]arcade rooms[
 Familiars can be upgradable twice. A crown icon indicate their level.
 
 [b]Sewing Box[/b] / Active Item
-&quot;Temporary super familiar&quot;
+"Temporary super familiar"
 Upgrade all you familiars for one room
 
-[b]Ann's Tainted Head[/b] / Passive
-&quot;???&quot;
-Every familiars will be SUPER. With Ann's Pure Body every familiars will be ULTRA
+[b]Doll's Tainted Head[/b] / Passive
+"???"
+Every familiars will be SUPER. With Doll's Pure Body every familiars will be ULTRA
 
-[b]Ann's Pure Body[/b] / Passive
-&quot;???&quot;
-Every familiars will be SUPER. With Ann's Tainted Body every familiars will be ULTRA
+[b]Doll's Pure Body[/b] / Passive
+"???"
+Every familiars will be SUPER. With Doll's Tainted Body every familiars will be ULTRA
 
 [b]Thimble[/b] / Trinket
-&quot;Safety Crowns&quot;
+"Safety Crowns"
 Reroll familiars crowns when getting hit
 
 [b]Cracked Thimble[/b] / Trinket
-&quot;Cursed crowns ?&quot;
+"Cursed crowns ?"
 Have a 50% chance to reduce the cost for upgrades to half the normal price
 
 [b]Lost Button[/b] / Trinket
-&quot;More sewing machines !&quot;
+"More sewing machines !"
 100% chance to spawn Sewing machine in Shops for next floors
 
 [b]Contrasted Button[/b] / Trinket
-&quot;Unexpected machine&quot;
+"Unexpected machine"
 50% chance to find a sewing machine in angel rooms or devil rooms
 
 [b]Pin Cushion[/b] / Trinket
-&quot;Choose the good one&quot;
+"Choose the good one"
 Interacting with the machine gives the familiar back
 
 --------------------------------
 
-[b]Known Bugs[/b]
-
-When doing victory laps, the sewing machine does not work 
+[h1]Modded familiars[/h1]
+[b]Some modded familiars can work with the machine, including : [/b]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=1991915308]Lost And Forgotten[/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
 
 --------------------------------
 
@@ -125,23 +125,27 @@ This mod will be updated and will make more and more familiars available !
 
 --------------------------------
 
-Thank to the Modding community for there help during the developement process
+Thanks to the Modding community for their help during the developement process
 
 Special Thanks to
 - [url=https://steamcommunity.com/profiles/76561198241259420/myworkshopfiles/]Foks[/url] for trinket sprites, ann's sprites and his support from the beginning of the mod
-- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the &quot;Sewing Box&quot; sprite, the code he made (mainly the EID compatibility) and his support 
-- [url=https://steamcommunity.com/id/PixelPlz/myworkshopfiles/]PixelPlz[/url] for the awesome Sewing Machine sprite he made
+- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the "Sewing Box" sprite, the code he made (mainly the EID compatibility) and his support 
+- [url=https://steamcommunity.com/id/PixelPlz/myworkshopfiles/]PixelPlz[/url] for the awesome Sewing Machine sprite he made and the Angelic Sewing machine
 - [url=https://steamcommunity.com/id/ciirulean/myworkshopfiles/]Ciirulean[/url] for the evil Sewing Machine sprite
 - [url=https://steamcommunity.com/profiles/76561198118097787/myworkshopfiles/]Sentinel[/url] for all his help and advices
+- [url=https://steamcommunity.com/profiles/76561198394602416/myworkshopfiles/]Spore64[/url] for nice cards sprites
 
 --------------------------------
 
 Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
 Discord : valentinL#3711</description>
-    <version>1.10</version>
+    <version>1.11</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
+    <tag id="Items"/>
     <tag id="Active Items"/>
     <tag id="Trinkets"/>
+    <tag id="Cards"/>
+    <tag id="Pickups"/>
     <tag id="Familiars"/>
 </metadata>
