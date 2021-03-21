@@ -75,35 +75,35 @@ Sewing machine can be found in [b]bedrooms[/b], [b]shops[/b] or [b]arcade rooms[
 Familiars can be upgradable twice. A crown icon indicate their level.
 
 [b]Sewing Box[/b] / Active Item
-"Temporary super familiar"
+&quot;Temporary super familiar&quot;
 Upgrade all you familiars for one room
 
 [b]Doll's Tainted Head[/b] / Passive
-"???"
+&quot;???&quot;
 Every familiars will be SUPER. With Doll's Pure Body every familiars will be ULTRA
 
 [b]Doll's Pure Body[/b] / Passive
-"???"
+&quot;???&quot;
 Every familiars will be SUPER. With Doll's Tainted Body every familiars will be ULTRA
 
 [b]Thimble[/b] / Trinket
-"Safety Crowns"
+&quot;Safety Crowns&quot;
 Reroll familiars crowns when getting hit
 
 [b]Cracked Thimble[/b] / Trinket
-"Cursed crowns ?"
+&quot;Cursed crowns ?&quot;
 Have a 50% chance to reduce the cost for upgrades to half the normal price
 
 [b]Lost Button[/b] / Trinket
-"More sewing machines !"
+&quot;More sewing machines !&quot;
 100% chance to spawn Sewing machine in Shops for next floors
 
 [b]Contrasted Button[/b] / Trinket
-"Unexpected machine"
+&quot;Unexpected machine&quot;
 50% chance to find a sewing machine in angel rooms or devil rooms
 
 [b]Pin Cushion[/b] / Trinket
-"Choose the good one"
+&quot;Choose the good one&quot;
 Interacting with the machine gives the familiar back
 
 --------------------------------
@@ -129,7 +129,7 @@ Thanks to the Modding community for their help during the developement process
 
 Special Thanks to
 - [url=https://steamcommunity.com/profiles/76561198241259420/myworkshopfiles/]Foks[/url] for trinket sprites, ann's sprites and his support from the beginning of the mod
-- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the "Sewing Box" sprite, the code he made (mainly the EID compatibility) and his support 
+- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the &quot;Sewing Box&quot; sprite, the code he made (mainly the EID compatibility) and his support 
 - [url=https://steamcommunity.com/id/PixelPlz/myworkshopfiles/]PixelPlz[/url] for the awesome Sewing Machine sprite he made and the Angelic Sewing machine
 - [url=https://steamcommunity.com/id/ciirulean/myworkshopfiles/]Ciirulean[/url] for the evil Sewing Machine sprite
 - [url=https://steamcommunity.com/profiles/76561198118097787/myworkshopfiles/]Sentinel[/url] for all his help and advices
@@ -139,7 +139,7 @@ Special Thanks to
 
 Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
 Discord : valentinL#3711</description>
-    <version>1.11</version>
+    <version>1.12</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
