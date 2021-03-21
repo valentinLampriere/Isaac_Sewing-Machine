@@ -1,9 +1,4 @@
 sewingMachineMod.CONFIG_CONSTANT = {}
-sewingMachineMod.CONFIG_CONSTANT.EID = {
-    AUTO = 1,
-    ENABLED = 2,
-    DISABLED = 3
-}
 sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT = {
     NONE = 1,
     BLINK = 2
@@ -40,17 +35,13 @@ function sewingMachineMod:initMCM()
 	sewingMachineMod.Config.familiarNonReadyIndicator = sewingMachineMod.Config.familiarNonReadyIndicator or CONFIG.FAMILIAR_NON_READY_INDICATOR.ANIMATED
 	sewingMachineMod.Config.familiarAllowedEffect = sewingMachineMod.Config.familiarAllowedEffect or CONFIG.ALLOWED_FAMILIARS_EFFECT.NONE
 	sewingMachineMod.Config.familiarNotAllowedEffect = sewingMachineMod.Config.familiarNotAllowedEffect or CONFIG.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT
-	sewingMachineMod.Config.EID_enable = sewingMachineMod.Config.EID_enable or CONFIG.EID.AUTO
-	sewingMachineMod.Config.EID_textSize = sewingMachineMod.Config.EID_textSize or 0.5
-	sewingMachineMod.Config.EID_textColored = sewingMachineMod.Config.EID_textColored or true
-	sewingMachineMod.Config.EID_textTransparency = sewingMachineMod.Config.EID_textTransparency or 0.8
-	sewingMachineMod.Config.EID_hideCurseOfBlind = sewingMachineMod.Config.EID_hideCurseOfBlind or true
+	sewingMachineMod.Config.EID_enable = sewingMachineMod.Config.EID_enable or true
+	sewingMachineMod.Config.EID_enable = sewingMachineMod.Config.EID_textColored or true
 	sewingMachineMod.Config.EID_indicateFamiliarUpgradable = sewingMachineMod.Config.EID_indicateFamiliarUpgradable or CONFIG.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE
 	sewingMachineMod.Config.TrueCoop_removeMachine = sewingMachineMod.Config.TrueCoop_removeMachine or false
 	sewingMachineMod.Config.TrueCoop_displayText = sewingMachineMod.Config.TrueCoop_displayText or true
 
 	if ModConfigMenu ~= nil then
-
 		local function AnIndexOf(t,val)
 			for k,v in ipairs(t) do 
 				if v == val then return k end
@@ -185,67 +176,24 @@ function sewingMachineMod:initMCM()
 		ModConfigMenu.AddSpace("Sewing Machine")
 		
 		-- EID ENABLE
-		local eid_enable = {1,2,3}
 		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenu.OptionType.NUMBER,
+			Type = ModConfigMenu.OptionType.BOOLEAN,
 			CurrentSetting = function()
-				return AnIndexOf(eid_enable, sewingMachineMod.Config.EID_enable)
+				return sewingMachineMod.Config.EID_enable
 			end,
-			Minimum = 1,
-			Maximum = #eid_enable,
 			Display = function()
-				local state = "Auto"
-				if AnIndexOf(eid_enable, sewingMachineMod.Config.EID_enable) == CONFIG.EID.ENABLED then
-					state = "Enabled"
-				elseif AnIndexOf(eid_enable, sewingMachineMod.Config.EID_enable) == CONFIG.EID.DISABLED then
-					state = "Disabled"
+				onOff = "No"
+				if sewingMachineMod.Config.EID_enable then
+					onOff =  "Yes"
 				end
-				return "EID for Sewing Machines : " .. state
+				return "Enable EID for Sewing Machine : " .. onOff
 			end,
-			OnChange = function(num)
-				sewingMachineMod.Config.EID_enable = eid_enable[num]
+			OnChange = function(IsOn)
+				sewingMachineMod.Config.EID_enable = IsOn
+				sewingMachineMod:updateMachinesDescription()
 			end,
 			Info = {
-				"Enable or disable the External Description",
-				"\"Auto\" will display the description if the mod EID is enabled"
-			}
-		})
-
-		-- TEXT SIZE
-		local textSizes = {0.45,0.5,0.55,0.6,0.65,0.7}
-		
-		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenu.OptionType.NUMBER,
-			CurrentSetting = function()
-				return AnIndexOf(textSizes, sewingMachineMod.Config.EID_textSize)
-			end,
-			Minimum = 1,
-			Maximum = #textSizes,
-			Display = function()
-				local textSize = "Huge !"
-				if sewingMachineMod.Config.EID_textSize == textSizes[1] then
-					textSize = "Very Small"
-				elseif sewingMachineMod.Config.EID_textSize == textSizes[2] then
-					textSize = "Small"
-				elseif sewingMachineMod.Config.EID_textSize == textSizes[3] then
-					textSize = "Normal"
-				elseif sewingMachineMod.Config.EID_textSize == textSizes[4] then
-					textSize = "Large"
-				elseif sewingMachineMod.Config.EID_textSize == textSizes[5] then
-					textSize = "Very Large"
-				end
-				return "Text size : " .. textSize
-			end,
-			OnChange = function(num)
-				sewingMachineMod.Config.EID_textSize = textSizes[num]
-				-- Change the text size
-				sewingMachineMod.descriptionValues.TEXT_SCALE = textSizes[num]
-				-- Change the crown size
-				sewingMachineMod.descriptionValues.crown.Scale = Vector(textSizes[num], textSizes[num])
-	sewingMachineMod.descriptionValues.crown:LoadGraphics()
-			end,
-			Info = {
-				"Size of the EID text"
+				"Enable EID for Sewing Machine"
 			}
 		})
 
@@ -265,54 +213,13 @@ function sewingMachineMod:initMCM()
 			OnChange = function(IsOn)
 				sewingMachineMod.Config.EID_textColored = IsOn
 				sewingMachineMod:InitFamiliarDescription()
+				sewingMachineMod:updateMachinesDescription()
 			end,
 			Info = {
 				"Use a custom color for the text",
 				"depending on the familiar color"
 			}
-		})
-
-		-- TEXT TRANSPARENCY
-		local transparencies = {0.25,0.3,0.4,0.5,0.6,0.75,0.8,0.9,1}
-		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenu.OptionType.NUMBER,
-			CurrentSetting = function()
-				return AnIndexOf(transparencies, sewingMachineMod.Config.EID_textTransparency)
-			end,
-			Minimum = 1,
-			Maximum = #transparencies,
-			Display = function()
-				return "Transparency: " .. sewingMachineMod.Config.EID_textTransparency
-			end,
-			OnChange = function(num)
-				sewingMachineMod.Config.EID_textTransparency = transparencies[num]
-			end,
-			Info = {
-				"Transparency of the EID text"
-			}
-		})
-
-		-- HIDE ON CURSE OF THE BLIND
-		ModConfigMenu.AddSetting("Sewing Machine", {
-			Type = ModConfigMenu.OptionType.BOOLEAN,
-			CurrentSetting = function()
-				return sewingMachineMod.Config.EID_hideCurseOfBlind
-			end,
-			Display = function()
-				onOff = "No"
-				if sewingMachineMod.Config.EID_hideCurseOfBlind then
-					onOff =  "Yes"
-				end
-				return "Hide on \"Curse of the Blind\" : " .. onOff
-			end,
-			OnChange = function(IsOn)
-				sewingMachineMod.Config.EID_hideCurseOfBlind = IsOn
-			end,
-			Info = {
-				"Hide description if there is the \"Curse of the Blind\""
-			}
-		})
-		
+		})		
 
 		-- INDICATOR ON FAMILIAR COLLECTIBLE
 		local eid_indicator_item = {1,2,3}
@@ -336,6 +243,7 @@ function sewingMachineMod:initMCM()
 			end,
 			OnChange = function(num)
 				sewingMachineMod.Config.EID_indicateFamiliarUpgradable = eid_indicator_item[num]
+				sewingMachineMod:addEIDDescriptionForCollectible()
 			end,
 			Info = {
 				"Add an indication in the EID Description of familiar collectible",

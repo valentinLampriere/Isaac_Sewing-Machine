@@ -21,14 +21,15 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
         end
     end
     
-    if sewingMachineMod.Config.EID_textColored == false then
-        kColor = {1, 1, 1}
-    end
     if color ~= nil then
         kColor = {color[1], color[2], color[3]}
     else
         kColor = {1, 1, 1}
     end
+    if sewingMachineMod.Config.EID_textColored == false then
+        kColor = {1, 1, 1}
+    end
+
     if EID ~= nil then
         EID:addColor("SewnColor_".. name, KColor(kColor[1], kColor[2], kColor[3], 1))
     end
@@ -456,14 +457,14 @@ if EID ~= nil then
     EID:addIcon("SewnSewingMachine", "Icon", 0, 15, 12, 0, 0, sewingMachineIcon)
 end
 
-local function getPositionForInfo(machine)
+--[[local function getPositionForInfo(machine)
     return Isaac.WorldToScreen(machine.Position + machine.PositionOffset) - Vector(EID.Config.TextboxWidth, 0) + sewingMachineMod.descriptionOffset
-end
+end--]]
 
 -- Helper to render upgrade info (name and desc)
-local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgradeLevel, color, transparency)
+--[[local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgradeLevel, color, transparency)
     
-    if EID == nil then return end
+    if EID == nil or sewingMachineMod.Config.EID_enable == false then return end
 
     local position = getPositionForInfo(machine)
     local kcolor = KColor(color[1], color[2], color[3], EID.Config.Transparency)
@@ -471,21 +472,11 @@ local function renderUpgradeInfo(machine, familiarName, upgradeDescription, upgr
     local icon = "{{SewnCrown" .. upgradeLevel .. "}}"
     EID:renderString(icon .. " " .. familiarName, position - Vector(0, 12 * EID.Config.Scale), Vector(EID.Config.Scale, EID.Config.Scale), kcolor)
     EID:printBulletPoints(upgradeDescription, position)
-end
+end--]]
 
-function sewingMachineMod:renderEID()
+--[[function sewingMachineMod:renderEID()
 
-    if EID == nil then return end
-
-    -- Do not show EID when it's disable
-    if sewingMachineMod.Config.EID_enable == sewingMachineMod.CONFIG_CONSTANT.EID.DISABLED then
-        return
-    end
-
-    -- Hide description on curse of the blind
-    if sewingMachineMod.currentCurse == LevelCurse.CURSE_OF_BLIND and sewingMachineMod.Config.EID_hideCurseOfBlind == true then
-        return
-    end
+    if EID == nil or sewingMachineMod.Config.EID_enable == false then return end
     
     -- currentUpgradeInfo is updated when a familiar is put in or moved out of the machine. When it's not false it's the machine.
     if sewingMachineMod.currentUpgradeInfo ~= nil then
@@ -512,6 +503,12 @@ function sewingMachineMod:renderEID()
     if sewingMachineMod.displayTrueCoopMessage == true and sewingMachineMod.Config.TrueCoop_displayText ~= false then
         Isaac.RenderText("Sewing Machines can't work with True-Coop", 115, 200, 1, 1, 1, 1)
     end
+end--]]
+
+function sewingMachineMod:updateMachinesDescription()
+    for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
+        sewingMachineMod:updateSewingMachineDescription(machine)
+    end
 end
 
 local function loopThroughAvailableFamiliars(_function)
@@ -520,10 +517,63 @@ local function loopThroughAvailableFamiliars(_function)
     end
 end
 
+
+-- Link the familiar description to the machine
+function sewingMachineMod:updateSewingMachineDescription(machine)
+
+    if EID == nil then return end
+
+    if sewingMachineMod.Config.EID_enable == false then
+        machine:GetData()["EID_Description"] = nil
+        sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = nil
+        return
+    end
+
+    local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
+    local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
+    if info == false then
+        machine:GetData()["EID_Description"] = nil
+        sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = nil
+        return
+    end
+    local upgradeDescription = mData.Sewn_currentFamiliarState == 0 and info.firstUpgrade or info.secondUpgrade
+    local levelCrown = mData.Sewn_currentFamiliarState == 0 and "Super" or "Ultra"
+    -- Get the color markup or an empty string
+    local colorMarkup = ""
+    if EID.InlineColors["SewnColor_"..info.name] then
+        colorMarkup = "{{SewnColor_"..info.name .. "}}"
+    end
+
+    machine:GetData()["EID_Description"] = {
+        ["Name"] = colorMarkup .. "{{SewnCrown" .. levelCrown .. "}}" .. info.name .." {{SewnSewingMachine}}",
+        ["Description"] = upgradeDescription
+    }
+    sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = machine:GetData()["EID_Description"]
+end
+
 -- Add an indicator into the EID of collectibles
 function sewingMachineMod:addEIDDescriptionForCollectible()
 
     if EID == nil then return end
+
+    loopThroughAvailableFamiliars(function(itemID)
+        local additionalDescr = "#{{SewnCrownSuper}} Upgradable"
+        -- Remove "Crown Transformation" from EID
+        --if sewingMachineMod.Config.EID_indicateFamiliarUpgradable ~= sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.TOP then
+            EID:removeTransformation("collectible", itemID, "FamiliarUpgradable")
+        --end
+        -- Remove the new line which indicae "Upgradable"
+        if __eidItemDescriptions ~= nil and __eidItemDescriptions[itemID] ~= nil then
+            __eidItemDescriptions[itemID] = string.gsub(__eidItemDescriptions[itemID], additionalDescr, "")
+        end
+        for key, data in pairs(EID.descriptions) do
+            if data.collectibles[itemID] ~= nil then -- Vanilla items
+                data.collectibles[itemID][3] = string.gsub(data.collectibles[itemID][3], additionalDescr, "")
+            elseif data.custom["5.100." .. itemID] ~= nil then -- Modded items
+                data.custom["5.100." .. itemID][3] = string.gsub(data.custom["5.100." .. itemID][3], additionalDescr, "")
+            end
+        end
+    end)
 
     if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NONE then
         return
@@ -539,10 +589,11 @@ function sewingMachineMod:addEIDDescriptionForCollectible()
     EID:addIcon("SewnCrownUltra", "Ultra", 0, 12, 9, 1, 10, crownSprite)
 
     if sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.TOP then
-        EID:createTransformation("FamiliarUpgradable", "Upgradable")
-        EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
+        if (EID.CustomTransformations["FamiliarUpgradable"] == nil) then
+            EID:createTransformation("FamiliarUpgradable", "Upgradable")
+        end
 
-        loopThroughAvailableFamiliars(function(itemID) 
+        loopThroughAvailableFamiliars(function(itemID)
             EID:assignTransformation("collectible", itemID, "FamiliarUpgradable")
         end)
     elseif sewingMachineMod.Config.EID_indicateFamiliarUpgradable == sewingMachineMod.CONFIG_CONSTANT.EID_INDICATE_FAMILIAR_UPGRADABLE.NEW_LINE then

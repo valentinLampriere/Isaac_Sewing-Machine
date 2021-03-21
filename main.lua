@@ -718,31 +718,6 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     table.remove(player:GetData().Sewn_familiars, roll)
 end
 
--- Link the familiar description to the machine
-function sewingMachineMod:updateSewingMachineDescription(machine)
-
-    if EID == nil then return end
-
-    local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
-    local info = sewingMachineMod:GetInfoForFamiliar(mData.Sewn_currentFamiliarVariant)
-    if info == false then
-        machine:GetData()["EID_Description"] = nil
-        sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = nil
-        return
-    end
-    local upgradeDescription = mData.Sewn_currentFamiliarState == 0 and info.firstUpgrade or info.secondUpgrade
-    local levelCrown = mData.Sewn_currentFamiliarState == 0 and "Super" or "Ultra"
-    -- Get the color markup or an empty string
-    local color = EID.InlineColors["SewnColor_"..info.name] ~= nil and "{{SewnColor_"..info.name .. "}}" or ""
-    
-    machine:GetData()["EID_Description"] = {
-        --["Name"] = "{{SewnCrown" .. levelCrown .. "}}{{SewnColor_"..info.name .. "}} " .. info.name .." {{SewnSewingMachine}}",
-        ["Name"] = color .. "{{SewnCrown" .. levelCrown .. "}}" .. info.name .." {{SewnSewingMachine}}",
-        ["Description"] = upgradeDescription
-    }
-    sewingMachineMod.sewingMachinesData[machine.InitSeed]["EID_Description"] = machine:GetData()["EID_Description"]
-end
-
 function sewingMachineMod:setFloatingAnim(machine)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     machine:GetSprite():ReplaceSpritesheet(1, sewingMachineMod:getFamiliarItemGfx(mData.Sewn_currentFamiliarVariant))
