@@ -181,7 +181,7 @@
 -- You can have a look on how I upgrade vanilla familiars in familiars.lua
 
 
--- *** Special thanks to Foks, SupremeElf, PixelPlz, Cadence and Sentinel for their support and their help *** --
+-- *** Special thanks to Foks, SupremeElf, PixelPlz, Cadence, Sentinel and Spore64 for their support and their help *** --
 
 
 sewingMachineMod = RegisterMod("Sewing machine", 1)
@@ -899,6 +899,7 @@ function sewingMachineMod:onPlayerUpdate(player)
     if player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
             local fData = familiar:GetData()
+            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage or 0
             fData.Sewn_collisionDamage = fData.Sewn_collisionDamage * 2
         end
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = true
@@ -906,6 +907,7 @@ function sewingMachineMod:onPlayerUpdate(player)
     if not player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
             local fData = familiar:GetData()
+            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage or 0
             fData.Sewn_collisionDamage = fData.Sewn_collisionDamage / 2
         end
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = nil
@@ -1185,7 +1187,7 @@ function sewingMachineMod:updateFamiliar(familiar)
                 fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
             end
         end
-
+        
         if player ~= nil and player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
             fData.Sewn_collisionDamage = familiar.CollisionDamage / 2 or 0
         else
