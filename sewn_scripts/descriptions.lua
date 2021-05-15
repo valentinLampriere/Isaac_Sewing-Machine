@@ -103,7 +103,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.RAINBOW_BABY,
         "{{ArrowUp}} Tears Up",
-        "{{ArrowUp}} Tears Up",
+        "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({244, 69, 173})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

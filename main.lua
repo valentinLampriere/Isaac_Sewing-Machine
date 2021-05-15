@@ -1497,16 +1497,6 @@ function sewingMachineMod:tearUpdate(tear)
             tear.CollisionDamage = tear.CollisionDamage * fData.Sewn_damageTear_multiplier
         end
 
-        -- Range up
-        if fData.Sewn_range_multiplier ~= nil then
-            tear.FallingAcceleration = 0.02 + -0.02 * fData.Sewn_range_multiplier
-        end
-
-        -- Shot speed up
-        if fData.Sewn_shotSpeed_multiplier ~= nil then
-            tear.Velocity = tear.Velocity:__mul(fData.Sewn_shotSpeed_multiplier)
-        end
-
         -- Make tears bigger
         if fData.Sewn_tearSize_multiplier ~= nil then
             tear.Scale = tear.Scale * fData.Sewn_tearSize_multiplier
@@ -1518,11 +1508,6 @@ function sewingMachineMod:tearUpdate(tear)
         end
         if fData.Sewn_tearRate_set ~= nil then
             familiar.FireCooldown = fData.Sewn_tearRate_set
-        end
-
-        -- Change tear Variant
-        if fData.Sewn_tearVariant ~= nil then
-            tear:ChangeVariant(fData.Sewn_tearVariant)
         end
 
         -- Custom tear init function

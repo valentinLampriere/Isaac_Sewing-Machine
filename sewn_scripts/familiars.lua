@@ -109,28 +109,10 @@ function sewnFamiliars:setDamageTearMultiplier(familiar, multiplier)
     sewnFamiliars:setTearSizeMultiplier(familiar, math.sqrt((multiplier/4)*3))
 end
 
--- RANGE UP
-function sewnFamiliars:setRangeBonusMultiplier(familiar, multiplier)
-    local fData = familiar:GetData()
-    fData.Sewn_range_multiplier = multiplier
-end
-
--- SHOT SPEED UP
-function sewnFamiliars:setShotSpeedBonusMultiplier(familiar, multiplier)
-    local fData = familiar:GetData()
-    fData.Sewn_shotSpeed_multiplier = multiplier
-end
-
 -- TEAR SIZE
 function sewnFamiliars:setTearSizeMultiplier(familiar, multiplier)
     local fData = familiar:GetData()
     fData.Sewn_tearSize_multiplier = multiplier
-end
-
--- TEAR VARIANT
-function sewnFamiliars:changeTearVariant(familiar, tearVariant)
-    local fData = familiar:GetData()
-    fData.Sewn_tearVariant = tearVariant
 end
 
 -- SPRITE SCALE
@@ -343,7 +325,7 @@ function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differen
             local sizeMulti = sewingMachineMod.rng:RandomFloat() * 0.4 + 0.7
             t.Scale = sizeMulti
         end
-        t.TearFlags = tearFlags
+        t.TearFlags = t.TearFlags | tearFlags
         t.FallingSpeed = -18
         t.FallingAcceleration = 1.5
         t.CollisionDamage = damage
@@ -445,35 +427,32 @@ end
 function sewnFamiliars:upGhostBaby(familiar)
     local fData = familiar:GetData()
     
-    if familiar.Variant == FamiliarVariant.GHOST_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.GHOST_BABY) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_ghostBaby)
-            sewnFamiliars:changeTearVariant(familiar, TearVariant.PUPULA)
-        end
-        if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
-            sewnFamiliars:setTearSizeMultiplier(familiar, 2)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
-            sewnFamiliars:setTearSizeMultiplier(familiar, 3)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_ghostBaby)
+    end
+    if sewingMachineMod:isSuper(fData) then
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
+        sewnFamiliars:setTearSizeMultiplier(familiar, 2)
+    end
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
+        sewnFamiliars:setTearSizeMultiplier(familiar, 3)
     end
 end
 function sewnFamiliars:custom_fireInit_ghostBaby(familiar, tear)
     tear.TearFlags = tear.TearFlags | TearFlags.TEAR_PIERCING
+    tear:ChangeVariant(TearVariant.PUPULA)
 end
 
 -- ROBO BABY
 function sewnFamiliars:upRoboBaby(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.ROBO_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.ROBO_BABY) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 7)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 14)
-        end
+    
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setTearRateBonus(familiar, 7)
+    end
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setTearRateBonus(familiar, 14)
     end
 end
 
@@ -656,30 +635,42 @@ function sewnFamiliars:upRainbowBaby(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.RAINBOW_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.RAINBOW_BABY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 10)
+            sewnFamiliars:setTearRateBonus(familiar, 8)
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 20)
+            sewnFamiliars:setTearRateBonus(familiar, 12)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.8)
         end
     end
 end
 
 -- LITTLE STEVEN
-function sewnFamiliars:upLittleSteven(familiar)
-    local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.LITTLE_STEVEN or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.LITTLE_STEVEN) then
+function sewnFamiliars:upLittleSteven(littleSteven)
+    local fData = littleSteven:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customFireInit(littleSteven, sewnFamiliars.custom_fireInit_littleSteven)
+        
+
         if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:setRangeBonusMultiplier(familiar, 1.5)
-            sewnFamiliars:setShotSpeedBonusMultiplier(familiar, 0.8)
             sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setRangeBonusMultiplier(familiar, 2)
-            sewnFamiliars:setShotSpeedBonusMultiplier(familiar, 0.8)
+        else
             sewnFamiliars:setDamageTearMultiplier(familiar, 2)
-            sewnFamiliars:setTearRateBonus(familiar, 8)
+            sewnFamiliars:setTearRateBonus(familiar, 7)
         end
     end
+end
+function sewnFamiliars:custom_fireInit_littleSteven(littleSteven, tear)
+    local fData = littleSteven:GetData()
+    local rangeBoost = 2.5
+    local shotSpeedBoost = 0.95
+    if sewingMachineMod:isUltra(fData) then
+        rangeBoost = 5
+        shotSpeedBoost = 0.9
+    end
+
+    -- Range boost
+    tear.FallingAcceleration = 0.02 + -0.02 * rangeBoost
+    tear.Velocity = tear.Velocity * shotSpeedBoost
 end
 
 -- HEADLESS BABY
@@ -694,19 +685,19 @@ end
 function sewnFamiliars:custom_update_headlessBaby(familiar)
     local fData = familiar:GetData()
     local player = familiar.Player
-    local creepDamage = 2.5
+    local creepDamage = 2.8
     
     if sewingMachineMod:isUltra(fData) then
         if familiar.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
-                local nbTears = sewingMachineMod.rng:RandomInt(7) + 3
+                local nbTears = sewingMachineMod.rng:RandomInt(8) + 5
                 sewnFamiliars:burstTears(familiar, nbTears)
                 familiar.FireCooldown = 45
             end
         else
             familiar.FireCooldown = familiar.FireCooldown - 1
         end
-        creepDamage = 3
+        creepDamage = 3.5
     end
     
     for _, creep in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, -1, false, true)) do
@@ -792,7 +783,7 @@ function sewnFamiliars:upFatesReward(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.FATES_REWARD then
         if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.2)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.1)
             sewnFamiliars:setTearRateBonus(familiar, 15)
         end
         if sewingMachineMod:isUltra(fData) then
@@ -878,8 +869,6 @@ end
 function sewnFamiliars:mongoBaby_reset(mongoBaby)
     local fData = mongoBaby:GetData()
     mongoBaby.Variant = FamiliarVariant.MONGO_BABY
-    fData.Sewn_tearFlags = nil
-    fData.Sewn_tearVariant = nil
     fData.Sewn_tearRate_bonus = nil
     fData.Sewn_damageTear_multiplier = nil
     fData.Sewn_tearSize_multiplier = nil
@@ -888,7 +877,12 @@ function sewnFamiliars:mongoBaby_reset(mongoBaby)
     fData.Sewn_mongoCopy = nil
     fData.Sewn_custom_tearCollision = nil
     --Remove additional custom tear init function
-    table.remove(fData.Sewn_custom_fireInit, 2)
+    if (fData.Sewn_custom_fireInit ~= nil and #fData.Sewn_custom_fireInit > 1) then
+        table.remove(fData.Sewn_custom_fireInit, 2)
+    end
+    if (fData.Sewn_custom_update ~= nil and #fData.Sewn_custom_update > 1) then
+        table.remove(fData.Sewn_custom_update, 2)
+    end
 end
 
 
