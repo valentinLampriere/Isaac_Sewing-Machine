@@ -127,23 +127,6 @@ function sewnFamiliars:setTearSizeMultiplier(familiar, multiplier)
     fData.Sewn_tearSize_multiplier = multiplier
 end
 
--- TEAR FLAG
-function sewnFamiliars:addTearFlag(familiar, newTearFlag, chance)
-    local fData = familiar:GetData()
-    if fData.Sewn_tearFlags == nil then
-        fData.Sewn_tearFlags = 0
-    end
-    fData.Sewn_tearFlags_chance = chance
-    fData.Sewn_tearFlags = fData.Sewn_tearFlags | newTearFlag
-end
-function sewnFamiliars:removeTearFlag(familiar, tearFlag)
-    local fData = familiar:GetData()
-    if fData.Sewn_tearFlags == nil then
-        fData.Sewn_tearFlags = 0
-    end
-    fData.Sewn_tearFlags = fData.Sewn_tearFlags & ~tearFlag
-end
-
 -- TEAR VARIANT
 function sewnFamiliars:changeTearVariant(familiar, tearVariant)
     local fData = familiar:GetData()
@@ -418,11 +401,19 @@ function sewnFamiliars:upBrotherBobby(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.BROTHER_BOBBY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.BROTHER_BOBBY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 6)
+            if REPENTANCE then
+                sewnFamiliars:setTearRateBonus(familiar, 6)
+            else
+                sewnFamiliars:setTearRateBonus(familiar, 10)
+            end
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.2)
-            sewnFamiliars:setTearRateBonus(familiar, 10)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
+            if REPENTANCE then
+                sewnFamiliars:setTearRateBonus(familiar, 10)
+            else
+                sewnFamiliars:setTearRateBonus(familiar, 18)
+            end
         end
     end
 end
@@ -432,11 +423,20 @@ function sewnFamiliars:upSisterMaggy(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.SISTER_MAGGY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.SISTER_MAGGY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
+            if REPENTANCE then
+                sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
+            else
+                sewnFamiliars:setDamageTearMultiplier(familiar, 1.75)
+            end
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 6)
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.66)
+            if REPENTANCE then
+                sewnFamiliars:setTearRateBonus(familiar, 6)
+                sewnFamiliars:setDamageTearMultiplier(familiar, 1.66)
+            else
+                sewnFamiliars:setTearRateBonus(familiar, 8)
+                sewnFamiliars:setDamageTearMultiplier(familiar, 2)
+            end
         end
     end
 end
@@ -447,7 +447,7 @@ function sewnFamiliars:upGhostBaby(familiar)
     
     if familiar.Variant == FamiliarVariant.GHOST_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.GHOST_BABY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:addTearFlag(familiar, TearFlags.TEAR_PIERCING)
+            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_ghostBaby)
             sewnFamiliars:changeTearVariant(familiar, TearVariant.PUPULA)
         end
         if sewingMachineMod:isSuper(fData) then
@@ -459,6 +459,9 @@ function sewnFamiliars:upGhostBaby(familiar)
             sewnFamiliars:setTearSizeMultiplier(familiar, 3)
         end
     end
+end
+function sewnFamiliars:custom_fireInit_ghostBaby(familiar, tear)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_PIERCING
 end
 
 -- ROBO BABY
@@ -513,13 +516,23 @@ end
 function sewnFamiliars:upSeraphim(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.SERAPHIM then
-        if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:addTearFlag(familiar, TearFlags.TEAR_LIGHT_FROM_HEAVEN, 15)
+        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_seraphim)
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:addTearFlag(familiar, TearFlags.TEAR_LIGHT_FROM_HEAVEN, 25)
-            sewnFamiliars:setTearRateBonus(familiar, 3)
+            sewnFamiliars:setTearRateBonus(familiar, 4)
         end
+    end
+end
+function sewnFamiliars:custom_fireInit_seraphim(familiar, tear)
+    local fData = familiar:GetData()
+    local roll = sewingMachineMod.rng:RandomInt(100)
+    local _r = 10
+    if (sewingMachineMod:isUltra(fData)) then
+        _r = 15
+    end
+    if (roll < _r) then
+        tear.TearFlags = tear.TearFlags | TearFlags.TEAR_LIGHT_FROM_HEAVEN
     end
 end
 
@@ -608,41 +621,32 @@ end
 -- BUDDY IN A BOX
 function sewnFamiliars:upBuddyInABox(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.BUDDY_IN_A_BOX then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_BuddyInABox)
-            sewnFamiliars:setTearRateBonus(familiar, 3)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 6)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_BuddyInABox)
     end
 end
 function sewnFamiliars:custom_fireInit_BuddyInABox(familiar, tear)
     local fData = familiar:GetData()
     local roll
-    
-    if fData.Sewn_temporaryTearFlag == nil then
-        fData.Sewn_temporaryTearFlag = {}
-    end
-    for _, flag in ipairs(fData.Sewn_temporaryTearFlag) do
-        sewnFamiliars:removeTearFlag(familiar, flag)
-    end
     local nbFlags = 0
+    local maxFlag = 60
+
+    if REPENTANCE then
+        maxFlag = 81
+    end
+
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         nbFlags = nbFlags + 1
     end
     if sewingMachineMod:isUltra(fData) then
         nbFlags = nbFlags + 1
     end
+
     for i = 1, nbFlags do
-        roll = sewingMachineMod.rng:RandomInt(60)
         repeat
-            roll = sewingMachineMod.rng:RandomInt(60)
-        until 1<<roll ~= TearFlags.TEAR_EXPLOSIVE
-        sewnFamiliars:addTearFlag(familiar, 1<<roll)
-        
-        table.insert(fData.Sewn_temporaryTearFlag, 1<<roll)
+            roll = sewingMachineMod.rng:RandomInt(maxFlag)
+        until (1<<roll & TearFlags.TEAR_EXPLOSIVE <= 0)
+        tear.TearFlags = tear.TearFlags | 1<<roll
     end
 end
 
@@ -951,20 +955,23 @@ function sewnFamiliars:upDemonBaby(familiar)
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             fData.Sewn_demonBaby_lastDirection = nil
             fData.Sewn_demonBaby_flipX = false
-            sewnFamiliars:addTearFlag(familiar, TearFlags.TEAR_SPECTRAL)
+            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_demonBaby)
             sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_demonBaby)
         end
     end
+end
+function sewnFamiliars:custom_fireInit_demonBaby(familiar, tear)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_SPECTRAL
 end
 function sewnFamiliars:custom_update_demonBaby(familiar)
     local fData = familiar:GetData()
     local sprite = familiar:GetSprite()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         
-        local range = 160
+        local range = 150
         
         if sewingMachineMod:isUltra(fData) then
-            range = 200
+            range = 180
         end
         
         -- Removing tears from Demon Baby

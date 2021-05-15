@@ -80,7 +80,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SERAPHIM,
         "Have a chance to fire Holy Tears",
-        "Higher chance to fire Holy Tears#{{ArrowUp}} Slight Tears Up",
+        "Higher chance to fire Holy Tears#{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({227, 198, 197})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -97,8 +97,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BUDDY_IN_A_BOX,
-        "Gain a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy#{{ArrowUp}} Slight Tears Up",
-        "Gain an other random additional tear effect#{{ArrowUp}} Slight Tears Up"
+        "Gain a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy",
+        "Gain an other random additional tear effect"
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.RAINBOW_BABY,

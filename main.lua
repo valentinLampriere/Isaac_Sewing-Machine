@@ -1520,18 +1520,6 @@ function sewingMachineMod:tearUpdate(tear)
             familiar.FireCooldown = fData.Sewn_tearRate_set
         end
 
-        -- Change tear flags
-        if fData.Sewn_tearFlags ~= nil then
-            if fData.Sewn_tearFlags_chance == nil then
-                tear.TearFlags = fData.Sewn_tearFlags
-            else
-                local roll = sewingMachineMod.rng:RandomInt(101)
-                if fData.Sewn_tearFlags_chance >= roll then
-                    tear.TearFlags = fData.Sewn_tearFlags
-                end
-            end
-        end
-
         -- Change tear Variant
         if fData.Sewn_tearVariant ~= nil then
             tear:ChangeVariant(fData.Sewn_tearVariant)
@@ -1914,6 +1902,7 @@ end
 -- MC_POST_GAME_STARTED --
 --------------------------
 function sewingMachineMod:loadSave(isExistingRun)
+
     -- If Marshmallow exists
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:makeFamiliarAvailable(sewingMachineMod.moddedFamiliar.MARSHMALLOW, Isaac.GetItemIdByName("Marshmallow"), sewingMachineMod.sewnFamiliars.upMarshmallow)
