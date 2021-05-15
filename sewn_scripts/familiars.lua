@@ -466,10 +466,10 @@ function sewnFamiliars:upRoboBaby(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.ROBO_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.ROBO_BABY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 10)
+            sewnFamiliars:setTearRateBonus(familiar, 7)
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 20)
+            sewnFamiliars:setTearRateBonus(familiar, 14)
         end
     end
 end
