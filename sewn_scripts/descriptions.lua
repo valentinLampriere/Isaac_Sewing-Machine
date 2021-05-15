@@ -49,14 +49,14 @@ end
 function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BROTHER_BOBBY,
-        "{{ArrowUp}} Damage Up (x2)",
-        "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
+        "{{ArrowUp}} Tears Up",
+        "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({139, 145, 181})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SISTER_MAGGY,
-        "{{ArrowUp}} Tears Up",
-        "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up",
+        "{{ArrowUp}} Damage Up",
+        "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
         ConvertRGBToIsaac({203, 0, 0})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

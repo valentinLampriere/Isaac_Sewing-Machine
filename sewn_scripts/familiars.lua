@@ -418,11 +418,11 @@ function sewnFamiliars:upBrotherBobby(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.BROTHER_BOBBY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.BROTHER_BOBBY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 2)
+            sewnFamiliars:setTearRateBonus(familiar, 6)
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 2.3)
-            sewnFamiliars:setTearRateBonus(familiar, 8)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.2)
+            sewnFamiliars:setTearRateBonus(familiar, 10)
         end
     end
 end
@@ -432,11 +432,11 @@ function sewnFamiliars:upSisterMaggy(familiar)
     local fData = familiar:GetData()
     if familiar.Variant == FamiliarVariant.SISTER_MAGGY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.SISTER_MAGGY) then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 15)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
         end
         if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 20)
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.2)
+            sewnFamiliars:setTearRateBonus(familiar, 6)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.66)
         end
     end
 end
