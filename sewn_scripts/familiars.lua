@@ -2512,10 +2512,10 @@ function sewnFamiliars:upCainsOtherEye(cainsOtherEye)
 end
 function sewnFamiliars:custom_fireInit_cainsOtherEye(cainsOtherEye, tear)
     local fData = cainsOtherEye:GetData()
-    
+
     tear.TearFlags = tear.TearFlags | TearFlags.TEAR_BOUNCE
     
-    sewingMachineMod:delayFunction(sewnFamiliars.cainsOtherEye_fireTear, 2, {FAMILIAR = cainsOtherEye, TEAR = tear})
+    sewingMachineMod:delayFunction(sewnFamiliars.cainsOtherEye_fireTear, 1, {FAMILIAR = cainsOtherEye, TEAR = tear})
 end
 function sewnFamiliars:cainsOtherEye_fireTear(param)
     local cainsOtherEye = param.FAMILIAR
@@ -2524,7 +2524,7 @@ function sewnFamiliars:cainsOtherEye_fireTear(param)
     
     local nbTearMax = 2
     if sewingMachineMod:isUltra(cainsOtherEye:GetData()) then
-        nbTearMax = 4
+        nbTearMax = 3
     end
     
     if nbTear >= nbTearMax then return end
@@ -2540,7 +2540,7 @@ function sewnFamiliars:cainsOtherEye_fireTear(param)
     sewnFamiliars:toBabyBenderTear(cainsOtherEye, newTear)
     
     param.NB_TEAR = nbTear + 1
-    sewingMachineMod:delayFunction(sewnFamiliars.cainsOtherEye_fireTear, 3, param)
+    sewingMachineMod:delayFunction(sewnFamiliars.cainsOtherEye_fireTear, 2, param)
 end
 
 -- ???'S ONLY FRIEND
@@ -2604,7 +2604,7 @@ local PUNCHINGBAG_COLORS = {Color(0.1,0.8,0.2,1,0,0,0), Color(1,0,1,1,0,0,0), Co
 function sewnFamiliars:upPunchingBag(punchingBag)
     local fData = punchingBag:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        punchingBag.CollisionDamage = 2
+        punchingBag.CollisionDamage = 1.5
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:punchingBag_changeColor(punchingBag)
             sewnFamiliars:customUpdate(punchingBag, sewnFamiliars.custom_update_punchingBag)
@@ -2919,7 +2919,7 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
     local player = deadCat.Player
     local pData = player:GetData()
     local deadCats = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
-    
+
     if player:IsDead() then
         pData.Sewn_deadCat_playerIsDead = true
     end
