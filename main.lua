@@ -1086,7 +1086,7 @@ function sewingMachineMod:effectUpdate(effect)
                     elseif roll == 2 then
                         npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
                     elseif roll == 3 then
-                        npc:AddCharmed(rollDuration)
+                        npc:AddCharmed(EntityRef(egg), rollDuration)
                     elseif roll == 4 then
                         npc:AddConfusion(EntityRef(egg), rollDuration, false)
                     elseif roll == 5 then

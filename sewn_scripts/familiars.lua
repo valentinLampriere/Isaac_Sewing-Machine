@@ -2307,7 +2307,7 @@ function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
 end
 function sewnFamiliars:custom_update_spiderMod(spiderMod)
     local fData = spiderMod:GetData()
-    if sewingMachineMod.currentRoom:IsClear() then
+    if sewingMachineMod.currentRoom and sewingMachineMod.currentRoom:IsClear() then
         return
     end
     if spiderMod.FrameCount % 30 == 0 then
