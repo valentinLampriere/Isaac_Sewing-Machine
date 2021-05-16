@@ -1107,17 +1107,17 @@ end
 -- MC_ENTITY_TAKE_DMG --
 ------------------------
 function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countdown)
-    if source.Entity ~= nil and source.Type == EntityType.ENTITY_FAMILIAR and entity:IsVulnerableEnemy() then
-        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-            local fData = familiar:GetData()
-            familiar = familiar:ToFamiliar()
-            if source.Entity ~= nil and GetPtrHash(source.Entity) == GetPtrHash(familiar) then
-                local d = {}
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        local fData = familiar:GetData()
+        familiar = familiar:ToFamiliar()
+        
+        if source.Entity ~= nil and source.Type == EntityType.ENTITY_FAMILIAR and entity:IsVulnerableEnemy() then
+            if GetPtrHash(source.Entity) == GetPtrHash(familiar) then
                 if fData.Sewn_custom_hitEnemy ~= nil then
                     for i, f in ipairs(fData.Sewn_custom_hitEnemy) do
                         local getDamage = f(_, familiar, entity)
-                        if getDamage == false then return
-                            false
+                        if getDamage == false then
+                            return false
                         end
                     end
                 end
@@ -1126,6 +1126,11 @@ function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countd
                         f(_, familiar, entity)
                     end
                 end
+            end
+        end
+        if fData.Sewn_custom_enemyDies ~= nil and entity.HitPoints - amount <= 0 then
+            for i, f in ipairs(fData.Sewn_custom_enemyDies) do
+                f(_, familiar, entity, source)
             end
         end
     end

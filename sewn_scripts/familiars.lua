@@ -229,6 +229,14 @@ function sewnFamiliars:customKillEnemy(familiar, functionName)
     end
     table.insert(fData.Sewn_custom_killEnemy, functionName)
 end
+-- CUSTOM ENEMY DIES
+function sewnFamiliars:customEnemyDies(familiar, functionName)
+    local fData = familiar:GetData()
+    if fData.Sewn_custom_enemyDies == nil then
+        fData.Sewn_custom_enemyDies = {}
+    end
+    table.insert(fData.Sewn_custom_enemyDies, functionName)
+end
 
 -- Remove custom familiar datas
 function sewingMachineMod:resetFamiliarData(familiar, keepValues)
@@ -2372,24 +2380,36 @@ end
 -- LEECH
 function sewnFamiliars:upLeech(leech)
     local fData = leech:GetData()
+    
+    sewingMachineMod:addCrownOffset(leech, Vector(0, -10))
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customCollision(leech, sewnFamiliars.custom_collision_leech)
         --sewnFamiliars:customUpdate(leech, sewnFamiliars.custom_update_leech)
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customKillEnemy(leech, sewnFamiliars.custom_killEnemy_leech)
+            sewnFamiliars:customEnemyDies(leech, sewnFamiliars.custom_enemyDies_leech)
         end
     end
 end
 function sewnFamiliars:custom_collision_leech(leech, collider)
     if collider:IsVulnerableEnemy() then
         if leech.FrameCount % 10 == 0 then
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, v0, nil)
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, leech.Position, v0, leech)
             creep.CollisionDamage = 1
         end
     end
 end
 function sewnFamiliars:custom_leech_burstTears(data)
     sewnFamiliars:burstTears(data.FAMILIAR, data.AMOUNT_TEARS, data.DAMAGE, data.FORCE, data.DIFFERENT_SIZE, data.TEAR_VARIANT, data.TEAR_FLAGS, data.POSITION)
+end
+
+function sewnFamiliars:custom_enemyDies_leech(leech, enemy, source)
+    if source ~= nil and source.Type == EntityType.ENTITY_EFFECT then
+        print(source.Entity.SpawnerType)
+        if source.Entity.SpawnerType == EntityType.ENTITY_FAMILIAR and source.Entity.SpawnerVariant == FamiliarVariant.LEECH then
+            sewnFamiliars:custom_killEnemy_leech(leech, enemy)
+        end
+    end
 end
 function sewnFamiliars:custom_killEnemy_leech(leech, enemy)
     local enemyHP = math.floor(enemy.MaxHitPoints / 2)
@@ -2405,7 +2425,7 @@ function sewnFamiliars:custom_killEnemy_leech(leech, enemy)
         TEAR_FLAGS = nil,
         POSITION = enemy.Position
     }
-    sewingMachineMod:delayFunction(sewnFamiliars.custom_leech_burstTears, 1, data)
+    sewingMachineMod:delayFunction(sewnFamiliars.custom_leech_burstTears, 2, data)
 end
 
 -- BBF
