@@ -132,8 +132,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.MONGO_BABY,
-        "{{SewnCrownSuper}} Copy Super upgrade",
-        "{{SewnCrownUltra}} Copy Ultra upgrade",
+        "{{SewnCrownSuper}} Copy Super upgrade even if the familiar isn't upgraded",
+        "{{SewnCrownUltra}} Copy Ultra upgrade even if the familiar isn't upgraded",
         ConvertRGBToIsaac({223, 182, 178})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

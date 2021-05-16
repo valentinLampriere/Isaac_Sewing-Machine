@@ -947,13 +947,11 @@ end
 -- DEMON BABY
 function sewnFamiliars:upDemonBaby(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.DEMON_BABY then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            fData.Sewn_demonBaby_lastDirection = nil
-            fData.Sewn_demonBaby_flipX = false
-            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_demonBaby)
-            sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_demonBaby)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_demonBaby_lastDirection = nil
+        fData.Sewn_demonBaby_flipX = false
+        sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_demonBaby)
+        sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_demonBaby)
     end
 end
 function sewnFamiliars:custom_fireInit_demonBaby(familiar, tear)
