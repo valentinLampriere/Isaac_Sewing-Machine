@@ -2100,6 +2100,8 @@ end
 -- PEEPER
 function sewnFamiliars:upPeeper(peeper)
     local fData = peeper:GetData()
+    
+    sewingMachineMod:addCrownOffset(peeper, Vector(0, 5))
     if peeper.Variant == FamiliarVariant.PEEPER then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(peeper, sewnFamiliars.custom_update_peeper)
@@ -2123,7 +2125,7 @@ function sewnFamiliars:custom_update_peeper(peeper)
         end
         if fData.Sewn_custom_peeper_tearCooldown == 0 then
             sewnFamiliars:shootTearsCircular(peeper, 5, nil, nil, nil, 4)
-            fData.Sewn_custom_peeper_tearCooldown = 150
+            fData.Sewn_custom_peeper_tearCooldown = sewingMachineMod.rng:RandomInt(150 - 60) + 60
         end
         fData.Sewn_custom_peeper_tearCooldown = fData.Sewn_custom_peeper_tearCooldown - 1
     end
