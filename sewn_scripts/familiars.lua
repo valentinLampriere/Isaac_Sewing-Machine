@@ -106,13 +106,6 @@ end
 function sewnFamiliars:setDamageTearMultiplier(familiar, multiplier)
     local fData = familiar:GetData()
     fData.Sewn_damageTear_multiplier = multiplier
-    sewnFamiliars:setTearSizeMultiplier(familiar, math.sqrt((multiplier/4)*3))
-end
-
--- TEAR SIZE
-function sewnFamiliars:setTearSizeMultiplier(familiar, multiplier)
-    local fData = familiar:GetData()
-    fData.Sewn_tearSize_multiplier = multiplier
 end
 
 -- SPRITE SCALE
@@ -381,21 +374,19 @@ end
 -- BROTHER BOBBY
 function sewnFamiliars:upBrotherBobby(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.BROTHER_BOBBY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.BROTHER_BOBBY) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            if REPENTANCE then
-                sewnFamiliars:setTearRateBonus(familiar, 6)
-            else
-                sewnFamiliars:setTearRateBonus(familiar, 10)
-            end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        if REPENTANCE then
+            sewnFamiliars:setTearRateBonus(familiar, 6)
+        else
+            sewnFamiliars:setTearRateBonus(familiar, 10)
         end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
-            if REPENTANCE then
-                sewnFamiliars:setTearRateBonus(familiar, 10)
-            else
-                sewnFamiliars:setTearRateBonus(familiar, 18)
-            end
+    end
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
+        if REPENTANCE then
+            sewnFamiliars:setTearRateBonus(familiar, 10)
+        else
+            sewnFamiliars:setTearRateBonus(familiar, 18)
         end
     end
 end
@@ -403,22 +394,20 @@ end
 -- SISTER MAGGY
 function sewnFamiliars:upSisterMaggy(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.SISTER_MAGGY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.SISTER_MAGGY) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            if REPENTANCE then
-                sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
-            else
-                sewnFamiliars:setDamageTearMultiplier(familiar, 1.75)
-            end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        if REPENTANCE then
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
+        else
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.75)
         end
-        if sewingMachineMod:isUltra(fData) then
-            if REPENTANCE then
-                sewnFamiliars:setTearRateBonus(familiar, 6)
-                sewnFamiliars:setDamageTearMultiplier(familiar, 1.66)
-            else
-                sewnFamiliars:setTearRateBonus(familiar, 8)
-                sewnFamiliars:setDamageTearMultiplier(familiar, 2)
-            end
+    end
+    if sewingMachineMod:isUltra(fData) then
+        if REPENTANCE then
+            sewnFamiliars:setTearRateBonus(familiar, 6)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 1.66)
+        else
+            sewnFamiliars:setTearRateBonus(familiar, 8)
+            sewnFamiliars:setDamageTearMultiplier(familiar, 2)
         end
     end
 end
@@ -432,16 +421,21 @@ function sewnFamiliars:upGhostBaby(familiar)
     end
     if sewingMachineMod:isSuper(fData) then
         sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
-        sewnFamiliars:setTearSizeMultiplier(familiar, 2)
     end
     if sewingMachineMod:isUltra(fData) then
         sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
-        sewnFamiliars:setTearSizeMultiplier(familiar, 3)
     end
 end
 function sewnFamiliars:custom_fireInit_ghostBaby(familiar, tear)
+    local fData = familiar:GetData()
     tear.TearFlags = tear.TearFlags | TearFlags.TEAR_PIERCING
     tear:ChangeVariant(TearVariant.PUPULA)
+
+    if sewingMachineMod:isSuper(fData) then
+        tear.Scale = tear.Scale * 2
+    else
+        tear.Scale = tear.Scale * 3
+    end
 end
 
 -- ROBO BABY
@@ -460,16 +454,14 @@ end
 function sewnFamiliars:upLittleGish(familiar)
     local fData = familiar:GetData()
     
-    if familiar.Variant == FamiliarVariant.LITTLE_GISH or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.LITTLE_GISH) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 3)
-            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_littleGish)
-            sewnFamiliars:customTearCollision(familiar, sewnFamiliars.custom_tearCollision_littleGish)
-            sewnFamiliars:customTearFall(familiar, sewnFamiliars.custom_tearCollision_littleGish)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 9)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setTearRateBonus(familiar, 3)
+        sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_littleGish)
+        sewnFamiliars:customTearCollision(familiar, sewnFamiliars.custom_tearCollision_littleGish)
+        sewnFamiliars:customTearFall(familiar, sewnFamiliars.custom_tearCollision_littleGish)
+    end
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setTearRateBonus(familiar, 9)
     end
 end
 function sewnFamiliars:custom_fireInit_littleGish(familiar, tear)  
@@ -518,15 +510,12 @@ end
 -- HARLEQUIN BABY
 function sewnFamiliars:upHarlequinBaby(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.HARLEQUIN_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.HARLEQUIN_BABY) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_harlequinBaby)
-            sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_harlequinBaby)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
-            sewnFamiliars:setTearSizeMultiplier(familiar, 1.2)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_harlequinBaby)
+        sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_harlequinBaby)
+    end
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
     end
 end
 
@@ -542,6 +531,11 @@ function sewnFamiliars:custom_fireInit_harlequinBaby(familiar, tear)
     local fData = familiar:GetData()
     local player = familiar.Player:ToPlayer()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+
+        if sewingMachineMod:isUltra(fData) then
+            tear.Scale = tear.Scale * 1.25
+        end
+
         local velocity
         if fData.Sewn_harlequin_isFirstTear == nil or fData.Sewn_harlequin_isFirstTear then
             velocity = tear.Velocity:Rotated(10)
@@ -633,14 +627,12 @@ end
 -- RAINBOW BABY
 function sewnFamiliars:upRainbowBaby(familiar)
     local fData = familiar:GetData()
-    if familiar.Variant == FamiliarVariant.RAINBOW_BABY or (familiar.Variant == FamiliarVariant.MONGO_BABY and fData.Sewn_mongoCopy == FamiliarVariant.RAINBOW_BABY) then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 8)
-        end
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:setTearRateBonus(familiar, 12)
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.8)
-        end
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setTearRateBonus(familiar, 8)
+    end
+    if sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setTearRateBonus(familiar, 12)
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.8)
     end
 end
 
@@ -834,7 +826,7 @@ function sewnFamiliars:custom_fireInit_mongoBaby(mongoBaby, tear)
         -- Count tears for Harlequin Baby        
         for _, t in pairs(Isaac.FindByType(EntityType.ENTITY_TEAR, -1, -1, false, false)) do
             t = t:ToTear()
-            if t.SpawnerType == EntityType.ENTITY_FAMILIAR and t.SpawnerVariant == FamiliarVariant.MONGO_BABY then
+            if GetPtrHash(t.SpawnerEntity) == GetPtrHash(mongoBaby) then
                 if t.FrameCount <= 1 then
                     nbTears = nbTears + 1
                 end
@@ -843,21 +835,31 @@ function sewnFamiliars:custom_fireInit_mongoBaby(mongoBaby, tear)
         
         -- If he fire several tears, means he copy Harlequin Baby
         if nbTears > 1 then
+            print("COPY HARLEQUIN")
             fData.Sewn_mongoCopy = FamiliarVariant.HARLEQUIN_BABY
             sewnFamiliars:upHarlequinBaby(mongoBaby)
             sewnFamiliars:setTearRateBonus(mongoBaby, sewnFamiliars:getTearRateBonus(mongoBaby) -10)
         elseif tear.TearFlags & TearFlags.TEAR_GISH == TearFlags.TEAR_GISH then
+            print("COPY GISH")
             fData.Sewn_mongoCopy = FamiliarVariant.LITTLE_GISH
             sewnFamiliars:upLittleGish(mongoBaby)
         elseif tear.TearFlags & TearFlags.TEAR_SPECTRAL == TearFlags.TEAR_SPECTRAL then
+            print("COPY GHOST")
             fData.Sewn_mongoCopy = FamiliarVariant.GHOST_BABY
             sewnFamiliars:upGhostBaby(mongoBaby)
         elseif tear.TearFlags & TearFlags.TEAR_HOMING == TearFlags.TEAR_HOMING then
+            print("COPY STEVEN")
             fData.Sewn_mongoCopy = FamiliarVariant.LITTLE_STEVEN
             sewnFamiliars:upLittleSteven(mongoBaby)
+        elseif tear.Color.R > 0.89 and tear.Color.R < 0.91 and tear.Color.G == 0 and tear.Color.B == 0 then
+            print("COPY SISTER MAGGY")
+            fData.Sewn_mongoCopy = FamiliarVariant.SISTER_MAGGY
+            sewnFamiliars:upSisterMaggy(mongoBaby)
         else
-            tear.CollisionDamage = tear.CollisionDamage + 3
-            tear.Scale = tear.Scale + 0.1
+            fData.Sewn_mongoCopy = FamiliarVariant.BROTHER_BOBBY
+            sewnFamiliars:upBrotherBobby(mongoBaby)
+            --tear.CollisionDamage = tear.CollisionDamage + 3
+            --tear.Scale = tear.Scale + 0.1
         end
         
         -- reduce tear rate bonus because mongo baby tear rate is good enough, no need to increase it to much

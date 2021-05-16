@@ -1495,11 +1495,7 @@ function sewingMachineMod:tearUpdate(tear)
         -- Give a damage upgrade (from tears)
         if fData.Sewn_damageTear_multiplier ~= nil then
             tear.CollisionDamage = tear.CollisionDamage * fData.Sewn_damageTear_multiplier
-        end
-
-        -- Make tears bigger
-        if fData.Sewn_tearSize_multiplier ~= nil then
-            tear.Scale = tear.Scale * fData.Sewn_tearSize_multiplier
+            tear.Scale = tear.Scale * math.sqrt((fData.Sewn_damageTear_multiplier/4)*3)
         end
 
         -- Reduce fire rate
