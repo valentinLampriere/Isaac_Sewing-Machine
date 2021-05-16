@@ -289,7 +289,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.RELIC] = {98, sewingMachineMod.sewnFamiliars.upTheRelic},
     [FamiliarVariant.LITTLE_GISH] = {99, sewingMachineMod.sewnFamiliars.upLittleGish},
     [FamiliarVariant.LITTLE_STEVEN] = {100, sewingMachineMod.sewnFamiliars.upLittleSteven},
-    [FamiliarVariant.GUARDIAN_ANGEL] = {112, sewingMachineMod.sewnFamiliars.upGuardianAngel},
+    --[FamiliarVariant.GUARDIAN_ANGEL] = {112, sewingMachineMod.sewnFamiliars.upGuardianAngel},
     [FamiliarVariant.DEMON_BABY] = {113, sewingMachineMod.sewnFamiliars.upDemonBaby},
     [FamiliarVariant.FOREVER_ALONE] = {128, sewingMachineMod.sewnFamiliars.upFlies},
     --[FamiliarVariant.BOMB_BAG] = {131, sewingMachineMod.sewnFamiliars.upBombBag},
@@ -318,7 +318,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.SAMSONS_CHAINS] = {321, sewingMachineMod.sewnFamiliars.upSamsonsChains},
     [FamiliarVariant.MONGO_BABY] = {322, sewingMachineMod.sewnFamiliars.upMongoBaby},
     [FamiliarVariant.FATES_REWARD] = {361, sewingMachineMod.sewnFamiliars.upFatesReward},
-    [FamiliarVariant.SWORN_PROTECTOR] = {363, sewingMachineMod.sewnFamiliars.upSwornProtector},
+    --[FamiliarVariant.SWORN_PROTECTOR] = {363, sewingMachineMod.sewnFamiliars.upSwornProtector},
     [FamiliarVariant.FRIEND_ZONE] = {364, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.LOST_FLY] = {365, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.LIL_GURDY] = {384, sewingMachineMod.sewnFamiliars.upLilGurdy},
@@ -1285,9 +1285,6 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
     end
 
     if fData.Sewn_crown == nil then
-        if fData.Sewn_crownPositionOffset ~= nil then
-            pos = pos - fData.Sewn_crownPositionOffset
-        end
         fData.Sewn_crown = Sprite()
         fData.Sewn_crown:Load("gfx/sewn_familiar_crown.anm2", false)
         if sewingMachineMod:isSuper(fData) then
@@ -1299,15 +1296,19 @@ function sewingMachineMod:renderFamiliar(familiar, offset)
     end
 
     if fData.Sewn_crown_hide ~= true then
+        if fData.Sewn_crownPositionOffset ~= nil then
+            pos = pos - fData.Sewn_crownPositionOffset
+        end
+
         -- if familiar is super -> has a golden crown
         if sewingMachineMod:isSuper(fData) then
+            pos = pos
             fData.Sewn_crown:Render(pos, v0, v0)
-            pos = pos + Vector(0, 15)
         end
         -- if familiar is ultra-> has a diamond crown
         if sewingMachineMod:isUltra(fData) then
+            pos = pos
             fData.Sewn_crown:Render(pos, v0, v0)
-            pos = pos + Vector(0, 15)
         end
     end
 

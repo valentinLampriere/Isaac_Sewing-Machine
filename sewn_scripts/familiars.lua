@@ -1115,11 +1115,6 @@ function sewnFamiliars:custom_animation_papaFly(papaFly)
         end
     end
 end
-
--------------------------
--- ORBITALS FAMILIARS --
--------------------------
-
 -- SACRIFICIAL DAGGER
 function sewnFamiliars:upSacrificialDagger(sacrificialDagger)
     local fData = sacrificialDagger:GetData()
@@ -1144,22 +1139,21 @@ function sewnFamiliars:custom_collision_sacrificialDagger(sacrificialDagger, col
 end
 
 -- GUARDIAN ANGEL
-function sewnFamiliars:upGuardianAngel(guardianAngel)
+--[[function sewnFamiliars:upGuardianAngel(guardianAngel)
     local fData = guardianAngel:GetData()
-    if guardianAngel.Variant == FamiliarVariant.GUARDIAN_ANGEL then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            guardianAngel.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
-            sewnFamiliars:customUpdate(guardianAngel, sewnFamiliars.custom_update_guardianAngel)
-            sewnFamiliars:customCollision(guardianAngel, sewnFamiliars.custom_collision_guardianAngel)
-            sewnFamiliars:customNewRoom(guardianAngel, sewnFamiliars.custom_newRoom_guardianAngel)
-            fData.Sewn_guardianAngel_state = 0
-            fData.Sewn_guardianAngel_blockTimer = 0
-            fData.Sewn_guardianAngel_collideTear = {}
-        else
-            fData.Sewn_guardianAngel_state = 0
-            guardianAngel.CollisionDamage = fData.Sewn_collisionDamage
-            guardianAngel:SetColor(Color(1,1,1,1,0,0,0), -1, 1, false, false)
-        end
+    sewingMachineMod:addCrownOffset(guardianAngel, Vector(0, 10))
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        guardianAngel.EntityCollisionClass = EntityCollisionClass.ENTCOLL_ALL
+        sewnFamiliars:customUpdate(guardianAngel, sewnFamiliars.custom_update_guardianAngel)
+        sewnFamiliars:customCollision(guardianAngel, sewnFamiliars.custom_collision_guardianAngel)
+        sewnFamiliars:customNewRoom(guardianAngel, sewnFamiliars.custom_newRoom_guardianAngel)
+        fData.Sewn_guardianAngel_state = 0
+        fData.Sewn_guardianAngel_blockTimer = 0
+        fData.Sewn_guardianAngel_collideTear = {}
+    else
+        fData.Sewn_guardianAngel_state = 0
+        guardianAngel.CollisionDamage = fData.Sewn_collisionDamage
+        guardianAngel:SetColor(Color(1,1,1,1,0,0,0), -1, 1, false, false)
     end
 end
 function sewnFamiliars:custom_newRoom_guardianAngel(guardianAngel, room)
@@ -1264,6 +1258,7 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
         end
     end
 end
+--]]
 
 -- BLOODSHOT EYE
 function sewnFamiliars:upBloodshotEye(bloodshotEye)
@@ -1448,7 +1443,7 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
             creep.Size = 3
             creep.SpriteScale = Vector(3, 3)
             creep.Timeout = 50
-            creep:SetColor(Color(0, 0, 0, 1, 0, 0, 25), -1, 0, false, false)
+            creep:SetColor(Color(0, 0, 0, 1, 0, 0.25, 0), -1, 0, false, false)
             
             -- hide the crown
             sewingMachineMod:hideCrown(bobsBrain, true)
