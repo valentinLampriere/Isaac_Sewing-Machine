@@ -357,12 +357,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Better chance to spawn additional soul heart {{SoulHeart}}#Chance to spawn an Eternal Heart {{EthernalHeart}}#Heal the player every 4 rooms",
         ConvertRGBToIsaac({59, 107, 203})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DEAD_CAT,
         "When player dies, it respawn with an additional soul heart",
         "When player dies, it respawn with an additional soul heart and an additional heart container",
         ConvertRGBToIsaac({67, 67, 67})
-    )
+    )--]]
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LITTLE_CHUBBY,
         "Reduce cooldown, can be thrown quickly",
@@ -381,12 +381,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "The halo is larger and decrease a bit more fire delay#Reduce also fire rate of familiars in the halo",
         ConvertRGBToIsaac({127, 242, 255})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HOLY_WATER,
         "Can be used an unlimited times each rooms",
         "Give a holy Mantle {{Collectible".. CollectibleType.COLLECTIBLE_HOLY_MANTLE .."}} effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim {{Seraphim}}, increase chances to get Holy Mantle effect",
         ConvertRGBToIsaac({93, 134, 182})
-    )
+    )--]]
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DRY_BABY,
         "{{ArrowUp}} Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
@@ -402,7 +402,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.POINTY_RIB,
         "Has a chance to spawn a bone orbital when it kill an enemy#Has 1/3 chance to apply bleed effect to non- boss enemies",
-        "{{ArrowUp}} Deal more damages#Has 2/3 chance to aplly bleed effect to non-boss enemies",
+        "{{ArrowUp}} Deal more damages#Has 2/3 chance to apply bleed effect to non-boss enemies",
         ConvertRGBToIsaac({255, 255, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

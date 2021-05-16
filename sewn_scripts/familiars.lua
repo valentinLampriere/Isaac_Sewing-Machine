@@ -2940,7 +2940,7 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
 end
 
 -- HOLY WATER
-function sewnFamiliars:upHolyWater(holyWater)
+--[[function sewnFamiliars:upHolyWater(holyWater)
     local fData = holyWater:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customUpdate(holyWater, sewnFamiliars.custom_update_holyWater)
@@ -3004,6 +3004,7 @@ function sewnFamiliars:custom_holyWater_spawnWater(holyWater)
     creep.Visible = false
     sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
 end
+--]]
 
 -- LIL SPEWER
 local lil_spewer_state = {
@@ -3412,8 +3413,7 @@ function sewnFamiliars:upSlippedRib(slippedRib)
     local fData = slippedRib:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         fData.Sewn_slippedRib_colliders = {}
-        
-        fData.Sewn_slippedRib_colliders = {}
+        slippedRib.Size = 17
         sewnFamiliars:customNewRoom(slippedRib, sewnFamiliars.custom_newRoom_slippedRib)
 
         sewnFamiliars:customCollision(slippedRib, sewnFamiliars.custom_collision_slippedRib)
@@ -3432,7 +3432,7 @@ function sewnFamiliars:custom_collision_slippedRib(slippedRib, collider)
     if collider.Type == EntityType.ENTITY_PROJECTILE then
         if fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] + 30 < collider.FrameCount then
             local rollBone = sewingMachineMod.rng:RandomInt(100)
-            if rollBone < 20 then
+            if rollBone < 50 then
                 sewnFamiliars:spawnBonesOrbitals(slippedRib, 0, 1)
             end
         end
