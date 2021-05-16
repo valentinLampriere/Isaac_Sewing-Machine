@@ -204,8 +204,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.JUICY_SACK,
-        "Large creep",
-        "Fire some egg tears while isaac is firing#Egg tears spawn blue fly or blue spider on hit",
+        "Fire egg tears while isaac is firing#Egg tears spawn blue fly or blue spider on hit#Large creep",
+        "Fire more egg tears",
         ConvertRGBToIsaac({255, 255, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -353,8 +353,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.RELIC,
-        "Heal the player every 3 rooms",
         "Chance to spawn an additional soul heart {{SoulHeart}} or half soul heart {{HalfSoulHeart}}",
+        "Better chance to spawn additional soul heart {{SoulHeart}}#Chance to spawn an Eternal Heart {{EthernalHeart}}#Heal the player every 4 rooms",
         ConvertRGBToIsaac({59, 107, 203})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

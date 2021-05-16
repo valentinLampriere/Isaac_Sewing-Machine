@@ -1749,23 +1749,25 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
             if creep.FrameCount == 0 and creep.SpawnerType == EntityType.ENTITY_FAMILIAR and creep.SpawnerVariant == FamiliarVariant.JUICY_SACK then
                 local cData = creep:GetData()
                 if not cData.Sewn_creepIsScaled then
-                    creep.Size = creep.Size * 1.75
-                    creep.SpriteScale = creep.SpriteScale * 1.75
+                    creep.Size = creep.Size * 1.5
+                    creep.SpriteScale = creep.SpriteScale * 1.5
                     cData.Sewn_creepIsScaled = true
                 end
             end
         end
     end
+    local nbTears = sewingMachineMod.rng:RandomInt(2)
     if sewingMachineMod:isUltra(fData) then
-        if juicySack.FireCooldown == 0 then
-            if player:GetShootingInput():Length() > 0 then
-                local nbTears = sewingMachineMod.rng:RandomInt(5) + 1
-                sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
-                juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 30
-            end
-        else
-            juicySack.FireCooldown = juicySack.FireCooldown - 1
+        nbTears = sewingMachineMod.rng:RandomInt(6) + 1
+    end
+    
+    if juicySack.FireCooldown == 0 then
+        if player:GetShootingInput():Length() > 0 then
+            sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
+            juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 30
         end
+    else
+        juicySack.FireCooldown = juicySack.FireCooldown - 1
     end
 end
 
@@ -1823,7 +1825,7 @@ function sewnFamiliars:custom_animation_littleChad(chad)
         end
     end
 end
-
+--[[
 -- BOMB BAG
 function sewnFamiliars:upBombBag(bombBag)
     local fData = bombBag:GetData()
@@ -1938,17 +1940,18 @@ function sewnFamiliars:custom_animation_sackOfPennies(sackOfPennies)
         end
     end
 end
+--]]
 
 -- THE RELIC
 function sewnFamiliars:upTheRelic(theRelic)
     local fData = theRelic:GetData()
-    sewnFamiliars:customCleanAward(theRelic, sewnFamiliars.custom_cleanAward_theRelic)
+    sewnFamiliars:customAnimation(theRelic, sewnFamiliars.custom_animation_theRelic, ANIMATION_NAMES.SPAWN)
     if sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:customAnimation(theRelic, sewnFamiliars.custom_animation_theRelic, ANIMATION_NAMES.SPAWN)
+        sewnFamiliars:customCleanAward(theRelic, sewnFamiliars.custom_cleanAward_theRelic)
     end
 end
 function sewnFamiliars:custom_cleanAward_theRelic(theRelic)
-    if theRelic.RoomClearCount % 3 == 0 and theRelic.Player then
+    if theRelic.RoomClearCount % 4 == 0 and theRelic.Player then
         if not theRelic.Player:HasFullHearts() then
             local heartEffect = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HEART, 0, theRelic.Position-Vector(0, 50), v0, nil)
             theRelic.Player:AddHearts(1)
@@ -1959,10 +1962,22 @@ function sewnFamiliars:custom_animation_theRelic(theRelic)
     if theRelic:GetSprite():GetFrame() == 0 then
         local roll = sewingMachineMod.rng:RandomInt(100)
         local pos = sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
-        if roll < 33 then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, v0, theRelic)
-        elseif roll < 50 then
+
+        local chanceSoulHeart = 8
+        local chanceHalfSoulHeart = 32
+        local chanceEternalHeart = 0
+
+        if sewingMachineMod:isUltra(theRelic) then
+            chanceSoulHeart = 13
+            chanceHalfSoulHeart = 25
+            chanceEternalHeart = 7
+        end
+        if roll < chanceSoulHeart then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, pos, v0, theRelic)
+        elseif roll < chanceSoulHeart + chanceHalfSoulHeart then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, pos, v0, theRelic)
+        elseif roll < chanceSoulHeart + chanceHalfSoulHeart + chanceEternalHeart then
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, pos, v0, theRelic)
         end
     end
 end
