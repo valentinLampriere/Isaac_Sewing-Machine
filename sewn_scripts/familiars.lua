@@ -1060,16 +1060,16 @@ end
 function sewnFamiliars:upPapaFly(papaFly)
     local fData = papaFly:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:customCollision(papaFly, sewnFamiliars.custom_collision_papaFly)
+        sewnFamiliars:customUpdate(papaFly, sewnFamiliars.custom_update_papaFly)
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customAnimation(papaFly, sewnFamiliars.custom_animation_papaFly, "Attack")
         end
     end
 end
-function sewnFamiliars:custom_collision_papaFly(papaFly, collider)
+function sewnFamiliars:custom_update_papaFly(papaFly)
     local fData = papaFly:GetData()
-    if collider.Type == EntityType.ENTITY_PROJECTILE then
-        local roll = rng:RandomInt(101)
+    for _, bullet in pairs(Isaac.FindInRadius(papaFly.Position, papaFly.Size, EntityPartition.BULLET)) do
+        local roll = sewingMachineMod.rng:RandomInt(100)
         local chance = 20
         if sewingMachineMod:isUltra(fData) then
             chance = 33
@@ -1086,7 +1086,7 @@ function sewnFamiliars:custom_collision_papaFly(papaFly, collider)
             end
         end
         
-        collider:Die()
+        bullet:Die()
     end
 end
 function sewnFamiliars:custom_animation_papaFly(papaFly)
