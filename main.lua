@@ -289,7 +289,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.RELIC] = {98, sewingMachineMod.sewnFamiliars.upTheRelic},
     [FamiliarVariant.LITTLE_GISH] = {99, sewingMachineMod.sewnFamiliars.upLittleGish},
     [FamiliarVariant.LITTLE_STEVEN] = {100, sewingMachineMod.sewnFamiliars.upLittleSteven},
-    --[FamiliarVariant.GUARDIAN_ANGEL] = {112, sewingMachineMod.sewnFamiliars.upGuardianAngel},
+    [FamiliarVariant.GUARDIAN_ANGEL] = {112, sewingMachineMod.sewnFamiliars.upGuardianAngel},
     [FamiliarVariant.DEMON_BABY] = {113, sewingMachineMod.sewnFamiliars.upDemonBaby},
     [FamiliarVariant.FOREVER_ALONE] = {128, sewingMachineMod.sewnFamiliars.upFlies},
     --[FamiliarVariant.BOMB_BAG] = {131, sewingMachineMod.sewnFamiliars.upBombBag},
@@ -318,7 +318,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.SAMSONS_CHAINS] = {321, sewingMachineMod.sewnFamiliars.upSamsonsChains},
     [FamiliarVariant.MONGO_BABY] = {322, sewingMachineMod.sewnFamiliars.upMongoBaby},
     [FamiliarVariant.FATES_REWARD] = {361, sewingMachineMod.sewnFamiliars.upFatesReward},
-    --[FamiliarVariant.SWORN_PROTECTOR] = {363, sewingMachineMod.sewnFamiliars.upSwornProtector},
+    [FamiliarVariant.SWORN_PROTECTOR] = {363, sewingMachineMod.sewnFamiliars.upSwornProtector},
     [FamiliarVariant.FRIEND_ZONE] = {364, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.LOST_FLY] = {365, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.LIL_GURDY] = {384, sewingMachineMod.sewnFamiliars.upLilGurdy},
@@ -1524,11 +1524,13 @@ function sewingMachineMod:tearUpdate(tear)
 
     -- If the tear hit the ground
     if fData.Sewn_custom_tearFall ~= nil then
-        if tear.Height > -5 and tData.Sewn_isTearFall == nil then
+        tData.Sewn_tearFrame = tData.Sewn_tearFrame or -1
+
+        if tear.Height >= -5 and tData.Sewn_tearFrame < tear.FrameCount + 1  then
             for i, f in ipairs(fData.Sewn_custom_tearFall) do
                 f(_, familiar, tear)
             end
-            tData.Sewn_isTearFall = true
+            tData.Sewn_tearFrame = tear.FrameCount
         end
     end
 end

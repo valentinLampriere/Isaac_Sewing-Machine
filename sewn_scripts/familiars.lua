@@ -1147,7 +1147,7 @@ function sewnFamiliars:custom_collision_sacrificialDagger(sacrificialDagger, col
 end
 
 -- GUARDIAN ANGEL
---[[function sewnFamiliars:upGuardianAngel(guardianAngel)
+function sewnFamiliars:upGuardianAngel(guardianAngel)
     local fData = guardianAngel:GetData()
     sewingMachineMod:addCrownOffset(guardianAngel, Vector(0, 10))
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -1175,7 +1175,7 @@ function sewnFamiliars:custom_update_guardianAngel(guardianAngel)
             tear.CollisionDamage = tear.CollisionDamage + (tear.CollisionDamage / 5) * fData.Sewn_guardianAngel_state
             fData.Sewn_guardianAngel_collideTear[GetPtrHash(tear)] = true
             
-            local cOffset = 25 * fData.Sewn_guardianAngel_state
+            local cOffset = 0.25 * fData.Sewn_guardianAngel_state
             tear:SetColor(Color(1,1,1,1,cOffset,cOffset,cOffset), -1, 1, false, false)
         end
     end
@@ -1193,8 +1193,8 @@ function sewnFamiliars:custom_collision_guardianAngel(guardianAngel, collider)
                 fData.Sewn_guardianAngel_state = 0
             end
             
-            local rOffset = 50 * fData.Sewn_guardianAngel_state
-            local gOffset = 10  * fData.Sewn_guardianAngel_state
+            local rOffset = 0.50 * fData.Sewn_guardianAngel_state
+            local gOffset = 0.10  * fData.Sewn_guardianAngel_state
             guardianAngel:SetColor(Color(1,1,1,1,rOffset,gOffset,0), -1, 1, false, false)
         end
         if sewingMachineMod:isUltra(fData) then
@@ -1260,13 +1260,13 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
                 fData.Sewn_swornProtector_laserState = 0
             end
             
-            local rOffset = 5 * fData.Sewn_swornProtector_laserState
-            local bOffset = 15  * fData.Sewn_swornProtector_laserState
+            local rOffset = 0.5 * fData.Sewn_swornProtector_laserState
+            local bOffset = 0.15  * fData.Sewn_swornProtector_laserState
             swornProtector:SetColor(Color(1,1,1,1,rOffset,0,bOffset), -1, 1, false, false)
         end
     end
 end
---]]
+
 
 -- BLOODSHOT EYE
 function sewnFamiliars:upBloodshotEye(bloodshotEye)
@@ -3575,16 +3575,14 @@ end
 -- DEPRESSION
 function sewnFamiliars:upDepression(depression)
     local fData = depression:GetData()
+    sewingMachineMod:addCrownOffset(depression, Vector(0, 5))
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         fData.Sewn_depression_collidersProjectile = {}
-        fData.Sewn_depression_counterProjectile = 0
-        fData.Sewn_depression_requiredAmountProjectile = 2
         sewnFamiliars:customNewRoom(depression, sewnFamiliars.custom_newRoom_depression)
         sewnFamiliars:customCollision(depression, sewnFamiliars.custom_collision_depression)
         sewnFamiliars:customTearFall(depression, sewnFamiliars.custom_tearFall_depression)
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(depression, sewnFamiliars.custom_update_depression)
-            fData.Sewn_depression_requiredAmountProjectile = 1
         end
     end
 end
@@ -3610,13 +3608,10 @@ function sewnFamiliars:custom_collision_depression(depression, collider)
     local fData = depression:GetData()
     if collider.Type == EntityType.ENTITY_PROJECTILE then
         if fData.Sewn_depression_collidersProjectile[GetPtrHash(collider)] == nil then
-            fData.Sewn_depression_counterProjectile = fData.Sewn_depression_counterProjectile + 1
 
-            if fData.Sewn_depression_counterProjectile >= fData.Sewn_depression_requiredAmountProjectile then
-                sewnFamiliars:custom_depression_fireTears(depression)
-                collider:Die()
-                fData.Sewn_depression_counterProjectile = 0
-            end
+            sewnFamiliars:custom_depression_fireTears(depression)
+            collider:Die()
+
             fData.Sewn_depression_collidersProjectile[GetPtrHash(collider)] = true
         end
     end
@@ -3631,6 +3626,7 @@ function sewnFamiliars:custom_tearFall_depression(depression, tear)
     sewingMachineMod:delayFunction(sewnFamiliars.custom_depression_showCreepAfterOneFrame, 1, creep)
 end
 function sewnFamiliars:custom_depression_fireTears(depression)
+    local fData = depression:GetData()
     local force = 3
 
     for i = 0, 2, 2 do
@@ -3641,6 +3637,11 @@ function sewnFamiliars:custom_depression_fireTears(depression)
             tear.Velocity = velocity
             tear.FallingSpeed = -8
             tear.FallingAcceleration = 0.8
+            if sewingMachineMod:isUltra(fData) then
+                tear.CollisionDamage = 7.5
+                tear.FallingSpeed = -2
+                tear.TearFlags = tear.TearFlags | TearFlags.TEAR_HYDROBOUNCE
+            end
         end
     end
 
