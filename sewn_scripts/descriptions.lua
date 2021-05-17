@@ -381,12 +381,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "The halo is larger and decrease a bit more fire delay#Reduce also fire rate of familiars in the halo",
         ConvertRGBToIsaac({127, 242, 255})
     )
-    --[[sewingMachineMod:AddDescriptionsForFamiliar(
+    sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HOLY_WATER,
         "Can be used an unlimited times each rooms",
         "Give a holy Mantle {{Collectible".. CollectibleType.COLLECTIBLE_HOLY_MANTLE .."}} effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim {{Seraphim}}, increase chances to get Holy Mantle effect",
         ConvertRGBToIsaac({93, 134, 182})
-    )--]]
+    )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DRY_BABY,
         "{{ArrowUp}} Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",

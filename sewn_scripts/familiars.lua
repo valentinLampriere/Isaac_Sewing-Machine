@@ -2940,71 +2940,107 @@ function sewnFamiliars:custom_update_deadCat(deadCat)
 end
 
 -- HOLY WATER
---[[function sewnFamiliars:upHolyWater(holyWater)
+function sewnFamiliars:upHolyWater(holyWater)
     local fData = holyWater:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customUpdate(holyWater, sewnFamiliars.custom_update_holyWater)
-        sewnFamiliars:customPlayerTakeDamage(holyWater, sewnFamiliars.custom_playerTakeDamage_holyWater)
+        
         if sewingMachineMod:isUltra(fData) then
-            fData.Sewn_holyWater_hasHolyMantle = holyWater.Player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE)
-            sewnFamiliars:customNewRoom(holyWater, sewnFamiliars.custom_newRoom_holyWater)
+            sewnFamiliars:customNewRoom(holyWater, sewnFamiliars.custom_newRoom_pointyRib)
+            fData.Sewn_holyWater_colliders = {}
+            fData.Sewn_holyWater_amountCreep = 0
         end
     end
-end
-function sewnFamiliars:custom_update_holyWater(holyWater)
-    local fData = holyWater:GetData()
-
-    -- Prevent Holy Water from cracking
-    local sprite = holyWater:GetSprite()
-    sprite:Play("Idle", true)
-    holyWater:FollowParent()
-
-    if sewingMachineMod:isUltra(fData) then
-        -- If the player lose his holy mantle effect -> spawn water
-        if fData.Sewn_holyWater_hasHolyMantle == true and holyWater.Player:GetEffects():HasCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE) == false then
-            sewnFamiliars:custom_holyWater_spawnWater(holyWater)
-            fData.Sewn_holyWater_hasHolyMantle = false
-        end
-    end
-
-end
-function sewnFamiliars:custom_playerTakeDamage_holyWater(holyWater, damageSource)
-    sewnFamiliars:custom_holyWater_spawnWater(holyWater)
 end
 
 function sewnFamiliars:custom_newRoom_holyWater(holyWater, room)
     local fData = holyWater:GetData()
+    fData.Sewn_holyWater_colliders = {}
+end
 
-    fData.Sewn_holyWater_hasHolyMantle = false
+function sewnFamiliars:custom_update_holyWater(holyWater)
+    local fData = holyWater:GetData()
+
+    -- If it is broken
+    if holyWater.State > 0 then
+        if fData.Sewn_holyWater_isBroken ~= true then
+            sewingMachineMod:hideCrown(holyWater, true)
+            fData.Sewn_holyWater_isBroken = true
+        end
+        fData.Sewn_holyWater_shouldBreak = false
+        return
+    elseif fData.Sewn_holyWater_isBroken ~= false then
+        sewingMachineMod:hideCrown(holyWater, false)
+        fData.Sewn_holyWater_isBroken = false
+    end
+
     
-    -- if the player has Holy Mantle
-    if holyWater.Player:HasCollectible(CollectibleType.COLLECTIBLE_HOLY_MANTLE) then
-        fData.Sewn_holyWater_hasHolyMantle = true
-    else
-        local chance = 25
-        local roll = sewingMachineMod.rng:RandomInt(100)
+    if holyWater.FireCooldown == 0 then
+        fData.Sewn_holyWater_amountCreep = 0
+    end
 
-        if holyWater.Player:HasPlayerForm(PlayerForm.PLAYERFORM_ANGEL) then
-            chance = chance + 15
+    -- If it is thrown
+    if holyWater.FireCooldown == -1 then
+        local roll = math.random(100)
+        if roll < 25 then
+            sewnFamiliars:custom_holyWater_spawnWater(holyWater)
         end
 
-        if sewingMachineMod.currentRoom:IsFirstVisit() and roll < chance then
-            holyWater.Player:GetEffects():AddCollectibleEffect(CollectibleType.COLLECTIBLE_HOLY_MANTLE, true)
-            fData.Sewn_holyWater_hasHolyMantle = true
+        if sewingMachineMod:isUltra(fData) then
+            if fData.Sewn_holyWater_shouldBreak ~= true then
+                holyWater.EntityCollisionClass = EntityCollisionClass.ENTCOLL_NONE
+            end
+
+            for i, npc in pairs(Isaac.FindInRadius(holyWater.Position, holyWater.Size, EntityPartition.ENEMY)) do
+                if (npc:IsVulnerableEnemy() and (fData.Sewn_holyWater_colliders[GetPtrHash(npc)] == nil or fData.Sewn_holyWater_colliders[GetPtrHash(npc)] + 90 < npc.FrameCount)) then
+                    
+                    local roll = math.random(100)
+
+                    npc:TakeDamage(7, 0, EntityRef(holyWater), 1)
+                    
+                    if fData.Sewn_holyWater_amountCreep == 0 then
+                        roll = 100
+                    else
+                        roll = roll - 15 * fData.Sewn_holyWater_amountCreep
+                    end
+
+                    if roll > 50 then
+                        local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, v0, holyWater):ToEffect()
+                        creep.Visible = false
+                        sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
+                        fData.Sewn_holyWater_colliders[GetPtrHash(npc)] = npc.FrameCount
+
+                        fData.Sewn_holyWater_amountCreep = fData.Sewn_holyWater_amountCreep + 1
+
+                        
+                        local rollBreak = math.random(100)
+                        if rollBreak < 5 + fData.Sewn_holyWater_amountCreep * 20 then
+                            fData.Sewn_holyWater_shouldBreak = true
+                        end
+                    end
+                end
+            end
         end
+
     end
 end
+
 function sewnFamiliars:custom_holyWater_setCreepVisible(creep)
     creep.Visible = true
 end
 function sewnFamiliars:custom_holyWater_spawnWater(holyWater)
-    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER, 0, holyWater.Position, v0, holyWater):ToEffect()
+    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, 0, holyWater.Position, v0, holyWater):ToEffect()
+    
+    creep.CollisionDamage = 1.2
+
+    creep.Size = creep.Size * 0.75
+    creep.Scale = creep.Scale * 0.75
+
     
     -- Prevent from a visual bug
     creep.Visible = false
     sewingMachineMod:delayFunction(sewnFamiliars.custom_holyWater_setCreepVisible, 1, creep)
 end
---]]
 
 -- LIL SPEWER
 local lil_spewer_state = {
