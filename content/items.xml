@@ -1,10 +1,10 @@
 <items gfxroot="gfx/items/" version="1">
-	<active description="Temporary super familiar" gfx="sewingBox.png" name="Sewing Box" maxcharges="4" />
-	<familiar description="Auto familiar upgrader" gfx="dollsTaintedHead.png" name="Doll's Tainted Head" />
-	<familiar description="Auto familiar upgrader" gfx="dollsPureBody.png" name="Doll's Pure Body" />
+	<active description="Temporary super familiar" quality="2" gfx="sewingBox.png" name="Sewing Box" maxcharges="3" tags="offensive"/>
+	<familiar description="Auto familiar upgrader" quality="3" gfx="dollsTaintedHead.png" name="Doll's Tainted Head" tags="offensive uniquefamiliar"/>
+	<familiar description="Auto familiar upgrader" quality="3" gfx="dollsPureBody.png" name="Doll's Pure Body" tags="offensive uniquefamiliar"/>
 	<trinket cache="" description="Safety crowns" gfx="thimble.png" name="Thimble"/>
 	<trinket cache="" description="Cursed crowns ?" gfx="crackedThimble.png" name="Cracked Thimble"/>
 	<trinket cache="" description="More sewing machines !" gfx="lostButton.png" name="Lost Button"/>
-	<trinket cache="" description="Unexpected machine" gfx="contrastedButton.png" name="Contrasted Button"/>
+	<trinket cache="" description="Unexpected machine" gfx="contrastedButton.png" name="Contrasted Button" tags="nogreed"/>
 	<trinket cache="" description="Choose the good one" gfx="pinCushion.png" name="Pin Cushion"/>
 </items>
