@@ -284,13 +284,13 @@ function sewnFamiliars:shootTearsCircular(familiar, amountTears, tearVariant, po
     local player = familiar.Player
     tearVariant = tearVariant or TearVariant.BLOOD
     position = position or familiar.Position
-    velocity = velocity or Vector(5, 5)
+    velocity = velocity or 5
     if notFireFromFamiliar == true then
         spawnerTear = nil
     end
     local tearOffset = sewingMachineMod.rng:RandomInt(360)
     for i = 1, amountTears do
-        local velo = Vector(5, 5)
+        local velo = Vector(velocity, velocity)
         velo = velo:Rotated((360 / amountTears) * i + tearOffset)
         velo = velo:Rotated(tearOffset)
         local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, tearVariant, 0, position, velo, spawnerTear):ToTear()
@@ -2343,14 +2343,15 @@ end
 function sewnFamiliars:upIsaacsHeart(isaacsHeart)
     local fData = isaacsHeart:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        isaacsHeart.SizeMulti = Vector(0.8, 0.8)
-        --isaacsHeart.Size = 0.8
-        if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:customPlayerTakeDamage(isaacsHeart, sewnFamiliars.custom_playerTakeDamage_isaacsHeart_super)
+        if REPENTANCE then
+            sewnFamiliars:customUpdate(isaacsHeart, sewnFamiliars.custom_update_isaacsHeart)
         else
-            sewnFamiliars:customPlayerTakeDamage(isaacsHeart, sewnFamiliars.custom_playerTakeDamage_isaacsHeart_ultra)
+            if sewingMachineMod:isSuper(fData) then
+                sewnFamiliars:customPlayerTakeDamage(isaacsHeart, sewnFamiliars.custom_playerTakeDamage_isaacsHeart_super)
+            else
+                sewnFamiliars:customPlayerTakeDamage(isaacsHeart, sewnFamiliars.custom_playerTakeDamage_isaacsHeart_ultra)
+            end
         end
-        sewnFamiliars:customUpdate(isaacsHeart, sewnFamiliars.custom_update_isaacsHeart)
     end
 end
 function sewnFamiliars:custom_playerTakeDamage_isaacsHeart_super(isaacsHeart, source, amount, flag)
@@ -2368,14 +2369,39 @@ function sewnFamiliars:custom_playerTakeDamage_isaacsHeart_ultra(isaacsHeart, so
         velo = velo:Rotated((360 / 8) * i)
         isaacsHeart.Player:FireTear(isaacsHeart.Position, velo)
     end
-
     if rollPrevent < 20 then
         return false
     end
 end
 function sewnFamiliars:custom_update_isaacsHeart(isaacsHeart)
-    sewnFamiliars:familiarFollowTrail(isaacsHeart, isaacsHeart.Player.Position, true)
+    local fData = isaacsHeart:GetData()
+    if isaacsHeart.Player:GetShootingInput():Length() == 0 then
+        sewnFamiliars:familiarFollowTrail(isaacsHeart, isaacsHeart.Player.Position, true)
+    end
+    if isaacsHeart.FireCooldown > 0 and isaacsHeart.FireCooldown < 30 then
+        if isaacsHeart.FireCooldown % 4 == 0 then
+            isaacsHeart.FireCooldown = isaacsHeart.FireCooldown + 1
+        end
+    end
+
+    if sewingMachineMod:isUltra(fData) and isaacsHeart.FireCooldown >= 30 then
+        local npc_bullet = Isaac.FindInRadius(isaacsHeart.Position, 30, EntityPartition.ENEMY | EntityPartition.BULLET)
+        local player = isaacsHeart.Player
+        if npc_bullet ~= nil and #npc_bullet > 0 then
+            sewnFamiliars:shootTearsCircular(isaacsHeart, 8, TearVariant.BLOOD, nil, 7, 8)
+            
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, isaacsHeart.Position, Vector.Zero, isaacsHeart):ToEffect()
+            creep.Timeout = -1
+
+            game:ButterBeanFart (isaacsHeart.Position, 100, isaacsHeart.Player, false)
+            
+            isaacsHeart.FireCooldown = -35
+
+            isaacsHeart:GetSprite():Play("ChargeAttack", false)
+        end
+    end
 end
+
 
 -- LEECH
 function sewnFamiliars:upLeech(leech)

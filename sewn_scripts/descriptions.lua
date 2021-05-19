@@ -411,12 +411,21 @@ function sewingMachineMod:InitFamiliarDescription()
         "Deal damage eaquals to 0.5 x Isaac's damage (with a minimum of 1)",
         ConvertRGBToIsaac({255, 255, 255})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.ISAACS_HEART,
-        "Has 20% chance to prevent damage when it is hit by a projectile#Move closer to the player",
-        "Has 20% chance to prevent damage from any sources#When player is hit, fire 8 tears in all directions",
-        ConvertRGBToIsaac({179, 0, 0})
-    )
+    if REPENTANCE then
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.ISAACS_HEART,
+            "Move closer to the player when the player isn't firing#Decreased charge time",
+            "When fully charged, if an enemy or projectile gets too close it automatically activates it's fully charged effect#When this activates, it will go on a breif cooldown before being able to charge again",
+            ConvertRGBToIsaac({179, 0, 0})
+        )
+    else
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.ISAACS_HEART,
+            "Has 20% chance to prevent damage when it is hit by a projectile#Move closer to the player",
+            "Has 20% chance to prevent damage from any sources#When player is hit, fire 8 tears in all directions",
+            ConvertRGBToIsaac({179, 0, 0})
+        )
+    end
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.MILK,
         "Milk! puddle deals damages",
