@@ -261,6 +261,7 @@ sewingMachineMod.currentLevel = nil
 sewingMachineMod.moddedFamiliar = {
     MARSHMALLOW = Isaac.GetEntityVariantByName("Marshmallow")
 }
+sewingMachineMod.permanentPlayerUpdateCall = {}
 
 -- Import files
 local function __require(file)
@@ -281,7 +282,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.BROTHER_BOBBY] = {8, sewingMachineMod.sewnFamiliars.upBrotherBobby},
     [FamiliarVariant.DISTANT_ADMIRATION] = {57, sewingMachineMod.sewnFamiliars.upFlies},
     [FamiliarVariant.SISTER_MAGGY] = {67, sewingMachineMod.sewnFamiliars.upSisterMaggy},
-    --[FamiliarVariant.DEAD_CAT] = {81, sewingMachineMod.sewnFamiliars.upDeadCat},
+    [FamiliarVariant.DEAD_CAT] = {81, sewingMachineMod.sewnFamiliars.upDeadCat},
     [FamiliarVariant.LITTLE_CHUBBY] = {88, sewingMachineMod.sewnFamiliars.upLittleChubby},
     --[FamiliarVariant.SACK_OF_PENNIES] = {94, sewingMachineMod.sewnFamiliars.upSackOfPennies},
     [FamiliarVariant.ROBO_BABY] = {95, sewingMachineMod.sewnFamiliars.upRoboBaby},
@@ -913,6 +914,10 @@ function sewingMachineMod:onPlayerUpdate(player)
         pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = nil
     end
 
+    -- Run permanent player update calls
+    for i, f in ipairs(sewingMachineMod.permanentPlayerUpdateCall) do
+        f(_, player)
+    end
 end
 ---------------------------------------
 -- MC_ENTITY_TAKE_DMG - EntityPlayer --
@@ -1673,6 +1678,8 @@ end
 function sewingMachineMod:useStitchingCard(card)
     sewingMachineMod:rerollFamilarsCrowns(GetPlayerUsingItem())
 end
+
+
 ---------------------------
 -- MC_POST_PICKUP_UPDATE --
 ---------------------------

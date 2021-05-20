@@ -357,12 +357,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Better chance to spawn additional soul heart {{SoulHeart}}#Chance to spawn an Eternal Heart {{EthernalHeart}}#Heal the player every 4 rooms",
         ConvertRGBToIsaac({59, 107, 203})
     )
-    --[[sewingMachineMod:AddDescriptionsForFamiliar(
+    sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DEAD_CAT,
         "When player dies, it respawn with an additional soul heart",
         "When player dies, it respawn with an additional soul heart and an additional heart container",
         ConvertRGBToIsaac({67, 67, 67})
-    )--]]
+    )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LITTLE_CHUBBY,
         "Reduce cooldown, can be thrown quickly",

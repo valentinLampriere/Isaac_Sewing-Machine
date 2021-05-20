@@ -238,6 +238,11 @@ function sewnFamiliars:customEnemyDies(familiar, functionName)
     table.insert(fData.Sewn_custom_enemyDies, functionName)
 end
 
+-- PERMANENT PLAYER UPDATE
+function sewnFamiliars:customPermanentPlayerUpdateCall(functionName)
+    table.insert(sewingMachineMod.permanentPlayerUpdateCall, functionName)
+end
+
 -- Remove custom familiar datas
 function sewingMachineMod:resetFamiliarData(familiar, keepValues)
     local fData = familiar:GetData()
@@ -2933,14 +2938,100 @@ function sewnFamiliars:upDeadCat(deadCat)
     local fData = deadCat:GetData()
     local player = deadCat.Player
     local pData = player:GetData()
-    if pData.Sewn_deadCat_counter == nil then
-        pData.Sewn_deadCat_counter = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
-    end
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat)
+
+    if REPENTANCE then
+        if pData.Sewn_deadCat_extraLives == nil then
+            pData.Sewn_deadCat_extraLives = player:GetExtraLives()
+        end
+        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat_repentance)
+        end
+    else -- AFTERBIRTH +
+        if pData.Sewn_deadCat_counter == nil then
+            pData.Sewn_deadCat_counter = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_DEAD_CAT)
+        end
+        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customUpdate(deadCat, sewnFamiliars.custom_update_deadCat_afterbirthplus)
+        end
     end
 end
-function sewnFamiliars:custom_update_deadCat(deadCat)
+
+function sewnFamiliars:permanentPlayerUpdate_deadCat(player)
+    local pData = player:GetData()
+    local playerType = player:GetPlayerType()
+    
+    local extraLives = player:GetExtraLives()
+    local deadCats = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.DEAD_CAT, -1, false, true)
+    local deadCatNum = 0
+    local deadCatsSuper = 0
+    local deadCatsUltra = 0
+
+    for _, d in pairs(deadCats) do
+        local d_fData = d:GetData()
+
+        if sewingMachineMod:isSuper(d_fData) then
+            deadCatsSuper = deadCatsSuper + 1
+        elseif sewingMachineMod:isUltra(d_fData) then
+            deadCatsUltra = deadCatsUltra + 1
+        end
+        deadCatNum = deadCatNum + 1
+    end
+
+    if pData.Sewn_deadCat_playerType == PlayerType.PLAYER_LAZARUS and playerType == PlayerType.PLAYER_LAZARUS2 then
+        pData.Sewn_deadCat_lazarusRespawnFrame = player.FrameCount
+    end
+
+    if pData.Sewn_deadCat_extraLives == extraLives + 1 then
+        if pData.Sewn_deadCat_deadCatNum > deadCatNum then
+            if pData.Sewn_deadCat_deadCats_super > deadCatsSuper then
+                sewnFamiliars:custom_deadCat_respawn(false, player)
+            end
+            if pData.Sewn_deadCat_deadCats_ultra > deadCatsUltra then
+                sewnFamiliars:custom_deadCat_respawn(true, player)
+            end
+        end
+    end
+
+    pData.Sewn_deadCat_playerType = playerType
+    pData.Sewn_deadCat_extraLives = extraLives
+    pData.Sewn_deadCat_deadCatNum = deadCatNum
+    pData.Sewn_deadCat_deadCats_super = deadCatsSuper
+    pData.Sewn_deadCat_deadCats_ultra = deadCatsUltra
+end
+function sewnFamiliars:custom_deadCat_respawn(isUltra, player)
+    if isUltra == false then
+        player:AddSoulHearts(2)
+    else
+        player:AddSoulHearts(2)
+        player:AddMaxHearts(2, true)
+        player:AddHearts(2)
+    end
+end
+function sewnFamiliars:custom_update_deadCat_repentance(deadCat)
+    local fData = deadCat:GetData()
+    local player = deadCat.Player
+
+    local pData = player:GetData()
+    local extraLives = player:GetExtraLives()
+
+    if fData.Sewn_deadCat_extraLives == extraLives + 1 then
+        if fData.Sewn_deadCat_hasOneUp == true then
+            -- Respawn with 1 up
+        elseif pData.Sewn_deadCat_lazarusRespawnFrame == nil or pData.Sewn_deadCat_lazarusRespawnFrame < player.FrameCount then
+            if sewingMachineMod:isSuper(fData) then
+                sewnFamiliars:custom_deadCat_respawn(false, player)
+            else
+                sewnFamiliars:custom_deadCat_respawn(true, player)
+            end
+        end
+    end
+    fData.Sewn_deadCat_extraLives = extraLives
+    fData.Sewn_deadCat_hasOneUp = player:HasCollectible(CollectibleType.COLLECTIBLE_1UP)
+end
+sewnFamiliars:customPermanentPlayerUpdateCall(sewnFamiliars.permanentPlayerUpdate_deadCat)
+
+
+function sewnFamiliars:custom_update_deadCat_afterbirthplus(deadCat)
     local fData = deadCat:GetData()
     local player = deadCat.Player
     local pData = player:GetData()
