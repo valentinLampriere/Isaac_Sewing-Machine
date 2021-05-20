@@ -383,8 +383,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HOLY_WATER,
-        "Can be used an unlimited times each rooms",
-        "Give a holy Mantle {{Collectible".. CollectibleType.COLLECTIBLE_HOLY_MANTLE .."}} effect in some rooms#Spawn the Holy Water creep when losing the Holy Mantle effect#If the player is Seraphim {{Seraphim}}, increase chances to get Holy Mantle effect",
+        "Spawn creep when thrown",
+        "Travel through enemies, allowing it to spawn several puddle.",
         ConvertRGBToIsaac({93, 134, 182})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
