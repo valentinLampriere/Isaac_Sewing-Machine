@@ -2,7 +2,7 @@ sewingMachineMod.sewnFamiliars = {}
 sewnFamiliars = sewingMachineMod.sewnFamiliars
 
 require("sewn_scripts.embeddablecallbackhack")
-require("sewn_scripts.apioverride")
+require("sewn_scripts.apioverride2")
 
 local game = Game()
 local v0 = Vector(0,0)
