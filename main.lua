@@ -951,6 +951,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
     end
 
     if cacheFlag == CacheFlag.CACHE_FAMILIARS then
+
         -- Remove familiars which are supposed to be in the machine
         if pData.Sewn_familiarsInMachine ~= nil then
             for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
@@ -1481,6 +1482,16 @@ function sewingMachineMod:onNewFloor()
     if roll < 20 then
         sewingMachine_shouldAppear_shop = true
     end
+
+    for i = 1, game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        local pData = player:GetData()
+        if pData.Sewn_familiarsInMachine  ~= nil then
+            pData.Sewn_familiarsInMachine = nil
+            player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+            player:EvaluateItems()
+        end
+    end
 end
 
 
@@ -1747,9 +1758,10 @@ function sewingMachineMod:ManageMachineDestuction(machine)
     sewingMachineMod.sewingMachinesData[newMachine.InitSeed] = mData
     for i = 1, game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
-        if player:GetData().Sewn_familiarsInMachine  ~= nil then
-            player:GetData().Sewn_familiarsInMachine[newMachine.InitSeed] = player:GetData().Sewn_familiarsInMachine[machine.InitSeed]
-            player:GetData().Sewn_familiarsInMachine[machine.InitSeed] = nil
+        local pData = player:GetData()
+        if pData.Sewn_familiarsInMachine  ~= nil then
+            pData.Sewn_familiarsInMachine[newMachine.InitSeed] = pData.Sewn_familiarsInMachine[machine.InitSeed]
+            pData.Sewn_familiarsInMachine[machine.InitSeed] = nil
         end
     end
     sewingMachineMod.sewingMachinesData[machine.InitSeed] = nil
