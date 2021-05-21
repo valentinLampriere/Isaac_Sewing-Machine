@@ -3,7 +3,11 @@
     <name>Sewing machine</name>
     <directory>sewing machine</directory>
     <id>2145452717</id>
-    <description>[h2]Pre-repentance update[/h2]
+    <description>[h1]Repentance update is coming ![/h1]
+
+Check the last changes to see the Repentance update 0.1 !
+
+[h2]Pre-Repentance update[/h2]
 
 New familiars upgrades, new cards, fix lots of bugs and better mod compatibility (including EID, Encyclopedia and Syringes!)
 
@@ -138,8 +142,10 @@ Special Thanks to
 --------------------------------
 
 Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
-Discord : valentinL#3711</description>
-    <version>1.16</version>
+Discord : valentinL#3711
+
+Now on Discord : https://discord.gg/zKavH4TX</description>
+    <version>1.17</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>

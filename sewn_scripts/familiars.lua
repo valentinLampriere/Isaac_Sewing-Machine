@@ -2,8 +2,11 @@ sewingMachineMod.sewnFamiliars = {}
 sewnFamiliars = sewingMachineMod.sewnFamiliars
 
 require("sewn_scripts.embeddablecallbackhack")
-require("sewn_scripts.apioverride2")
-
+if REPENTANCE then
+    require("sewn_scripts.apioverride2")
+else
+    require("sewn_scripts.apioverride")
+end
 local game = Game()
 local v0 = Vector(0,0)
 
@@ -65,7 +68,18 @@ local vanillaFollowers = {
 	[FamiliarVariant.SACK_OF_SACKS] = true,
 	[FamiliarVariant.BUDDY_IN_A_BOX] = true,
 	[FamiliarVariant.LIL_SPEWER] = true,
-	[FamiliarVariant.HALLOWED_GROUND] = true
+	[FamiliarVariant.HALLOWED_GROUND] = true,
+	[FamiliarVariant.BLOOD_OATH] = true,
+	[FamiliarVariant.BOILED_BABY] = true,
+	[FamiliarVariant.FREEZER_BABY] = true,
+	[FamiliarVariant.KNIFE_PIECE_1] = true,
+	[FamiliarVariant.KNIFE_PIECE_2] = true,
+	[FamiliarVariant.PASCHAL_CANDLE] = true,
+	[FamiliarVariant.KNIFE_FULL] = true,
+	[FamiliarVariant.LIL_ABADDON] = true,
+	[FamiliarVariant.LIL_PORTAL] = true,
+	[FamiliarVariant.VANISHING_TWIN] = true,
+
 }
 
 ------------------------
