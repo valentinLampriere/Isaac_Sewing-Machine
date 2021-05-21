@@ -444,6 +444,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Can be thrown in front of the player to deal massive damage",
         ConvertRGBToIsaac({70, 70, 70})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.BOT_FLY,
+        "{{ArrowUp}} Range up#{{ArrowUp}} Shot Speed up#Increase tear size",
+        "{{ArrowUp}} Boosts stats#Gain piercing tears",
+        ConvertRGBToIsaac({110, 110, 110})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

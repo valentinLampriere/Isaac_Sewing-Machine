@@ -78,7 +78,7 @@ local vanillaFollowers = {
 	[FamiliarVariant.KNIFE_FULL] = true,
 	[FamiliarVariant.LIL_ABADDON] = true,
 	[FamiliarVariant.LIL_PORTAL] = true,
-	[FamiliarVariant.VANISHING_TWIN] = true,
+	[FamiliarVariant.VANISHING_TWIN] = true
 
 }
 
@@ -3907,6 +3907,48 @@ function sewnFamiliars:custom_update_samsonsChains(samsonsChains)
     if samsonsChains.Velocity:LengthSquared() < 1 and (samsonsChains.Position - player.Position):LengthSquared() > 110 ^2 then
         samsonsChains.Velocity = (player.Position - samsonsChains.Position):Normalized() * 5
     end
+end
+
+
+-- BOT FLY
+function sewnFamiliars:upBotFly(botFly)
+    local fData = botFly:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(botFly, sewnFamiliars.custom_animation_botFly, "Attack")
+    end
+end
+function sewnFamiliars:custom_animation_botFly(botFly)
+    if botFly:GetSprite():GetFrame() == 4 then
+        for _, tear in pairs(Isaac.FindInRadius(botFly.Position, botFly.Size, EntityPartition.TEAR)) do
+            if (tear.FrameCount == 1) then
+                tear = tear:ToTear()
+                if tear:HasTearFlags(TearFlags.TEAR_SHIELDED) then
+                    sewnFamiliars:custom_botFly_initTear(botFly, tear)
+                end
+            end
+        end
+    end
+end
+function sewnFamiliars:custom_botFly_initTear(botFly, tear)
+    local fData = botFly:GetData()
+
+    local shotSpeedMultiplier = 1.25
+    local sizeMultiplier = 1.2
+    local rangeMultiplier = 2
+    local damage = 3.5
+
+    if sewingMachineMod:isUltra(fData) then
+        sizeMultiplier = 1.35
+        shotSpeedMultiplier = 1.33
+        rangeMultiplier = 2.5
+        tear:AddTearFlags(TearFlags.TEAR_PIERCING)
+    end
+
+    tear.CollisionDamage = tear.CollisionDamage * damage
+    tear.Scale = tear.Scale * sizeMultiplier
+    tear.Velocity = tear.Velocity * shotSpeedMultiplier
+    tear.FallingAcceleration = 0.02 + -0.02 * rangeMultiplier
+    
 end
 
 sewingMachineMod.errFamiliars.Error()

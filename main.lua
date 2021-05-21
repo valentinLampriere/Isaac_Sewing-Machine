@@ -343,7 +343,8 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.SLIPPED_RIB] = {542, sewingMachineMod.sewnFamiliars.upSlippedRib},
     [FamiliarVariant.HALLOWED_GROUND] = {543, sewingMachineMod.sewnFamiliars.upHallowedGround},
     [FamiliarVariant.POINTY_RIB] = {544, sewingMachineMod.sewnFamiliars.upPointyRib},
-    [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
+    [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone},
+    [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly}
 }
 
 __require("sewn_scripts.descriptions")
@@ -1502,7 +1503,7 @@ function sewingMachineMod:tearUpdate(tear)
     local tData = tear:GetData()
     local familiar = tear.Parent
     local fData
-
+    
     -- If tear hasn't been fired from a familiar
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
         return
