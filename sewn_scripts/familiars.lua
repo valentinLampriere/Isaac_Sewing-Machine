@@ -862,24 +862,19 @@ function sewnFamiliars:custom_fireInit_mongoBaby(mongoBaby, tear)
         
         -- If he fire several tears, means he copy Harlequin Baby
         if nbTears > 1 then
-            print("COPY HARLEQUIN")
             fData.Sewn_mongoCopy = FamiliarVariant.HARLEQUIN_BABY
             sewnFamiliars:upHarlequinBaby(mongoBaby)
             sewnFamiliars:setTearRateBonus(mongoBaby, sewnFamiliars:getTearRateBonus(mongoBaby) -10)
         elseif tear.TearFlags & TearFlags.TEAR_GISH == TearFlags.TEAR_GISH then
-            print("COPY GISH")
             fData.Sewn_mongoCopy = FamiliarVariant.LITTLE_GISH
             sewnFamiliars:upLittleGish(mongoBaby)
         elseif tear.TearFlags & TearFlags.TEAR_SPECTRAL == TearFlags.TEAR_SPECTRAL then
-            print("COPY GHOST")
             fData.Sewn_mongoCopy = FamiliarVariant.GHOST_BABY
             sewnFamiliars:upGhostBaby(mongoBaby)
         elseif tear.TearFlags & TearFlags.TEAR_HOMING == TearFlags.TEAR_HOMING then
-            print("COPY STEVEN")
             fData.Sewn_mongoCopy = FamiliarVariant.LITTLE_STEVEN
             sewnFamiliars:upLittleSteven(mongoBaby)
         elseif tear.Color.R > 0.89 and tear.Color.R < 0.91 and tear.Color.G == 0 and tear.Color.B == 0 then
-            print("COPY SISTER MAGGY")
             fData.Sewn_mongoCopy = FamiliarVariant.SISTER_MAGGY
             sewnFamiliars:upSisterMaggy(mongoBaby)
         else
@@ -2450,7 +2445,6 @@ end
 
 function sewnFamiliars:custom_enemyDies_leech(leech, enemy, source)
     if source ~= nil and source.Type == EntityType.ENTITY_EFFECT then
-        print(source.Entity.SpawnerType)
         if source.Entity.SpawnerType == EntityType.ENTITY_FAMILIAR and source.Entity.SpawnerVariant == FamiliarVariant.LEECH then
             sewnFamiliars:custom_killEnemy_leech(leech, enemy)
         end
@@ -3935,7 +3929,6 @@ function sewnFamiliars:custom_botFly_initTear(botFly, tear)
     local shotSpeedMultiplier = 1.25
     local sizeMultiplier = 1.2
     local rangeMultiplier = 2
-    local damage = 3.5
 
     if sewingMachineMod:isUltra(fData) then
         sizeMultiplier = 1.35
@@ -3943,12 +3936,99 @@ function sewnFamiliars:custom_botFly_initTear(botFly, tear)
         rangeMultiplier = 2.5
         tear:AddTearFlags(TearFlags.TEAR_PIERCING)
     end
-
-    tear.CollisionDamage = tear.CollisionDamage * damage
     tear.Scale = tear.Scale * sizeMultiplier
     tear.Velocity = tear.Velocity * shotSpeedMultiplier
     tear.FallingAcceleration = 0.02 + -0.02 * rangeMultiplier
     
 end
+
+-- BLOOD OATH
+function sewnFamiliars:upBloodOath(bloodOath)
+    local fData = bloodOath:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customAnimation(bloodOath, sewnFamiliars.custom_animation_bloodOath, "Stab")
+        sewnFamiliars:customUpdate(bloodOath, sewnFamiliars.custom_update_bloodOath)
+        fData.Sewn_bloodOath_playerRemovedHealth = -1
+        fData.Sewn_bloodOath_creepSpawnFrame = 0
+        fData.Sewn_bloodOath_creepSpawnFrameOffset = 30
+    end
+end
+function sewnFamiliars:custom_animation_bloodOath(bloodOath)
+    local fData = bloodOath:GetData()
+    local sprite = bloodOath:GetSprite()
+    if sprite:GetFrame() < 2 then
+        fData.Sewn_bloodOath_playerRemovedHealth = 0
+    elseif sprite:GetFrame() == 18 then
+        fData.Sewn_bloodOath_playerHpBeforeStab = bloodOath.Player:GetHearts()
+    elseif sprite:GetFrame() == 19 then
+        fData.Sewn_bloodOath_playerRemovedHealth = fData.Sewn_bloodOath_playerHpBeforeStab - bloodOath.Player:GetHearts()
+
+        
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:custom_bloodOath_spawnHearts(bloodOath)
+        end
+    end
+end
+local bloodOath_heartWeight = {
+    3, -- HEART_FULL
+    1, -- HEART_HALF
+    5  -- HEART_DOUBLEPACK
+}
+local bloodOath_heartSubType = {
+    1, -- HEART_FULL
+    2, -- HEART_HALF
+    5  -- HEART_DOUBLEPACK
+}
+function sewnFamiliars:custom_bloodOath_spawnHearts(bloodOath)
+    local fData = bloodOath:GetData()
+    if fData.Sewn_bloodOath_playerRemovedHealth < 1 then return end
+
+    local roll = math.random(3, fData.Sewn_bloodOath_playerRemovedHealth)
+    local heartsRemains = roll
+    
+    while heartsRemains > 0 do
+        local rollHeart = math.random(1, 3)
+
+        if heartsRemains - bloodOath_heartWeight[rollHeart] >= 0 then
+            local velo = Vector(math.random(-5, 5), math.random(-5, 5))
+
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, bloodOath_heartSubType[rollHeart], bloodOath.Position, velo, bloodOath)
+
+            heartsRemains = heartsRemains - bloodOath_heartWeight[rollHeart]
+        end
+    end
+end
+function sewnFamiliars:custom_update_bloodOath(bloodOath)
+    local fData = bloodOath:GetData()
+    if fData.Sewn_bloodOath_playerRemovedHealth > 0 then
+        if fData.Sewn_bloodOath_creepSpawnFrame + fData.Sewn_bloodOath_creepSpawnFrameOffset < bloodOath.FrameCount then
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, bloodOath.Position, Vector.Zero, bloodOath)
+            creep.CollisionDamage = fData.Sewn_bloodOath_playerRemovedHealth * 0.2
+            creep.Size = creep.Size * 0.75
+            creep.SpriteScale = creep.SpriteScale * 0.75
+
+            fData.Sewn_bloodOath_creepSpawnFrame = bloodOath.FrameCount
+            fData.Sewn_bloodOath_creepSpawnFrameOffset = math.random(5, 15)
+        end
+    end
+end
+
+
+-- PASCHAL CANDLE
+function sewnFamiliars:upPaschalCandle(paschalCandle)
+    local fData = paschalCandle:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customPlayerTakeDamage(paschalCandle, sewnFamiliars.custom_playerTakeDamage_paschalCandle)
+    end
+end
+function sewnFamiliars:custom_playerTakeDamage_paschalCandle(paschalCandle, damageSource, damageAmount, damageFlags)
+    for i = 1, 8 do
+        local velo = Vector(5, 5)
+        velo = velo:Rotated((360 / 8) * i)
+        local flame = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.FIRE, 0, paschalCandle.Position, velo, paschalCandle):ToTear()
+        sewnFamiliars:toBabyBenderTear(paschalCandle, flame)
+    end
+end
+
 
 sewingMachineMod.errFamiliars.Error()

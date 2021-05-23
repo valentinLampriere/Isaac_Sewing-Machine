@@ -450,6 +450,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "{{ArrowUp}} Boosts stats#Gain piercing tears",
         ConvertRGBToIsaac({110, 110, 110})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.BLOOD_OATH,
+        "Spawn red creep#The creep deal 0.2 * the amount of half heart removed",
+        "When it stab, it spawns random red hearts",
+        ConvertRGBToIsaac({110, 110, 110})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

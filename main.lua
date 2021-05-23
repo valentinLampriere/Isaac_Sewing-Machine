@@ -344,6 +344,8 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.HALLOWED_GROUND] = {543, sewingMachineMod.sewnFamiliars.upHallowedGround},
     [FamiliarVariant.POINTY_RIB] = {544, sewingMachineMod.sewnFamiliars.upPointyRib},
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone},
+    [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
+    [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
     [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly}
 }
 
@@ -971,6 +973,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             end
             -- Upgrade familiars
             for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                fam = fam:ToFamiliar()
                 local fData = fam:GetData()
                 if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) then
                     fData.Sewn_upgradeState = 1
@@ -997,6 +1000,7 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             end
             -- Upgrade familiars
             for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                fam = fam:ToFamiliar()
                 local fData = fam:GetData()
                 if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) then
                     fData.Sewn_upgradeState = 1
