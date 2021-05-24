@@ -498,7 +498,7 @@ function sewingMachineMod:temporaryUpgradeFamiliar(familiar)
 end
 
 -- Code given by Xalum
-function GetPlayerUsingItem()
+function sewingMachineMod:GetPlayerUsingItem()
     local player = Isaac.GetPlayer(0)
     for i = 1, Game():GetNumPlayers() do
         local p = Isaac.GetPlayer(i - 1)
@@ -509,7 +509,12 @@ function GetPlayerUsingItem()
     end
     return player
 end
-
+-- Code given by AgentCucco
+function sewingMachineMod:tearsUp(firedelay, val)
+    local currentTears = 30 / (firedelay + 1)
+    local newTears = currentTears + val
+    return math.max((30 / newTears) - 1, -0.99)
+end
 
 
 
@@ -1624,7 +1629,7 @@ end
 ------------------------------------------
 function sewingMachineMod:useSewingBox(collectibleType, rng)
     
-    local player = GetPlayerUsingItem()
+    local player = sewingMachineMod:GetPlayerUsingItem()
     
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
@@ -1685,14 +1690,14 @@ end
 -- MC_USE_CARD - Card.CARD_WARRANTY --
 --------------------------------------
 function sewingMachineMod:useWarrantyCard(card)
-    local player = GetPlayerUsingItem()
+    local player = sewingMachineMod:GetPlayerUsingItem()
     sewingMachineMod:spawnMachine(sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
 ---------------------------------------
 -- MC_USE_CARD - Card.CARD_STITCHING --
 ---------------------------------------
 function sewingMachineMod:useStitchingCard(card)
-    sewingMachineMod:rerollFamilarsCrowns(GetPlayerUsingItem())
+    sewingMachineMod:rerollFamilarsCrowns(sewingMachineMod:GetPlayerUsingItem())
 end
 
 
