@@ -456,6 +456,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "When it stab, it spawns random red hearts",
         ConvertRGBToIsaac({110, 110, 110})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.PASCHAL_CANDLE,
+        "???????",
+        "Taking damage only reduces the flame by one room amount",
+        ConvertRGBToIsaac({110, 110, 110})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

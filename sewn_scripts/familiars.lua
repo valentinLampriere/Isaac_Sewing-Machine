@@ -4019,17 +4019,32 @@ function sewnFamiliars:upPaschalCandle(paschalCandle)
     local fData = paschalCandle:GetData()
     sewingMachineMod:addCrownOffset(paschalCandle, Vector(0, 5))
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customUpdate(paschalCandle, sewnFamiliars.custom_update_paschalCandle)
-            sewnFamiliars:customPlayerTakeDamage(paschalCandle, sewnFamiliars.custom_playerTakeDamage_paschalCandle)
+        sewnFamiliars:customPlayerTakeDamage(paschalCandle, sewnFamiliars.custom_playerTakeDamage_paschalCandle)
+
+        
+        fData.Sewn_paschalCandle_vanillaFlame = 1
+        if sewingMachineMod:isSuper(fData) then
+            sewnFamiliars:customUpdate(paschalCandle, sewnFamiliars.custom_update_paschalCandle_super)
+        else
+            sewnFamiliars:customUpdate(paschalCandle, sewnFamiliars.custom_update_paschalCandle_ultra)
             sewnFamiliars:customCache(paschalCandle, sewnFamiliars.custom_cache_paschalCandle)
-            fData.Sewn_paschalCandle_vanillaFlame = 1
-            fData.Sewn_paschalCandle_currentFlame = 1
             fData.Sewn_paschalCandle_currentFlameFrame = 0
+            fData.Sewn_paschalCandle_currentFlame = 1
         end
     end
 end
-function sewnFamiliars:custom_update_paschalCandle(paschalCandle)
+
+function sewnFamiliars:custom_update_paschalCandle_super(paschalCandle)
+    local fData = paschalCandle:GetData()
+    local sprite = paschalCandle:GetSprite()
+    for i = 0, 6 do
+        if sprite:IsPlaying("Idle"..i) then
+            fData.Sewn_paschalCandle_vanillaFlame = i
+            return
+        end
+    end
+end
+function sewnFamiliars:custom_update_paschalCandle_ultra(paschalCandle)
     local fData = paschalCandle:GetData()
     local sprite = paschalCandle:GetSprite()
     for i = 0, 6 do
@@ -4040,6 +4055,7 @@ function sewnFamiliars:custom_update_paschalCandle(paschalCandle)
                 fData.Sewn_paschalCandle_currentFlame = fData.Sewn_paschalCandle_currentFlame + 1
             end
             fData.Sewn_paschalCandle_vanillaFlame = i
+            break
         end
     end
     -- Override the candle animation
@@ -4050,13 +4066,39 @@ function sewnFamiliars:custom_update_paschalCandle(paschalCandle)
     end
     sprite:SetFrame(fData.Sewn_paschalCandle_currentFlameFrame)
 end
+function sewnFamiliars:custom_paschalCandle_fireFlame(paschalCandle)
+    local velo = Vector(math.random(-6, 6), math.random(-6, 6))
+    local flame = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.HOT_BOMB_FIRE, 0, paschalCandle.Position, velo, paschalCandle):ToEffect()
+    
+    local damageMultiplier = math.random() * 1.75 + 0.25
+    
+    flame.CollisionDamage = flame.CollisionDamage * damageMultiplier
+    flame.Size = flame.Size * math.sqrt(damageMultiplier)
+    flame.SpriteScale = flame.SpriteScale * math.sqrt(damageMultiplier)
+
+    flame.Timeout = math.random(30, 300)
+end
 function sewnFamiliars:custom_playerTakeDamage_paschalCandle(paschalCandle, amount, flags, source)
     local fData = paschalCandle:GetData()
-    fData.Sewn_paschalCandle_currentFlame = fData.Sewn_paschalCandle_currentFlame - 1
 
-    if fData.Sewn_paschalCandle_vanillaFlame == 0 then
-        paschalCandle.Player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
-        paschalCandle.Player:EvaluateItems()
+    local canFire = fData.Sewn_paschalCandle_vanillaFlame > 0
+    
+    if sewingMachineMod:isUltra(fData) then
+        fData.Sewn_paschalCandle_currentFlame = fData.Sewn_paschalCandle_currentFlame - 1
+
+        if fData.Sewn_paschalCandle_vanillaFlame == 0 then
+            paschalCandle.Player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
+            paschalCandle.Player:EvaluateItems()
+        end
+
+        canFire = fData.Sewn_paschalCandle_currentFlame > 0
+    end
+
+    if canFire == true then
+        local rollFlames = math.random(3, 15)
+        for i = 0, rollFlames do
+            sewingMachineMod:delayFunction(sewnFamiliars.custom_paschalCandle_fireFlame, i * 2 + 1, paschalCandle)
+        end
     end
 end
 function sewnFamiliars:custom_cache_paschalCandle(paschalCandle, cache)
