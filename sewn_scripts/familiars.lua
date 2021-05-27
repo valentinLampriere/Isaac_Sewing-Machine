@@ -4017,7 +4017,7 @@ end
 -- PASCHAL CANDLE
 function sewnFamiliars:upPaschalCandle(paschalCandle)
     local fData = paschalCandle:GetData()
-    sewingMachineMod:addCrownOffset(paschalCandle, Vector(0, 5))
+    sewingMachineMod:addCrownOffset(paschalCandle, Vector(0, 7))
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customPlayerTakeDamage(paschalCandle, sewnFamiliars.custom_playerTakeDamage_paschalCandle)
 
@@ -4073,8 +4073,8 @@ function sewnFamiliars:custom_paschalCandle_fireFlame(paschalCandle)
     local damageMultiplier = math.random() * 1.75 + 0.25
     
     flame.CollisionDamage = flame.CollisionDamage * damageMultiplier
-    flame.Size = flame.Size * math.sqrt(damageMultiplier)
-    flame.SpriteScale = flame.SpriteScale * math.sqrt(damageMultiplier)
+    flame.Size = flame.Size * math.sqrt(damageMultiplier * 0.8)
+    flame.SpriteScale = flame.SpriteScale * math.sqrt(damageMultiplier * 0.8)
 
     flame.Timeout = math.random(30, 300)
 end
@@ -4082,6 +4082,8 @@ function sewnFamiliars:custom_playerTakeDamage_paschalCandle(paschalCandle, amou
     local fData = paschalCandle:GetData()
 
     local canFire = fData.Sewn_paschalCandle_vanillaFlame > 0
+    local minFlame = math.floor(math.sqrt(10 * fData.Sewn_paschalCandle_vanillaFlame))
+    local maxFlame = math.floor(math.sqrt(10 * fData.Sewn_paschalCandle_vanillaFlame) * 2.5)
     
     if sewingMachineMod:isUltra(fData) then
         fData.Sewn_paschalCandle_currentFlame = fData.Sewn_paschalCandle_currentFlame - 1
@@ -4090,12 +4092,11 @@ function sewnFamiliars:custom_playerTakeDamage_paschalCandle(paschalCandle, amou
             paschalCandle.Player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY)
             paschalCandle.Player:EvaluateItems()
         end
-
         canFire = fData.Sewn_paschalCandle_currentFlame > 0
     end
 
     if canFire == true then
-        local rollFlames = math.random(3, 15)
+        local rollFlames = math.random(minFlame, maxFlame)
         for i = 0, rollFlames do
             sewingMachineMod:delayFunction(sewnFamiliars.custom_paschalCandle_fireFlame, i * 2 + 1, paschalCandle)
         end
@@ -4109,6 +4110,86 @@ function sewnFamiliars:custom_cache_paschalCandle(paschalCandle, cache)
                 paschalCandle.Player.MaxFireDelay = sewingMachineMod:tearsUp(paschalCandle.Player.MaxFireDelay, 0.4 * (fData.Sewn_paschalCandle_currentFlame - fData.Sewn_paschalCandle_vanillaFlame))
             end
         end, 1, paschalCandle)
+    end
+end
+
+-- CUBE BABY
+function sewnFamiliars:upCubeBaby(cubeBaby)
+    local fData = cubeBaby:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+
+        sewnFamiliars:customUpdate(cubeBaby, sewnFamiliars.custom_update_cubeBaby)
+        fData.Sewn_cubeBaby_freezeEnemies = {}
+        fData.Sewn_cubeBaby_creepSpawnedFrame = 0
+    end
+end
+function sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
+    local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, 0, cubeBaby.Position, Vector.Zero, cubeBaby):ToEffect()
+    creep.CollisionDamage = 2
+    creep.Visible = false
+
+    sewingMachineMod:delayFunction(function(cubeBaby)
+        creep.Visible = true
+    end, 1, cubeBaby)
+end
+function sewnFamiliars:custom_update_cubeBaby(cubeBaby)
+    local fData = cubeBaby:GetData()
+
+    local speed = math.ceil(cubeBaby.Velocity:LengthSquared())
+
+    if sewingMachineMod.rng:RandomInt(500 - speed) < 33 then
+        sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
+    end
+
+    if sewingMachineMod:isUltra(fData) == false then
+        return
+    end
+    
+    local auraRadius = 80
+
+    if fData.Sewn_cubeBaby_aura == nil or not fData.Sewn_cubeBaby_aura:Exists() then
+        fData.Sewn_cubeBaby_aura = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CUBE_BABY_AURA, 0, cubeBaby.Position, Vector.Zero, cubeBaby):ToEffect()
+    end
+
+    -- Aura follow Hallowed Ground
+    fData.Sewn_cubeBaby_aura.Position = cubeBaby.Position
+    fData.Sewn_cubeBaby_aura.Velocity = cubeBaby.Velocity
+
+    -- Prevent from looping through all enemies each frames
+    if cubeBaby.FrameCount % 3 ~= 0 then return end
+
+    for _, enemy in pairs(Isaac.FindInRadius(cubeBaby.Position, 1500, EntityPartition.ENEMY)) do
+        if enemy:IsVulnerableEnemy() then
+
+            local ptrEnemy = GetPtrHash(enemy)
+            if enemy.Position:DistanceSquared(cubeBaby.Position) <= auraRadius ^ 2 then
+                if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] == nil then
+                    fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = 0
+                end
+
+                local maxFreeze = enemy.MaxHitPoints * 5
+
+                enemy:SetColor(Color.Lerp(Color(1, 1, 1), Color(0.8, 0.85, 1.3, 1, 0.22, 0.33, 0.60), fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] / maxFreeze), 4, 1, true, false)
+
+                if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] < maxFreeze then
+                    fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] + 3
+                else
+                    enemy:TakeDamage(0.5, 0, EntityRef(cubeBaby), 3)
+                    enemy:AddEntityFlags(EntityFlag.FLAG_ICE)
+                end
+            else
+                if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] ~= nil then
+                    enemy:ClearEntityFlags(EntityFlag.FLAG_ICE)
+                    fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = nil
+                end
+            end
+        end
+    end
+end
+function sewnFamiliars:cubeBaby_addInMachine(cubeBaby)
+    local fData = cubeBaby:GetData()
+    if fData.Sewn_cubeBaby_aura ~= nil then
+        fData.Sewn_cubeBaby_aura:Remove()
     end
 end
 

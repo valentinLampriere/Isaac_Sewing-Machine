@@ -184,7 +184,7 @@
 -- *** Special thanks to Foks, SupremeElf, PixelPlz, Cadence, Sentinel and Spore64 for their support and their help *** --
 
 
-sewingMachineMod = RegisterMod("Sewing machine", 1)
+sewingMachineMod = RegisterMod("!Sewing machine", 1)
 
 sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
 ------------------
@@ -211,6 +211,7 @@ FamiliarVariant.SEWN_DOLL = Isaac.GetEntityVariantByName("Sewn Doll")
 EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02")
 EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 EffectVariant.HALLOWED_GROUND_PERMANENT_AURA = Isaac.GetEntityVariantByName("Hallowed Ground Permanent Aura")
+EffectVariant.CUBE_BABY_AURA = Isaac.GetEntityVariantByName("Cube Baby Aura")
 
 sewingMachineMod.sewingMachinesData = {}
 
@@ -346,7 +347,8 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone},
     [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
     [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
-    [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly}
+    [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
+    [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby}
 }
 
 __require("sewn_scripts.descriptions")
@@ -2017,6 +2019,7 @@ function sewingMachineMod:loadSave(isExistingRun)
 end
 
 sewingMachineMod:AddInMachineCallback(FamiliarVariant.HALLOWED_GROUND, sewnFamiliars.hallowedGround_addInMachine)
+sewingMachineMod:AddInMachineCallback(FamiliarVariant.CUBE_BABY, sewnFamiliars.cubeBaby_addInMachine)
 
 ---------------
 -- CALLBACKS --

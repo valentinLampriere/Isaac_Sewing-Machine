@@ -458,8 +458,14 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PASCHAL_CANDLE,
-        "???????",
+        "When the player takes damages, Paschal Candle spread flames around it#The amount of flames depends on the size of the flame's candle",
         "Taking damage only reduces the flame by one room amount",
+        ConvertRGBToIsaac({110, 110, 110})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.CUBE_BABY,
+        "Spawn creep when moved around#The more is goes fast, the more it spawns creep",
+        "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
         ConvertRGBToIsaac({110, 110, 110})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
