@@ -347,6 +347,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone},
     [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
     [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
+    [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
     [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
     [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby}
 }
@@ -1579,7 +1580,10 @@ function sewingMachineMod:tearCollision(tear, collider, low)
 
     if fData.Sewn_custom_tearCollision ~= nil then
         for i, f in ipairs(fData.Sewn_custom_tearCollision) do
-            f(_, familiar, tear, collider)
+            local ret = f(_, familiar, tear, collider)
+            if ret ~= nil then
+                return ret
+            end
         end
     end
 end

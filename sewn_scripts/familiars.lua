@@ -313,6 +313,7 @@ function sewnFamiliars:shootTearsCircular(familiar, amountTears, tearVariant, po
         velo = velo:Rotated((360 / amountTears) * i + tearOffset)
         velo = velo:Rotated(tearOffset)
         local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, tearVariant, 0, position, velo, spawnerTear):ToTear()
+        tear.Parent = spawnerTear
         if dmg then
             tear.CollisionDamage = dmg
         end
@@ -4193,5 +4194,60 @@ function sewnFamiliars:cubeBaby_addInMachine(cubeBaby)
     end
 end
 
+-- FREEZER BABY
+function sewnFamiliars:upFreezerBaby(freezerBaby)
+    local fData = freezerBaby:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+
+        sewnFamiliars:setDamageTearMultiplier(freezerBaby, 1.3)
+        sewnFamiliars:customFireInit(freezerBaby, sewnFamiliars.custom_fireInit_freezerBaby)
+
+        sewnFamiliars:customTearCollision(freezerBaby, sewnFamiliars.custom_tearCollision_freezerBaby)
+
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customNewRoom(freezerBaby, sewnFamiliars.custom_newRoom_freezerBaby)
+            fData.Sewn_freezerBaby_FrozenColliders = {}
+        end
+    end
+end
+function sewnFamiliars:custom_fireInit_freezerBaby(freezerBaby, tear)
+    -- Range boost
+    tear.FallingAcceleration = 0.02 + -0.02 * 3
+end
+function sewnFamiliars:custom_newRoom_freezerBaby(freezerBaby, room)
+    local fData = freezerBaby:GetData()
+    fData.Sewn_freezerBaby_FrozenColliders = {}
+end
+function sewnFamiliars:custom_tearCollision_freezerBaby(freezerBaby, tear, collider)
+    local fData = freezerBaby:GetData()
+
+    local roll = sewingMachineMod.rng:RandomInt(100)
+
+    if roll < 10 then
+        collider:AddFreeze(EntityRef(freezerBaby), math.random(30, 90))
+    end
+
+    if sewingMachineMod:isUltra(fData) == false then
+        return
+    end
+
+    local tData = tear:GetData()
+    if tData.Sewn_freezerBaby_isAdditionalTear == nil and collider:IsVulnerableEnemy() and collider.HitPoints - tear.CollisionDamage <= 0 then
+        local amountTears = math.ceil(math.sqrt(collider.MaxHitPoints * 3))
+        if amountTears < 5 then
+            amountTears = 5
+        end
+        if amountTears > 18 then
+            amountTears = 18
+        end
+        local tearFired = sewnFamiliars:shootTearsCircular(freezerBaby, amountTears, tear.Variant, collider.Position, 7, tear.CollisionDamage, tear.TearFlags)
+        for i, tear in pairs(tearFired) do
+            tear:GetData().Sewn_freezerBaby_isAdditionalTear = true
+        end
+        fData.Sewn_freezerBaby_FrozenColliders[GetPtrHash(collider)] = true
+    elseif fData.Sewn_freezerBaby_FrozenColliders[GetPtrHash(collider)] == true then
+        return true
+    end
+end
 
 sewingMachineMod.errFamiliars.Error()

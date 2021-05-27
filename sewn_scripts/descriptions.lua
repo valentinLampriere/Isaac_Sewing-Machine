@@ -468,6 +468,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
         ConvertRGBToIsaac({110, 110, 110})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.FREEZER_BABY,
+        "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#Increase the chance to freeze enemies",
+        "Enemies it kills explodes into ice tears",
+        ConvertRGBToIsaac({110, 110, 110})
+    )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,
