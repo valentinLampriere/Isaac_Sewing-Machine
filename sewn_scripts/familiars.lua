@@ -4126,7 +4126,7 @@ function sewnFamiliars:upCubeBaby(cubeBaby)
 end
 function sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
     local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_HOLYWATER_TRAIL, 0, cubeBaby.Position, Vector.Zero, cubeBaby):ToEffect()
-    creep.CollisionDamage = 2
+    creep.CollisionDamage = 1.5
     creep.Visible = false
 
     sewingMachineMod:delayFunction(function(cubeBaby)
@@ -4135,17 +4135,6 @@ function sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
 end
 function sewnFamiliars:custom_update_cubeBaby(cubeBaby)
     local fData = cubeBaby:GetData()
-
-    local speed = math.ceil(cubeBaby.Velocity:LengthSquared())
-
-    if sewingMachineMod.rng:RandomInt(500 - speed) < 33 then
-        sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
-    end
-
-    if sewingMachineMod:isUltra(fData) == false then
-        return
-    end
-    
     local auraRadius = 80
 
     if fData.Sewn_cubeBaby_aura == nil or not fData.Sewn_cubeBaby_aura:Exists() then
@@ -4157,35 +4146,49 @@ function sewnFamiliars:custom_update_cubeBaby(cubeBaby)
     fData.Sewn_cubeBaby_aura.Velocity = cubeBaby.Velocity
 
     -- Prevent from looping through all enemies each frames
-    if cubeBaby.FrameCount % 3 ~= 0 then return end
+    if cubeBaby.FrameCount % 3 == 0 then
+        for _, enemy in pairs(Isaac.FindInRadius(cubeBaby.Position, 1500, EntityPartition.ENEMY)) do
+            if enemy:IsVulnerableEnemy() then
 
-    for _, enemy in pairs(Isaac.FindInRadius(cubeBaby.Position, 1500, EntityPartition.ENEMY)) do
-        if enemy:IsVulnerableEnemy() then
+                local ptrEnemy = GetPtrHash(enemy)
+                if enemy.Position:DistanceSquared(cubeBaby.Position) <= auraRadius ^ 2 then
+                    if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] == nil then
+                        fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = 0
+                    end
 
-            local ptrEnemy = GetPtrHash(enemy)
-            if enemy.Position:DistanceSquared(cubeBaby.Position) <= auraRadius ^ 2 then
-                if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] == nil then
-                    fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = 0
-                end
+                    local maxFreeze = enemy.MaxHitPoints * 5
 
-                local maxFreeze = enemy.MaxHitPoints * 5
+                    enemy:SetColor(Color.Lerp(Color(1, 1, 1), Color(0.8, 0.85, 1.3, 1, 0.22, 0.33, 0.60), fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] / maxFreeze), 4, 1, true, false)
 
-                enemy:SetColor(Color.Lerp(Color(1, 1, 1), Color(0.8, 0.85, 1.3, 1, 0.22, 0.33, 0.60), fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] / maxFreeze), 4, 1, true, false)
-
-                if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] < maxFreeze then
-                    fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] + 3
+                    if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] < maxFreeze then
+                        fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] + 3
+                    else
+                        if cubeBaby.Player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
+                            enemy:TakeDamage(1, 0, EntityRef(cubeBaby), 3)
+                        else
+                            enemy:TakeDamage(0.5, 0, EntityRef(cubeBaby), 3)
+                        end
+                        enemy:AddEntityFlags(EntityFlag.FLAG_ICE)
+                    end
                 else
-                    enemy:TakeDamage(0.5, 0, EntityRef(cubeBaby), 3)
-                    enemy:AddEntityFlags(EntityFlag.FLAG_ICE)
-                end
-            else
-                if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] ~= nil then
-                    enemy:ClearEntityFlags(EntityFlag.FLAG_ICE)
-                    fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = nil
+                    if fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] ~= nil then
+                        enemy:ClearEntityFlags(EntityFlag.FLAG_ICE)
+                        fData.Sewn_cubeBaby_freezeEnemies[ptrEnemy] = nil
+                    end
                 end
             end
         end
     end
+
+    if sewingMachineMod:isUltra(fData) then
+        local speed = math.ceil(cubeBaby.Velocity:LengthSquared())
+    
+        if sewingMachineMod.rng:RandomInt(500 - speed) < 40 then
+            sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
+        end
+    end
+    
+    
 end
 function sewnFamiliars:cubeBaby_addInMachine(cubeBaby)
     local fData = cubeBaby:GetData()

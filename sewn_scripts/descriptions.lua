@@ -464,8 +464,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CUBE_BABY,
-        "Spawn creep when moved around#The more is goes fast, the more it spawns creep",
         "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
+        "Spawn creep when moved around#The more is goes fast, the more it spawns creep",
         ConvertRGBToIsaac({110, 110, 110})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
