@@ -366,6 +366,13 @@ function sewnFamiliars:spawnBonesOrbitals(boneFamiliar, min, max, force)
         bone.Velocity = velo
     end
 end
+function sewnFamiliars:curveBulletTowards(position, bullet, strength)
+    strength = strength or 0.5
+    local directionTo = (position - bullet.Position):Normalized()
+    local speedOfBullet = bullet.Velocity:Length()
+    -- We do "normalized * speed" to keep the same speed
+    bullet.Velocity = (bullet.Velocity * (1- strength) + directionTo * strength):Normalized() * speedOfBullet
+end
 
 function sewnFamiliars:toBabyBenderTear(familiar, tear)
     local player = familiar.Player
@@ -4250,6 +4257,59 @@ function sewnFamiliars:custom_tearCollision_freezerBaby(freezerBaby, tear, colli
         fData.Sewn_freezerBaby_FrozenColliders[GetPtrHash(collider)] = true
     elseif fData.Sewn_freezerBaby_FrozenColliders[GetPtrHash(collider)] == true then
         return true
+    end
+end
+
+-- LIL DUMPY
+function sewnFamiliars:upLilDumpy(lilDumpy)
+    local fData = lilDumpy:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewingMachineMod:addCrownOffset(lilDumpy, Vector(0, 6))
+        sewnFamiliars:customUpdate(lilDumpy, sewnFamiliars.custom_update_lilDumpy)
+        sewnFamiliars:customAnimation(lilDumpy, sewnFamiliars.custom_animation_lilDumpy, "Fart")
+    end
+end
+function sewnFamiliars:custom_animation_lilDumpy(lilDumpy)
+    local sprite = lilDumpy:GetSprite()
+    if sprite:IsEventTriggered("Fart") then
+        sewnFamiliars:shootTearsCircular(lilDumpy, 6, TearVariant.BLOOD, nil, 6, 3.5)
+    end 
+end
+function sewnFamiliars:custom_lilDumpy_spawnStaticTear(lilDumpy)
+    local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, lilDumpy.Position, Vector.Zero, lilDumpy):ToTear()
+    local color = Color(1, 1, 1, 1)
+    tear.FallingSpeed = -5
+    tear.FallingAcceleration = -0.075
+    tear.CollisionDamage = 5
+    tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
+
+    color:SetColorize(0.5, 0.35, 0.2, 1)
+
+    local rollFlag = sewingMachineMod.rng:RandomInt(100)
+    if rollFlag < 10 then
+        tear:AddTearFlags(TearFlags.TEAR_POISON)
+        color = Color.Lerp(color, Color(0.2, 1, 0.2, 1), 0.5)
+    elseif rollFlag < 15 then
+        tear:AddTearFlags(TearFlags.TEAR_CHARM)
+        color = Color.Lerp(color, Color(1, 0, 1, 1), 0.5)
+    elseif rollFlag < 20 then
+        tear:AddTearFlags(TearFlags.TEAR_CONFUSION)
+        color = Color.Lerp(color, Color(0.5, 0.5, 0.5, 1), 0.5)
+    end
+
+    tear:SetColor(color, -1, 1, false, false)
+end
+function sewnFamiliars:custom_update_lilDumpy(lilDumpy)
+    local fData = lilDumpy:GetData()
+    for _, bullet in ipairs(Isaac.FindInRadius(lilDumpy.Position, 70, EntityPartition.BULLET)) do
+        sewnFamiliars:curveBulletTowards(lilDumpy.Position, bullet, 0.6)
+    end
+    
+    if sewingMachineMod:isUltra(fData) then
+        local sprite = lilDumpy:GetSprite()
+        if sprite:IsEventTriggered("Fart") then
+            sewnFamiliars:custom_lilDumpy_spawnStaticTear(lilDumpy)
+        end
     end
 end
 

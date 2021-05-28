@@ -184,7 +184,7 @@
 -- *** Special thanks to Foks, SupremeElf, PixelPlz, Cadence, Sentinel and Spore64 for their support and their help *** --
 
 
-sewingMachineMod = RegisterMod("!Sewing machine", 1)
+sewingMachineMod = RegisterMod("Sewing machine", 1)
 
 sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
 ------------------
@@ -348,6 +348,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
     [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
     [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
+    [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
     [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
     [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby}
 }
@@ -1515,6 +1516,7 @@ function sewingMachineMod:tearUpdate(tear)
     local tData = tear:GetData()
     local familiar = tear.Parent
     local fData
+
     
     -- If tear hasn't been fired from a familiar
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then

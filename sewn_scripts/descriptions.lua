@@ -454,25 +454,31 @@ function sewingMachineMod:InitFamiliarDescription()
         FamiliarVariant.BLOOD_OATH,
         "Spawn red creep#The creep deal 0.2 * the amount of half heart removed",
         "When it stab, it spawns random red hearts",
-        ConvertRGBToIsaac({110, 110, 110})
+        ConvertRGBToIsaac({181, 181, 181})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PASCHAL_CANDLE,
         "When the player takes damages, Paschal Candle spread flames around it#The amount of flames depends on the size of the flame's candle",
         "Taking damage only reduces the flame by one room amount",
-        ConvertRGBToIsaac({110, 110, 110})
+        ConvertRGBToIsaac({232, 204, 159})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CUBE_BABY,
         "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
         "Spawn creep when moved around#The more is goes fast, the more it spawns creep",
-        ConvertRGBToIsaac({110, 110, 110})
+        ConvertRGBToIsaac({151, 183, 239})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.FREEZER_BABY,
         "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#Increase the chance to freeze enemies",
         "Enemies it kills explodes into ice tears",
-        ConvertRGBToIsaac({110, 110, 110})
+        ConvertRGBToIsaac({151, 183, 239})
+    )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.LIL_DUMPY,
+        "Attract close bullets#When it farts, fire  tears in different directions",
+        "While it moves, spawn static tears#Those tears have a chance to apply Poison, Charm or Confusion",
+        ConvertRGBToIsaac({227, 198, 197})
     )
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
