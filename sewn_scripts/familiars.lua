@@ -4269,11 +4269,21 @@ function sewnFamiliars:upLilDumpy(lilDumpy)
         sewnFamiliars:customAnimation(lilDumpy, sewnFamiliars.custom_animation_lilDumpy, "Fart")
     end
 end
+function sewnFamiliars:custom_lilDumpy_changeTearColor(tear, color)
+    color = color or Color(1, 1, 1, 1)
+    
+    color:SetColorize(0.5, 0.35, 0.2, 1)
+    
+    tear:SetColor(color, -1, 1, false, false)
+end
 function sewnFamiliars:custom_animation_lilDumpy(lilDumpy)
     local sprite = lilDumpy:GetSprite()
     if sprite:IsEventTriggered("Fart") then
-        sewnFamiliars:shootTearsCircular(lilDumpy, 6, TearVariant.BLOOD, nil, 6, 3.5)
-    end 
+        local tears = sewnFamiliars:shootTearsCircular(lilDumpy, 6, TearVariant.BLUE, nil, 6, 3.5)
+        for _, tear in ipairs(tears) do
+            sewnFamiliars:custom_lilDumpy_changeTearColor(tear)
+        end
+    end
 end
 function sewnFamiliars:custom_lilDumpy_spawnStaticTear(lilDumpy)
     local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, lilDumpy.Position, Vector.Zero, lilDumpy):ToTear()
@@ -4282,8 +4292,6 @@ function sewnFamiliars:custom_lilDumpy_spawnStaticTear(lilDumpy)
     tear.FallingAcceleration = -0.075
     tear.CollisionDamage = 5
     tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
-
-    color:SetColorize(0.5, 0.35, 0.2, 1)
 
     local rollFlag = sewingMachineMod.rng:RandomInt(100)
     if rollFlag < 10 then
@@ -4296,8 +4304,7 @@ function sewnFamiliars:custom_lilDumpy_spawnStaticTear(lilDumpy)
         tear:AddTearFlags(TearFlags.TEAR_CONFUSION)
         color = Color.Lerp(color, Color(0.5, 0.5, 0.5, 1), 0.5)
     end
-
-    tear:SetColor(color, -1, 1, false, false)
+    sewnFamiliars:custom_lilDumpy_changeTearColor(tear, color)
 end
 function sewnFamiliars:custom_update_lilDumpy(lilDumpy)
     local fData = lilDumpy:GetData()
