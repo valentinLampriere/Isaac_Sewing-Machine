@@ -210,8 +210,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SISSY_LONGLEGS,
-        "Spawn 2 spiders",
-        "Spawn 3 spiders",
+        "Can spawn up to 2 additional blue spiders",
+        "Spawn 2 additional blue spiders#Can spawn blue spiders more often#Blue spiders have a chance to apply a charm effect",
         ConvertRGBToIsaac({87, 135, 231})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(

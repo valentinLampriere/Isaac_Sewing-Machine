@@ -1,4 +1,4 @@
 <pocketitems>
-	<card achievement="355" description="Can't give it back now..." hud="warrantyCard" name="Warranty Card" />
-	<card achievement="355" description="..." hud="stitchingCard" name="Stitching Card" />
+	<card type="tarot" achievement="355" description="Can't give it back now..." hud="warrantyCard" name="Warranty Card" mimiccharge="8"/>
+	<card type="tarot" achievement="355" description="..." hud="stitchingCard" name="Stitching Card" />
 </pocketitems>

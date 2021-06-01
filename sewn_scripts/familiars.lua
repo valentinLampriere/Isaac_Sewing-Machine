@@ -1804,27 +1804,43 @@ end
 -- SISSY LONGLEGS
 function sewnFamiliars:upSissyLonglegs(sissyLonglegs)
     local fData = sissyLonglegs:GetData()
-    if sissyLonglegs.Variant == FamiliarVariant.SISSY_LONGLEGS then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customAnimation(sissyLonglegs, sewnFamiliars.custom_animation_sissyLonglegs, ANIMATION_NAMES.SPAWN)
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customUpdate(sissyLonglegs, sewnFamiliars.custom_update_sissyLonglegs, ANIMATION_NAMES.SPAWN)
+    end
+end
+function sewnFamiliars:custom_sissyLonglegs_spiderCollision(spider, collider)
+    local rollCharm = sewingMachineMod.rng:RandomInt(100)
+    if rollCharm < 50 then
+        collider:AddCharmed(EntityRef(spider), math.random(30, 120))
+    end
+end
+function sewnFamiliars:custom_update_sissyLonglegs(sissyLonglegs)
+    local fData = sissyLonglegs:GetData()
+    local sprite = sissyLonglegs:GetSprite()
+
+    if sprite:IsPlaying("Spawn") then
+        if sprite:IsEventTriggered("Spawn") then
+            local amountSpider = math.random(2)
+            if sewingMachineMod:isUltra(fData) then
+                amountSpider = 2
+            end
+            for i = 1, amountSpider do
+                local spider = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_SPIDER, 0, sissyLonglegs.Position, Vector.Zero, sissyLonglegs)
+                spider:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
+                
+                if sewingMachineMod:isUltra(fData) then
+                    sewnFamiliars:customCollision(spider, sewnFamiliars.custom_sissyLonglegs_spiderCollision)
+                end
+            end
+        end
+    else
+        if sewingMachineMod:isUltra(fData) then
+            local roll = sewingMachineMod.rng:RandomInt(2000)
+            if roll == 1 then
+                sprite:Play("Spawn", true)
+            end
         end
     end
-end
-function sewnFamiliars:sissyLonglegs_spawnAdditionalSpider(sissyLonglegs)
-    local amount = 1
-    if sewingMachineMod:isUltra(sissyLonglegs:GetData()) then
-        amount = 2
-    end
-    sewnFamiliars:familiarSpawnAdditionalSpider(sissyLonglegs, amount)
-end
-function sewnFamiliars:custom_animation_sissyLonglegs(sissyLonglegs)
-    local fData = sissyLonglegs:GetData()
-    
-    if not sewingMachineMod:isSuper(fData) and not sewingMachineMod:isUltra(fData) then
-        return
-    end
-    
-    sewnFamiliars:familiarIsSpawningFlySpider(sissyLonglegs, false, sewnFamiliars.sissyLonglegs_spawnAdditionalSpider)
 end
 
 -- LITTLE C.H.A.D
@@ -4320,4 +4336,24 @@ function sewnFamiliars:custom_update_lilDumpy(lilDumpy)
     end
 end
 
+
+-- BOILED BABY
+function sewnFamiliars:upBoiledBaby(boiledBaby)
+    local fData = boiledBaby:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customFireInit(boiledBaby, sewnFamiliars.custom_fireInit_boiledBaby)
+    end
+end
+function sewnFamiliars:custom_fireInit_boiledBaby(boiledBaby, tear)
+    local rollNewTear = sewingMachineMod.rng:RandomInt(100)
+    --if rollNewTear < 50 then
+        local velocity = Vector(sewingMachineMod.rng:RandomFloat() - 0.5, sewingMachineMod.rng:RandomFloat() - 0.5) + tear.Velocity
+        
+        local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, boiledBaby.Position, velocity, boiledBaby):ToTear()
+        sewnFamiliars:toBabyBenderTear(boiledBaby, newTear)
+        
+        newTear.FallingSpeed = tear.FallingSpeed
+        newTear.FallingAcceleration = tear.FallingAcceleration
+    --end
+end
 sewingMachineMod.errFamiliars.Error()
