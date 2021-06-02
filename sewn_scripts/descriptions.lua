@@ -444,42 +444,44 @@ function sewingMachineMod:InitFamiliarDescription()
         "Can be thrown in front of the player to deal massive damage",
         ConvertRGBToIsaac({70, 70, 70})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.BOT_FLY,
-        "{{ArrowUp}} Range up#{{ArrowUp}} Shot Speed up#Increase tear size",
-        "{{ArrowUp}} Boosts stats#Gain piercing tears",
-        ConvertRGBToIsaac({110, 110, 110})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.BLOOD_OATH,
-        "Spawn red creep#The creep deal 0.2 * the amount of half heart removed",
-        "When it stab, it spawns random red hearts",
-        ConvertRGBToIsaac({181, 181, 181})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.PASCHAL_CANDLE,
-        "When the player takes damages, Paschal Candle spread flames around it#The amount of flames depends on the size of the flame's candle",
-        "Taking damage only reduces the flame by one room amount",
-        ConvertRGBToIsaac({232, 204, 159})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.CUBE_BABY,
-        "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
-        "Spawn creep when moved around#The more is goes fast, the more it spawns creep",
-        ConvertRGBToIsaac({151, 183, 239})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.FREEZER_BABY,
-        "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#Increase the chance to freeze enemies",
-        "Enemies it kills explodes into ice tears",
-        ConvertRGBToIsaac({151, 183, 239})
-    )
-    sewingMachineMod:AddDescriptionsForFamiliar(
-        FamiliarVariant.LIL_DUMPY,
-        "Attract close bullets#When it farts, fire  tears in different directions",
-        "While it moves, spawn static tears#Those tears have a chance to apply Poison, Charm or Confusion",
-        ConvertRGBToIsaac({227, 198, 197})
-    )
+    if REPENTANCE then
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.BOT_FLY,
+            "{{ArrowUp}} Range up#{{ArrowUp}} Shot Speed up#Increase tear size",
+            "{{ArrowUp}} Boosts stats#Gain piercing tears",
+            ConvertRGBToIsaac({110, 110, 110})
+        )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.BLOOD_OATH,
+            "Spawn red creep#The creep deal 0.2 * the amount of half heart removed",
+            "When it stab, it spawns random red hearts",
+            ConvertRGBToIsaac({181, 181, 181})
+        )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.PASCHAL_CANDLE,
+            "When the player takes damages, Paschal Candle spread flames around it#The amount of flames depends on the size of the flame's candle",
+            "Taking damage only reduces the flame by one room amount",
+            ConvertRGBToIsaac({232, 204, 159})
+        )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.CUBE_BABY,
+            "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
+            "Spawn creep when moved around#The more is goes fast, the more it spawns creep",
+            ConvertRGBToIsaac({151, 183, 239})
+        )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.FREEZER_BABY,
+            "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#Increase the chance to freeze enemies",
+            "Enemies it kills explodes into ice tears",
+            ConvertRGBToIsaac({151, 183, 239})
+        )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.LIL_DUMPY,
+            "Attract close bullets#When it farts, fire  tears in different directions",
+            "While it moves, spawn static tears#Those tears have a chance to apply Poison, Charm or Confusion",
+            ConvertRGBToIsaac({227, 198, 197})
+        )
+    end
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
             sewingMachineMod.moddedFamiliar.MARSHMALLOW,

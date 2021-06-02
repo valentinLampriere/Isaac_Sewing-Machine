@@ -478,12 +478,17 @@ end
 -- ROBO BABY
 function sewnFamiliars:upRoboBaby(familiar)
     local fData = familiar:GetData()
-    
+    local superBoost = 10
+    local ultraBoost = 20
+    if REPENTANCE then
+        superBoost = 7
+        ultraBoost = 14
+    end
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:setTearRateBonus(familiar, 7)
+        sewnFamiliars:setTearRateBonus(familiar, superBoost)
     end
     if sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:setTearRateBonus(familiar, 14)
+        sewnFamiliars:setTearRateBonus(familiar, ultraBoost)
     end
 end
 
@@ -669,7 +674,7 @@ function sewnFamiliars:upRainbowBaby(familiar)
     end
     if sewingMachineMod:isUltra(fData) then
         sewnFamiliars:setTearRateBonus(familiar, 12)
-        sewnFamiliars:setDamageTearMultiplier(familiar, 1.8)
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.7)
     end
 end
 
@@ -681,10 +686,10 @@ function sewnFamiliars:upLittleSteven(littleSteven)
         
 
         if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
+            sewnFamiliars:setDamageTearMultiplier(littleSteven, 1.5)
         else
-            sewnFamiliars:setDamageTearMultiplier(familiar, 2)
-            sewnFamiliars:setTearRateBonus(familiar, 7)
+            sewnFamiliars:setDamageTearMultiplier(littleSteven, 2)
+            sewnFamiliars:setTearRateBonus(littleSteven, 7)
         end
     end
 end
@@ -863,8 +868,10 @@ function sewnFamiliars:custom_fireInit_mongoBaby(mongoBaby, tear)
         -- Count tears for Harlequin Baby        
         for _, t in pairs(Isaac.FindByType(EntityType.ENTITY_TEAR, -1, -1, false, false)) do
             t = t:ToTear()
-            if GetPtrHash(t.SpawnerEntity) == GetPtrHash(mongoBaby) then
-                if t.FrameCount <= 1 then
+            if t.FrameCount <= 1 then
+                if t.SpawnerEntity ~= nil and GetPtrHash(t.SpawnerEntity) == GetPtrHash(mongoBaby) then
+                    nbTears = nbTears + 1
+                elseif t.SpawnerType == EntityType.ENTITY_FAMILIAR and t.SpawnerVariant == FamiliarVariant.MONGO_BABY then
                     nbTears = nbTears + 1
                 end
             end

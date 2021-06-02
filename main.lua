@@ -344,14 +344,23 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.SLIPPED_RIB] = {542, sewingMachineMod.sewnFamiliars.upSlippedRib},
     [FamiliarVariant.HALLOWED_GROUND] = {543, sewingMachineMod.sewnFamiliars.upHallowedGround},
     [FamiliarVariant.POINTY_RIB] = {544, sewingMachineMod.sewnFamiliars.upPointyRib},
-    [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone},
-    [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
-    [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
-    [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
-    [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
-    [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
-    [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby}
+    [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
+
+if REPENTANCE then
+    local availableFamiliarRepentance = {
+        [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
+        [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
+        [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
+        [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
+        [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
+        [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby}
+    }
+
+    for id, data in pairs(availableFamiliarRepentance) do
+        sewingMachineMod.availableFamiliar[id] = data
+    end
+end
 
 __require("sewn_scripts.descriptions")
 
@@ -1229,6 +1238,9 @@ function sewingMachineMod:updateFamiliar(familiar)
         if sewingMachineMod:isAvailable(familiar.Variant) and not sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.ALLOWED_FAMILIARS_EFFECT.BLINK then
                 local c = 255-math.floor(255*((familiar.FrameCount%40)/40))
+                if REPENTANCE then
+                    c = 1 - (familiar.FrameCount % 40)/40
+                end
                 familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,fColor.A,c,c,c),5,1,false,false)
             end
 
@@ -1255,7 +1267,11 @@ function sewingMachineMod:updateFamiliar(familiar)
         -- Not available familiars
         if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) then
             if sewingMachineMod.Config.familiarNotAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT then
-                familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
+                if REPENTANCE then
+                    familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
+                else
+                    familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,math.floor(fColor.RO),math.floor(fColor.GO),math.floor(fColor.BO)),5,1,false,false)
+                end
             end
         end
     else
@@ -1516,7 +1532,6 @@ function sewingMachineMod:tearUpdate(tear)
     local tData = tear:GetData()
     local familiar = tear.Parent
     local fData
-
     
     -- If tear hasn't been fired from a familiar
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
@@ -2025,8 +2040,9 @@ function sewingMachineMod:loadSave(isExistingRun)
 end
 
 sewingMachineMod:AddInMachineCallback(FamiliarVariant.HALLOWED_GROUND, sewnFamiliars.hallowedGround_addInMachine)
-sewingMachineMod:AddInMachineCallback(FamiliarVariant.CUBE_BABY, sewnFamiliars.cubeBaby_addInMachine)
-
+if REPENTANCE then
+    sewingMachineMod:AddInMachineCallback(FamiliarVariant.CUBE_BABY, sewnFamiliars.cubeBaby_addInMachine)
+end
 ---------------
 -- CALLBACKS --
 ---------------
