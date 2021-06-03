@@ -413,18 +413,18 @@ function sewnFamiliars:upBrotherBobby(familiar)
     local fData = familiar:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         if REPENTANCE then
-            sewnFamiliars:setTearRateBonus(familiar, 6)
+            sewnFamiliars:setTearRateBonus(familiar, 5)
         else
             sewnFamiliars:setTearRateBonus(familiar, 10)
         end
     end
     if sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
         if REPENTANCE then
-            sewnFamiliars:setTearRateBonus(familiar, 10)
+            sewnFamiliars:setTearRateBonus(familiar, 7)
         else
             sewnFamiliars:setTearRateBonus(familiar, 18)
         end
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
     end
 end
 
