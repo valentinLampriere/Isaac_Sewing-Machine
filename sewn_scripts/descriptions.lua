@@ -166,7 +166,7 @@ function sewingMachineMod:InitFamiliarDescription()
         "{{ArrowUp}}  Damage Up",
         ConvertRGBToIsaac({193, 189, 207})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.GUARDIAN_ANGEL,
         "Can increase damage of tears which go through it#Each projectile he block increase how much he increase damage from tears",
         "Each time it block a projectile, it has a chance to reflect it back",
@@ -177,7 +177,7 @@ function sewingMachineMod:InitFamiliarDescription()
         "Has a chance to spawn half a soul heart {{HalfSoulHeart}} when blocking a projectile",
         "Every few projectile blocked, it fire 4 lasers in four directions",
         ConvertRGBToIsaac({227, 198, 197})
-    )
+    )--]]
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BLOODSHOT_EYE,
         "Fire 3 tears#Each tears deal 5 damage",

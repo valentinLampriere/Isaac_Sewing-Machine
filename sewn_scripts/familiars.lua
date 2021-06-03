@@ -72,16 +72,16 @@ local vanillaFollowers = {
 
 }
 if REPENTANCE then
-    vanillaFollowers[BLOOD_OATH] = true
-    vanillaFollowers[BOILED_BABY] = true
-    vanillaFollowers[FREEZER_BABY] = true
-    vanillaFollowers[KNIFE_PIECE_1] = true
-    vanillaFollowers[KNIFE_PIECE_2] = true
-    vanillaFollowers[PASCHAL_CANDLE] = true
-    vanillaFollowers[KNIFE_FULL] = true
-    vanillaFollowers[LIL_ABADDON] = true
-    vanillaFollowers[LIL_PORTAL] = true
-    vanillaFollowers[VANISHING_TWIN] = true
+    vanillaFollowers[FamiliarVariant.BLOOD_OATH] = true
+    vanillaFollowers[FamiliarVariant.BOILED_BABY] = true
+    vanillaFollowers[FamiliarVariant.FREEZER_BABY] = true
+    vanillaFollowers[FamiliarVariant.KNIFE_PIECE_1] = true
+    vanillaFollowers[FamiliarVariant.KNIFE_PIECE_2] = true
+    vanillaFollowers[FamiliarVariant.PASCHAL_CANDLE] = true
+    vanillaFollowers[FamiliarVariant.KNIFE_FULL] = true
+    vanillaFollowers[FamiliarVariant.LIL_ABADDON] = true
+    vanillaFollowers[FamiliarVariant.LIL_PORTAL] = true
+    vanillaFollowers[FamiliarVariant.VANISHING_TWIN] = true
 end
 
 ------------------------
@@ -1482,8 +1482,11 @@ function sewnFamiliars:custom_update_bobsBrain(bobsBrain)
             creep.Size = 3
             creep.SpriteScale = Vector(3, 3)
             creep.Timeout = 50
-            creep:SetColor(Color(0, 0, 0, 1, 0, 0.25, 0), -1, 0, false, false)
-            
+            if REPENTANCE then
+                creep:SetColor(Color(0, 0, 0, 1, 0, 0.25, 0), -1, 0, false, false)
+            else
+                creep:SetColor(Color(0, 0, 0, 1, 0, 65, 0), -1, 0, false, false)
+            end
             -- hide the crown
             sewingMachineMod:hideCrown(bobsBrain, true)
         end
@@ -1838,7 +1841,7 @@ function sewnFamiliars:custom_update_sissyLonglegs(sissyLonglegs)
                 amountSpider = 2
             end
             for i = 1, amountSpider do
-                local spider = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_SPIDER, 0, sissyLonglegs.Position, Vector.Zero, sissyLonglegs)
+                local spider = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.BLUE_SPIDER, 0, sissyLonglegs.Position, v0, sissyLonglegs)
                 spider:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
                 
                 if sewingMachineMod:isUltra(fData) then
@@ -2441,7 +2444,7 @@ function sewnFamiliars:custom_update_isaacsHeart(isaacsHeart)
         if npc_bullet ~= nil and #npc_bullet > 0 then
             sewnFamiliars:shootTearsCircular(isaacsHeart, 8, TearVariant.BLOOD, nil, 7, 8)
             
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, isaacsHeart.Position, Vector.Zero, isaacsHeart):ToEffect()
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, isaacsHeart.Position, v0, isaacsHeart):ToEffect()
             creep.Timeout = -1
 
             game:ButterBeanFart (isaacsHeart.Position, 100, isaacsHeart.Player, false)
@@ -4039,7 +4042,7 @@ function sewnFamiliars:custom_update_bloodOath(bloodOath)
     local fData = bloodOath:GetData()
     if fData.Sewn_bloodOath_playerRemovedHealth > 0 then
         if fData.Sewn_bloodOath_creepSpawnFrame + fData.Sewn_bloodOath_creepSpawnFrameOffset < bloodOath.FrameCount then
-            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, bloodOath.Position, Vector.Zero, bloodOath)
+            local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, bloodOath.Position, v0, bloodOath)
             creep.CollisionDamage = fData.Sewn_bloodOath_playerRemovedHealth * 0.2
             creep.Size = creep.Size * 0.75
             creep.SpriteScale = creep.SpriteScale * 0.75
