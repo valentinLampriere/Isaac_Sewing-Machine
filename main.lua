@@ -351,6 +351,7 @@ if REPENTANCE then
     local availableFamiliarRepentance = {
         [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
         [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
+        [FamiliarVariant.BOILED_BABY] = {607, sewingMachineMod.sewnFamiliars.upBoiledBaby},
         [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
         [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
         [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
@@ -916,6 +917,10 @@ function sewingMachineMod:onPlayerUpdate(player)
     -- Spawn the pin cushion trinket when pressing the drop button
     if player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) and Input.IsActionPressed(ButtonAction.ACTION_DROP, player.ControllerIndex) then
         player:DropTrinket(player.Position, false);
+    end
+
+    if pData.Sewn_hasItem == nil then
+        pData.Sewn_hasItem = {}
     end
 
     if player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
@@ -1532,7 +1537,7 @@ function sewingMachineMod:tearUpdate(tear)
     local tData = tear:GetData()
     local familiar = tear.Parent
     local fData
-    
+
     -- If tear hasn't been fired from a familiar
     if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
         return

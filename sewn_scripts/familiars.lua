@@ -331,6 +331,7 @@ end
 
 
 function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differentSize, tearVariant, tearFlags, position)
+    local spawnedTears = {}
     local player = familiar.Player
     tearVariant = tearVariant or TearVariant.BLOOD
     tearFlags = tearFlags or 0
@@ -353,7 +354,10 @@ function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differen
         t.FallingAcceleration = 1.5
         t.CollisionDamage = damage
         sewnFamiliars:toBabyBenderTear(familiar, t)
+
+        table.insert(spawnedTears, t)
     end
+    return spawnedTears
 end
 
 function sewnFamiliars:spawnBonesOrbitals(boneFamiliar, min, max, force)
@@ -402,6 +406,37 @@ function sewnFamiliars:getDirectionFromAngle(angle)
         return Direction.RIGHT
     end
     return Direction.NO_DIRECTION
+end
+
+function sewnFamiliars:getDirectionPlayerFire(familiar, strength, randomStrength, familiarVelocityInfluenceStrength)
+
+    strength = strength or 5
+    randomStrength = randomStrength or 0
+    familiarVelocityInfluenceStrength = familiarVelocityInfluenceStrength or 0.5
+
+    local velo = Vector(0, 0)
+    local dir = familiar.Player:GetFireDirection()
+    if dir == Direction.LEFT then
+        velo.X = -strength + (math.random() - 0.5) * randomStrength
+        velo.Y = (math.random() - 0.5) * randomStrength
+    elseif dir == Direction.RIGHT then
+        velo.X = strength + (math.random() - 0.5) * randomStrength
+        velo.Y = (math.random() - 0.5) * randomStrength
+    elseif dir == Direction.UP then
+        velo.X = (math.random() - 0.5) * randomStrength
+        velo.Y = -strength + (math.random() - 0.5) * randomStrength
+    elseif dir == Direction.DOWN then
+        velo.X = (math.random() - 0.5) * randomStrength
+        velo.Y = strength + (math.random() - 0.5) * randomStrength
+    else
+        velo.X = (math.random() - 0.5) * randomStrength
+        velo.Y = (math.random() - 0.5) * randomStrength
+    end
+
+    velo.X = velo.X + familiar.Velocity.X * familiarVelocityInfluenceStrength
+    velo.Y = velo.Y + familiar.Velocity.Y * familiarVelocityInfluenceStrength
+
+    return velo, dir
 end
 
 -----------------------
@@ -1804,7 +1839,7 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
     end
     
     if juicySack.FireCooldown == 0 then
-        if player:GetShootingInput():Length() > 0 then
+        if player:GetShootingInput():LengthSquared() > 0 then
             sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
             juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 30
         end
@@ -4357,19 +4392,52 @@ end
 function sewnFamiliars:upBoiledBaby(boiledBaby)
     local fData = boiledBaby:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:customFireInit(boiledBaby, sewnFamiliars.custom_fireInit_boiledBaby)
+        sewnFamiliars:customUpdate(boiledBaby, sewnFamiliars.custom_update_boiledBaby)
+        if sewingMachineMod:isUltra(fData) then
+            fData.Sewn_boiledBaby_tearsCooldown = 0
+        end
     end
 end
-function sewnFamiliars:custom_fireInit_boiledBaby(boiledBaby, tear)
-    local rollNewTear = sewingMachineMod.rng:RandomInt(100)
-    --if rollNewTear < 50 then
-        local velocity = Vector(sewingMachineMod.rng:RandomFloat() - 0.5, sewingMachineMod.rng:RandomFloat() - 0.5) + tear.Velocity
-        
-        local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, boiledBaby.Position, velocity, boiledBaby):ToTear()
-        sewnFamiliars:toBabyBenderTear(boiledBaby, newTear)
-        
-        newTear.FallingSpeed = tear.FallingSpeed
-        newTear.FallingAcceleration = tear.FallingAcceleration
-    --end
+function sewnFamiliars:custom_update_boiledBaby(boiledBaby)
+    local fData = boiledBaby:GetData()
+    local sprite = boiledBaby:GetSprite()
+
+    if sprite:IsEventTriggered("Shoot") then
+        local rollTears = math.random(5)
+        local tears = sewnFamiliars:burstTears(boiledBaby, rollTears, 3.5, 7, false, TearVariant.BLOOD)
+        for _, tear in ipairs(tears) do
+            local roll = sewingMachineMod.rng:RandomInt(100)
+            if roll < 30 then
+                tear.CollisionDamage = 5.25
+                tear.Scale = tear.Scale * 1.1
+            end
+            tear.FallingSpeed = math.random() * -15 - 3
+            tear.FallingAcceleration = 0.8
+        end
+    end
+
+    if sewingMachineMod:isUltra(fData) then
+        if fData.Sewn_boiledBaby_tearsCooldown <= 0 then
+            
+            local velo, direction = sewnFamiliars:getDirectionPlayerFire(boiledBaby, 8, 7, 1)
+            local damage = math.random() * (6.25 - 3.5) + 3.5
+
+            if boiledBaby.Player:GetShootingInput():LengthSquared() == 0 then
+                return
+            end
+            local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, boiledBaby.Position, velo, boiledBaby):ToTear()
+
+            tear.CollisionDamage = damage
+            tear.Scale = 1 + math.sqrt(damage)/6.25-0.3
+
+            tear.Height = tear.Height - 20
+            tear.FallingSpeed = math.random() * -15 - 3
+            tear.FallingAcceleration = 0.8
+
+            fData.Sewn_boiledBaby_tearsCooldown = sewingMachineMod.rng:RandomInt(8) + 1
+        else
+            fData.Sewn_boiledBaby_tearsCooldown = fData.Sewn_boiledBaby_tearsCooldown - 1
+        end
+    end
 end
 sewingMachineMod.errFamiliars.Error()

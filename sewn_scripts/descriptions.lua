@@ -481,6 +481,12 @@ function sewingMachineMod:InitFamiliarDescription()
             "While it moves, spawn static tears#Those tears have a chance to apply Poison, Charm or Confusion",
             ConvertRGBToIsaac({227, 198, 197})
         )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.BOILED_BABY,
+            "Increase the amount of tears it burst",
+            "Fire tears in the directions the player is firing",
+            ConvertRGBToIsaac({179, 0, 0})
+        )
     end
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(
