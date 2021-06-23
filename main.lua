@@ -1,190 +1,9 @@
--------------------------------
--------- DOCUMENTATION --------
--------------------------------
-
-
--- *** Here are some functions you can use to upgrade your custom familiars *** --
-
-
------------------------
--- GENERAL FUNCTIONS --
------------------------
-
-
--- MAKE FAMILIAR AVAILABLE --
--- Description :
---   This function allow a familiar to be upgrade in the Sewing Machine. If this function is not called, your custom familiars couldn't be upgrade
---   The third parameter is a function, I recommend you to use it so the function will be called when the familiar is upgrade. In this function you can use custom callbacks (see below), or do what you want
--- Parameters :
---   familiarVariant (number)   : The variant of the familiar you want to upgrade
---   collectibleID   (number)   : ID of the collectible which will appear on the Sewing Machine
---   _function       (function) : The function which will be called when the familiar is upgrade (optional)
---
--- sewingMachineMod:makeFamiliarAvailable(familiarVariant, collectibleID, _function)
-
-
--- IS AVAILABLE --
--- Description :
---   This check if a familiar can be upgraded in the Sewing Machine
--- Parameters :
---   familiarVariant (number) : The variant of the familiar you want to upgrade
--- Returns :
---   A boolean, true if the familiar can be upgraded
---
--- sewingMachineMod:isAvailable(familiarVariant)
-
-
--- IS SUPER --
--- Description :
---   This check if a familiar is upgraded as SUPER (gold crown)
--- Parameters :
---   fData (userdata) : Userdata of the familiar you want to check (familiar:GetData())
--- Returns :
---   A boolean, true if the familiar is SUPER
---
--- sewingMachineMod:isSuper(fData)
-
-
--- IS ULTRA --
--- Description :
---   This check if a familiar is upgraded as ULTRA (diamond crown)
--- Parameters :
---   fData (userdata) : Userdata of the familiar you want to check (familiar:GetData())
--- Returns :
---   A boolean, true if the familiar is ULTRA
---
--- sewingMachineMod:isUltra(fData)
-
-
--- ADD DESCRIPTION FOR FAMILIARS (EID)
--- Description :
---   This function allow you to add a description for your familiars upgrade
--- Parameters :
---   familiarVariant  (number) : The Variant of the familiar
---   firstUpgrade     (string) : The text which will be display when upgrading the first level
---   secondUpgrade    (string) : The text for second level. Use "#" to go to the next line
---   color            (table)  : OPTIONNAL A color stored has a table with 3 values {1, 1, 1}
---   optionalName     (string) : OPTIONNAL The name of the familiar which will be displayed above the description. By default, the collectible name is choosen
---
--- sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgrade, secondUpgrade, color, optionalName)
-
--- HIDE CROWN --
--- Description :
--- Hide or unhide the crown of a familiar
--- Parameters :
---   familiar  (EntityFamiliar) : The familiar
---   hideCrown (boolean) : OPTIONNAL true or missing hide the crown ; false unhide the crown
---
--- sewingMachineMod:hideCrown(familiar, hideCrown)
-
--- ADD CROWN OFFSET --
--- Description :
--- Add an offset to the crown for a specific familiar, like so it's possible to choose where the crown will be displayed
--- Parameters :
---   familiar (EntityFamiliar) : The familiar
---   offset   (Vector) : The offset position of the crown
---
--- sewingMachineMod:addCrownOffset(familiar, offset)
-
--- ADD IN MACHINE CALLBACK
--- Description :
--- Add a callback when a familiar is put in the machine. When a familiar is put in the machine, will call the given function with the EntityFamiliar as parameter
--- This should be called once when you make the familiar available
--- Parameters :
---   familiarID   (int) : The ID of the familiar
---   functionName (function) : The function to call when a familiar with this ID is put in a machine
--- sewingMachineMod:AddInMachineCallback(familiarID, functionName)
-
--------------------------
--- FAMILIARS FUNCTIONS --
--------------------------
--- Those function are usefull (but not necessary) to prepare familiar stats upgrade, or custom behaviour
-
--- Set the fire rate bonus of the familiar
--- sewingMachineMod.sewnFamiliars:setTearRateBonus(familiar, bonus)
-
--- Set the bonus damage of a tear (or laser). The bonus is a multiplier, it will be applied on default tear damage
--- sewingMachineMod.sewnFamiliars:setDamageTearMultiplier(familiar, bonus)
-
--- Set the bonus range of a tear. This bonus is a multiplier
--- sewingMachineMod.sewnFamiliars:setRangeBonusMultiplier(familiar, bonus)
-
--- Set the shot speed bonus of a tear. This bonus is a multiplier
--- sewingMachineMod.sewnFamiliars:setShotSpeedBonusMultiplier(familiar, multiplier)
-
--- Set the tear size of a tear. This is a multiplier
--- sewingMachineMod.sewnFamiliars:setTearSizeMultiplier(familiar, multiplier)
-
--- Add tearFlags to any tears fired from the familiar. "chance" is optionnal
--- sewingMachineMod.sewnFamiliars:addTearFlag(familiar, newTearFlag, chance)
-
--- Change TearVariant of any tears fired from the familiar
--- sewingMachineMod.sewnFamiliars:changeTearVariant(familiar, tearVariant)
-
--- Change the Size of the familiar. This is a multiplier
--- sewingMachineMod.sewnFamiliars:spriteScaleMultiplier(familiar, multiplier)
-
---------------------------------------------------------------------------
--- Function below allow you to call custom function depending on events --
--- Those functions have to be called ONCE when the familiar is upgraded --
--- After they are called, the function in parameter will be called      --
--- every time a callback is called.                                     --
---------------------------------------------------------------------------
--- Exemple :
--- sewingMachineMod.sewnFamiliars:customCollision(bobby, mod.bobbyCollide)
--- Here, "mod.bobbyCollide" will be called every time bobby collide with something, on "MC_PRE_FAMILIAR_COLLISION"
-
--- Called when the familiar fire a tear (or a laser)
--- sewingMachineMod.sewnFamiliars:customFireInit(familiar, functionName)
--- The function will have 2 parameters : The familiar and the tear which is fired
-
--- Called when a familiar's tear hit something
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customTearCollision(familiar, functionName)
--- The function will have 3 parameters : The familiar, the tear which is colliding and the collider
-
--- Called when the familiar is playing a special animation. "animation_s" is the name of a animation (string), or a table which contains several animation names.
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customAnimation(familiar, functionName, animation_s)
--- The function will have 2 parameters : The familiar and the tear which is falling
-
--- Called when the familiar is updated, called every frame
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customUpdate(familiar, functionName)
--- The function will have 1 parameters : The familiar
-
--- Called when the familiar is rendered
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customRender(familiar, functionName)
--- The function will have 1 parameters : The familiar
-
--- Called when the familiar is colliding with something
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customCollision(familiar, functionName)
--- The function will have 2 parameters : The familiar and the collider
-
--- Called when entering a new room
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customNewRoom(familiar, functionName)
--- The function will have 1 parameters : The familiar
-
--- Called when the familiar's player evaluate his cache
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customCache(familiar, functionName)
--- The function will have 2 parameters : The familiar, and the evaluated CacheFlag
-
--- Called when the familiar kill an enemy
--- sewingMachineMod.sewnFamiliars:sewnFamiliars:customKillEnemy(familiar, functionName)
--- The function will have 2 parameters : The familiar, and the killed enemy
-
-
-
--- Usefull data attribute :
-
--- To prevent a familiar to be upgradable (for exemple for copy familiar of King Baby)
--- familiar:GetData().Sewn_noUpgrade = true
-
-
--- You can have a look on how I upgrade vanilla familiars in familiars.lua
-
+-- Documentation on https://github.com/valentinLampriere/Isaac_Sewing-Machine/wiki
 
 -- *** Special thanks to Foks, SupremeElf, PixelPlz, Cadence, Sentinel and Spore64 for their support and their help *** --
 
 
-sewingMachineMod = RegisterMod("Sewing machine", 1)
+sewingMachineMod = RegisterMod("!Sewing machine", 1)
 
 sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
 ------------------
@@ -247,6 +66,7 @@ local v0 = Vector(0, 0)
 local game = Game()
 local sewingMachine_shouldAppear_shop = false
 local temporaryFamiliars = {}
+
 local trinketSewingMachine = {
     TrinketType.TRINKET_THIMBLE,
     TrinketType.TRINKET_LOST_BUTTON,
@@ -275,6 +95,12 @@ local function __require(file)
 end
 __require("sewn_scripts.config")
 __require("sewn_scripts.familiars")
+
+if REPENTANCE then
+    require("sewn_scripts.apioverride2")
+else
+    require("sewn_scripts.apioverride")
+end
 
 -------------------------
 -- AVAILABLE FAMILIARS --
@@ -402,7 +228,6 @@ if EID then
     EID:addCard(Card.CARD_WARRANTY, "Spawn a sewing machine#The Sewing machine change depending on the room type")
     EID:addCard(Card.CARD_STITCHING, "Reroll familiar crowns")
 end
-
 
 function sewingMachineMod:isAvailable(familiarVariant)
     return sewingMachineMod.availableFamiliar[familiarVariant] ~= nil
@@ -1312,7 +1137,7 @@ function sewingMachineMod:updateFamiliar(familiar)
         for animationName, _function in pairs(fData.Sewn_custom_animation) do
             -- If familiar plays an animation
             if familiar:GetSprite():IsPlaying(animationName) or familiar:GetSprite():IsFinished(animationName) then
-                _function(_, familiar, effect)
+                _function(_, familiar)
             end
         end
     end
@@ -1394,7 +1219,7 @@ end
 ----------------------
 function sewingMachineMod:newRoom()
     sewingMachineMod.currentRoom = game:GetRoom()
-
+    
     sewingMachineMod.displayTrueCoopMessage = false
 
     for i, familiar in pairs(temporaryFamiliars) do
@@ -1673,7 +1498,7 @@ end
 -------------------------------------------------
 -- MC_USE_ITEM - COLLECTIBLE_GLOWING_HOURGLASS --
 -------------------------------------------------
-function sewingMachineMod:useGlowingHourglass(collectibleType, rng)
+function sewingMachineMod:getFamiliarsStatesHack()
     local familiarStates = {}
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         familiar = familiar:ToFamiliar()
@@ -1685,7 +1510,11 @@ function sewingMachineMod:useGlowingHourglass(collectibleType, rng)
             table.insert(familiarStates[familiar.Variant], fData.Sewn_upgradeState)
         end
     end
-    sewingMachineMod:delayFunction(sewingMachineMod.glowingHourglassResetFamiliars, -game:GetRoom():GetFrameCount(), familiarStates)
+    return familiarStates
+end
+function sewingMachineMod:useGlowingHourglass(collectibleType, rng)
+    local familiarsStatesHack = sewingMachineMod:getFamiliarsStatesHack()
+    sewingMachineMod:delayFunction(sewingMachineMod.glowingHourglassResetFamiliars, -game:GetRoom():GetFrameCount(), familiarsStatesHack)
 end
 function sewingMachineMod:glowingHourglassResetFamiliars(familiarStates)
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
