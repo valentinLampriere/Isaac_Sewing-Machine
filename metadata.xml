@@ -5,7 +5,7 @@
     <id>2145452717</id>
     <description>[h1]Repentance update is coming ![/h1]
 
-Check the last changes to see the Repentance update 0.1 !
+Check the last changes to see the Repentance update 0.2 !
 
 [h2]Pre-Repentance update[/h2]
 
@@ -118,6 +118,9 @@ Interacting with the machine gives the familiar back
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
 
+[h3]To make you own familiar upgradable :[/h3]
+https://github.com/valentinLampriere/Isaac_Sewing-Machine/wiki
+
 --------------------------------
 
 Please let me know if you encounter bugs !
@@ -144,8 +147,8 @@ Special Thanks to
 Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
 Discord : valentinL#3711
 
-Now on Discord : https://discord.gg/zKavH4TX</description>
-    <version>1.17</version>
+Now on Discord : https://discord.gg/56HzHdAKKG</description>
+    <version>1.18</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
@@ -154,4 +157,5 @@ Now on Discord : https://discord.gg/zKavH4TX</description>
     <tag id="Cards"/>
     <tag id="Pickups"/>
     <tag id="Familiars"/>
+    <tag id="Tweaks"/>
 </metadata>
