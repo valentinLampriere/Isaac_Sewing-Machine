@@ -1,3 +1,5 @@
+if REPENTANCE then return end
+
 if not ModCompatCallbackHack then
     local mod = RegisterMod("Embeddable Callback Hack", 1)
 
