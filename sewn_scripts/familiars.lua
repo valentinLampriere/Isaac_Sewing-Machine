@@ -9,6 +9,7 @@ else
 end
 local game = Game()
 local v0 = Vector(0,0)
+local rng = RNG()
 
 local ANIMATION_NAMES = {
     SPAWN = {"Spawn"},
@@ -309,7 +310,8 @@ function sewnFamiliars:shootTearsCircular(familiar, amountTears, tearVariant, po
     if notFireFromFamiliar == true then
         spawnerTear = nil
     end
-    local tearOffset = sewingMachineMod.rng:RandomInt(360)
+    rng:SetSeed(familiar.InitSeed, 0)
+    local tearOffset = rng:RandomInt(360)
     for i = 1, amountTears do
         local velo = Vector(velocity, velocity)
         velo = velo:Rotated((360 / amountTears) * i + tearOffset)
@@ -339,14 +341,16 @@ function sewnFamiliars:burstTears(familiar, amountTears, damage, force, differen
     differentSize = differentSize or false
     force = force or 5
     damage = damage or 3.5
+
+    rng:SetSeed(familiar.InitSeed, 0)
     for i = 1, amountTears do
         local velocity = Vector(0, 0)
-        velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
-        velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+        velocity.X = rng:RandomFloat() + rng:RandomInt(force * 2) - force
+        velocity.Y = rng:RandomFloat() + rng:RandomInt(force * 2) - force
         local t = Isaac.Spawn(EntityType.ENTITY_TEAR, tearVariant, 0, position, velocity, familiar):ToTear()
         sewnFamiliars:toBabyBenderTear(familiar, t)
         if differentSize == true then
-            local sizeMulti = sewingMachineMod.rng:RandomFloat() * 0.4 + 0.7
+            local sizeMulti = rng:RandomFloat() * 0.4 + 0.7
             t.Scale = sizeMulti
         end
         t.TearFlags = t.TearFlags | tearFlags
@@ -574,7 +578,8 @@ function sewnFamiliars:upSeraphim(familiar)
 end
 function sewnFamiliars:custom_fireInit_seraphim(familiar, tear)
     local fData = familiar:GetData()
-    local roll = sewingMachineMod.rng:RandomInt(100)
+    rng:SetSeed(familiar.InitSeed, 0)
+    local roll = rng:RandomInt(100)
     local _r = 10
     if (sewingMachineMod:isUltra(fData)) then
         _r = 15
@@ -692,9 +697,10 @@ function sewnFamiliars:custom_fireInit_BuddyInABox(familiar, tear)
         nbFlags = nbFlags + 1
     end
 
+    rng:SetSeed(familiar.InitSeed, 0)
     for i = 1, nbFlags do
         repeat
-            roll = sewingMachineMod.rng:RandomInt(maxFlag)
+            roll = rng:RandomInt(maxFlag)
         until (1<<roll & TearFlags.TEAR_EXPLOSIVE <= 0)
         tear.TearFlags = tear.TearFlags | 1<<roll
     end
@@ -759,7 +765,8 @@ function sewnFamiliars:custom_update_headlessBaby(familiar)
     if sewingMachineMod:isUltra(fData) then
         if familiar.FireCooldown == 0 then
             if player:GetShootingInput():Length() > 0 then
-                local nbTears = sewingMachineMod.rng:RandomInt(8) + 5
+                rng:SetSeed(familiar.InitSeed, 0)
+                local nbTears = rng:RandomInt(8) + 5
                 sewnFamiliars:burstTears(familiar, nbTears)
                 familiar.FireCooldown = 45
             end
@@ -833,7 +840,8 @@ function sewnFamiliars:custom_update_roboBaby2(familiar)
             end
             fData.Sewn_roboBaby2_followCooldown = fData.Sewn_roboBaby2_followCooldown - 1
         else
-            fData.Sewn_roboBaby2_followCooldown = sewingMachineMod.rng:RandomInt(300) + 150
+            rng:SetSeed(familiar.InitSeed, 0)
+            fData.Sewn_roboBaby2_followCooldown = rng:RandomInt(300) + 150
         end
     end
 end
@@ -995,9 +1003,10 @@ function sewnFamiliars:custom_fireInit_lilMonstro(familiar, tear)
     local fData = familiar:GetData()
     -- Have a chance to fire additional tears (~= amount of tears x 1.5)
     if sewingMachineMod:isUltra(fData) then
-        local rollNewTear = sewingMachineMod.rng:RandomInt(101)
+        rng:SetSeed(familiar.InitSeed, 0)
+        local rollNewTear = rng:RandomInt(101)
         if rollNewTear < 35 then
-            local velocity = Vector(sewingMachineMod.rng:RandomFloat() - 0.5, sewingMachineMod.rng:RandomFloat() - 0.5) + tear.Velocity
+            local velocity = Vector(rng:RandomFloat() - 0.5, rng:RandomFloat() - 0.5) + tear.Velocity
             
             local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, familiar.Position, velocity, familiar):ToTear()
             sewnFamiliars:toBabyBenderTear(familiar, newTear)
@@ -1008,7 +1017,7 @@ function sewnFamiliars:custom_fireInit_lilMonstro(familiar, tear)
     end
     -- Have a chance to fire teeth
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        local rollTooth = sewingMachineMod.rng:RandomInt(101)
+        local rollTooth = rng:RandomInt(101)
         if rollTooth < 10 then
             if tear.Variant ~= TearVariant.TOOTH then
                 tear:ChangeVariant(TearVariant.TOOTH)
@@ -1143,7 +1152,8 @@ end
 function sewnFamiliars:custom_update_papaFly(papaFly)
     local fData = papaFly:GetData()
     for _, bullet in pairs(Isaac.FindInRadius(papaFly.Position, papaFly.Size, EntityPartition.BULLET)) do
-        local roll = sewingMachineMod.rng:RandomInt(100)
+        rng:SetSeed(papaFly.InitSeed, 0)
+        local roll = rng:RandomInt(100)
         local chance = 20
         if sewingMachineMod:isUltra(fData) then
             chance = 33
@@ -1264,7 +1274,8 @@ function sewnFamiliars:custom_collision_guardianAngel(guardianAngel, collider)
             guardianAngel:SetColor(Color(1,1,1,1,rOffset,gOffset,0), -1, 1, false, false)
         end
         if sewingMachineMod:isUltra(fData) then
-            rollTear = sewingMachineMod.rng:RandomInt(5)
+            rng:SetSeed(guardianAngel.InitSeed, 0)
+            rollTear = rng:RandomInt(5)
             if rollTear == 0 then
                 local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, 0, 0, collider.Position, -collider.Velocity, guardianAngel):ToTear()
                 tear.TearFlags =  tear.TearFlags| TearFlags.TEAR_HOMING
@@ -1298,8 +1309,9 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
         
         fData.Sewn_swornProtector_blockTimer = game:GetFrameCount()
         
+        rng:SetSeed(swornProtector.InitSeed, 0)
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            rollSoulHeartDrop = sewingMachineMod.rng:RandomInt(20)
+            rollSoulHeartDrop = rng:RandomInt(20)
             if rollSoulHeartDrop == 0 and fData.Sewn_swornProtector_nbProjectileBlockedSinceLastDrop >= 10 then
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF_SOUL, swornProtector.Position, v0, swornProtector)
                 fData.Sewn_swornProtector_nbProjectileBlockedSinceLastDrop = 0
@@ -1313,7 +1325,7 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
             if fData.Sewn_swornProtector_laserState >= 6 then
                 local angle = collider.Velocity:GetAngleDegrees() - 180
                 local offsetLasers = 0
-                if sewingMachineMod.rng:RandomInt(2) == 0 then
+                if rng:RandomInt(2) == 0 then
                     offsetLasers = 45
                 end
                     
@@ -1473,7 +1485,8 @@ function sewnFamiliars:marshmallow_upgradeState(marshmallow, state)
 	end
 end
 function sewnFamiliars:custom_cleanAward_marshmallow(marshmallow)
-    local roll = sewingMachineMod.rng:RandomInt(100) + 1
+    rng:SetSeed(marshmallow.InitSeed, 0)
+    local roll = rng:RandomInt(100) + 1
     if roll < 30 then
         if marshmallow.State < 4 then
             sewnFamiliars:marshmallow_upgradeState(marshmallow, marshmallow.State + 1)
@@ -1585,7 +1598,8 @@ function sewnFamiliars:upLilGurdy(lilGurdy)
     end
 end
 function sewnFamiliars:custom_lilGurdy_shootTears(lilGurdy)
-    local nbTears = sewingMachineMod.rng:RandomInt(8) + 2
+    rng:SetSeed(lilGurdy.InitSeed, 0)
+    local nbTears = rng:RandomInt(8) + 2
     sewnFamiliars:shootTearsCircular(lilGurdy, nbTears, nil, nil, nil, 5, TearFlags.TEAR_SPECTRAL)
 end
 function sewnFamiliars:custom_animationDashStop_lilGurdy(lilGurdy)
@@ -1761,7 +1775,8 @@ function sewnFamiliars:familiarSpawnAdditionalSpider(familiar, amountSpiders)
     end
 end
 function sewnFamiliars:familiarSpawnAdditionalLocust(familiar, amountLocust, spawnSameLocusts, locustType)
-    local rollLocust = sewingMachineMod.rng:RandomInt(5) + 1
+    rng:SetSeed(familiar.InitSeed, 0)
+    local rollLocust = rng:RandomInt(5) + 1
     if locustType then
         rollLocust = locustType
     end
@@ -1778,7 +1793,7 @@ function sewnFamiliars:familiarSpawnAdditionalLocust(familiar, amountLocust, spa
     for i = 1, amountLocust do
         local nb = 1
         if spawnSameLocusts == false and locustType == nil then
-            rollLocust = sewingMachineMod.rng:RandomInt(5) + 1
+            rollLocust = rng:RandomInt(5) + 1
         end
         if rollLocust == 5 then -- Spawn 2 conquest locusts
             nb = 2
@@ -1833,15 +1848,17 @@ function sewnFamiliars:custom_update_juicySack(juicySack)
             end
         end
     end
-    local nbTears = sewingMachineMod.rng:RandomInt(2)
-    if sewingMachineMod:isUltra(fData) then
-        nbTears = sewingMachineMod.rng:RandomInt(6) + 1
-    end
     
     if juicySack.FireCooldown == 0 then
+        rng:SetSeed(juicySack.InitSeed, 0)
+        local nbTears = rng:RandomInt(2)
+        if sewingMachineMod:isUltra(fData) then
+            nbTears = rng:RandomInt(6) + 1
+        end
+
         if player:GetShootingInput():LengthSquared() > 0 then
             sewnFamiliars:burstTears(juicySack, nbTears, nil, 4, false, TearVariant.EGG, TearFlags.TEAR_EGG)
-            juicySack.FireCooldown = sewingMachineMod.rng:RandomInt(30) + 30
+            juicySack.FireCooldown = rng:RandomInt(30) + 30
         end
     else
         juicySack.FireCooldown = juicySack.FireCooldown - 1
@@ -1856,7 +1873,8 @@ function sewnFamiliars:upSissyLonglegs(sissyLonglegs)
     end
 end
 function sewnFamiliars:custom_sissyLonglegs_spiderCollision(spider, collider)
-    local rollCharm = sewingMachineMod.rng:RandomInt(100)
+    rng:SetSeed(spider.InitSeed, 0)
+    local rollCharm = rng:RandomInt(100)
     if rollCharm < 50 then
         if REPENTANCE then
             collider:AddCharmed(EntityRef(spider), math.random(30, 120))
@@ -1886,7 +1904,8 @@ function sewnFamiliars:custom_update_sissyLonglegs(sissyLonglegs)
         end
     else
         if sewingMachineMod:isUltra(fData) then
-            local roll = sewingMachineMod.rng:RandomInt(2000)
+            rng:SetSeed(sissyLonglegs.InitSeed, 0)
+            local roll = rng:RandomInt(2000)
             if roll == 1 then
                 sprite:Play("Spawn", true)
             end
@@ -1907,7 +1926,8 @@ function sewnFamiliars:custom_animation_littleChad(chad)
         for _, half_heart in pairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF, false, true)) do
             half_heart = half_heart:ToPickup()
             if half_heart.FrameCount == 2 and half_heart.SpawnerType == EntityType.ENTITY_FAMILIAR and half_heart.SpawnerVariant == FamiliarVariant.LITTLE_CHAD then
-                local rollHeart = sewingMachineMod.rng:RandomInt(101)
+                rng:SetSeed(chad.InitSeed, 0)
+                local rollHeart = rng:RandomInt(101)
                 local heartFullChance = 33
                 local halfSoulHeartChance = 0
                 if sewingMachineMod:isUltra(fData) then
@@ -2057,7 +2077,8 @@ function sewnFamiliars:custom_cleanAward_theRelic(theRelic)
 end
 function sewnFamiliars:custom_animation_theRelic(theRelic)
     if theRelic:GetSprite():GetFrame() == 0 then
-        local roll = sewingMachineMod.rng:RandomInt(100)
+        rng:SetSeed(theRelic.InitSeed, 0)
+        local roll = rng:RandomInt(100)
         local pos = sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
 
         local chanceSoulHeart = 8
@@ -2108,8 +2129,9 @@ function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
                 minCooldown = 150
                 rollMax = 4
             end
+            rng:SetSeed(fartingBaby.InitSeed, 0)
             if fData.Sewn_custom_fartingBaby_randomFartCooldown == 0 then
-                local rollFart = sewingMachineMod.rng:RandomInt(rollMax)
+                local rollFart = rng:RandomInt(rollMax)
                 if rollFart == 0 then
                     game:Fart(fartingBaby.Position, 75, fartingBaby.Player, 1, 0)
                 elseif rollFart == 1 then
@@ -2121,7 +2143,7 @@ function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
                     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, v0, fartingBaby)
                 end
             end
-            fData.Sewn_custom_fartingBaby_randomFartCooldown = sewingMachineMod.rng:RandomInt(minCooldown * 1.5) + minCooldown
+            fData.Sewn_custom_fartingBaby_randomFartCooldown = rng:RandomInt(minCooldown * 1.5) + minCooldown
         else
             fData.Sewn_custom_fartingBaby_randomFartCooldown = fData.Sewn_custom_fartingBaby_randomFartCooldown - 1
         end
@@ -2133,8 +2155,9 @@ function sewnFamiliars:upCenser(censer)
     local fData = censer:GetData()
     if censer.Variant == FamiliarVariant.CENSER then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(600) + 60
-            fData.Sewn_custom_censer_freezeCooldown = sewingMachineMod.rng:RandomInt(600) + 60
+            rng:SetSeed(censer.InitSeed, 0)
+            fData.Sewn_custom_censer_dazedCooldown = rng:RandomInt(600) + 60
+            fData.Sewn_custom_censer_freezeCooldown = rng:RandomInt(600) + 60
             sewnFamiliars:customUpdate(censer, sewnFamiliars.custom_update_censer)
         end
     end
@@ -2145,22 +2168,23 @@ function sewnFamiliars:custom_update_censer(censer)
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         if fData.Sewn_custom_censer_dazedCooldown <= 0 or fData.Sewn_custom_censer_freezeCooldown <= 0 then
             local npcs = Isaac.FindInRadius(censer.Position, 150, EntityPartition.ENEMY)
+            rng:SetSeed(censer.InitSeed, 0)
             if #npcs > 0 then
                 local amount = math.floor(#npcs / 7) + 1
                 for i = 1, amount do
-                    local randomNPC = npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:ToNPC()
+                    local randomNPC = npcs[rng:RandomInt(#npcs) + 1]:ToNPC()
                     if randomNPC:IsVulnerableEnemy() then
                         if fData.Sewn_custom_censer_dazedCooldown <= 0 then
-                            npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddConfusion(EntityRef(censer), math.random(60, 190), true)
+                            npcs[rng:RandomInt(#npcs) + 1]:AddConfusion(EntityRef(censer), math.random(60, 190), true)
                         end
                         if fData.Sewn_custom_censer_freezeCooldown <= 0 then
-                            npcs[sewingMachineMod.rng:RandomInt(#npcs) + 1]:AddFreeze(EntityRef(censer), math.random(60, 120))
+                            npcs[rng:RandomInt(#npcs) + 1]:AddFreeze(EntityRef(censer), math.random(60, 120))
                         end
                     end
                 end
             end
-            fData.Sewn_custom_censer_dazedCooldown = sewingMachineMod.rng:RandomInt(400) + 150
-            fData.Sewn_custom_censer_freezeCooldown = sewingMachineMod.rng:RandomInt(400) + 150
+            fData.Sewn_custom_censer_dazedCooldown = rng:RandomInt(400) + 150
+            fData.Sewn_custom_censer_freezeCooldown = rng:RandomInt(400) + 150
         end
         fData.Sewn_custom_censer_dazedCooldown = fData.Sewn_custom_censer_dazedCooldown - 1
         fData.Sewn_custom_censer_freezeCooldown = fData.Sewn_custom_censer_freezeCooldown - 1
@@ -2217,12 +2241,14 @@ function sewnFamiliars:custom_update_peeper(peeper)
     local fData = peeper:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         if fData.Sewn_custom_peeper_tearCooldown == nil then
-            fData.Sewn_custom_peeper_tearCooldown = sewingMachineMod.rng:RandomInt(100)
+            rng:SetSeed(peeper.InitSeed, 0)
+            fData.Sewn_custom_peeper_tearCooldown = rng:RandomInt(100)
             return
         end
         if fData.Sewn_custom_peeper_tearCooldown == 0 then
+            rng:SetSeed(peeper.InitSeed, 0)
             sewnFamiliars:shootTearsCircular(peeper, 5, nil, nil, nil, 4)
-            fData.Sewn_custom_peeper_tearCooldown = sewingMachineMod.rng:RandomInt(150 - 60) + 60
+            fData.Sewn_custom_peeper_tearCooldown = rng:RandomInt(150 - 60) + 60
         end
         fData.Sewn_custom_peeper_tearCooldown = fData.Sewn_custom_peeper_tearCooldown - 1
     end
@@ -2386,15 +2412,16 @@ function sewnFamiliars:upSpiderMod(spiderMod)
     end
 end
 function sewnFamiliars:custom_cleanAward_spiderMod(spiderMod)
+    rng:SetSeed(spiderMod.InitSeed, 0)
     for _, egg in pairs(Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, -1, false, false)) do
-        local rollSpider = sewingMachineMod.rng:RandomInt(2)
+        local rollSpider = rng:RandomInt(2)
         if rollSpider == 0 then
-            local nbSpiders = sewingMachineMod.rng:RandomInt(4)
+            local nbSpiders = rng:RandomInt(4)
             for i = 1, nbSpiders do
                 local velocity = Vector(0, 0)
                 local force = 30
-                velocity.X = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
-                velocity.Y = sewingMachineMod.rng:RandomFloat() + sewingMachineMod.rng:RandomInt(force * 2) - force
+                velocity.X = rng:RandomFloat() + rng:RandomInt(force * 2) - force
+                velocity.Y = rng:RandomFloat() + rng:RandomInt(force * 2) - force
                 spiderMod.Player:ThrowBlueSpider(egg.Position, velocity + egg.Position)
             end
         end
@@ -2408,7 +2435,8 @@ function sewnFamiliars:custom_update_spiderMod(spiderMod)
         return
     end
     if spiderMod.FrameCount % 30 == 0 then
-        local roll = sewingMachineMod.rng:RandomInt(101)
+        rng:SetSeed(spiderMod.InitSeed, 0)
+        local roll = rng:RandomInt(101)
         if sewingMachineMod:isUltra(fData) then 
             roll = roll + 10 -- higher chance to spawn an egg in ultra
         end
@@ -2422,7 +2450,7 @@ function sewnFamiliars:custom_update_spiderMod(spiderMod)
             local egg = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SPIDER_MOD_EGG, 0, spiderMod.Position, v0, spiderMod):ToEffect()
             egg.Timeout = 20 * 30
             -- Flip the egg sprite
-            egg.FlipX = sewingMachineMod.rng:RandomInt(2) == 1
+            egg.FlipX = rng:RandomInt(2) == 1
             egg:GetData().Sewn_spidermod_eggColliderCooldown = {}
         end
     end
@@ -2445,14 +2473,16 @@ function sewnFamiliars:upIsaacsHeart(isaacsHeart)
 end
 function sewnFamiliars:custom_playerTakeDamage_isaacsHeart_super(isaacsHeart, source, amount, flag)
     if source.Type == EntityType.ENTITY_PROJECTILE then
-        local rollPrevent = sewingMachineMod.rng:RandomInt(100)
+        rng:SetSeed(isaacsHeart.Init, 0)
+        local rollPrevent = rng:RandomInt(100)
         if rollPrevent < 20 then
             return false
         end
     end
 end
 function sewnFamiliars:custom_playerTakeDamage_isaacsHeart_ultra(isaacsHeart, source, amount, flag)
-    local rollPrevent = sewingMachineMod.rng:RandomInt(100)
+    rng:SetSeed(isaacsHeart.Init, 0)
+    local rollPrevent = rng:RandomInt(100)
     for i = 1, 8 do
         local velo = Vector(5, 5)
         velo = velo:Rotated((360 / 8) * i)
@@ -2527,7 +2557,8 @@ function sewnFamiliars:custom_enemyDies_leech(leech, enemy, source)
 end
 function sewnFamiliars:custom_killEnemy_leech(leech, enemy)
     local enemyHP = math.floor(enemy.MaxHitPoints / 2)
-    local nbTears = sewingMachineMod.rng:RandomInt(math.min(enemyHP, 15)) + 5
+    rng:SetSeed(leech.InitSeed, 0)
+    local nbTears = rng:RandomInt(math.min(enemyHP, 15)) + 5
     
     local data = {
         FAMILIAR = leech,
@@ -2688,7 +2719,7 @@ function sewnFamiliars:custom_update_blueBabysOnlyFriend(blueBabysOnlyFriend)
                 end
             end
             
-            local nbParticules = sewingMachineMod.rng:RandomInt(10)+5
+            local nbParticules = math.random(10) + 5
             for i = 1, nbParticules do
                 local velocity = Vector(math.random() + math.random(-3,3), math.random() + math.random(-3,3))
                 if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_1 or sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE1_2 then
@@ -2739,11 +2770,13 @@ function sewnFamiliars:punchingBag_changeColor(punchingBag)
         effect:Remove()
     end
     
-    fData.Sewn_punchingBag_champion = sewingMachineMod.rng:RandomInt(counterChampions) + 1
+    rng:SetSeed(punchingBag.InitSeed, 0)
+
+    fData.Sewn_punchingBag_champion = rng:RandomInt(counterChampions) + 1
     punchingBag:SetColor(PUNCHINGBAG_COLORS[fData.Sewn_punchingBag_champion], -1, 2, false, false)
     
     
-    fData.Sewn_punchingBag_championCooldown = (sewingMachineMod.rng:RandomInt(15) + 10) * 30
+    fData.Sewn_punchingBag_championCooldown = (rng:RandomInt(15) + 10) * 30
     fData.Sewn_punchingBag_championLastChange = game:GetFrameCount()
     
     fData.Sewn_punchingBag_pureMagenta_tearCooldown = 0
@@ -2759,14 +2792,15 @@ function sewnFamiliars:custom_update_punchingBag(punchingBag)
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.PURE_MAGENTA then
         if fData.Sewn_punchingBag_pureMagenta_lastTear + fData.Sewn_punchingBag_pureMagenta_tearCooldown < game:GetFrameCount() then
             local velocity = Vector(3, 3)
-            velocity = velocity:Rotated(sewingMachineMod.rng:RandomInt(360))
+            rng:SetSeed(punchingBag.InitSeed, 0)
+            velocity = velocity:Rotated(rng:RandomInt(360))
             local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, punchingBag.Position, velocity, punchingBag):ToTear()
             tear.Scale = 1.1
             tear.CollisionDamage = 8
             sewnFamiliars:toBabyBenderTear(punchingBag, tear)
             
             fData.Sewn_punchingBag_pureMagenta_lastTear = game:GetFrameCount()
-            fData.Sewn_punchingBag_pureMagenta_tearCooldown = sewingMachineMod.rng:RandomInt(210) + 90
+            fData.Sewn_punchingBag_pureMagenta_tearCooldown = rng:RandomInt(210) + 90
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.MOSTLY_PURE_VIOLET then 
         if fData.Sewn_punchingBag_mostlyPureViolet_pullEffect == nil or not fData.Sewn_punchingBag_mostlyPureViolet_pullEffect:Exists() then
@@ -2799,7 +2833,8 @@ function sewnFamiliars:custom_playerTakeDamage_punchingBag(punchingBag, damageSo
             sewnFamiliars:toBabyBenderTear(punchingBag, tear)
         end
     elseif fData.Sewn_punchingBag_champion == PUNCHINGBAG_CHAMPIONS.VIVID_BLUE then
-        punchingBag.Player:AddBlueFlies(sewingMachineMod.rng:RandomInt(3)+1, punchingBag.Position, nil)
+        rng:SetSeed(punchingBag.InitSeed, 0)
+        punchingBag.Player:AddBlueFlies(rng:RandomInt(3)+1, punchingBag.Position, nil)
     end
 end
 
@@ -2821,7 +2856,8 @@ function sewnFamiliars:hushy_fireCircleProj(hushy)
         rollTear = math.random(10, 20)
     end
     
-    local tearOffset = sewingMachineMod.rng:RandomInt(360)
+    rng:SetSeed(hushy.InitSeed, 0)
+    local tearOffset = rng:RandomInt(360)
     for i = 1, rollTear do
         local velo = Vector(4, 4)
         velo = velo:Rotated((360 / rollTear) * i + tearOffset)
@@ -2832,7 +2868,7 @@ function sewnFamiliars:hushy_fireCircleProj(hushy)
         proj:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES)
         proj:AddProjectileFlags(ProjectileFlags.SINE_VELOCITY)
         
-        fData.Sewn_hushy_cooldown = 60 + sewingMachineMod.rng:RandomInt(60)
+        fData.Sewn_hushy_cooldown = 60 + rng:RandomInt(60)
     end
 end
 
@@ -2842,6 +2878,8 @@ function sewnFamiliars:hushy_fireTargetedProj(hushy)
     if sewingMachineMod:isUltra(fData) then
         maxAdditionalTears = 3
     end
+    
+    rng:SetSeed(hushy.InitSeed, 0)
     local amountTears = math.random(0,maxAdditionalTears) * 2 + 5
     for i = 1, amountTears do
         local velo = (hushy.Player.Position - hushy.Position):Normalized() * 8
@@ -2850,7 +2888,7 @@ function sewnFamiliars:hushy_fireTargetedProj(hushy)
         proj:AddProjectileFlags(ProjectileFlags.CANT_HIT_PLAYER)
         proj:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES)
         
-        fData.Sewn_hushy_cooldown = 60 + sewingMachineMod.rng:RandomInt(30)
+        fData.Sewn_hushy_cooldown = 60 + rng:RandomInt(30)
     end
 end
 
@@ -2858,8 +2896,9 @@ end
 function sewnFamiliars:hushy_fireContinuumTears(hushy)
     local fData = hushy:GetData()
 
+    rng:SetSeed(hushy.InitSeed, 0)
     if fData.Sewn_hushy_continuumTears == nil then
-        fData.Sewn_hushy_continuumTears = sewingMachineMod.rng:RandomInt(20) + 10
+        fData.Sewn_hushy_continuumTears = rng:RandomInt(20) + 10
     end
     local velo = Vector(0, 0)
     local dir = hushy.Player:GetFireDirection()
@@ -2884,7 +2923,7 @@ function sewnFamiliars:hushy_fireContinuumTears(hushy)
     
     fData.Sewn_hushy_continuumTears = fData.Sewn_hushy_continuumTears - 1
     if fData.Sewn_hushy_continuumTears > 0 then
-        fData.Sewn_hushy_cooldown = sewingMachineMod.rng:RandomInt(10) + 7
+        fData.Sewn_hushy_cooldown = rng:RandomInt(10) + 7
     else
         fData.Sewn_hushy_continuumTears = nil
         fData.Sewn_hushy_cooldown = 60
@@ -2930,7 +2969,6 @@ function sewnFamiliars:upLilHarbingers(lilHarbinger)
 
     sewnFamiliars:customAnimation(lilHarbinger, sewnFamiliars.custom_animation_lilHarbinger, ANIMATION_NAMES.SPAWN)
 
-    --fData.Sewn_lilHarbinger_attackCooldown = sewingMachineMod.rng:RandomInt(200) + 100
 end
 
 function sewnFamiliars:custom_update_lilHarbinger(lilHarbinger)
@@ -2990,7 +3028,9 @@ end
 
 function sewnFamiliars:lilHarbinger_conquestLocust_collision(locust, collider)
     if collider:IsVulnerableEnemy() then
-        local roll = sewingMachineMod.rng:RandomInt(100)
+        
+        rng:SetSeed(locust.InitSeed, 0)
+        local roll = rng:RandomInt(100)
         if roll < 15 then
             local crackTheSky = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.CRACK_THE_SKY, 0, collider.Position, v0, locust.Player):ToEffect()
 
@@ -3275,8 +3315,8 @@ function sewnFamiliars:custom_lilSpewer_resetState(lilSpewer)
     lilSpewer.State = fData.Sewn_lilSpewer_firstState
 end
 function sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
-    local fData = lilSpewer:GetData()
-    local roll = sewingMachineMod.rng:RandomInt(5)
+    rng:SetSeed(lilSpewer.InitSeed, 0)
+    local roll = rng:RandomInt(5)
     
     if roll == lilSpewer.State then
         roll = sewnFamiliars:custom_lilSpewer_randomState(lilSpewer)
@@ -3554,7 +3594,8 @@ end
 function sewnFamiliars:custom_collision_dryBaby(dryBaby, collider)
     local fData = dryBaby:GetData()
     if collider.Type == EntityType.ENTITY_PROJECTILE then
-        local roll = sewingMachineMod.rng:RandomInt(100)
+        rng:SetSeed(dryBaby.InitSeed, 0)
+        local roll = rng:RandomInt(100)
         local chance = 5
         local sprite = dryBaby:GetSprite()
         
@@ -3584,15 +3625,16 @@ function sewnFamiliars:custom_newRoom_guppysHairball(guppysHairball, room)
         guppysHairball.SubType = 1
     end
 end
-function sewnFamiliars:custom_killEnemy_guppysHairball(guppysHairball, enemy)    
+function sewnFamiliars:custom_killEnemy_guppysHairball(guppysHairball, enemy)
     local fData = guppysHairball:GetData()
     local chance = 60
-    local roll = sewingMachineMod.rng:RandomInt(100)
+    rng:SetSeed(guppysHairball.InitSeed, 0)
+    local roll = rng:RandomInt(100)
     local amount = 1
 
     if sewingMachineMod:isUltra(fData) then
         chance = 90
-        amount = sewingMachineMod.rng:RandomInt(3) + 1
+        amount = rng:RandomInt(3) + 1
     end
     if roll < chance then
         for i = 1, amount do
@@ -3619,7 +3661,8 @@ function sewnFamiliars:custom_collision_pointyRib(pointyRib, collider)
     
     -- Has a chance to apply bleed to non-boss 
     if not collider:IsBoss() and (fData.Sewn_pointyRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_pointyRib_colliders[GetPtrHash(collider)] + 60 < collider.FrameCount) then
-        local roll = sewingMachineMod.rng:RandomInt(101)
+        rng:SetSeed(pointyRib.InitSeed, 0)
+        local roll = rng:RandomInt(100)
         local chanceBleed = 33
         if sewingMachineMod:isUltra(fData) then
             chanceBleed = 66
@@ -3667,7 +3710,8 @@ function sewnFamiliars:custom_collision_slippedRib(slippedRib, collider)
     end
     if collider.Type == EntityType.ENTITY_PROJECTILE then
         if fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] == nil or fData.Sewn_slippedRib_colliders[GetPtrHash(collider)] + 30 < collider.FrameCount then
-            local rollBone = sewingMachineMod.rng:RandomInt(100)
+            rng:SetSeed(slippedRib.InitSeed, 0)
+            local rollBone = rng:RandomInt(100)
             if rollBone < 50 then
                 sewnFamiliars:spawnBonesOrbitals(slippedRib, 0, 1)
             end
@@ -3697,7 +3741,8 @@ function sewnFamiliars:upMilk(milk)
 end
 function sewnFamiliars:custom_newRoom_milk(milk, room)
     local fData = milk:GetData()
-    local rollFlavour = sewingMachineMod.rng:RandomInt(4) + 1
+    rng:SetSeed(milk.InitSeed, 0)
+    local rollFlavour = rng:RandomInt(4) + 1
     local sprite = milk:GetSprite()
     
     fData.Sewn_milk_boosts = {}
@@ -4257,7 +4302,7 @@ function sewnFamiliars:custom_update_cubeBaby(cubeBaby)
     if sewingMachineMod:isUltra(fData) then
         local speed = math.ceil(cubeBaby.Velocity:LengthSquared())
     
-        if sewingMachineMod.rng:RandomInt(500 - speed) < 40 then
+        if math.random(500 - speed) < 40 then
             sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
         end
     end
@@ -4298,7 +4343,9 @@ end
 function sewnFamiliars:custom_tearCollision_freezerBaby(freezerBaby, tear, collider)
     local fData = freezerBaby:GetData()
 
-    local roll = sewingMachineMod.rng:RandomInt(100)
+    
+    rng:SetSeed(freezerBaby.InitSeed, 0)
+    local roll = rng:RandomInt(100)
 
     if roll < 10 then
         collider:AddFreeze(EntityRef(freezerBaby), math.random(30, 90))
@@ -4360,7 +4407,7 @@ function sewnFamiliars:custom_lilDumpy_spawnStaticTear(lilDumpy)
     tear.CollisionDamage = 5
     tear:AddTearFlags(TearFlags.TEAR_SPECTRAL)
 
-    local rollFlag = sewingMachineMod.rng:RandomInt(100)
+    local rollFlag = math.random(100)
     if rollFlag < 10 then
         tear:AddTearFlags(TearFlags.TEAR_POISON)
         color = Color.Lerp(color, Color(0.2, 1, 0.2, 1), 0.5)
@@ -4406,7 +4453,7 @@ function sewnFamiliars:custom_update_boiledBaby(boiledBaby)
         local rollTears = math.random(5)
         local tears = sewnFamiliars:burstTears(boiledBaby, rollTears, 3.5, 7, false, TearVariant.BLOOD)
         for _, tear in ipairs(tears) do
-            local roll = sewingMachineMod.rng:RandomInt(100)
+            local roll = math.random(100)
             if roll < 30 then
                 tear.CollisionDamage = 5.25
                 tear.Scale = tear.Scale * 1.1
@@ -4434,7 +4481,7 @@ function sewnFamiliars:custom_update_boiledBaby(boiledBaby)
             tear.FallingSpeed = math.random() * -15 - 3
             tear.FallingAcceleration = 0.8
 
-            fData.Sewn_boiledBaby_tearsCooldown = sewingMachineMod.rng:RandomInt(8) + 1
+            fData.Sewn_boiledBaby_tearsCooldown = math.random(8) + 1
         else
             fData.Sewn_boiledBaby_tearsCooldown = fData.Sewn_boiledBaby_tearsCooldown - 1
         end

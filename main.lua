@@ -6,8 +6,46 @@
 sewingMachineMod = RegisterMod("!Sewing machine", 1)
 
 sewingMachineMod.SewingMachine = Isaac.GetEntityVariantByName("Sewing machine")
+
+----------------------------------------
+-- IMPORTANT SEWING MACHINE VARIABLES --
+----------------------------------------
+
+-- Entities data attributes
+sewingMachineMod.sewingMachinesData = {}
+sewingMachineMod.familiarData = {}
+sewingMachineMod.playerData = {}
+
+-- Delay functions
+sewingMachineMod.delayedFunctions = {}
+
+-- Callbacks
+sewingMachineMod.customAddInMachine = {}
+
+-- Enumerations
+sewingMachineMod.SewingMachineSubType = {
+    BEDROOM = 0,
+    SHOP = 1,
+    ANGELIC = 2,
+    EVIL = 3
+}
+sewingMachineMod.SewingMachineCost = {
+    BEDROOM = 2,
+    SHOP = 10,
+    SHOP_SALE = 5,
+    ANGELIC = 0,
+    EVIL = 2
+}
+sewingMachineMod.UpgradeState = {
+    NORMAL = 0,
+    SUPER  = 1,
+    ULTRA  = 2
+}
+
+local isPlayerCloseFromMachine = false
+
 ------------------
--- ENUMERATIONS --
+-- REGISTRATION --
 ------------------
 -- Trinkets --
 TrinketType.TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble")
@@ -32,38 +70,13 @@ EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 EffectVariant.HALLOWED_GROUND_PERMANENT_AURA = Isaac.GetEntityVariantByName("Hallowed Ground Permanent Aura")
 EffectVariant.CUBE_BABY_AURA = Isaac.GetEntityVariantByName("Cube Baby Aura")
 
-sewingMachineMod.sewingMachinesData = {}
-
-sewingMachineMod.SewingMachineSubType = {
-    BEDROOM = 0,
-    SHOP = 1,
-    ANGELIC = 2,
-    EVIL = 3
-}
-sewingMachineMod.SewingMachineCost = {
-    BEDROOM = 2,
-    SHOP = 10,
-    SHOP_SALE = 5,
-    ANGELIC = 0,
-    EVIL = 2
-}
-sewingMachineMod.UpgradeState = {
-    NORMAL = 0,
-    SUPER  = 1,
-    ULTRA  = 2
-}
-
-sewingMachineMod.delayedFunctions = {}
-sewingMachineMod.customAddInMachine = {}
-sewingMachineMod.currentUpgradeInfo = nil
-sewingMachineMod.currentCurse = 0
-sewingMachineMod.rng = RNG()
+-- Game variables
+local game = Game()
+local v0 = Vector(0, 0)
+local rng = RNG()
 
 local json = require("json")
-local v0 = Vector(0, 0)
 
---local sewingMachineMod.rng = RNG()
-local game = Game()
 local sewingMachine_shouldAppear_shop = false
 local temporaryFamiliars = {}
 
@@ -305,7 +318,8 @@ function sewingMachineMod:rerollFamilarsCrowns(player)
         end
     end
     while #allowedFamiliars > 0 and countCrowns > 0 do
-        local familiar_index = math.random(#allowedFamiliars) -- sewingMachineMod.rng:RandomInt(#familiars) + 1
+        rng:SetSeed(player.InitSeed, 0)
+        local familiar_index = rng:RandomInt(#allowedFamiliars) + 1
         local fData = allowedFamiliars[familiar_index]:GetData()
         if not sewingMachineMod:isUltra(fData) then
             fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
@@ -391,7 +405,8 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
         elseif room:GetType() == RoomType.ROOM_DEVIL then
             subType = sewingMachineMod.SewingMachineSubType.EVIL
         else
-            if sewingMachineMod.rng:RandomInt(2) == 0 then
+            rng:SetSeed(room:GetSpawnSeed(), 0)
+            if rng:RandomInt(2) == 0 then
                 subType = sewingMachineMod.SewingMachineSubType.BEDROOM
             else
                 subType = sewingMachineMod.SewingMachineSubType.SHOP
@@ -439,7 +454,6 @@ end
 
 -- Called after getting a familiar back, increase the machine counter and break machine depending on a roll
 function sewingMachineMod:breakMachine(machine, isUpgrade)
-    local roll = sewingMachineMod.rng:RandomInt(101)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local additionalBreackChance = 0
 
@@ -456,8 +470,10 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
     end
 
     -- Chance to break
+    rng:SetSeed(machine.InitSeed, 0)
+    local roll = rng:RandomInt(100)
     if roll < mData.Sewn_machineUsed_counter * 5 + additionalBreackChance then
-        local rollTrinket = sewingMachineMod.rng:RandomInt(101)
+        local rollTrinket = rng:RandomInt(100)
 
         if machine.SubType == sewingMachineMod.SewingMachineSubType.ANGELIC or machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
             mData.Sewn_isMachineBroken = true
@@ -466,7 +482,7 @@ function sewingMachineMod:breakMachine(machine, isUpgrade)
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.BOMB_EXPLOSION, 0, machine.Position, v0, nil)
             mData.Sewn_isMachineBroken = true
             if rollTrinket < 5 then
-                local rollTrinket = sewingMachineMod.rng:RandomInt(#trinketSewingMachine) + 1
+                local rollTrinket = rng:RandomInt(#trinketSewingMachine) + 1
                 local trinket = trinketSewingMachine[rollTrinket]
                 Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TRINKET, trinket, machine.Position + Vector(0,15), Vector(0,2):Rotated(math.random(-45,45)), machine)
             end
@@ -532,9 +548,6 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     mData.Sewn_player:GetData().Sewn_machine_upgradeFree = nil
     mData.Sewn_player = nil
 
-    -- Remove description
-    sewingMachineMod.currentUpgradeInfo = nil
-
     if not sewingMachineMod:isUltra(sewnFamiliar:GetData()) then
         table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
     end
@@ -549,7 +562,8 @@ end
 function sewingMachineMod:addFamiliarInMachine(machine, player)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local pData = player:GetData()
-    local roll = sewingMachineMod.rng:RandomInt(#player:GetData().Sewn_familiars) + 1
+    rng:SetSeed(machine.InitSeed, 0)
+    local roll = rng:RandomInt(#player:GetData().Sewn_familiars) + 1
 
     -- Select a random familiar which can be upgradable
     mData.Sewn_currentFamiliarVariant = player:GetData().Sewn_familiars[roll].Variant
@@ -576,9 +590,6 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
 
     sewingMachineMod:updateSewingMachineDescription(machine)
     pData.Sewn_familiars[roll]:Remove()
-
-    -- Update description
-    sewingMachineMod.currentUpgradeInfo = machine
 
     table.remove(player:GetData().Sewn_familiars, roll)
 end
@@ -670,13 +681,11 @@ function sewingMachineMod:onPlayerUpdate(player)
     local pData = player:GetData()
 
     -- Prepare proper sewingMachineMod.rng
-    sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
+    -- sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
 
     if pData.Sewn_familiars == nil then
         pData.Sewn_familiars = {}
     end
-
-    sewingMachineMod.currentUpgradeInfo = nil
 
     -- Loop through all Sewing machines to detect interactions
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
@@ -704,8 +713,11 @@ function sewingMachineMod:onPlayerUpdate(player)
                     mData.Sewn_lastTouched = game:GetFrameCount()
 
                     if pData.Sewn_machine_upgradeFree == nil then
+                        rng:SetSeed(player.InitSeed, 0)
+                        local rollThimble = rng:RandomInt(100)
+
                         pData.Sewn_machine_upgradeFree = false
-                        if player:HasTrinket(TrinketType.TRINKET_THIMBLE) and sewingMachineMod.rng:RandomInt(101) < 50 then
+                        if player:HasTrinket(TrinketType.TRINKET_THIMBLE) and rollThimble < 50 then
                             pData.Sewn_machine_upgradeFree = true
                         end
                     end
@@ -725,9 +737,9 @@ function sewingMachineMod:onPlayerUpdate(player)
             end
 
             if (machine.Position - player.Position):LengthSquared() < 100 ^ 2 then
-                if sewingMachineMod.currentUpgradeInfo == nil then
-                    sewingMachineMod.currentUpgradeInfo = machine
-                end
+                isPlayerCloseFromMachine = true
+            else
+                isPlayerCloseFromMachine = false
             end
 
             if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
@@ -914,8 +926,10 @@ function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner,
     if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
         for _, npc in pairs(Isaac.FindInRadius(pos, 100, EntityPartition.ENEMY)) do
             if npc:IsVulnerableEnemy() then
+                rng:SetSeed(spawner.InitSeed, 0)
+                local rollTime = rng:RandomInt(180) + 60
                 npc:TakeDamage(5, DamageFlag.DAMAGE_POISON_BURN, EntityRef(spawner), 5)
-                npc:AddBurn(EntityRef(spawner), sewingMachineMod.rng:RandomInt(180) + 60, 3.5)
+                npc:AddBurn(EntityRef(spawner), rollTime, 3.5)
             end
         end
     end
@@ -936,23 +950,24 @@ function sewingMachineMod:effectUpdate(effect)
         for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
             if npc:IsVulnerableEnemy() then
                 if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
-                    local roll = sewingMachineMod.rng:RandomInt(8)
-                    local rollDuration = sewingMachineMod.rng:RandomInt(60) + 30
-                    if roll == 0 then
+                    rng:SetSeed(effect.InitSeed, 0)
+                    local rollEffect = rng:RandomInt(8)
+                    local rollDuration = rng:RandomInt(60) + 30
+                    if rollEffect == 0 then
                         npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
-                    elseif roll == 1 then
+                    elseif rollEffect == 1 then
                         npc:AddFreeze(EntityRef(egg), rollDuration)
-                    elseif roll == 2 then
+                    elseif rollEffect == 2 then
                         npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
-                    elseif roll == 3 then
+                    elseif rollEffect == 3 then
                         npc:AddCharmed(EntityRef(egg), rollDuration)
-                    elseif roll == 4 then
+                    elseif rollEffect == 4 then
                         npc:AddConfusion(EntityRef(egg), rollDuration, false)
-                    elseif roll == 5 then
+                    elseif rollEffect == 5 then
                         npc:AddFear(EntityRef(egg), rollDuration)
-                    elseif roll == 6 then
+                    elseif rollEffect == 6 then
                         npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
-                    elseif roll == 7 then
+                    elseif rollEffect == 7 then
                         npc:AddShrink(EntityRef(egg), rollDuration)
                     end
                     eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
@@ -1060,8 +1075,8 @@ function sewingMachineMod:updateFamiliar(familiar)
         fData.Sewn_Init = true
     end
 
-    -- If a player is close from the machine
-    if sewingMachineMod.currentUpgradeInfo ~= nil then
+    --if sewingMachineMod.currentUpgradeInfo ~= nil then
+    if isPlayerCloseFromMachine then
         local fColor = familiar:GetColor()
         
         -- Available familiars
@@ -1107,7 +1122,7 @@ function sewingMachineMod:updateFamiliar(familiar)
     else
         fData.Sewn_notReady_clock = nil
         fData.Sewn_notReady_door = nil
-    end
+    end --]]
 
     if familiar.Variant == FamiliarVariant.DOLL_S_TAINTED_HEAD or familiar.Variant == FamiliarVariant.DOLL_S_PURE_BODY or familiar.Variant == FamiliarVariant.SEWN_DOLL then
         familiar:FollowParent()
@@ -1221,6 +1236,8 @@ function sewingMachineMod:newRoom()
     sewingMachineMod.currentRoom = game:GetRoom()
     
     sewingMachineMod.displayTrueCoopMessage = false
+    
+    rng:SetSeed(sewingMachineMod.currentRoom:GetSpawnSeed(), 0)
 
     for i, familiar in pairs(temporaryFamiliars) do
         local fData = familiar:GetData()
@@ -1249,7 +1266,7 @@ function sewingMachineMod:newRoom()
 
     if sewingMachineMod.currentRoom:IsFirstVisit() == true then
         if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ARCADE then
-            --sewingMachineMod:delayFunction(sewingMachineMod.spawnSewingMachineInArcade, 2)
+            --[[
             for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
                 if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
                     local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
@@ -1259,7 +1276,7 @@ function sewingMachineMod:newRoom()
                         sewingMachineMod:spawnMachine(pos)
                     end
                 end
-            end
+            end--]]
         elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ISAACS or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_BARREN then
             sewingMachineMod:spawnMachine()
         elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
@@ -1269,15 +1286,15 @@ function sewingMachineMod:newRoom()
         elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL then
             for i = 1, game:GetNumPlayers() do
                 local player = Isaac.GetPlayer(i - 1)
-                local rollContrastedButton = sewingMachineMod.rng:RandomInt(100)
-                local rollDoll = sewingMachineMod.rng:RandomInt(100)
+                local rollContrastedButton = rng:RandomInt(100)
+                local rollDoll = rng:RandomInt(100)
                 if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and rollDoll < 20 then
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and rollDoll < 10 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and rollDoll < 20 then
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and rollDoll < 10 then
                     sewingMachineMod:spawnMachine(nil, true)
                 end
             end
@@ -1307,7 +1324,7 @@ end
 ------------------------------
 -- MC_PRE_SPAWN_CLEAN_AWARD --
 ------------------------------
-function sewingMachineMod:finishRoom(rng, spawnPosition)
+function sewingMachineMod:finishRoom(_rng, spawnPosition)
     if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
         -- Spawn machine when the shop is cleared
         sewingMachineMod:spawnMachine(nil, true)
@@ -1329,7 +1346,6 @@ end
 -----------------------
 function sewingMachineMod:onNewFloor()
     sewingMachineMod.currentLevel = game:GetLevel()
-    sewingMachineMod.currentCurse = sewingMachineMod.currentLevel:GetCurses()
     sewingMachine_shouldAppear_shop = false
     
     sewingMachineMod.sewingMachinesData = {}
@@ -1338,8 +1354,8 @@ function sewingMachineMod:onNewFloor()
         sewingMachine_shouldAppear_shop = true
     end
 
-    local roll = sewingMachineMod.rng:RandomInt(101)
-    if roll < 20 then
+    local rollMachineShop = rng:RandomInt(100)
+    if rollMachineShop < 20 then
         sewingMachine_shouldAppear_shop = true
     end
 
@@ -1480,7 +1496,7 @@ end
 ------------------------------------------
 -- MC_USE_ITEM - COLLECTIBLE_SEWING_BOX --
 ------------------------------------------
-function sewingMachineMod:useSewingBox(collectibleType, rng)
+function sewingMachineMod:useSewingBox(collectibleType, _rng)
     
     local player = sewingMachineMod:GetPlayerUsingItem()
     
@@ -1512,7 +1528,7 @@ function sewingMachineMod:getFamiliarsStatesHack()
     end
     return familiarStates
 end
-function sewingMachineMod:useGlowingHourglass(collectibleType, rng)
+function sewingMachineMod:useGlowingHourglass(collectibleType, _rng)
     local familiarsStatesHack = sewingMachineMod:getFamiliarsStatesHack()
     sewingMachineMod:delayFunction(sewingMachineMod.glowingHourglassResetFamiliars, -game:GetRoom():GetFrameCount(), familiarsStatesHack)
 end
@@ -1533,9 +1549,9 @@ end
 -----------------
 -- MC_GET_CARD --
 -----------------
-function sewingMachineMod:getCard(rng, card, includePlayingCard, includeRunes, onlyRunes)
+function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, onlyRunes)
     if not includeRunes then
-        local roll = rng:RandomInt(1000)
+        local roll = _rng:RandomInt(1000)
         if roll < 10 then
             return Card.CARD_WARRANTY
         elseif roll < 20 then
@@ -1862,7 +1878,6 @@ function sewingMachineMod:loadSave(isExistingRun)
 
 
     sewingMachineMod.delayedFunctions = {}
-    sewingMachineMod.currentUpgradeInfo = nil
 
     if sewingMachineMod.IsEidDescriptionLoaded == false then
         -- Set familiar description
