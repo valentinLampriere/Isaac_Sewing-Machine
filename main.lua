@@ -21,6 +21,7 @@ sewingMachineMod.delayedFunctions = {}
 
 -- Callbacks
 sewingMachineMod.customAddInMachine = {}
+sewingMachineMod.permanentPlayerUpdateCall = {}
 
 -- Enumerations
 sewingMachineMod.SewingMachineSubType = {
@@ -41,8 +42,6 @@ sewingMachineMod.UpgradeState = {
     SUPER  = 1,
     ULTRA  = 2
 }
-
-local isPlayerCloseFromMachine = false
 
 ------------------
 -- REGISTRATION --
@@ -77,7 +76,9 @@ local grng = RNG()
 
 local json = require("json")
 
+-- local mod variable
 local sewingMachine_shouldAppear_shop = false
+local isPlayerCloseFromMachine = false
 local temporaryFamiliars = {}
 
 local trinketSewingMachine = {
@@ -88,14 +89,12 @@ local trinketSewingMachine = {
     TrinketType.TRINKET_CONTRASTED_BUTTON
 }
 
-
-sewingMachineMod.displayTrueCoopMessage = false
 sewingMachineMod.currentRoom = nil
 sewingMachineMod.currentLevel = nil
+
 sewingMachineMod.moddedFamiliar = {
     MARSHMALLOW = Isaac.GetEntityVariantByName("Marshmallow")
 }
-sewingMachineMod.permanentPlayerUpdateCall = {}
 
 -- Import files
 local function __require(file)
@@ -186,7 +185,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
-if REPENTANCE then
+if REPENTANCE   
     local availableFamiliarRepentance = {
         [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
         [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
@@ -241,6 +240,10 @@ if EID then
     EID:addCard(Card.CARD_WARRANTY, "Spawn a sewing machine#The Sewing machine change depending on the room type")
     EID:addCard(Card.CARD_STITCHING, "Reroll familiar crowns")
 end
+
+
+
+
 
 function sewingMachineMod:isAvailable(familiarVariant)
     return sewingMachineMod.availableFamiliar[familiarVariant] ~= nil
@@ -677,12 +680,13 @@ function sewingMachineMod:onPlayerUpdate(player)
     if pData.Sewn_familiars == nil then
         pData.Sewn_familiars = {}
     end
+    
+    isPlayerCloseFromMachine = false
 
     -- Loop through all Sewing machines to detect interactions
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
 
         if InfinityTrueCoopInterface ~= nil then
-            sewingMachineMod.displayTrueCoopMessage = true
             return
         end
 
@@ -726,7 +730,6 @@ function sewingMachineMod:onPlayerUpdate(player)
                 end
             end
 
-            isPlayerCloseFromMachine = false
             if (machine.Position - player.Position):LengthSquared() < 100 ^ 2 then
                 isPlayerCloseFromMachine = true
             end
@@ -1221,8 +1224,6 @@ end
 ----------------------
 function sewingMachineMod:newRoom()
     sewingMachineMod.currentRoom = game:GetRoom()
-    
-    sewingMachineMod.displayTrueCoopMessage = false
     
     for i, familiar in pairs(temporaryFamiliars) do
         local fData = familiar:GetData()
