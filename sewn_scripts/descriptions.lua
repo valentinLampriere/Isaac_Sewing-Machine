@@ -660,7 +660,7 @@ function sewingMachineMod:addEIDDescriptionForCollectible()
                     if data.collectibles[itemID] ~= nil then -- Vanilla items
                         data.collectibles[itemID][3] = data.collectibles[itemID][3] .. additionalDescr
                     elseif data.custom["5.100." .. itemID] ~= nil then -- Modded items
-                        data.custom["5.100." .. itemID][3] = data.custom["5.100." .. itemID] .. additionalDescr
+                        data.custom["5.100." .. itemID][3] = data.custom["5.100." .. itemID][3] .. additionalDescr
                     end
                 end
             end

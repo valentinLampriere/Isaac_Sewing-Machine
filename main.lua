@@ -185,7 +185,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.JAW_BONE] = {548, sewingMachineMod.sewnFamiliars.upJawBone}
 }
 
-if REPENTANCE   
+if REPENTANCE then
     local availableFamiliarRepentance = {
         [FamiliarVariant.PASCHAL_CANDLE] = {567, sewingMachineMod.sewnFamiliars.upPaschalCandle},
         [FamiliarVariant.BLOOD_OATH] = {569, sewingMachineMod.sewnFamiliars.upBloodOath},
