@@ -1388,7 +1388,7 @@ function sewingMachineMod:tearUpdate(tear)
             familiar.FireCooldown = familiar.FireCooldown - fData.Sewn_tearRate_bonus
         end
         if fData.Sewn_tearRate_set ~= nil then
-            familiar.FireCooldown = fData.Sewn_tearRate_set
+            familiar.FireCooldown = math.floor(fData.Sewn_tearRate_set)
         end
 
         -- Custom tear init function

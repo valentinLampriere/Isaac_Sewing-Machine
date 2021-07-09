@@ -4258,7 +4258,7 @@ function sewnFamiliars:custom_update_cubeBaby(cubeBaby)
 
     if sewingMachineMod:isUltra(fData) then
         local speed = math.ceil(cubeBaby.Velocity:LengthSquared())
-    
+        if speed > 499 then speed = 499 end
         if math.random(500 - speed) < 40 then
             sewnFamiliars:custom_cubeBaby_spawnCreep(cubeBaby)
         end
