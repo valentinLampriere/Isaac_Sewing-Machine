@@ -545,12 +545,12 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
         end
         
         if newUpgrade ~= sewingMachineMod.UpgradeState.ULTRA then
-            table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
+            --table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
         end
         
         sewingMachineMod:payCost(machine, mData.Sewn_player)
     else
-        table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
+        --table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
     end
 
 
@@ -567,20 +567,43 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     sewingMachineMod:updateSewingMachineDescription(machine)
 end
 
+local function getAvailableFamiliarsForPlayer(player)
+    local availableFamiliars = {}
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        familiar = familiar:ToFamiliar()
+        -- if the familiar belongs to the player AND the familiar is ready AND it isn't Ultra
+        if GetPtrHash(familiar.Player) == GetPtrHash(player) then
+            local fData = familiar:GetData()
+            if familiar:GetData().Sewn_familiarReady == true and sewingMachineMod:isUltra(fData) == false then
+                table.insert(availableFamiliars, familiar)
+            end
+        end
+    end
+    return availableFamiliars
+end
+
 -- Called when a player touch a Sewing Machine (and there is no familiar in it)
 function sewingMachineMod:addFamiliarInMachine(machine, player)
     local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
     local pData = player:GetData()
-    local roll = machine:GetDropRNG():RandomInt(#player:GetData().Sewn_familiars) + 1
+    local availableFamiliars = getAvailableFamiliarsForPlayer(player)
+
+    -- Does nothing if the player havn't available familiars
+    if #availableFamiliars == 0 then
+        return
+    end
+
+    --local roll = machine:GetDropRNG():RandomInt(#player:GetData().Sewn_familiars) + 1
+    local roll = machine:GetDropRNG():RandomInt(#availableFamiliars) + 1
 
     -- Select a random familiar which can be upgradable
-    mData.Sewn_currentFamiliarVariant = player:GetData().Sewn_familiars[roll].Variant
+    mData.Sewn_currentFamiliarVariant = availableFamiliars[roll].Variant
     -- Tell the machine the upgrade state of the familiar
-    mData.Sewn_currentFamiliarState = player:GetData().Sewn_familiars[roll]:GetData().Sewn_upgradeState or 0
+    mData.Sewn_currentFamiliarState = availableFamiliars[roll]:GetData().Sewn_upgradeState or 0
     -- Tell the machine who is the player who add the familiar in the machine
     mData.Sewn_player = player
     -- Store collision damage of the familiar
-    mData.Sewn_currentFamiliarCollisionDamage = player:GetData().Sewn_familiars[roll]:GetData().Sewn_collisionDamage
+    mData.Sewn_currentFamiliarCollisionDamage = availableFamiliars[roll]:GetData().Sewn_collisionDamage
 
     -- Replace the sprite with the familiar (the sprite is the image of the collectible, not the familiar itself)
     sewingMachineMod:setFloatingAnim(machine)
@@ -590,19 +613,19 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
         pData.Sewn_familiarsInMachine = {}
     end
 
-    pData.Sewn_familiarsInMachine[machine.InitSeed] = pData.Sewn_familiars[roll].Variant
+    pData.Sewn_familiarsInMachine[machine.InitSeed] = availableFamiliars[roll].Variant
     
     if sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant] ~= nil then
-        sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant](_, pData.Sewn_familiars[roll])
+        sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant](_, availableFamiliars[roll])
     end
     
-    local _fData, _i = findFamiliarData(pData.Sewn_familiars[roll].Variant, mData.Sewn_currentFamiliarState)
+    local _fData, _i = findFamiliarData(availableFamiliars[roll].Variant, mData.Sewn_currentFamiliarState)
     if _fData ~= nil then
         table.remove(sewingMachineMod.familiarData, _i)
     end
     sewingMachineMod:updateSewingMachineDescription(machine)
-    pData.Sewn_familiars[roll]:Remove()
-    table.remove(player:GetData().Sewn_familiars, roll)
+    availableFamiliars[roll]:Remove()
+    --table.remove(player:GetData().Sewn_familiars, roll)
 end
 
 function sewingMachineMod:setFloatingAnim(machine)
@@ -694,9 +717,9 @@ function sewingMachineMod:onPlayerUpdate(player)
     -- Prepare proper sewingMachineMod.rng
     -- sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
 
-    if pData.Sewn_familiars == nil then
+    --[[if pData.Sewn_familiars == nil then
         pData.Sewn_familiars = {}
-    end
+    end--]]
     
     isPlayerCloseFromMachine = false
 
@@ -740,7 +763,8 @@ function sewingMachineMod:onPlayerUpdate(player)
                     elseif mData.Sewn_currentFamiliarVariant ~= nil and sewingMachineMod:canPayCost(machine, player) then
                         -- If there is a familiar in the machine and the player can pay for it
                         sewingMachineMod:getFamiliarBack(machine, true)
-                    elseif mData.Sewn_currentFamiliarVariant == nil and #player:GetData().Sewn_familiars > 0 then
+                    --elseif mData.Sewn_currentFamiliarVariant == nil and #player:GetData().Sewn_familiars > 0 then
+                    elseif mData.Sewn_currentFamiliarVariant == nil then
                         -- If there is no familiar in the machine and player has available familiars to put in
                         sewingMachineMod:addFamiliarInMachine(machine, player)
                     end
@@ -1136,7 +1160,7 @@ function sewingMachineMod:updateFamiliar(familiar)
     if fData.Sewn_newRoomVisited and not fData.Sewn_familiarReady and familiar.FrameCount > 30 * 10 + 1 then
         if temporaryFamiliars[GetPtrHash(familiar)] ~= nil then
             temporaryFamiliars[GetPtrHash(familiar)] = nil
-            table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
+            --table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
         end
         fData.Sewn_familiarReady = true
     end
