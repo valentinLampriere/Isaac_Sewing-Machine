@@ -537,11 +537,6 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
         if machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
             newUpgrade = sewingMachineMod.UpgradeState.ULTRA
         end
-        --[[local fData = sewnFamiliar:GetData()
-        fData.Sewn_upgradeState = sewnFamiliar:GetData().Sewn_upgradeState + 1
-        if machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL and not sewingMachineMod:isUltra(fData) then
-            fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-        end--]]
 
         if _fData == nil then
             table.insert(sewingMachineMod.familiarData, {Variant = sewnFamiliar.Variant, Upgrade = newUpgrade})
@@ -554,9 +549,6 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
         end
         
         sewingMachineMod:payCost(machine, mData.Sewn_player)
-
-        -- Change familiar's data to prepare stats upgrade
-        -- sewingMachineMod:callFamiliarUpgrade(sewnFamiliar)
     else
         table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
     end
@@ -712,7 +704,7 @@ function sewingMachineMod:onPlayerUpdate(player)
     for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
 
         if InfinityTrueCoopInterface ~= nil then
-            return
+            break
         end
 
         local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
@@ -803,8 +795,6 @@ end
 -- MC_ENTITY_TAKE_DMG - EntityPlayer --
 ---------------------------------------
 function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
-    local countCrowns = 0
-    local allowedFamiliars = {}
     player = player:ToPlayer()
     if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
         sewingMachineMod:rerollFamilarsCrowns(player, player:GetTrinketRNG(TrinketType.TRINKET_CRACKED_THIMBLE))
@@ -1637,11 +1627,12 @@ function sewingMachineMod:onUpdate()
 
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(sewingMachineMod.familiarData) do
+        -- If the familiarData hasn't an associated familiar entity
         if familiarData.ENTITY == nil or familiarData.ENTITY.Ref == nil then
             local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)
-            -- Reverse loop to get the last one first
+            -- Reverse loop to get the last familiar first
             for j = #familiars, 1, -1 do
-                familiar = familiars[j]
+                local familiar = familiars[j]
                 local fData = familiar:GetData()
                 if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
                     fData.Sewn_upgradeState = familiarData.Upgrade
@@ -1653,18 +1644,6 @@ function sewingMachineMod:onUpdate()
                     break
                 end
             end
-            --[[for _, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)) do
-                local fData = familiar:GetData()
-                if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
-                    fData.Sewn_upgradeState = familiarData.Upgrade
-                    -- Change familiar's data to prepare stats upgrade
-                    sewingMachineMod:callFamiliarUpgrade(familiar)
-                    fData.Sewn_upgradeState = familiarData.Upgrade
-
-                    familiarData.ENTITY = EntityPtr(familiar)
-                    break
-                end
-            end--]]
         end
     end
 end
