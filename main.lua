@@ -377,7 +377,6 @@ end
 -- Remove every Sewing Machines and spawn an new one
 function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     local room = sewingMachineMod.currentRoom
-    local subType
 
     if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
         return
@@ -392,26 +391,26 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     end
 
     if machineSubType == nil then
-        if room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
-            subType = sewingMachineMod.SewingMachineSubType.BEDROOM
+        if room:GetType() == RoomType.ROOM_ERROR then
+            machineSubType = grng:RandomInt(4)
+        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
+            machineSubType = sewingMachineMod.SewingMachineSubType.BEDROOM
         elseif room:GetType() == RoomType.ROOM_SHOP then
-            subType = sewingMachineMod.SewingMachineSubType.SHOP
+            machineSubType = sewingMachineMod.SewingMachineSubType.SHOP
         elseif room:GetType() == RoomType.ROOM_ANGEL then
-            subType = sewingMachineMod.SewingMachineSubType.ANGELIC
+            machineSubType = sewingMachineMod.SewingMachineSubType.ANGELIC
         elseif room:GetType() == RoomType.ROOM_DEVIL then
-            subType = sewingMachineMod.SewingMachineSubType.EVIL
+            machineSubType = sewingMachineMod.SewingMachineSubType.EVIL
         else
             if grng:RandomInt(2) == 0 then
-                subType = sewingMachineMod.SewingMachineSubType.BEDROOM
+                machineSubType = sewingMachineMod.SewingMachineSubType.BEDROOM
             else
-                subType = sewingMachineMod.SewingMachineSubType.SHOP
+                machineSubType = sewingMachineMod.SewingMachineSubType.SHOP
             end
         end
-    else
-        subType = machineSubType
     end
 
-    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, subType, position, v0, nil)
+    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, machineSubType, position, v0, nil)
     if playAppearAnim == true then
         machine:GetSprite():Play("Appear", true)
     end
@@ -1267,14 +1266,14 @@ function sewingMachineMod:newRoom()
                 local rollContrastedButton = player:GetTrinketRNG(TrinketType.TRINKET_CONTRASTED_BUTTON):RandomInt(100)
                 local rollDollHead = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD):RandomInt(100)
                 local rollDollBody = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY):RandomInt(100)
-                if player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 then
-                    sewingMachineMod:spawnMachine(nil, true)
+                
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and
+                    (player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 or player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and rollDollBody < 10) then
+                    sewingMachineMod:spawnMachine(nil, true, sewingMachineMod.SewingMachineSubType.ANGELIC)
                 end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and rollDollBody < 10 then
-                    sewingMachineMod:spawnMachine(nil, true)
-                end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and rollDollHead < 10 then
-                    sewingMachineMod:spawnMachine(nil, true)
+                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and
+                (player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 or player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and rollDollHead < 10) then
+                    sewingMachineMod:spawnMachine(nil, true, sewingMachineMod.SewingMachineSubType.EVIL)
                 end
             end
         end
