@@ -77,7 +77,6 @@ local grng = RNG()
 local json = require("json")
 
 -- local mod variable
-local sewingMachine_shouldAppear_shop = false
 local isPlayerCloseFromMachine = false
 local temporaryFamiliars = {}
 
@@ -674,9 +673,6 @@ end
 function sewingMachineMod:onPlayerUpdate(player)
     local pData = player:GetData()
 
-    -- Prepare proper sewingMachineMod.rng
-    -- sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
-
     if pData.Sewn_familiars == nil then
         pData.Sewn_familiars = {}
     end
@@ -1224,6 +1220,7 @@ end
 ----------------------
 function sewingMachineMod:newRoom()
     sewingMachineMod.currentRoom = game:GetRoom()
+    local playerHasLostButton = false
     
     for i, familiar in pairs(temporaryFamiliars) do
         local fData = familiar:GetData()
@@ -1248,26 +1245,21 @@ function sewingMachineMod:newRoom()
             end
             player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
         end
+        if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
+            playerHasLostButton = true
+        end
     end
 
     if sewingMachineMod.currentRoom:IsFirstVisit() == true then
-        if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ARCADE then
-            --[[
-            for _, slot in pairs(Isaac.FindByType(EntityType.ENTITY_SLOT, -1, -1, false, false)) do
-                if not slot:IsDead() and slot.Variant < 13 then -- If it's a vanilla slot machine (include beggars)
-                    local rollChanceSpawn = sewingMachineMod.rng:RandomInt(10)
-                    if rollChanceSpawn == 1 then
-                        local pos = Vector(slot.Position.X, slot.Position.Y)
-                        slot:Remove()
-                        sewingMachineMod:spawnMachine(pos)
-                    end
-                end
-            end--]]
-        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ISAACS or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_BARREN then
+        if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ISAACS or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_BARREN then
             sewingMachineMod:spawnMachine()
-        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
+        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP then
             if sewingMachineMod.currentRoom:IsClear() then
-                sewingMachineMod:spawnMachine()
+                local rollMachineShop = grng:RandomInt(100)
+                
+                if rollMachineShop < 20 or playerHasLostButton or sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE4_3 then
+                    sewingMachineMod:spawnMachine()
+                end
             end
         elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL then
             for i = 1, game:GetNumPlayers() do
@@ -1312,9 +1304,12 @@ end
 -- MC_PRE_SPAWN_CLEAN_AWARD --
 ------------------------------
 function sewingMachineMod:finishRoom(_rng, spawnPosition)
-    if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP and sewingMachine_shouldAppear_shop then
-        -- Spawn machine when the shop is cleared
-        sewingMachineMod:spawnMachine(nil, true)
+    if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP then
+        local rollMachineShop = grng:RandomInt(100)
+        if rollMachineShop < 20 then
+            -- Spawn machine when the shop is cleared
+            sewingMachineMod:spawnMachine(nil, true)
+        end
     end
 
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
@@ -1333,18 +1328,7 @@ end
 -----------------------
 function sewingMachineMod:onNewFloor()
     sewingMachineMod.currentLevel = game:GetLevel()
-    sewingMachine_shouldAppear_shop = false
-    
     sewingMachineMod.sewingMachinesData = {}
-
-    if sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE4_3 then
-        sewingMachine_shouldAppear_shop = true
-    end
-
-    local rollMachineShop = grng:RandomInt(100)
-    if rollMachineShop < 20 then
-        sewingMachine_shouldAppear_shop = true
-    end
 
     for i = 1, game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
