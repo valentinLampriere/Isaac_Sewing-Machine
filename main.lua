@@ -1821,18 +1821,8 @@ function sewingMachineMod:saveGame()
     end
 
     -- Save familiars data
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-        if sewingMachineMod:isAvailable(familiar.Variant) then
-            local fData = familiar:GetData()
-            local variantIndex = tostring(familiar.Variant)
-            if saveData.familiars[variantIndex] == nil then
-                saveData.familiars[variantIndex] = {}
-            end
-            table.insert(saveData.familiars[variantIndex], {})
-
-
-            saveData.familiars[variantIndex][#saveData.familiars[variantIndex] ].Sewn_upgradeState = familiar:GetData().Sewn_upgradeState
-        end
+    for _, familiarData in pairs(sewingMachineMod.familiarData) do
+        table.insert(saveData.familiars, familiarData)
     end
 
     sewingMachineMod:SaveData(json.encode(saveData))
@@ -1900,14 +1890,8 @@ function sewingMachineMod:loadSave(isExistingRun)
 
 
             -- Loading familiar data
-            for variant, saveDataFamiliar in pairs(saveData.familiars) do
-                -- Loop through variants of familiars
-                for i, saveDataFamiliarVariant in pairs(saveDataFamiliar) do
-                    local fam = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, variant, -1, false, false)[i]:ToFamiliar()
-
-                    fam:GetData().Sewn_upgradeState = saveDataFamiliarVariant["Sewn_upgradeState"]
-                    sewingMachineMod:callFamiliarUpgrade(fam)
-                end
+            for _, familiarData in pairs(saveData.familiars) do
+                table.insert(sewingMachineMod.familiarData, familiarData)
             end
         end
     end
