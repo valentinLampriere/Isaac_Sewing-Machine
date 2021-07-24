@@ -483,14 +483,13 @@ function sewingMachineMod:AddInMachineCallback(familiarID, functionName)
     sewingMachineMod.customAddInMachine[familiarID] = functionName
 end
 
-local function findFamiliarData(variant, upgradeState)
-
+local function findFamiliarData(variant, upgradeState, playerIndex)
     if variant == nil or upgradeState == nil then
         return
     end
 
     for i, familiarData in ipairs(sewingMachineMod.familiarData) do
-        if familiarData.Variant == variant then
+        if familiarData.Variant == variant and familiarData.PlayerIndex == playerIndex then
             if upgradeState == familiarData.Upgrade then
                 return familiarData, i
             end
@@ -532,7 +531,7 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
 
     -- Upgrade the familiar
     if isUpgrade then
-        local _fData = findFamiliarData(sewnFamiliar.Variant, mData.Sewn_currentFamiliarState)
+        local _fData = findFamiliarData(sewnFamiliar.Variant, mData.Sewn_currentFamiliarState, mData.Sewn_player.Index)
         local newUpgrade = mData.Sewn_currentFamiliarState + 1
         if machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
             newUpgrade = sewingMachineMod.UpgradeState.ULTRA
@@ -615,7 +614,7 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
         sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant](_, availableFamiliars[roll])
     end
     
-    local _fData, _i = findFamiliarData(availableFamiliars[roll].Variant, mData.Sewn_currentFamiliarState)
+    local _fData, _i = findFamiliarData(availableFamiliars[roll].Variant, mData.Sewn_currentFamiliarState, player.Index)
     if _fData ~= nil then
         table.remove(sewingMachineMod.familiarData, _i)
     end
@@ -710,13 +709,6 @@ end
 function sewingMachineMod:onPlayerUpdate(player)
     local pData = player:GetData()
 
-    -- Prepare proper sewingMachineMod.rng
-    -- sewingMachineMod.rng:SetSeed(game:GetSeeds():GetStartSeed() + game:GetFrameCount(), 1)
-
-    --[[if pData.Sewn_familiars == nil then
-        pData.Sewn_familiars = {}
-    end--]]
-    
     isPlayerCloseFromMachine = false
 
     -- Loop through all Sewing machines to detect interactions
@@ -1760,7 +1752,7 @@ function sewingMachineMod:executeCommand(cmd, params)
                 familiar = familiar:ToFamiliar()
                 local fData = familiar:GetData()
                 local currentLevel = fData.Sewn_upgradeState or sewingMachineMod.UpgradeState.NORMAL
-                local _fData = findFamiliarData(familiar.Variant, currentLevel)
+                local _fData = findFamiliarData(familiar.Variant, currentLevel, familiar.Player.Index)
                 local newUpgrade = currentLevel
 
                 if params[2] == "ultra" then
