@@ -544,10 +544,6 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
             _fData.Upgrade = newUpgrade
         end
         
-        if newUpgrade ~= sewingMachineMod.UpgradeState.ULTRA then
-            --table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
-        end
-        
         sewingMachineMod:payCost(machine, mData.Sewn_player)
     else
         --table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
@@ -1668,6 +1664,15 @@ function sewingMachineMod:onUpdate()
                     break
                 end
             end
+        else
+            local fData = familiarData.ENTITY.Ref:GetData()
+            if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
+                fData.Sewn_upgradeState = familiarData.Upgrade
+                -- Change familiar's data to prepare stats upgrade
+                sewingMachineMod:callFamiliarUpgrade(familiarData.ENTITY.Ref)
+                fData.Sewn_upgradeState = familiarData.Upgrade
+            end
+            
         end
     end
 end
@@ -1728,46 +1733,8 @@ function sewingMachineMod:RemoveRecentRewards(pos)
         end
     end
 end
---------------------
--- MC_EXECUTE_CMD --
---------------------
-function sewingMachineMod:executeCommand(cmd, params)
-    params = split(params)
 
-    if cmd == "sewn" then
-        if params[1] == "up" then
-            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                familiar = familiar:ToFamiliar()
-                local fData = familiar:GetData()
-                
-                -- The variable may be nil if the command is executed on the same frame as the familiar appears
-                if fData.Sewn_upgradeState == nil then
-                    fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
-                end
-                
-                if params[2] == "ultra" then
-                    if fData.Sewn_upgradeState < 2 then
-                        fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
-                        sewingMachineMod:resetFamiliarData(familiar)
-                        sewingMachineMod:callFamiliarUpgrade(familiar)
-                    end
-                elseif params[2] == "super" then
-                    if fData.Sewn_upgradeState == 0 then
-                        fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
-                        sewingMachineMod:resetFamiliarData(familiar)
-                        sewingMachineMod:callFamiliarUpgrade(familiar)
-                    end
-                elseif fData.Sewn_upgradeState < 2 then
-                    fData.Sewn_upgradeState = fData.Sewn_upgradeState or 0
-                    fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-                    sewingMachineMod:resetFamiliarData(familiar)
-                    sewingMachineMod:callFamiliarUpgrade(familiar)
-                end
-            end
-        end
-    end
-end
-function split(inputstr, sep)
+local function split(inputstr, sep)
     if sep == nil then
         sep = "%s"
     end
@@ -1780,6 +1747,38 @@ function split(inputstr, sep)
         table.insert(t, inputstr)
     end
     return t
+end
+--------------------
+-- MC_EXECUTE_CMD --
+--------------------
+function sewingMachineMod:executeCommand(cmd, params)
+    params = split(params)
+
+    if cmd == "sewn" then
+        if params[1] == "up" then
+            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+                familiar = familiar:ToFamiliar()
+                local fData = familiar:GetData()
+                local currentLevel = fData.Sewn_upgradeState or sewingMachineMod.UpgradeState.NORMAL
+                local _fData = findFamiliarData(familiar.Variant, currentLevel)
+                local newUpgrade = currentLevel
+
+                if params[2] == "ultra" then
+                    newUpgrade = 2
+                elseif params[2] == "super" then
+                    newUpgrade = 1
+                elseif currentLevel < 2 then
+                    newUpgrade = currentLevel + 1
+                end
+
+                if _fData == nil then
+                    table.insert(sewingMachineMod.familiarData, {Variant = familiar.Variant, Upgrade = newUpgrade})
+                else
+                    _fData.Upgrade = newUpgrade
+                end
+            end
+        end
+    end
 end
 
 ----------------------
