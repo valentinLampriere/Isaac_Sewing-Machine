@@ -538,14 +538,12 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
         end
 
         if _fData == nil then
-            table.insert(sewingMachineMod.familiarData, {Variant = sewnFamiliar.Variant, Upgrade = newUpgrade})
+            table.insert(sewingMachineMod.familiarData, {Variant = sewnFamiliar.Variant, Upgrade = newUpgrade, PlayerIndex = mData.Sewn_player.Index})
         else
             _fData.Upgrade = newUpgrade
         end
         
         sewingMachineMod:payCost(machine, mData.Sewn_player)
-    else
-        --table.insert(sewnFamiliar.Player:GetData().Sewn_familiars, sewnFamiliar)
     end
 
 
@@ -1640,31 +1638,30 @@ function sewingMachineMod:onUpdate()
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(sewingMachineMod.familiarData) do
         -- If the familiarData hasn't an associated familiar entity
-        if familiarData.ENTITY == nil or familiarData.ENTITY.Ref == nil then
+        if familiarData.Entity == nil or familiarData.Entity.Ref == nil then
             local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)
             -- Reverse loop to get the last familiar first
             for j = #familiars, 1, -1 do
-                local familiar = familiars[j]
+                local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
-                if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
+                if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade and familiarData.PlayerIndex == familiar.Player.Index then
                     fData.Sewn_upgradeState = familiarData.Upgrade
                     -- Change familiar's data to prepare stats upgrade
                     sewingMachineMod:callFamiliarUpgrade(familiar)
                     fData.Sewn_upgradeState = familiarData.Upgrade
 
-                    familiarData.ENTITY = EntityPtr(familiar)
+                    familiarData.Entity = EntityPtr(familiar)
                     break
                 end
             end
         else
-            local fData = familiarData.ENTITY.Ref:GetData()
+            local fData = familiarData.Entity.Ref:GetData()
             if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
                 fData.Sewn_upgradeState = familiarData.Upgrade
                 -- Change familiar's data to prepare stats upgrade
-                sewingMachineMod:callFamiliarUpgrade(familiarData.ENTITY.Ref)
+                sewingMachineMod:callFamiliarUpgrade(familiarData.Entity.Ref)
                 fData.Sewn_upgradeState = familiarData.Upgrade
             end
-            
         end
     end
 end
@@ -1764,7 +1761,7 @@ function sewingMachineMod:executeCommand(cmd, params)
                 end
 
                 if _fData == nil then
-                    table.insert(sewingMachineMod.familiarData, {Variant = familiar.Variant, Upgrade = newUpgrade})
+                    table.insert(sewingMachineMod.familiarData, {Variant = familiar.Variant, Upgrade = newUpgrade, PlayerIndex = familiar.Player.Index})
                 else
                     _fData.Upgrade = newUpgrade
                 end
