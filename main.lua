@@ -1522,8 +1522,10 @@ end
 ----------------------------------------------
 function sewingMachineMod:useMonsterManual(collectibleType, _rng)
     sewingMachineMod:delayFunction(function()
+        local player = sewingMachineMod:GetPlayerUsingItem()
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-            if familiar.FrameCount == 1 then
+            familiar = familiar:ToFamiliar()
+            if GetPtrHash(familiar.Player) == GetPtrHash(player) and familiar.FrameCount == 1 then
                 familiar:GetData().Sewn_noUpgrade = true
             end
         end
@@ -1555,6 +1557,21 @@ end
 function sewingMachineMod:useStitchingCard(card)
     local player = sewingMachineMod:GetPlayerUsingItem()
     sewingMachineMod:rerollFamilarsCrowns(player, player:GetCardRNG(card))
+end
+-------------------------------------------
+-- MC_USE_CARD - Card.CARD_REVERSE_DEVIL --
+-------------------------------------------
+function sewingMachineMod:useReverseDevil(card)
+    
+    sewingMachineMod:delayFunction(function()
+        local player = sewingMachineMod:GetPlayerUsingItem()
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SERAPHIM, -1, false, false)) do
+            familiar = familiar:ToFamiliar()
+            if GetPtrHash(familiar.Player) == GetPtrHash(player) and familiar.FrameCount == 1 then
+                familiar:GetData().Sewn_noUpgrade = true
+            end
+        end
+    end, 0)
 end
 
 
@@ -1904,6 +1921,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useMonst
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useReverseDevil, Card.CARD_REVERSE_DEVIL)
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, sewingMachineMod.updateCard, PickupVariant.PICKUP_TAROTCARD)
 
 -- Rooms related callbacks
