@@ -1516,6 +1516,19 @@ function sewingMachineMod:glowingHourglassResetFamiliars(familiarStates)
         end
     end
 end
+
+----------------------------------------------
+-- MC_USE_ITEM - COLLECTIBLE_MONSTER_MANUAL --
+----------------------------------------------
+function sewingMachineMod:useMonsterManual(collectibleType, _rng)
+    sewingMachineMod:delayFunction(function()
+        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            if familiar.FrameCount == 1 then
+                familiar:GetData().Sewn_noUpgrade = true
+            end
+        end
+    end, 0)
+end
 -----------------
 -- MC_GET_CARD --
 -----------------
@@ -1887,6 +1900,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 -- Pickups related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useMonsterManual, CollectibleType.COLLECTIBLE_MONSTER_MANUAL)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
