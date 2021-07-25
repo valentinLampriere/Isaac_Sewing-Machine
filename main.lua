@@ -309,8 +309,6 @@ function sewingMachineMod:rerollFamilarsCrowns(player, _rng)
             countCrowns = countCrowns + fData.Sewn_upgradeState
             fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
 
-            --table.insert(pData.Sewn_familiars, familiars[familiar_index])
-
             sewingMachineMod:resetFamiliarData(familiar)
         end
     end
@@ -325,7 +323,6 @@ function sewingMachineMod:rerollFamilarsCrowns(player, _rng)
         end
         if sewingMachineMod:isUltra(fData) then
             table.remove(allowedFamiliars, familiar_index)
-            --table.remove(player:GetData().Sewn_familiars, familiars[familiar_index])
         end
     end
 end
@@ -428,7 +425,6 @@ function sewingMachineMod:getAllSewingMachines()
         table.insert(allSewingMachine, machine)
     end
     return allSewingMachine
-    --return Isaac.FindByType(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, -1, false, true)
 end
 
 -- Return true if the given familiar is SUPER, false otherwise
@@ -710,8 +706,6 @@ function sewingMachineMod:onPlayerUpdate(player)
                             pData.Sewn_machine_upgradeFree = true
                         end
                     end
-
-                    --if mData.Sewn_currentFamiliarVariant ~= nil and player:HasTrinket(TrinketType.TRINKET_PIN_CUSHION) then
                     if mData.Sewn_currentFamiliarVariant ~= nil and (player:GetTrinket(0) == TrinketType.TRINKET_PIN_CUSHION or player:GetTrinket(1) == TrinketType.TRINKET_PIN_CUSHION) then
                         -- If the player has the Pin Cushion trinket : Get back for free the familiar
                         sewingMachineMod:getFamiliarBack(machine, false)
@@ -806,8 +800,6 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         if pData.Sewn_familiarsInMachine ~= nil then
             for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
                 local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
-
-
                 fams[#fams]:Remove()
             end
         end
@@ -1562,7 +1554,6 @@ end
 -- MC_USE_CARD - Card.CARD_REVERSE_DEVIL --
 -------------------------------------------
 function sewingMachineMod:useReverseDevil(card)
-    
     sewingMachineMod:delayFunction(function()
         local player = sewingMachineMod:GetPlayerUsingItem()
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SERAPHIM, -1, false, false)) do
@@ -1612,7 +1603,7 @@ function sewingMachineMod:onUpdate()
         local machineSprite = machine:GetSprite()
         local mData = sewingMachineMod.sewingMachinesData[machine.InitSeed]
         
-        -- To stuff when machine animation are finished
+        -- Do stuff when machine animation are finished
         if machineSprite:IsFinished("Appear") then
             machineSprite:Play("Idle")
         elseif machineSprite:IsFinished("Disappear") then
