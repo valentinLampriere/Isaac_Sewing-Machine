@@ -1380,6 +1380,14 @@ function sewingMachineMod:onNewFloor()
             player:EvaluateItems()
         end
     end
+
+    -- On new floors, reset familiars data
+    local _familiarsData = {}
+    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+        familiar = familiar:ToFamiliar()
+        table.insert(_familiarsData, {Variant = familiar.Variant, Upgrade = familiar:GetData().Sewn_upgradeState, PlayerIndex = familiar.Player.Index, Entity = EntityPtr(familiar)})
+    end
+    sewingMachineMod.familiarData = _familiarsData
 end
 
 
