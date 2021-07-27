@@ -284,6 +284,12 @@ function sewingMachineMod:resetFamiliarData(familiar, keepValues)
     end
 end
 
+-- Code given by AgentCucco
+local function tearsUp(firedelay, val)
+    local currentTears = 30 / (firedelay + 1)
+    local newTears = currentTears + val
+    return math.max((30 / newTears) - 1, -0.99)
+end
 
 function sewnFamiliars:familiarFollowTrail(familiar, position, forceChildLeash)
     if familiar == nil or familiar.Type ~= EntityType.ENTITY_FAMILIAR then
@@ -4184,7 +4190,7 @@ function sewnFamiliars:custom_cache_paschalCandle(paschalCandle, cache)
     if cache & CacheFlag.CACHE_FIREDELAY == CacheFlag.CACHE_FIREDELAY then
         sewingMachineMod:delayFunction(function()
             if fData.Sewn_paschalCandle_currentFlame > fData.Sewn_paschalCandle_vanillaFlame then
-                paschalCandle.Player.MaxFireDelay = sewingMachineMod:tearsUp(paschalCandle.Player.MaxFireDelay, 0.4 * (fData.Sewn_paschalCandle_currentFlame - fData.Sewn_paschalCandle_vanillaFlame))
+                paschalCandle.Player.MaxFireDelay = tearsUp(paschalCandle.Player.MaxFireDelay, 0.4 * (fData.Sewn_paschalCandle_currentFlame - fData.Sewn_paschalCandle_vanillaFlame))
             end
         end, 1, paschalCandle)
     end
