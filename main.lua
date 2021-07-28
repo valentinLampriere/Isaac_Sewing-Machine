@@ -242,7 +242,16 @@ end
 
 
 
-
+local function newFamiliarData(variant, upgrade, playerIndex, entity)
+    local newData = {
+        Variant = variant,
+        Upgrade = upgrade or 0,
+        PlayerIndex = playerIndex or 0,
+        Entity = entity
+    }
+    local metatable = {}
+    return setmetatable(newData, metatable)
+end
 
 function sewingMachineMod:isAvailable(familiarVariant)
     return sewingMachineMod.availableFamiliar[familiarVariant] ~= nil
@@ -533,7 +542,8 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
         end
 
         if _fData == nil then
-            table.insert(sewingMachineMod.familiarData, {Variant = sewnFamiliar.Variant, Upgrade = newUpgrade, PlayerIndex = mData.Sewn_player.Index})
+            --table.insert(sewingMachineMod.familiarData, {Variant = sewnFamiliar.Variant, Upgrade = newUpgrade, PlayerIndex = mData.Sewn_player.Index})
+            table.insert(sewingMachineMod.familiarData, newFamiliarData(sewnFamiliar.Variant, newUpgrade, mData.Sewn_player.Index))
         else
             _fData.Upgrade = newUpgrade
         end
@@ -829,7 +839,9 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
         if pData.Sewn_familiarsInMachine ~= nil then
             for machineIndex, sewnFamiliarVariant in pairs(pData.Sewn_familiarsInMachine) do
                 local fams = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, sewnFamiliarVariant, -1, false, false)
-                fams[#fams]:Remove()
+                if fams ~= nil then
+                    fams[#fams]:Remove()
+                end
             end
         end
 
@@ -1364,7 +1376,8 @@ function sewingMachineMod:onNewFloor()
     local _familiarsData = {}
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         familiar = familiar:ToFamiliar()
-        table.insert(_familiarsData, {Variant = familiar.Variant, Upgrade = familiar:GetData().Sewn_upgradeState, PlayerIndex = familiar.Player.Index, Entity = EntityPtr(familiar)})
+        --table.insert(_familiarsData, {Variant = familiar.Variant, Upgrade = familiar:GetData().Sewn_upgradeState, PlayerIndex = familiar.Player.Index, Entity = EntityPtr(familiar)})
+        table.insert(_familiarsData, newFamiliarData(familiar.Variant, familiar:GetData().Sewn_upgradeState, familiar.Player.Index, EntityPtr(familiar)))
     end
     sewingMachineMod.familiarData = _familiarsData
 end
@@ -1777,7 +1790,8 @@ function sewingMachineMod:executeCommand(cmd, params)
                 end
 
                 if _fData == nil then
-                    table.insert(sewingMachineMod.familiarData, {Variant = familiar.Variant, Upgrade = newUpgrade, PlayerIndex = familiar.Player.Index})
+                    --table.insert(sewingMachineMod.familiarData, {Variant = familiar.Variant, Upgrade = newUpgrade, PlayerIndex = familiar.Player.Index})
+                    table.insert(sewingMachineMod.familiarData, newFamiliarData(familiar.Variant, newUpgrade, familiar.Player.Index))
                 else
                     _fData.Upgrade = newUpgrade
                 end
