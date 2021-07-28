@@ -31,7 +31,8 @@ function sewingMachineMod:AddDescriptionsForFamiliar(familiarVariant, firstUpgra
     end
 
     if EID ~= nil then
-        EID:addColor("SewnColor_".. name, KColor(kColor[1], kColor[2], kColor[3], 1))
+        local markupName = name.gsub(name, "'", "")
+        EID:addColor("SewnColor_".. markupName, KColor(kColor[1], kColor[2], kColor[3], 1))
     end
 
     sewingMachineMod.FamiliarsUpgradeDescriptions[familiarVariant] = {
