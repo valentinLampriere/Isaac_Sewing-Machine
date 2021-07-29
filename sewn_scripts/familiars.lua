@@ -3029,6 +3029,9 @@ end
 function sewnFamiliars:upDeadCat(deadCat)
     local fData = deadCat:GetData()
     local player = deadCat.Player
+    if player == nil or deadCat == nil then
+        return
+    end
     local pData = player:GetData()
 
     if REPENTANCE then
