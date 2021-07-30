@@ -238,7 +238,7 @@ if EID then
 
     -- EID Cards
     EID:addCard(Card.CARD_WARRANTY, "Spawn a sewing machine#The Sewing machine change depending on the room type")
-    EID:addCard(Card.CARD_STITCHING, "Reroll familiar crowns")
+    EID:addCard(Card.CARD_STITCHING, "Reroll familiar crowns#Gives a free upgrades if none of your familiars are upgraded")
     EID:addCard(Card.CARD_SEWING_COUPON, "Upgrade all familiars for a single room#One time use of Sewing Box")
 end
 
