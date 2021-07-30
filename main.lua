@@ -308,8 +308,8 @@ function sewingMachineMod:rerollFamiliarsCrowns(player, _rng)
     local crownSaveValue = 0
     local crownRetrieveValue = 0
 
-    --sewingMachineMod.familiarData = {}
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    for _, familiar in pairs(familiars) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
 
@@ -334,8 +334,6 @@ function sewingMachineMod:rerollFamiliarsCrowns(player, _rng)
             sewingMachineMod:resetFamiliarData(familiar)
         end
     end
-    
-
 
     local attemptCounter = 0
     local copy_familiarData = {}
@@ -1639,31 +1637,49 @@ end
 --------------------------------------
 -- MC_USE_CARD - Card.CARD_WARRANTY --
 --------------------------------------
-function sewingMachineMod:useWarrantyCard(card)
-    local player = sewingMachineMod:GetPlayerUsingItem()
+function sewingMachineMod:useWarrantyCard(card, player, useFlag)
+    player = player or sewingMachineMod:GetPlayerUsingItem()
     sewingMachineMod:spawnMachine(sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(player.Position, 0, true), true)
 end
 ---------------------------------------
 -- MC_USE_CARD - Card.CARD_STITCHING --
 ---------------------------------------
-function sewingMachineMod:useStitchingCard(card)
-    local player = sewingMachineMod:GetPlayerUsingItem()
-    sewingMachineMod:rerollFamiliarsCrowns(player, player:GetCardRNG(card))
+function sewingMachineMod:useStitchingCard(card, player, useFlag)
+    player = player or sewingMachineMod:GetPlayerUsingItem()
+    
+    -- Upgrade a random familiar if the player has no upgraded ones
+    if crownSaveValue == 0 and #familiars > 0 then
+        local rollFamiliar = _rng:RandomInt(#familiars) + 1
+        table.insert(sewingMachineMod.familiarData, newFamiliarData(familiars[rollFamiliar].Variant, 1, player.Index))
+    end
+
+    local hasUpgrades = false
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    for _, familiar in ipairs(familiars) do
+        if familiar:GetData().Sewn_upgradeState ~= nil and familiar:GetData().Sewn_upgradeState > 0 then
+            hasUpgrades = true
+        end
+    end
+    if hasUpgrades then
+        sewingMachineMod:rerollFamiliarsCrowns(player, player:GetCardRNG(card))
+    else
+        local rollFamiliar = player:GetCardRNG(card):RandomInt(#familiars) + 1
+        table.insert(sewingMachineMod.familiarData, newFamiliarData(familiars[rollFamiliar].Variant, 1, player.Index))
+    end
 end
 ---------------------------------------
 -- MC_USE_CARD - Card.CARD_STITCHING --
 ---------------------------------------
-function sewingMachineMod:useSewingCoupon(card)
-    local player = sewingMachineMod:GetPlayerUsingItem()
+function sewingMachineMod:useSewingCoupon(card, player, useFlag)
+    player = player or sewingMachineMod:GetPlayerUsingItem()
     player:UseActiveItem(CollectibleType.COLLECTIBLE_SEWING_BOX, UseFlag.USE_NOANIM)
-    --sewingMachineMod:rerollFamiliarsCrowns(player, player:GetCardRNG(card))
 end
 -------------------------------------------
 -- MC_USE_CARD - Card.CARD_REVERSE_DEVIL --
 -------------------------------------------
-function sewingMachineMod:useReverseDevil(card)
+function sewingMachineMod:useReverseDevil(card, player, useFlag)
     sewingMachineMod:delayFunction(function()
-        local player = sewingMachineMod:GetPlayerUsingItem()
+        player = player or sewingMachineMod:GetPlayerUsingItem()
         for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.SERAPHIM, -1, false, false)) do
             familiar = familiar:ToFamiliar()
             if GetPtrHash(familiar.Player) == GetPtrHash(player) and familiar.FrameCount == 1 then
