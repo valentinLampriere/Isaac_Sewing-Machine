@@ -231,7 +231,7 @@ if EID then
 
     -- EID Trinkets
     EID:addTrinket(TrinketType.TRINKET_THIMBLE, "Have a 50% chance to upgrade a familiar for free")
-    EID:addTrinket(TrinketType.TRINKET_CRACKED_THIMBLE, "Reroll familiars crowns when getting hit")
+    EID:addTrinket(TrinketType.TRINKET_CRACKED_THIMBLE, "Have 50% chance to reroll familiars crowns when getting hit")
     EID:addTrinket(TrinketType.TRINKET_LOST_BUTTON, "100% chance to spawn sewing machine in Shops for next floors")
     EID:addTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON, "50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
     EID:addTrinket(TrinketType.TRINKET_PIN_CUSHION, "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button")
@@ -851,7 +851,7 @@ end
 ---------------------------------------
 function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
     player = player:ToPlayer()
-    if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
+    if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) and player:GetTrinketRNG(TrinketType.TRINKET_CRACKED_THIMBLE):RandomInt(2) == 1 then
         if damageFlags & DamageFlag.DAMAGE_CURSED_DOOR ~= DamageFlag.DAMAGE_CURSED_DOOR and
            damageFlags & DamageFlag.DAMAGE_IV_BAG ~= DamageFlag.DAMAGE_IV_BAG then
            sewingMachineMod:rerollFamiliarsCrowns(player, player:GetTrinketRNG(TrinketType.TRINKET_CRACKED_THIMBLE))
