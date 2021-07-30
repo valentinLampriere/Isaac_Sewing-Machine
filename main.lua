@@ -297,14 +297,16 @@ function sewingMachineMod:getFamiliarItemGfx(familiarVariant)
     return "gfx/items/collectibles/questionmark.png"
 end
 
-function sewingMachineMod:rerollFamilarsCrowns(player, _rng)
-    local pData = player:GetData()
-
+function sewingMachineMod:rerollFamiliarsCrowns(player, _rng)
     _rng = _rng or RNG()
 
     local allowedFamiliars = {}
     local countCrowns = 0
 
+    local crownSaveValue = 0
+    local crownRetrieveValue = 0
+
+    --sewingMachineMod.familiarData = {}
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
@@ -316,24 +318,61 @@ function sewingMachineMod:rerollFamilarsCrowns(player, _rng)
         if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
             table.insert(allowedFamiliars, familiar)
             countCrowns = countCrowns + fData.Sewn_upgradeState
+
+            if sewingMachineMod:isSuper(fData) then
+                crownSaveValue = crownSaveValue + familiar.Variant
+            end
+            if sewingMachineMod:isUltra(fData) then
+                crownSaveValue = crownSaveValue + familiar.Variant
+                crownSaveValue = crownSaveValue + familiar.Variant
+            end
+
             fData.Sewn_upgradeState = sewingMachineMod.UpgradeState.NORMAL
 
             sewingMachineMod:resetFamiliarData(familiar)
         end
     end
-    while #allowedFamiliars > 0 and countCrowns > 0 do
-        local familiar_index = _rng:RandomInt(#allowedFamiliars) + 1
-        local fData = allowedFamiliars[familiar_index]:GetData()
-        if not sewingMachineMod:isUltra(fData) then
-            fData.Sewn_upgradeState = fData.Sewn_upgradeState + 1
-            countCrowns = countCrowns -1
+    
 
-            sewingMachineMod:callFamiliarUpgrade(allowedFamiliars[familiar_index])
+
+    local attemptCounter = 0
+    local copy_familiarData = {}
+    local copy_crownRetrieveValue = crownRetrieveValue
+    while (crownRetrieveValue == 0 or crownRetrieveValue == crownSaveValue) and attemptCounter < 4 do
+        crownRetrieveValue = copy_crownRetrieveValue
+
+        local tmp_upgradeStates = {}
+        copy_familiarData = {}
+        local copy_allowedFamiliars = allowedFamiliars
+        local copy_countCrowns = countCrowns
+
+        while #copy_allowedFamiliars > 0 and copy_countCrowns > 0 do
+            local familiar_index = _rng:RandomInt(#copy_allowedFamiliars) + 1
+            local familiar = copy_allowedFamiliars[familiar_index]
+            
+            local upgradeState = tmp_upgradeStates[GetPtrHash(familiar)] or 0
+            local _fData = sewingMachineMod:findFamiliarData(familiar.Variant, upgradeState, player, copy_familiarData)
+            if upgradeState ~= sewingMachineMod.UpgradeState.ULTRA then
+                if _fData == nil then
+                    table.insert(copy_familiarData, newFamiliarData(familiar.Variant, upgradeState + 1, player, EntityPtr(familiar)))
+                else
+                    _fData.Upgrade = upgradeState + 1
+                end
+
+                copy_countCrowns = copy_countCrowns -1
+
+                crownRetrieveValue = crownRetrieveValue + copy_allowedFamiliars[familiar_index].Variant
+
+                tmp_upgradeStates[GetPtrHash(familiar)] = upgradeState + 1
+            end
+            if upgradeState == sewingMachineMod.UpgradeState.ULTRA then
+                table.remove(copy_allowedFamiliars, familiar_index)
+            end
         end
-        if sewingMachineMod:isUltra(fData) then
-            table.remove(allowedFamiliars, familiar_index)
-        end
+        attemptCounter = attemptCounter + 1
     end
+
+    sewingMachineMod.familiarData = copy_familiarData
 end
 
 function sewingMachineMod:temporaryUpgradeFamiliar(familiar)
@@ -487,12 +526,15 @@ function sewingMachineMod:AddInMachineCallback(familiarID, functionName)
     sewingMachineMod.customAddInMachine[familiarID] = functionName
 end
 
-local function findFamiliarData(variant, upgradeState, playerIndex)
+function sewingMachineMod:findFamiliarData(variant, upgradeState, playerIndex, table)
+
+    table = table or sewingMachineMod.familiarData
+
     if variant == nil or upgradeState == nil then
         return
     end
 
-    for i, familiarData in ipairs(sewingMachineMod.familiarData) do
+    for i, familiarData in ipairs(table) do
         if familiarData.Variant == variant and familiarData.PlayerIndex == playerIndex then
             if upgradeState == familiarData.Upgrade then
                 return familiarData, i
@@ -535,7 +577,7 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
 
     -- Upgrade the familiar
     if isUpgrade then
-        local _fData = findFamiliarData(sewnFamiliar.Variant, mData.Sewn_currentFamiliarState, mData.Sewn_player.Index)
+        local _fData = sewingMachineMod:findFamiliarData(sewnFamiliar.Variant, mData.Sewn_currentFamiliarState, mData.Sewn_player.Index)
         local newUpgrade = mData.Sewn_currentFamiliarState + 1
         if machine.SubType == sewingMachineMod.SewingMachineSubType.EVIL then
             newUpgrade = sewingMachineMod.UpgradeState.ULTRA
@@ -617,7 +659,7 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
         sewingMachineMod.customAddInMachine[mData.Sewn_currentFamiliarVariant](_, availableFamiliars[roll])
     end
     
-    local _fData, _i = findFamiliarData(availableFamiliars[roll].Variant, mData.Sewn_currentFamiliarState, player.Index)
+    local _fData, _i = sewingMachineMod:findFamiliarData(availableFamiliars[roll].Variant, mData.Sewn_currentFamiliarState, player.Index)
     if _fData ~= nil then
         table.remove(sewingMachineMod.familiarData, _i)
     end
@@ -810,7 +852,10 @@ end
 function sewingMachineMod:playerTakeDamage(player, damageAmount, damageFlags, damageSource, damageCountdownFrames)
     player = player:ToPlayer()
     if player:HasTrinket(TrinketType.TRINKET_CRACKED_THIMBLE) then
-        sewingMachineMod:rerollFamilarsCrowns(player, player:GetTrinketRNG(TrinketType.TRINKET_CRACKED_THIMBLE))
+        if damageFlags & DamageFlag.DAMAGE_CURSED_DOOR ~= DamageFlag.DAMAGE_CURSED_DOOR and
+           damageFlags & DamageFlag.DAMAGE_IV_BAG ~= DamageFlag.DAMAGE_IV_BAG then
+           sewingMachineMod:rerollFamiliarsCrowns(player, player:GetTrinketRNG(TrinketType.TRINKET_CRACKED_THIMBLE))
+        end
     end
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
@@ -1598,7 +1643,7 @@ end
 ---------------------------------------
 function sewingMachineMod:useStitchingCard(card)
     local player = sewingMachineMod:GetPlayerUsingItem()
-    sewingMachineMod:rerollFamilarsCrowns(player, player:GetCardRNG(card))
+    sewingMachineMod:rerollFamiliarsCrowns(player, player:GetCardRNG(card))
 end
 -------------------------------------------
 -- MC_USE_CARD - Card.CARD_REVERSE_DEVIL --
@@ -1666,6 +1711,7 @@ function sewingMachineMod:onUpdate()
 
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(sewingMachineMod.familiarData) do
+
         -- If the familiarData hasn't an associated familiar entity
         if familiarData.Entity == nil or familiarData.Entity.Ref == nil then
             local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)
@@ -1673,7 +1719,7 @@ function sewingMachineMod:onUpdate()
             for j = #familiars, 1, -1 do
                 local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
-                if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade and familiarData.PlayerIndex == familiar.Player.Index then
+                if (fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index then
                     fData.Sewn_upgradeState = familiarData.Upgrade
                     -- Change familiar's data to prepare stats upgrade
                     sewingMachineMod:callFamiliarUpgrade(familiar)
@@ -1686,9 +1732,11 @@ function sewingMachineMod:onUpdate()
         else
             local fData = familiarData.Entity.Ref:GetData()
             if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
-                fData.Sewn_upgradeState = familiarData.Upgrade
                 -- Change familiar's data to prepare stats upgrade
+                fData.Sewn_upgradeState = familiarData.Upgrade
                 sewingMachineMod:callFamiliarUpgrade(familiarData.Entity.Ref)
+            elseif fData.Sewn_upgradeState > familiarData.Upgrade then
+                sewingMachineMod:resetFamiliarData(familiarData.Entity.Ref)
                 fData.Sewn_upgradeState = familiarData.Upgrade
             end
         end
@@ -1778,7 +1826,7 @@ function sewingMachineMod:executeCommand(cmd, params)
                 familiar = familiar:ToFamiliar()
                 local fData = familiar:GetData()
                 local currentLevel = fData.Sewn_upgradeState or sewingMachineMod.UpgradeState.NORMAL
-                local _fData = findFamiliarData(familiar.Variant, currentLevel, familiar.Player.Index)
+                local _fData = sewingMachineMod:findFamiliarData(familiar.Variant, currentLevel, familiar.Player.Index)
                 local newUpgrade = currentLevel
 
                 if params[2] == "ultra" then
