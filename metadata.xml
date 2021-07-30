@@ -3,108 +3,18 @@
     <name>!Sewing machine</name>
     <directory>sewing machine</directory>
     <id>2145452717</id>
-    <description>[h1]Repentance update is coming slowly ![/h1]
-
-[h2]Repentance Update 0.3 : [/h2]
-
-[list]
-[*]Upgrade Blood Oath : [Super] Spawn red creep. The creep deal 0.2 * the amount of half heart removed. [Ultra] When it stab, it spawns random red hearts.
-[*]Upgrade Pascal Candle : [Super] When the player takes damages, Paschal Candle spread flames around it. The amount of flames depends on the size of the flame's candle. [Ultra] Taking damage only reduces the flame by one room amount.
-[*]Upgrade Cube Baby : [Super] Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen. [Ultra] Spawn creep when moved around. The more is goes fast, the more it spawns creep.
-[*]Upgrade Bot Fly : [Super] Range up. Shot Speed up. Increase tear size. [Ultra] Boosts stats. Gain piercing tears
-[*]Upgrade Boiled Baby : [Super] Increase the amount of tears it burst. [Ultra] Fire tears in the directions the player is firing.
-[*]Upgrade Freezer Baby : [Super] Damage Up. Range Up. Increase the chance to freeze enemies. [Ultra] Enemies it kills explodes into ice tears
-[*]Upgrade Lil Dumpy : [Super] Attract close bullets. When it farts, fire  tears in different directions. [Ultra] While it moves, spawn static tears. Those tears have a chance to apply Poison, Charm or Confusion
-[*]Rework Sissy Longlegs : Fix spider spawn. Spawned spiders can apply a charm effect
-[*]Change mod name from &quot;Sewing Machine&quot; to &quot;!Sewing Machine&quot;
-[/list]
-
-[h2]Repentance Update 0.2 : [/h2]
-
-[list]
-[*]Rework Isaac's Heart : [Super] Move closer to the player when the player isn't firing. Decreased charge time. [Ultra] When fully charged, if an enemy or projectile gets too close it automatically activates it's fully charged effect#When this activates, it will go on a breif cooldown before being able to charge again
-[*]Fix the cards/runes sprite issue
-[*]Fix Dead Cat
-[*]Fix King Baby
-[*]Fix issues
-[/list]
+    <description>[h1]Make your familiars stronger ![/h1]
 
 
-[h2]Repentance Update 0.1 : [/h2]
+The [b]Sewing Machine[/b] is a brand new machine which allows you to [b]upgrade your familiars[/b] during a run !
 
-[list]
-[*]Rework Brother Bobby
-[*]Rework Sister Maggy
-[*]Rebalance Robo Baby
-[*]Rework Depression : [Super] Block always shots. [Ultra] : Tears bounce and produce more creep. Better creep)
-[*]Rebalance Seraphim : (Nerf) Less chance to fire holy tears
-[*]Fix Buddy in a Box : Can now use tears from repentance
-[*]Rework Rainbow Baby : Tears up (less) and Damage up
-[*]Rework Little Steven : Better range up. Now have a slighter shot speed down
-[*]Rebalance Headless Baby : Buff
-[*]Fix Mongo Baby : Fix lot of issues. Better copy familiars
-[*]Fix Papa Fly
-[*]Rebalance Juicy Sack : (Buff) Now fire some egg tears even in Super. Fire more egg tears in Ultra
-[*]Rework Holy Water : Have been completely changed in Repentance. Spawn small puddle of creep when thrown. Gain piercing + do not break always on hit
-[*]Rework The Relic : Change chances to spawn soul hearts. Can spawn eternal heart (small chance on Ultra). Rebalance chances. Can heal the player only on Ultra
-[*]Rebalance Peeper : Buff
-[*]Fix Leech
-[*]Rebalance Cain's Other Eye : (Nerf)  Reduce amount of tears for Ultra Cain's Other Eye (From 4 to 3)
-[*]Rebalance Rib familiars
-[/list]
-
-
-[h1]Make your familiars stronger ![/h1]
-
-
-The [b]Sewing Machine[/b] is a brand new machine which allow you to [b]upgrade your familiars[/b] during a run !
-
-63 familiars are for now upgradable !
-For more info about all those upgrades, check this link : 
-
-https://www.reddit.com/r/themoddingofisaac/comments/gwfffs/sewing_machine_mod_upgradable_familiars/
-
-This mod include also new items and new trinkets related to the Sewing Machine.
-
-This mod is NOT compatible with True-Coop !
+This mod include also 3 new items, 6 new trinkets and 3 new cards related to the Sewing Machine.
 
 --------------------------------
 
-The sewing machine act like a slot machine. When interacting with the machine you will [b]add a random familiar[/b] in the machine. Interacting a second time with the machine will allow you to retrieve the familiar with a special upgrade. [b]Upgrades have a cost[/b], it can be a soul heart, or coins. When a familiar is in the machine, you can retrieve it when bombing the machine.
-Sewing machine can be found in [b]bedrooms[/b], [b]shops[/b] or [b]arcade rooms[/b].
+The sewing machine act like a slot machine. When interacting with the machine you will [b]add a random familiar[/b] in the machine. Interacting a second time with the machine will allow you to retrieve the familiar with a special upgrade. [b]Upgrades have a cost[/b], it can be a soul heart, or coins or. When a familiar is in the machine, you can retrieve it when bombing the machine.
+Sewing machine can be found in [b]bedrooms[/b], [b]shops[/b].
 Familiars can be upgradable twice. A crown icon indicate their level.
-
-[b]Sewing Box[/b] / Active Item
-&quot;Temporary super familiar&quot;
-Upgrade all you familiars for one room
-
-[b]Doll's Tainted Head[/b] / Passive
-&quot;???&quot;
-Every familiars will be SUPER. With Doll's Pure Body every familiars will be ULTRA
-
-[b]Doll's Pure Body[/b] / Passive
-&quot;???&quot;
-Every familiars will be SUPER. With Doll's Tainted Body every familiars will be ULTRA
-
-[b]Thimble[/b] / Trinket
-&quot;Safety Crowns&quot;
-Reroll familiars crowns when getting hit
-
-[b]Cracked Thimble[/b] / Trinket
-&quot;Cursed crowns ?&quot;
-Have a 50% chance to reduce the cost for upgrades to half the normal price
-
-[b]Lost Button[/b] / Trinket
-&quot;More sewing machines !&quot;
-100% chance to spawn Sewing machine in Shops for next floors
-
-[b]Contrasted Button[/b] / Trinket
-&quot;Unexpected machine&quot;
-50% chance to find a sewing machine in angel rooms or devil rooms
-
-[b]Pin Cushion[/b] / Trinket
-&quot;Choose the good one&quot;
-Interacting with the machine gives the familiar back
 
 --------------------------------
 
@@ -113,6 +23,7 @@ Interacting with the machine gives the familiar back
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1991915308]Lost And Forgotten[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
+[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2558097541]Mini-Min[/url]
 
 [h3]To make you own familiar upgradable :[/h3]
 https://github.com/valentinLampriere/Isaac_Sewing-Machine/wiki
@@ -124,7 +35,7 @@ Please let me know if you encounter bugs !
 Some familiars aren't upgradable now.
 This mod will be updated and will make more and more familiars available !
 
-[b]Share your ideas[/b] in the comments or contact me if you have new ideas for familiars upgrades !
+[b]Share your ideas[/b] in the comments or contact me if you have new ideas for familiars upgrades, you can also join the discord server (link below) !
 
 --------------------------------
 
@@ -132,19 +43,21 @@ Thanks to the Modding community for their help during the developement process
 
 Special Thanks to
 - [url=https://steamcommunity.com/profiles/76561198241259420/myworkshopfiles/]Foks[/url] for trinket sprites, ann's sprites and his support from the beginning of the mod
-- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the &quot;Sewing Box&quot; sprite, the code he made (mainly the EID compatibility) and his support 
+- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the "Sewing Box" sprite, the code he made (mainly the EID compatibility) and his support 
 - [url=https://steamcommunity.com/id/PixelPlz/myworkshopfiles/]PixelPlz[/url] for the awesome Sewing Machine sprite he made and the Angelic Sewing machine
 - [url=https://steamcommunity.com/id/ciirulean/myworkshopfiles/]Ciirulean[/url] for the evil Sewing Machine sprite
 - [url=https://steamcommunity.com/profiles/76561198118097787/myworkshopfiles/]Sentinel[/url] for all his help and advices
-- [url=https://steamcommunity.com/profiles/76561198394602416/myworkshopfiles/]Spore64[/url] for nice cards sprites
+- [url=https://steamcommunity.com/profiles/76561198394602416/myworkshopfiles/]Spore64[/url] for the nice cards sprites
+- [url=https://steamcommunity.com/profiles/76561199063654767/myworkshopfiles/]AlekuDraw[/url] for the lovely trinkets sprites
 
 --------------------------------
 
-Mod made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
+The mod has been made my [url=https://steamcommunity.com/profiles/76561198831532101/]@siraxtas[/url]
 Discord : valentinL#3711
 
-Now on Discord : https://discord.gg/56HzHdAKKG</description>
-    <version>1.19</version>
+Sewing Machine is now on Discord, join it to share your ideas, report bugs or just discuss about the mod : 
+[url=https://discord.gg/56HzHdAKKG/]https://discord.gg/56HzHdAKKG[/url] </description>
+    <version>1.20</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
