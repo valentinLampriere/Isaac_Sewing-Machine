@@ -1646,15 +1646,14 @@ end
 ---------------------------------------
 function sewingMachineMod:useStitchingCard(card, player, useFlag)
     player = player or sewingMachineMod:GetPlayerUsingItem()
-    
-    -- Upgrade a random familiar if the player has no upgraded ones
-    if crownSaveValue == 0 and #familiars > 0 then
-        local rollFamiliar = _rng:RandomInt(#familiars) + 1
-        table.insert(sewingMachineMod.familiarData, newFamiliarData(familiars[rollFamiliar].Variant, 1, player.Index))
-    end
 
     local hasUpgrades = false
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+
+    if #familiars == 0 then
+        return
+    end
+
     for _, familiar in ipairs(familiars) do
         if familiar:GetData().Sewn_upgradeState ~= nil and familiar:GetData().Sewn_upgradeState > 0 then
             hasUpgrades = true
