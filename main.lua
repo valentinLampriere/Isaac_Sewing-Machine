@@ -1697,8 +1697,11 @@ function sewingMachineMod:updateCard(card)
         local cData = card:GetData()
         if cData.Sewn_isInit == nil then
             local sprite = card:GetSprite()
-            sprite:Load("gfx/005_sewing_card.anm2", true)
-
+            if card.SubType == Card.CARD_SEWING_COUPON then
+                sprite:Load("gfx/005_sewing_card_coupon.anm2", true)
+            else
+                sprite:Load("gfx/005_sewing_card.anm2", true)
+            end
             if card.FrameCount == 0 then
                 sprite:Play("Idle")
             end

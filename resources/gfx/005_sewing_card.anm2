@@ -1,8 +1,8 @@
 <AnimatedActor>
-	<Info CreatedBy="robot" CreatedOn="17/02/2021 19:20:53" Version="105" Fps="30"/>
+	<Info CreatedBy="robot" CreatedOn="05/08/2021 20:18:51" Version="106" Fps="30"/>
 	<Content>
 		<Spritesheets>
-			<Spritesheet Path="items\pick ups\ui_warrantycard.png" Id="0"/>
+			<Spritesheet Path="items\pick ups\ui_cardsBack.png" Id="0"/>
 		</Spritesheets>
 		<Layers>
 			<Layer Name="body" Id="0" SpritesheetId="0"/>
