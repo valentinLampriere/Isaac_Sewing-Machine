@@ -900,12 +900,14 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
                 fam = fam:ToFamiliar()
                 local fData = fam:GetData()
-                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) then
-                    fData.Sewn_upgradeState = 1
-                    sewingMachineMod:callFamiliarUpgrade(fam)
-                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and not sewingMachineMod:isUltra(fData) then
-                    fData.Sewn_upgradeState = 2
-                    sewingMachineMod:callFamiliarUpgrade(fam)
+                if sewingMachineMod:isAvailable(fam.Variant) then
+                    if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) then
+                        fData.Sewn_upgradeState = 1
+                        sewingMachineMod:callFamiliarUpgrade(fam)
+                    elseif player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and not sewingMachineMod:isUltra(fData) then
+                        fData.Sewn_upgradeState = 2
+                        sewingMachineMod:callFamiliarUpgrade(fam)
+                    end
                 end
             end
             pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD] = true
@@ -927,12 +929,14 @@ function sewingMachineMod:onCacheFamiliars(player, cacheFlag)
             for _, fam in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
                 fam = fam:ToFamiliar()
                 local fData = fam:GetData()
-                if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) then
-                    fData.Sewn_upgradeState = 1
-                    sewingMachineMod:callFamiliarUpgrade(fam)
-                elseif player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and not sewingMachineMod:isUltra(fData) then
-                    fData.Sewn_upgradeState = 2
-                    sewingMachineMod:callFamiliarUpgrade(fam)
+                if sewingMachineMod:isAvailable(fam.Variant) then
+                    if fData.Sewn_upgradeState == 0 and not player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) then
+                        fData.Sewn_upgradeState = 1
+                        sewingMachineMod:callFamiliarUpgrade(fam)
+                    elseif player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and not sewingMachineMod:isUltra(fData) then
+                        fData.Sewn_upgradeState = 2
+                        sewingMachineMod:callFamiliarUpgrade(fam)
+                    end
                 end
             end
             pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY] = true
@@ -1095,7 +1099,6 @@ end
 ------------------------
 function sewingMachineMod:updateFamiliar(familiar)
     local fData = familiar:GetData()
-
     -- We do nothing with blue flies and blue spiders
     if familiar.Variant == FamiliarVariant.BLUE_FLY or familiar.Variant == FamiliarVariant.BLUE_SPIDER then
         return
@@ -1116,7 +1119,7 @@ function sewingMachineMod:updateFamiliar(familiar)
                 end
             end
         end
-        if fData.Sewn_upgradeState == nil then
+        if fData.Sewn_upgradeState == nil and sewingMachineMod:isAvailable(familiar.Variant) then
             local hasDollsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
             local hasDollsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
             if hasDollsHead and not hasDollsBody or not hasDollsHead and hasDollsBody then
