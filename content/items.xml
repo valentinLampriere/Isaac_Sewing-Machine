@@ -7,4 +7,5 @@
 	<trinket cache="" description="More sewing machines !" gfx="lostButton.png" name="Lost Button"/>
 	<trinket cache="" description="Unexpected machine" gfx="contrastedButton.png" name="Contrasted Button" tags="nogreed"/>
 	<trinket cache="" description="Choose the good one" gfx="pinCushion.png" name="Pin Cushion"/>
+	<trinket cache="" description="Portable sewing box" gfx="pinCushion.png" name="Sewing Case"/>
 </items>

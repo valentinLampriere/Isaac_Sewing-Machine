@@ -52,6 +52,7 @@ TrinketType.TRINKET_CRACKED_THIMBLE = Isaac.GetTrinketIdByName("Cracked Thimble"
 TrinketType.TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button")
 TrinketType.TRINKET_CONTRASTED_BUTTON = Isaac.GetTrinketIdByName("Contrasted Button")
 TrinketType.TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion")
+TrinketType.TRINKET_SEWING_CASE = Isaac.GetTrinketIdByName("Sewing Case")
 -- Collectibles --
 CollectibleType.COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
 CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD = Isaac.GetItemIdByName("Doll's Tainted Head")
@@ -86,7 +87,8 @@ local trinketSewingMachine = {
     TrinketType.TRINKET_LOST_BUTTON,
     TrinketType.TRINKET_PIN_CUSHION,
     TrinketType.TRINKET_CRACKED_THIMBLE,
-    TrinketType.TRINKET_CONTRASTED_BUTTON
+    TrinketType.TRINKET_CONTRASTED_BUTTON,
+    TrinketType.TRINKET_SEWING_CASE
 }
 
 sewingMachineMod.currentRoom = nil
@@ -236,6 +238,7 @@ if EID then
     EID:addTrinket(TrinketType.TRINKET_LOST_BUTTON, "100% chance to spawn sewing machine in Shops for next floors")
     EID:addTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON, "50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
     EID:addTrinket(TrinketType.TRINKET_PIN_CUSHION, "Interacting with the machine gives the familiar back#It allow the player to choose the familiar he want to upgrade#Can be easily dropped by pressing the drop button")
+    EID:addTrinket(TrinketType.TRINKET_SEWING_CASE, "When entering a room, has a chance to temporary upgrade a familiar#The chance is based on the amount of available familiars and the luck")
 
     -- EID Cards
     EID:addCard(Card.CARD_WARRANTY, "Spawn a sewing machine#The Sewing machine change depending on the room type")
@@ -1307,27 +1310,55 @@ function sewingMachineMod:newRoom()
         local fData = familiar:GetData()
         -- if familiars spawn earlier are still there on new rooms -> Add them to available familiars
         if familiar:Exists() then
-            --table.insert(familiar.Player:GetData().Sewn_familiars, familiar)
-            --temporaryFamiliars[i] = nil
             fData.Sewn_newRoomVisited = true
         end
     end
 
-    -- Remove temporary upgardes (for Sewing Box only)
+    -- Remove temporary upgrades (for Sewing Box only)
     for i = 1, game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
+        local pData = player:GetData()
 
-        if player:GetData().Sewn_hasTemporaryUpgradedFamiliars == true then
-            for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-                familiar = familiar:ToFamiliar()
+        local playerAvailableFamiliars = {}
 
-                sewingMachineMod:resetFamiliarData(familiar)
-                sewingMachineMod:callFamiliarUpgrade(familiar)
+        for _, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+            familiar = familiar:ToFamiliar()
+            local fData = familiar:GetData()
+            if GetPtrHash(familiar.Player) == GetPtrHash(player) and sewingMachineMod:isAvailable(familiar.Variant) then
+                -- Remove temporary upgrades
+                if fData.Sewn_upgradeState_temporary ~= nil then
+                    sewingMachineMod:resetFamiliarData(familiar)
+                    sewingMachineMod:callFamiliarUpgrade(familiar)
+                end
+                if not sewingMachineMod:isUltra(fData) then
+                    table.insert(playerAvailableFamiliars, familiar)
+                end
             end
-            player:GetData().Sewn_hasTemporaryUpgradedFamiliars = nil
+            -- Call new room familiar callbacks
+            if fData.Sewn_custom_newRoom ~= nil then
+                for _, f in ipairs(fData.Sewn_custom_newRoom) do
+                    f(_, familiar, sewingMachineMod.currentRoom)
+                end
+            end
         end
+
         if player:HasTrinket(TrinketType.TRINKET_LOST_BUTTON) then
             playerHasLostButton = true
+        end
+
+        local luck = player.Luck
+        -- Cap luck
+        if luck < -10 then
+            luck = -10
+        elseif luck > 50 then
+            luck = 50
+        end
+        -- Upgrade a familiar for a room with Sewing Case
+        if player:HasTrinket(TrinketType.TRINKET_SEWING_CASE) and #playerAvailableFamiliars > 0 then
+            if math.sqrt(#playerAvailableFamiliars * 0.1) + luck * 0.008 > player:GetTrinketRNG(TrinketType.TRINKET_SEWING_CASE):RandomFloat() then
+                local rollFamiliar = player:GetTrinketRNG(TrinketType.TRINKET_SEWING_CASE):RandomInt(#playerAvailableFamiliars) + 1
+                sewingMachineMod:temporaryUpgradeFamiliar(playerAvailableFamiliars[rollFamiliar])
+            end
         end
     end
 
@@ -1369,7 +1400,7 @@ function sewingMachineMod:newRoom()
         end
     end
 
-    for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+    --[[for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
         if fData.Sewn_custom_newRoom ~= nil then
@@ -1377,7 +1408,7 @@ function sewingMachineMod:newRoom()
                 f(_, familiar, sewingMachineMod.currentRoom)
             end
         end
-    end
+    end--]]
 end
 
 
@@ -1568,7 +1599,6 @@ function sewingMachineMod:useSewingBox(collectibleType, _rng)
             sewingMachineMod:temporaryUpgradeFamiliar(familiar)
         end
     end
-    player:GetData().Sewn_hasTemporaryUpgradedFamiliars = true
     return true
 end
 
