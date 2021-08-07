@@ -488,6 +488,12 @@ function sewingMachineMod:InitFamiliarDescription()
             "Fire tears in the directions the player is firing",
             ConvertRGBToIsaac({179, 0, 0})
         )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.VANISHING_TWIN,
+            "Remove 25% of the boss copy health",
+            "Increase chances to spawn a better item (based on Quality)#Can spawn items which came from the Treasure pool if no Boss item are found",
+            ConvertRGBToIsaac({221, 197, 175})
+        )
     end
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(

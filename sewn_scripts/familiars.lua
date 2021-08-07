@@ -4451,4 +4451,103 @@ function sewnFamiliars:custom_update_boiledBaby(boiledBaby)
         end
     end
 end
+
+-- VANISHING TWIN
+function sewnFamiliars:upVanishingTwin(vanishingTwin)
+    local fData = vanishingTwin:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_vanishingTwin_isVisible = vanishingTwin.Visible
+        sewnFamiliars:customUpdate(vanishingTwin, sewnFamiliars.custom_update_vanishingTwin)
+        sewnFamiliars:customNewRoom(vanishingTwin, sewnFamiliars.custom_newRoom_vanishingTwin)
+    end
+end
+function sewnFamiliars:custom_vanishingTwin_checkItem(vanishingTwin, item)
+    local itemPool = game:GetItemPool()
+    local itemConfig = Isaac.GetItemConfig()
+
+    local roll = vanishingTwin:GetDropRNG():RandomInt(100)
+
+    local currentItem = item.SubType
+    local rollQuality = 1
+    local pool = itemPool:GetPoolForRoom(sewingMachineMod.currentRoom:GetType(), game:GetSeeds():GetStartSeed())
+
+    local attempt = 0
+    local bestItemFound = currentItem
+
+    if roll > 93 then
+        rollQuality = 4
+    elseif roll > 70 then
+        rollQuality = 3
+    elseif roll > 25 then
+        rollQuality = 2
+    end
+
+    while itemConfig:GetCollectible(currentItem).Quality < rollQuality and attempt < 30 do
+        currentItem = itemPool:GetCollectible(pool, false, nil, item.SubType) -- removing from pool set to false
+
+        if itemConfig:GetCollectible(currentItem).Quality > itemConfig:GetCollectible(currentItem).Quality then
+            bestItemFound = currentItem
+        end
+
+        attempt = attempt + 1
+        
+        if attempt > 10 then
+            pool = ItemPoolType.POOL_TREASURE
+        end
+    end
+
+
+    if item.SubType == currentItem then
+        return
+    end
+
+    item:Remove()
+
+    local newItem = Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, bestItemFound, item.Position, v0, nil)
+    newItem:ClearEntityFlags(EntityFlag.FLAG_APPEAR)
+    itemPool:RemoveCollectible(bestItemFound)
+end
+
+function sewnFamiliars:custom_newRoom_vanishingTwin(vanishingTwin)
+    local fData = vanishingTwin:GetData()
+    fData.Sewn_vanishingTwin_spawnItem = false
+    fData.Sewn_vanishingTwin_copyBoss = false
+end
+function sewnFamiliars:custom_update_vanishingTwin(vanishingTwin)
+    local fData = vanishingTwin:GetData()
+    
+    if sewingMachineMod:isUltra(fData) and sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_BOSS and fData.Sewn_vanishingTwin_copyBoss and  fData.Sewn_vanishingTwin_spawnItem == false then
+        for _, pickup in pairs(Isaac.FindInRadius(vanishingTwin.Position, 50, EntityPartition.PICKUP)) do
+            if pickup.Variant == PickupVariant.PICKUP_COLLECTIBLE and pickup.FrameCount == 1 then
+                sewnFamiliars:custom_vanishingTwin_checkItem(vanishingTwin, pickup)
+                fData.Sewn_vanishingTwin_spawnItem = true
+            end
+        end
+    end
+
+    if fData.Sewn_vanishingTwin_isVisible == true and vanishingTwin.Visible == false then
+        sewingMachineMod:delayFunction(function()
+            local npcs = Isaac.FindInRadius(vanishingTwin.Position, 20, EntityPartition.ENEMY)
+            for _, npc in ipairs(npcs) do
+                npc = npc:ToNPC()
+                if npc:IsBoss() and npc.FrameCount == 1 then -- Check for the vanishing twin boss(es)
+                    npc.HitPoints = npc.MaxHitPoints * 0.5 -- Remove half of the boss health
+
+                    fData.Sewn_vanishingTwin_copyBoss = true
+
+                    local c = npc:GetColor()
+                    local nColor = Color(c.R, c.G, c.B, c.A, c.RO, c.GO, c.BO)
+                    nColor:SetOffset(0.10, 0.08, 0.05)
+                    npc:SetColor(nColor, -1, 1, false, true)
+                end
+            end
+        end, 0)
+        sewingMachineMod:hideCrown(vanishingTwin, true)
+    elseif fData.Sewn_vanishingTwin_isVisible == false and vanishingTwin.Visible == true then
+        sewingMachineMod:hideCrown(vanishingTwin, false)
+    end
+    fData.Sewn_vanishingTwin_isVisible = vanishingTwin.Visible
+end
+
+
 sewingMachineMod.errFamiliars.Error()

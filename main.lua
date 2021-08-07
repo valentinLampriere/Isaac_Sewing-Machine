@@ -193,7 +193,8 @@ if REPENTANCE then
         [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
         [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
         [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
-        [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby}
+        [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby},
+        [FamiliarVariant.VANISHING_TWIN] = {697, sewingMachineMod.sewnFamiliars.upVanishingTwin}
     }
 
     for id, data in pairs(availableFamiliarRepentance) do
@@ -1878,6 +1879,15 @@ function sewingMachineMod:executeCommand(cmd, params)
                     _fData.Upgrade = newUpgrade
                 end
             end
+        elseif params[1] == "debug" then
+            Isaac.ExecuteCommand("g Mercurius")
+            Isaac.ExecuteCommand("g Mercurius")
+            Isaac.ExecuteCommand("g Mercurius")
+            Isaac.ExecuteCommand("g Soy Milk")
+            Isaac.ExecuteCommand("g Vanishing Twin")
+            Isaac.ExecuteCommand("g The Mind")
+            Isaac.ExecuteCommand("sewn up")
+            Isaac.ExecuteCommand("debug 4")
         end
     end
 end
