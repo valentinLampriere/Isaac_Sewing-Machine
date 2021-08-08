@@ -499,10 +499,10 @@ function sewnFamiliars:upGhostBaby(familiar)
         sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_ghostBaby)
     end
     if sewingMachineMod:isSuper(fData) then
-        sewnFamiliars:setDamageTearMultiplier(familiar, 1.25)
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.33)
     end
     if sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:setDamageTearMultiplier(familiar, 1.5)
+        sewnFamiliars:setDamageTearMultiplier(familiar, 1.75)
     end
 end
 function sewnFamiliars:custom_fireInit_ghostBaby(familiar, tear)
