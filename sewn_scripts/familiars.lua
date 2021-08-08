@@ -897,7 +897,7 @@ function sewnFamiliars:upMongoBaby(mongoBaby)
         end
     end
 end
-function sewnFamiliars:custom_animation_mongoBaby(mongoBaby)
+function sewnFamiliars:custom_animation_mongoBaby(mongoBaby, sprite)
     mongoBaby:GetData().Sewn_mongoCopy = FamiliarVariant.ROTTEN_BABY
     sewnFamiliars:custom_animation_rottenBaby(mongoBaby)
 end
@@ -1170,9 +1170,9 @@ function sewnFamiliars:custom_update_papaFly(papaFly)
         bullet:Die()
     end
 end
-function sewnFamiliars:custom_animation_papaFly(papaFly)
+function sewnFamiliars:custom_animation_papaFly(papaFly, sprite)
     local fData = papaFly:GetData()
-    if papaFly:GetSprite():GetFrame() > 5 then
+    if sprite:GetFrame() > 5 then
         for _, tear in pairs(Isaac.FindInRadius(papaFly.Position, 5, EntityPartition.TEAR)) do
             tear = tear:ToTear()
             if sewingMachineMod:isUltra(fData) then
@@ -1595,17 +1595,17 @@ function sewnFamiliars:custom_lilGurdy_shootTears(lilGurdy)
     local nbTears = lilGurdy:GetDropRNG():RandomInt(3) + 5
     sewnFamiliars:shootTearsCircular(lilGurdy, nbTears, nil, nil, nil, 5, TearFlags.TEAR_SPECTRAL)
 end
-function sewnFamiliars:custom_animationDashStop_lilGurdy(lilGurdy)
+function sewnFamiliars:custom_animationDashStop_lilGurdy(lilGurdy, sprite)
     local fData = lilGurdy:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if lilGurdy:GetSprite():GetFrame() == 0 then
+        if sprite:GetFrame() == 0 then
             sewnFamiliars:custom_lilGurdy_shootTears(lilGurdy)
             sewingMachineMod:delayFunction(sewnFamiliars.custom_lilGurdy_shootTears, 15, lilGurdy)
             sewingMachineMod:delayFunction(sewnFamiliars.custom_lilGurdy_shootTears, 25, lilGurdy)
         end
     end
 end
-function sewnFamiliars:custom_animationDash_lilGurdy(lilGurdy)
+function sewnFamiliars:custom_animationDash_lilGurdy(lilGurdy, sprite)
     local fData = lilGurdy:GetData()
     if sewingMachineMod:isUltra(fData) then
         local creepPerFrame = 2
@@ -1805,7 +1805,7 @@ function sewnFamiliars:upRottenBaby(rottenBaby)
         sewnFamiliars:customAnimation(rottenBaby, sewnFamiliars.custom_animation_rottenBaby, ANIMATION_NAMES.SHOOT)
     end
 end
-function sewnFamiliars:custom_animation_rottenBaby(rottenBaby)
+function sewnFamiliars:custom_animation_rottenBaby(rottenBaby, sprite)
     local fData = rottenBaby:GetData()
     
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -1909,7 +1909,7 @@ function sewnFamiliars:upLittleChad(chad)
         sewnFamiliars:customAnimation(chad, sewnFamiliars.custom_animation_littleChad, ANIMATION_NAMES.SPAWN)
     end
 end
-function sewnFamiliars:custom_animation_littleChad(chad)
+function sewnFamiliars:custom_animation_littleChad(chad, sprite)
     local fData = chad:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         for _, half_heart in pairs(Isaac.FindByType(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_HALF, false, true)) do
@@ -2063,8 +2063,8 @@ function sewnFamiliars:custom_cleanAward_theRelic(theRelic)
         end
     end
 end
-function sewnFamiliars:custom_animation_theRelic(theRelic)
-    if theRelic:GetSprite():GetFrame() == 0 then
+function sewnFamiliars:custom_animation_theRelic(theRelic, sprite)
+    if sprite:GetFrame() == 0 then
         local roll = theRelic:GetDropRNG():RandomInt(100)
         local pos = sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(theRelic.Position, 0, true)
 
@@ -2899,11 +2899,11 @@ function sewnFamiliars:hushy_fireContinuumTears(hushy)
         fData.Sewn_hushy_cooldown = 60
     end
 end
-function sewnFamiliars:custom_animationStart_hushy(hushy)
+function sewnFamiliars:custom_animationStart_hushy(hushy, sprite)
     local fData = hushy:GetData()
     fData.Sewn_hushy_continuumWaves = nil
 end
-function sewnFamiliars:custom_animation_hushy(hushy)
+function sewnFamiliars:custom_animation_hushy(hushy, sprite)
     local fData = hushy:GetData()
     if fData.Sewn_hushy_cooldown <= 0 then
         local rollAttack = math.random(1,3)
@@ -2937,7 +2937,7 @@ function sewnFamiliars:upLilHarbingers(lilHarbinger)
     --sewnFamiliars:customUpdate(lilHarbinger, sewnFamiliars.custom_animation_lilHarbinger, ANIMATION_NAMES.SPAWN)
     sewnFamiliars:customPlayerTakeDamage(lilHarbinger, sewnFamiliars.custom_playerTakeDamage_lilHarbinger)
 
-    sewnFamiliars:customAnimation(lilHarbinger, sewnFamiliars.custom_animation_lilHarbinger, ANIMATION_NAMES.SPAWN)
+    --sewnFamiliars:customAnimation(lilHarbinger, sewnFamiliars.custom_animation_lilHarbinger, ANIMATION_NAMES.SPAWN)
 
 end
 
@@ -3556,8 +3556,8 @@ function sewnFamiliars:upDryBaby(dryBaby)
         sewnFamiliars:customCollision(dryBaby, sewnFamiliars.custom_collision_dryBaby)
     end
 end
-function sewnFamiliars:custom_animation_dryBaby(dryBaby)
-    if dryBaby:GetSprite():GetFrame() < 23 then return end
+function sewnFamiliars:custom_animation_dryBaby(dryBaby, sprite)
+    if sprite:GetFrame() < 23 then return end
     for i, bullet in pairs(Isaac.FindInRadius(dryBaby.Position, 500, EntityPartition.BULLET)) do
         bullet:Die()
     end
@@ -3906,7 +3906,7 @@ function sewnFamiliars:upSamsonsChains(samsonsChains)
         end
     end
 end
-function sewnFamiliars:custom_hitEnemy_samsonsChains(samsonsChains, enemy)
+function sewnFamiliars:custom_hitEnemy_samsonsChains(samsonsChains, enemy, amount, flags, countdown)
     local eData = enemy:GetData()
     if eData.Sewn_samsonsChains_hasTakeFakeDamage == true then
         
@@ -3997,8 +3997,8 @@ function sewnFamiliars:upBotFly(botFly)
         sewnFamiliars:customAnimation(botFly, sewnFamiliars.custom_animation_botFly, "Attack")
     end
 end
-function sewnFamiliars:custom_animation_botFly(botFly)
-    if botFly:GetSprite():GetFrame() == 4 then
+function sewnFamiliars:custom_animation_botFly(botFly, sprite)
+    if sprite:GetFrame() == 4 then
         for _, tear in pairs(Isaac.FindInRadius(botFly.Position, botFly.Size, EntityPartition.TEAR)) do
             if (tear.FrameCount == 1) then
                 tear = tear:ToTear()
@@ -4039,9 +4039,8 @@ function sewnFamiliars:upBloodOath(bloodOath)
         fData.Sewn_bloodOath_creepSpawnFrameOffset = 30
     end
 end
-function sewnFamiliars:custom_animation_bloodOath(bloodOath)
+function sewnFamiliars:custom_animation_bloodOath(bloodOath, sprite)
     local fData = bloodOath:GetData()
-    local sprite = bloodOath:GetSprite()
     if sprite:GetFrame() < 2 then
         fData.Sewn_bloodOath_playerRemovedHealth = 0
     elseif sprite:GetFrame() == 18 then
@@ -4354,8 +4353,7 @@ function sewnFamiliars:custom_lilDumpy_changeTearColor(tear, color)
     
     tear:SetColor(color, -1, 1, false, false)
 end
-function sewnFamiliars:custom_animation_lilDumpy(lilDumpy)
-    local sprite = lilDumpy:GetSprite()
+function sewnFamiliars:custom_animation_lilDumpy(lilDumpy, sprite)
     if sprite:IsEventTriggered("Fart") then
         local tears = sewnFamiliars:shootTearsCircular(lilDumpy, 6, TearVariant.BLUE, nil, 6, 3.5)
         for _, tear in ipairs(tears) do
@@ -4549,5 +4547,104 @@ function sewnFamiliars:custom_update_vanishingTwin(vanishingTwin)
     fData.Sewn_vanishingTwin_isVisible = vanishingTwin.Visible
 end
 
+
+-- DADDY LONGLEGS
+function sewnFamiliars:upDaddyLonglegs(daddyLonglegs)
+    local fData = daddyLonglegs:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        
+        sewnFamiliars:customUpdate(daddyLonglegs, sewnFamiliars.custom_update_daddyLonglegs)
+
+        sewnFamiliars:customAnimation(daddyLonglegs, sewnFamiliars.custom_animationArm_daddyLonglegs, "StompArm")
+        sewnFamiliars:customAnimation(daddyLonglegs, sewnFamiliars.custom_animationLeg_daddyLonglegs, "StompLeg")
+        
+        sewnFamiliars:customHitEnemy(daddyLonglegs, sewnFamiliars.custom_hitEnemy_daddyLonglegs)
+    end
+end
+function sewnFamiliars:custom_update_daddyLonglegs(daddyLonglegs)
+    local fData = daddyLonglegs:GetData()
+    if fData.Sewn_daddyLonglegs_keepPosition ~= nil then
+        daddyLonglegs.Position = fData.Sewn_daddyLonglegs_keepPosition
+        daddyLonglegs.Velocity = Vector(0, 0)
+    end
+end
+function sewnFamiliars:custom_animationArm_daddyLonglegs(daddyLonglegs, sprite)
+    sewnFamiliars:custom_daddyLonglegs_preStomp(daddyLonglegs, sprite, "Arm")
+end
+function sewnFamiliars:custom_animationLeg_daddyLonglegs(daddyLonglegs, sprite)
+    sewnFamiliars:custom_daddyLonglegs_preStomp(daddyLonglegs, sprite, "Leg")
+end
+function sewnFamiliars:custom_daddyLonglegs_preStomp(daddyLonglegs, sprite, animType)
+    local fData = daddyLonglegs:GetData()
+
+    local animPrefix = "Stomp"
+    local animSuffix = animType
+
+    if sprite:GetFrame() == 1 then
+        fData.Sewn_daddyLonglegs_isHead = nil
+        fData.Sewn_daddyLonglegs_isTriachnid = nil
+
+        local rollTriachnid = daddyLonglegs:GetDropRNG():RandomInt(100)
+        local rollHeadStomp = daddyLonglegs:GetDropRNG():RandomInt(100)
+        local rollAdditionalStomp = daddyLonglegs:GetDropRNG():RandomInt(100)
+
+        local chanceHeadStomp = 15
+        local chanceTriachnid = 30
+        local chanceAdditionalStomp = -1
+
+        if sewingMachineMod:isUltra(fData) then
+            chanceHeadStomp = 25
+            chanceTriachnid = 50
+            chanceAdditionalStomp = 8
+        end
+
+        if rollHeadStomp < chanceHeadStomp then
+            fData.Sewn_daddyLonglegs_isHead = true
+            animPrefix = "HeadStomp"
+            animSuffix = ""
+        end
+        if rollTriachnid < chanceTriachnid then
+            fData.Sewn_daddyLonglegs_isTriachnid = true
+            animSuffix = "Triachnid"
+
+            sewingMachineMod:delayFunction(sewnFamiliars.custom_daddyLonglegs_postStompTriachnid, 11, daddyLonglegs)
+        end
+        if rollAdditionalStomp < chanceAdditionalStomp then
+            fData.Sewn_daddyLonglegs_keepPosition = daddyLonglegs.Position
+            sewingMachineMod:delayFunction(function()
+                if daddyLonglegs:GetDropRNG():RandomInt(2) == 1 then
+                    sprite:Play("StompArm")
+                else
+                    sprite:Play("StompLeg")
+                end
+                fData.Sewn_daddyLonglegs_keepPosition = nil
+            end, 34)
+        end
+        
+
+        if animPrefix .. animSuffix == "Stomp" .. animType then
+            return
+        end
+
+        sprite:Play(animPrefix .. animSuffix, true)
+        sprite:SetFrame(2)
+    end
+end
+function sewnFamiliars:custom_hitEnemy_daddyLonglegs(daddyLonglegs, entity, amount, flags, countdown)
+    local fData = daddyLonglegs:GetData()
+    -- Apply additional damages when the head stomps
+    if fData.Sewn_daddyLonglegs_isHead and flags & DamageFlag.DAMAGE_CLONES ~= DamageFlag.DAMAGE_CLONES then
+        entity:TakeDamage(daddyLonglegs.CollisionDamage, DamageFlag.DAMAGE_CLONES, EntityRef(daddyLonglegs), countdown)
+    end
+end
+function sewnFamiliars:custom_daddyLonglegs_postStompTriachnid(daddyLonglegs)
+    local tears = sewnFamiliars:shootTearsCircular(daddyLonglegs, 5, TearVariant.BLUE, nil, nil, 3.5, TearFlags.TEAR_SLOW)
+    for _, tear in ipairs(tears) do
+        tear:SetColor(Color(1,1,1,1,0.5,0.5,0.5), -1, 1, false, false)
+        
+        sewnFamiliars:toBabyBenderTear(daddyLonglegs, tear)
+    end
+    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_WHITE, 0, daddyLonglegs.Position, v0, daddyLonglegs)
+end
 
 sewingMachineMod.errFamiliars.Error()

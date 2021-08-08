@@ -445,6 +445,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Can be thrown in front of the player to deal massive damage",
         ConvertRGBToIsaac({70, 70, 70})
     )
+    sewingMachineMod:AddDescriptionsForFamiliar(
+        FamiliarVariant.DADDY_LONGLEGS,
+        "Has a chance to stomp with the head, dealing 2x the normal damages#Has a chance to stomp has Triachnid. When it does, fire 5 slowing tears in all directions",
+        "Increase chances to stomp has Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time",
+        ConvertRGBToIsaac({219, 219, 219})
+    )
     if REPENTANCE then
         sewingMachineMod:AddDescriptionsForFamiliar(
             FamiliarVariant.BOT_FLY,

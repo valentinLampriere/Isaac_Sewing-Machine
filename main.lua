@@ -138,6 +138,7 @@ sewingMachineMod.availableFamiliar = {
     [FamiliarVariant.PEEPER] = {155, sewingMachineMod.sewnFamiliars.upPeeper},
     [FamiliarVariant.GHOST_BABY] = {163, sewingMachineMod.sewnFamiliars.upGhostBaby},
     [FamiliarVariant.HARLEQUIN_BABY] = {167, sewingMachineMod.sewnFamiliars.upHarlequinBaby},
+    [FamiliarVariant.DADDY_LONGLEGS] = {170, sewingMachineMod.sewnFamiliars.upDaddyLonglegs},
     [FamiliarVariant.SACRIFICIAL_DAGGER] = {172, sewingMachineMod.sewnFamiliars.upSacrificialDagger},
     [FamiliarVariant.RAINBOW_BABY] = {174, sewingMachineMod.sewnFamiliars.upRainbowBaby},
     [FamiliarVariant.HOLY_WATER] = {178, sewingMachineMod.sewnFamiliars.upHolyWater},
@@ -1060,7 +1061,7 @@ function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countd
             if GetPtrHash(source.Entity) == GetPtrHash(familiar) then
                 if fData.Sewn_custom_hitEnemy ~= nil then
                     for i, f in ipairs(fData.Sewn_custom_hitEnemy) do
-                        local getDamage = f(_, familiar, entity)
+                        local getDamage = f(_, familiar, entity, amount, flags, countdown)
                         if getDamage == false then
                             return false
                         end
@@ -1221,8 +1222,9 @@ function sewingMachineMod:updateFamiliar(familiar)
     if fData.Sewn_custom_animation ~= nil then
         for animationName, _function in pairs(fData.Sewn_custom_animation) do
             -- If familiar plays an animation
-            if familiar:GetSprite():IsPlaying(animationName) or familiar:GetSprite():IsFinished(animationName) then
-                _function(_, familiar)
+            local familiarSprite = familiar:GetSprite()
+            if familiarSprite:IsPlaying(animationName) or familiarSprite:IsFinished(animationName) then
+                _function(_, familiar, familiarSprite)
             end
         end
     end
