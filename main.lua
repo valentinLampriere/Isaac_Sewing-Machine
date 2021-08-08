@@ -577,7 +577,6 @@ function sewingMachineMod:getFamiliarBack(machine, isUpgrade)
     -- Play the normal animation (without the floating familiar)
     machine:GetSprite():Play("Idle")
 
-    sewnFamiliar:GetData().Sewn_collisionDamage = mData.Sewn_currentFamiliarCollisionDamage
     sewnFamiliar:GetData().Sewn_familiarReady = true
 
     -- Upgrade the familiar
@@ -647,8 +646,6 @@ function sewingMachineMod:addFamiliarInMachine(machine, player)
     mData.Sewn_currentFamiliarState = availableFamiliars[roll]:GetData().Sewn_upgradeState or 0
     -- Tell the machine who is the player who add the familiar in the machine
     mData.Sewn_player = player
-    -- Store collision damage of the familiar
-    mData.Sewn_currentFamiliarCollisionDamage = availableFamiliars[roll]:GetData().Sewn_collisionDamage
 
     -- Replace the sprite with the familiar (the sprite is the image of the collectible, not the familiar itself)
     sewingMachineMod:setFloatingAnim(machine)
@@ -827,23 +824,6 @@ function sewingMachineMod:onPlayerUpdate(player)
 
     if pData.Sewn_hasItem == nil then
         pData.Sewn_hasItem = {}
-    end
-
-    if player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and not pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
-        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-            local fData = familiar:GetData()
-            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage or 0
-            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage * 2
-        end
-        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = true
-    end
-    if not player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) and pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] then
-        for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
-            local fData = familiar:GetData()
-            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage or 0
-            fData.Sewn_collisionDamage = fData.Sewn_collisionDamage / 2
-        end
-        pData.Sewn_hasItem[CollectibleType.COLLECTIBLE_BFFS] = nil
     end
 
     -- Run permanent player update calls
@@ -1138,11 +1118,6 @@ function sewingMachineMod:updateFamiliar(familiar)
             end
         end
         
-        if player ~= nil and player:HasCollectible(CollectibleType.COLLECTIBLE_BFFS) then
-            fData.Sewn_collisionDamage = familiar.CollisionDamage / 2 or 0
-        else
-            fData.Sewn_collisionDamage = familiar.CollisionDamage or 0
-        end
         fData.Sewn_Init = true
     end
 

@@ -272,7 +272,7 @@ function sewingMachineMod:resetFamiliarData(familiar, keepValues)
                 end
             end
             if keepValue == false then
-                if key ~= "Sewn_upgradeState" and key ~= "Sewn_Init" and key ~= "Sewn_collisionDamage" and key ~= "Sewn_upgradeFunction" and key ~= "Sewn_newRoomVisited" then
+                if key ~= "Sewn_upgradeState" and key ~= "Sewn_Init" and key ~= "Sewn_newRoomVisited" then
                     fData[key] = nil
                 end
                 if key == "Sewn_custom_cache" and familiar.Player then
@@ -1124,17 +1124,17 @@ function sewnFamiliars:custom_collision_abel(familiar, collider)
     end
     if sewingMachineMod:isUltra(fData) then
         if fData.Sewn_custom_abel_enterRoomFrame == nil or fData.Sewn_custom_abel_enterRoomFrame + 30 < game:GetFrameCount() then
-            familiar.CollisionDamage = fData.Sewn_collisionDamage + math.sqrt(familiar.Position:Distance(familiar.Player.Position)) / 2
+            for _, npc in pairs(Isaac.FindInRadius(familiar.Position, familiar.Size, EntityPartition.ENEMY)) do
+                if npc:IsVulnerableEnemy() then
+                    npc:TakeDamage(math.sqrt(familiar.Position:Distance(familiar.Player.Position)) / 2, DamageFlag.DAMAGE_CLONES | DamageFlag.DAMAGE_COUNTDOWN, EntityRef(familiar), 10)
+                end
+            end
         end
     end
 end
 function sewnFamiliars:custom_newRoom_abel(familiar, room)
     local fData = familiar:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        fData.Sewn_custom_abel_enterRoomFrame = game:GetFrameCount()
-    else
-        familiar.CollisionDamage = fData.Sewn_collisionDamage
-    end
+    fData.Sewn_custom_abel_enterRoomFrame = game:GetFrameCount()
 end
 
 -- PAPA FLY
@@ -1225,7 +1225,7 @@ function sewnFamiliars:custom_hitEnemy_sacrificialDagger(sacrificialDagger, enem
 end
 
 -- GUARDIAN ANGEL
-function sewnFamiliars:upGuardianAngel(guardianAngel)
+--[[function sewnFamiliars:upGuardianAngel(guardianAngel)
     local fData = guardianAngel:GetData()
     sewingMachineMod:addCrownOffset(guardianAngel, Vector(0, 10))
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
@@ -1343,7 +1343,7 @@ function sewnFamiliars:custom_collision_swornProtector(swornProtector, collider)
             swornProtector:SetColor(Color(1,1,1,1,rOffset,0,bOffset), -1, 1, false, false)
         end
     end
-end
+end--]]
 
 
 -- BLOODSHOT EYE
@@ -2352,7 +2352,7 @@ function sewnFamiliars:custom_update_kingBaby(kingBaby)
 end
 
 -- FLIES - DISTANT ADMIRATION, FOREVER ALONE, FRIEN ZONE, OBESSED FAN, LOST FLY
-function sewnFamiliars:upFlies(fly)
+--[[function sewnFamiliars:upFlies(fly)
     local fData = fly:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         sewnFamiliars:customCache(fly, sewnFamiliars.custom_cache_flies)
@@ -2384,7 +2384,7 @@ function sewnFamiliars:custom_cache_flies(fly, cacheFlag)
             fly.CollisionDamage = fData.Sewn_collisionDamage + math.sqrt(playerDamage/2) + 2
         end
     end
-end
+end--]]
 
 -- SPIDER MOD
 function sewnFamiliars:upSpiderMod(spiderMod)

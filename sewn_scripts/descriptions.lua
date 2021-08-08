@@ -245,7 +245,7 @@ function sewingMachineMod:InitFamiliarDescription()
         "Copy of familiars fire with full damage",
         ConvertRGBToIsaac({58, 81, 134})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DISTANT_ADMIRATION,
         "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         "{{ArrowUp}} Contact damage up#Damage scale with player damage",
@@ -273,7 +273,7 @@ function sewingMachineMod:InitFamiliarDescription()
         "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         "{{ArrowUp}} Contact damage up#Damage scale with player damage",
         ConvertRGBToIsaac({194, 194, 194})
-    )
+    )--]]
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SPIDER_MOD,
         "Spawn eggs which apply a random effect to enemies which walk over them#Eggs last 20 seconds",
