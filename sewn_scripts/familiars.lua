@@ -4553,6 +4553,8 @@ function sewnFamiliars:upDaddyLonglegs(daddyLonglegs)
     local fData = daddyLonglegs:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         
+        sewingMachineMod:addCrownOffset(daddyLonglegs, Vector(0, -55))
+        
         sewnFamiliars:customUpdate(daddyLonglegs, sewnFamiliars.custom_update_daddyLonglegs)
 
         sewnFamiliars:customAnimation(daddyLonglegs, sewnFamiliars.custom_animationArm_daddyLonglegs, "StompArm")

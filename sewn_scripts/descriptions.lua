@@ -448,7 +448,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DADDY_LONGLEGS,
         "Has a chance to stomp with the head, dealing 2x the normal damages#Has a chance to stomp has Triachnid. When it does, fire 5 slowing tears in all directions",
-        "Increase chances to stomp has Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time",
+        "Increase chances to stomp as Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time",
         ConvertRGBToIsaac({219, 219, 219})
     )
     if REPENTANCE then
