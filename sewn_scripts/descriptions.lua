@@ -163,8 +163,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SACRIFICIAL_DAGGER,
-        "Apply bleed effect",
-        "{{ArrowUp}}  Damage Up",
+        "Apply bleed effect#{{ArrowUp}} Small damage up",
+        "{{ArrowUp}} Damage Up",
         ConvertRGBToIsaac({193, 189, 207})
     )
     --[[sewingMachineMod:AddDescriptionsForFamiliar(

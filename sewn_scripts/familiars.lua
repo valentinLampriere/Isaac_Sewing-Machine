@@ -924,13 +924,13 @@ function sewnFamiliars:custom_fireInit_mongoBaby(mongoBaby, tear)
             fData.Sewn_mongoCopy = FamiliarVariant.HARLEQUIN_BABY
             sewnFamiliars:upHarlequinBaby(mongoBaby)
             sewnFamiliars:setTearRateBonus(mongoBaby, sewnFamiliars:getTearRateBonus(mongoBaby) -10)
-        elseif tear.TearFlags & TearFlags.TEAR_GISH == TearFlags.TEAR_GISH then
+        elseif tear.TearFlags & TearFlags.TEAR_GISH > 0 then
             fData.Sewn_mongoCopy = FamiliarVariant.LITTLE_GISH
             sewnFamiliars:upLittleGish(mongoBaby)
-        elseif tear.TearFlags & TearFlags.TEAR_SPECTRAL == TearFlags.TEAR_SPECTRAL then
+        elseif tear.TearFlags & TearFlags.TEAR_SPECTRAL > 0 then
             fData.Sewn_mongoCopy = FamiliarVariant.GHOST_BABY
             sewnFamiliars:upGhostBaby(mongoBaby)
-        elseif tear.TearFlags & TearFlags.TEAR_HOMING == TearFlags.TEAR_HOMING then
+        elseif tear.TearFlags & TearFlags.TEAR_HOMING > 0 then
             fData.Sewn_mongoCopy = FamiliarVariant.LITTLE_STEVEN
             sewnFamiliars:upLittleSteven(mongoBaby)
         elseif tear.Color.R > 0.89 and tear.Color.R < 0.91 and tear.Color.G == 0 and tear.Color.B == 0 then
@@ -1202,19 +1202,24 @@ function sewnFamiliars:upSacrificialDagger(sacrificialDagger)
     if sacrificialDagger.Variant == FamiliarVariant.SACRIFICIAL_DAGGER then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customCollision(sacrificialDagger, sewnFamiliars.custom_collision_sacrificialDagger)
-            if sewingMachineMod:isUltra(fData) then
-                sacrificialDagger.CollisionDamage = fData.Sewn_collisionDamage + 3
-            end
-        else
-            sacrificialDagger.CollisionDamage = fData.Sewn_collisionDamage
+            sewnFamiliars:customHitEnemy(sacrificialDagger, sewnFamiliars.custom_hitEnemy_sacrificialDagger)
         end
     end
 end
 function sewnFamiliars:custom_collision_sacrificialDagger(sacrificialDagger, collider)
+    if collider:IsVulnerableEnemy() and not collider:IsBoss() then
+        collider:AddEntityFlags(EntityFlag.FLAG_BLEED_OUT)
+    end
+end
+function sewnFamiliars:custom_hitEnemy_sacrificialDagger(sacrificialDagger, enemy, amount, flags, countdown)
     local fData = sacrificialDagger:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if collider:IsVulnerableEnemy() and not collider:IsBoss() then
-            collider:AddEntityFlags(EntityFlag.FLAG_BLEED_OUT)
+    if enemy:IsVulnerableEnemy() then
+        local additionalDamage = 1
+        if sewingMachineMod:isUltra(fData) then
+            additionalDamage = 3.5
+        end
+        if not (flags & DamageFlag.DAMAGE_CLONES > 0) then
+            enemy:TakeDamage(additionalDamage, DamageFlag.DAMAGE_CLONES, EntityRef(sacrificialDagger), countdown)
         end
     end
 end
@@ -3014,13 +3019,13 @@ function sewnFamiliars:lilHarbinger_warLocust_collision(locust, collider)
 end
 function sewnFamiliars:custom_playerTakeDamage_lilHarbinger(lilHarbinger, damageSource, damageAmount, damageFlags)
     local fData = lilHarbinger:GetData()
-    if damageSource.Type == EntityType.ENTITY_FAMILIAR and damageSource.Variant == FamiliarVariant.BLUE_FLY and damageFlags & DamageFlag.DAMAGE_EXPLOSION ~= 0 then -- Damage taken from a red locustWAR LOCUST EXPLOD
+    if damageSource.Type == EntityType.ENTITY_FAMILIAR and damageSource.Variant == FamiliarVariant.BLUE_FLY and damageFlags & DamageFlag.DAMAGE_EXPLOSION > 0 then -- Damage taken from a red locustWAR LOCUST EXPLOD
         if fData.Sewn_lilHarbinger_locustExplode == true then
             fData.Sewn_lilHarbinger_locustExplode = false
             return false
         end
     end
-    if damageSource.Type == EntityType.ENTITY_TEAR and damageFlags & DamageFlag.DAMAGE_EXPLOSION ~= 0 and damageSource.Entity.SpawnerType == EntityType.ENTITY_FAMILIAR and damageSource.Entity.SpawnerVariant == FamiliarVariant.LIL_HARBINGERS then -- Damage taken from an explosive tear from lil harbingers (ipecac pestilence shots)
+    if damageSource.Type == EntityType.ENTITY_TEAR and damageFlags & DamageFlag.DAMAGE_EXPLOSION > 0 and damageSource.Entity.SpawnerType == EntityType.ENTITY_FAMILIAR and damageSource.Entity.SpawnerVariant == FamiliarVariant.LIL_HARBINGERS then -- Damage taken from an explosive tear from lil harbingers (ipecac pestilence shots)
         return false
     end
 end
@@ -4635,7 +4640,7 @@ end
 function sewnFamiliars:custom_hitEnemy_daddyLonglegs(daddyLonglegs, entity, amount, flags, countdown)
     local fData = daddyLonglegs:GetData()
     -- Apply additional damages when the head stomps
-    if fData.Sewn_daddyLonglegs_isHead and flags & DamageFlag.DAMAGE_CLONES ~= DamageFlag.DAMAGE_CLONES then
+    if fData.Sewn_daddyLonglegs_isHead and flags & DamageFlag.DAMAGE_CLONES > 0 then
         entity:TakeDamage(daddyLonglegs.CollisionDamage, DamageFlag.DAMAGE_CLONES, EntityRef(daddyLonglegs), countdown)
     end
 end
