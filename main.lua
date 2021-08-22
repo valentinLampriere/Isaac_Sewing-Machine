@@ -1633,9 +1633,11 @@ end
 -- MC_GET_CARD --
 -----------------
 function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, onlyRunes)
-    local chance = 7
-    if not includeRunes then
+    local chance = 300
+
+    --if not includeRunes then
         local roll = _rng:RandomInt(1000)
+
         if roll < chance then
             return Card.CARD_WARRANTY
         elseif roll < chance * 2 then
@@ -1643,7 +1645,7 @@ function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, 
         elseif roll < chance * 3 then
             return Card.CARD_SEWING_COUPON
         end
-    end
+    --end
 end
 --------------------------------------
 -- MC_USE_CARD - Card.CARD_WARRANTY --
@@ -1704,8 +1706,11 @@ end
 -- MC_POST_PICKUP_UPDATE --
 ---------------------------
 function sewingMachineMod:updateCard(card)
+
     if card.SubType == Card.CARD_WARRANTY or card.SubType == Card.CARD_STITCHING or card.SubType == Card.CARD_SEWING_COUPON then
+
         local cData = card:GetData()
+
         if cData.Sewn_isInit == nil then
             local sprite = card:GetSprite()
             if card.SubType == Card.CARD_SEWING_COUPON then
@@ -1716,7 +1721,8 @@ function sewingMachineMod:updateCard(card)
             if card.FrameCount == 0 then
                 sprite:Play("Idle")
             end
-            if card.FrameCount == 1 then
+            if card.FrameCount == 1 or
+                sewingMachineMod.currentRoom:GetFrameCount() and sewingMachineMod.currentRoom:IsFirstVisit() then
                 sprite:Play("Appear")
             end
             cData.Sewn_isInit = true
