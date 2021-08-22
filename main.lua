@@ -1633,9 +1633,9 @@ end
 -- MC_GET_CARD --
 -----------------
 function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, onlyRunes)
-    local chance = 300
+    local chance = 7
 
-    --if not includeRunes then
+    if not includeRunes then
         local roll = _rng:RandomInt(1000)
 
         if roll < chance then
@@ -1645,7 +1645,7 @@ function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, 
         elseif roll < chance * 3 then
             return Card.CARD_SEWING_COUPON
         end
-    --end
+    end
 end
 --------------------------------------
 -- MC_USE_CARD - Card.CARD_WARRANTY --
