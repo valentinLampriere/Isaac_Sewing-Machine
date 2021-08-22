@@ -100,6 +100,19 @@ APIOverride.OverrideClassFunction(EntityFamiliar, "RemoveFromFollowers", functio
     OldRemoveFromFollowers(fam)
 end)
 
+local function CColor(r, g, b, a, ro, go, bo)
+    a = a or 1
+    ro = ro or 0
+    go = go or 0
+    bo = bo or 0
+
+    if REPENTANCE then
+        return Color(r, g, b, a, ro / 255, go / 255, bo / 255)
+    else
+        return Color(r, g, b, a, ro, go, bo)
+    end
+end
+
 ------------------------------------------------------------
 -- Prepare familiars upgrade, stats and custom behaviours --
 ------------------------------------------------------------
@@ -3322,21 +3335,21 @@ function sewnFamiliars:custom_lilSpewer_fireTears(data)
         velocity.Y = speed
     end
     
-    local color = Color(0,0,0,0,0,0,0)
+    local color = CColor(0,0,0,0,0,0,0)
     local flag = 0
     
     if state == lil_spewer_state.NORMAL or
        state == lil_spewer_state.WHITE or
        state == lil_spewer_state.BLACK then
         if state == lil_spewer_state.NORMAL then
-            color = Color(1, 1, 0.95, 1, 20, 10, 0)
+            color = CColor(1, 1, 0.95, 1, 20, 10, 0)
         end
         if state == lil_spewer_state.WHITE then
-            color = Color(1, 1, 1, 1, 50, 40, 35)
+            color = CColor(1, 1, 1, 1, 50, 40, 35)
             flag = flag | TearFlags.TEAR_SLOW
         end
         if state == lil_spewer_state.BLACK then
-            color = Color(0.1, 0.1, 0.1, 1, 0, 0, 0)
+            color = CColor(0.1, 0.1, 0.1, 1, 0, 0, 0)
             flag = flag | TearFlags.TEAR_GISH
         end
         for i = 0, 2 do
