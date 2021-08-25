@@ -122,7 +122,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.ROBO_BABY_2,
         "Fire a short laser in front of him while moving",
-        "Sometimes follows ennemies",
+        "Sometimes follows enemies",
         ConvertRGBToIsaac({151, 151, 151})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -230,7 +230,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.CENSER,
         "Sometimes apply a dazed effect or freeze effect",
-        "Slighly deflect tears from player similar to the Soul item {{Collectible".. CollectibleType.COLLECTIBLE_SOUL .."}}",
+        "Slightly  deflect tears from player similar to the Soul item {{Collectible".. CollectibleType.COLLECTIBLE_SOUL .."}}",
         ConvertRGBToIsaac({204, 204, 204})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -289,7 +289,7 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BBF,
         "Will not explode if Isaac is close",
-        "Leave powder on the ground#When it explode, powder turn to fire",
+        "Leave powder on the ground#When it explode, powder turns to fire",
         ConvertRGBToIsaac({88, 88, 88})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
@@ -372,7 +372,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.LIL_SPEWER,
-        "When it shoots, it fires aditional tears which depends on it color#{{ArrowUp}} Increase a bit the size and the damage deal by the creep",
+        "When it shoots, it fires additional tears which depends on it color#{{ArrowUp}} Increase a bit the size and the damage deal by the creep",
         "It has two colors as the same time#{{ArrowUp}} Increase again a bit the size and the damage deal by the creep",
         ConvertRGBToIsaac({235, 210, 210})
     )
@@ -390,7 +390,7 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.DRY_BABY,
-        "{{ArrowUp}} Increase slighly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
+        "{{ArrowUp}} Increase slightly chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
         "More Necronomicon effect !",
         ConvertRGBToIsaac({219, 219, 219})
     )
@@ -409,14 +409,14 @@ function sewingMachineMod:InitFamiliarDescription()
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.SLIPPED_RIB,
         "When blocking a projectile it has a chance to spawn a bone orbital",
-        "Deal damage eaquals to 0.5 x Isaac's damage (with a minimum of 1)",
+        "Deal damage equals to 0.5 x Isaac's damage (with a minimum of 1)",
         ConvertRGBToIsaac({255, 255, 255})
     )
     if REPENTANCE then
         sewingMachineMod:AddDescriptionsForFamiliar(
             FamiliarVariant.ISAACS_HEART,
             "Move closer to the player when the player isn't firing#Decreased charge time",
-            "When fully charged, if an enemy or projectile gets too close it automatically activates it's fully charged effect#When this activates, it will go on a breif cooldown before being able to charge again",
+            "When fully charged, if an enemy or projectile gets too close it automatically activates it's fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again",
             ConvertRGBToIsaac({179, 0, 0})
         )
     else
