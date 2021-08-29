@@ -91,8 +91,8 @@ local trinketSewingMachine = {
     TrinketType.TRINKET_SEWING_CASE
 }
 
-sewingMachineMod.currentRoom = nil
-sewingMachineMod.currentLevel = nil
+sewingMachineMod.currentRoom = game:GetRoom()
+sewingMachineMod.currentLevel = game:GetLevel()
 
 sewingMachineMod.moddedFamiliar = {
     MARSHMALLOW = Isaac.GetEntityVariantByName("Marshmallow")
@@ -961,10 +961,6 @@ end
 -------------------------
 function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner, seed)
 
-    if sewingMachineMod.currentLevel == nil then 
-        sewingMachineMod.currentLevel = game:GetLevel()
-    end
-
     -- If a collectible spawn in the chest or in dark room
     if type == EntityType.ENTITY_PICKUP and variant == PickupVariant.PICKUP_COLLECTIBLE and sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE6 then
         for _, machine in pairs(sewingMachineMod:getAllSewingMachines()) do
@@ -1671,10 +1667,10 @@ end
 -- MC_GET_CARD --
 -----------------
 function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, onlyRunes)
-    local chance = 7
+    local chance = 0.02
 
-    if not includeRunes then
-        local roll = _rng:RandomInt(1000)
+    if card > 0 and card < Card.CARD_JOKER then
+        local roll = _rng:RandomFloat()
 
         if roll < chance then
             return Card.CARD_WARRANTY
@@ -1756,11 +1752,12 @@ function sewingMachineMod:updateCard(card)
             else
                 sprite:Load("gfx/005_sewing_card.anm2", true)
             end
-            if card.FrameCount == 0 or card:IsShopItem() then
-                sprite:Play("Idle")
-            elseif card.FrameCount == 1 or
+            
+            if card.FrameCount == 1 or
                 sewingMachineMod.currentRoom:GetFrameCount() and sewingMachineMod.currentRoom:IsFirstVisit() then
                 sprite:Play("Appear")
+            else
+                sprite:Play("Idle")
             end
             cData.Sewn_isInit = true
         end
@@ -2114,7 +2111,6 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useMonsterManual, CollectibleType.COLLECTIBLE_MONSTER_MANUAL)
-sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSacrificialAltar)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
