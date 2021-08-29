@@ -359,7 +359,7 @@ function sewingMachineMod:rerollFamiliarsCrowns(player, _rng)
             local _fData = sewingMachineMod:findFamiliarData(familiar.Variant, upgradeState, player, copy_familiarData)
             if upgradeState ~= sewingMachineMod.UpgradeState.ULTRA then
                 if _fData == nil then
-                    table.insert(copy_familiarData, newFamiliarData(familiar.Variant, upgradeState + 1, player, EntityPtr(familiar)))
+                    table.insert(copy_familiarData, newFamiliarData(familiar.Variant, upgradeState + 1, player, familiar))
                 else
                     _fData.Upgrade = upgradeState + 1
                 end
@@ -1434,7 +1434,7 @@ function sewingMachineMod:onNewFloor()
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         familiar = familiar:ToFamiliar()
         --table.insert(_familiarsData, {Variant = familiar.Variant, Upgrade = familiar:GetData().Sewn_upgradeState, PlayerIndex = familiar.Player.Index, Entity = EntityPtr(familiar)})
-        table.insert(_familiarsData, newFamiliarData(familiar.Variant, familiar:GetData().Sewn_upgradeState, familiar.Player.Index, EntityPtr(familiar)))
+        table.insert(_familiarsData, newFamiliarData(familiar.Variant, familiar:GetData().Sewn_upgradeState, familiar.Player.Index, familiar))
     end
     sewingMachineMod.familiarData = _familiarsData
 end
@@ -1629,6 +1629,44 @@ function sewingMachineMod:useMonsterManual(collectibleType, _rng)
         end
     end, 0)
 end
+
+-------------------------------------------------
+-- MC_USE_ITEM - COLLECTIBLE_SACRIFICIAL_ALTAR --
+-------------------------------------------------
+function sewingMachineMod:useSacrificialAltar(collectibleType, _rng)
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+
+    sewingMachineMod:delayFunction(function()
+        local _familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+        
+        for i, familiar in ipairs(familiars) do
+            for j, _familiar in ipairs(_familiars) do
+                if GetPtrHash(familiar) == GetPtrHash(_familiar) then
+                    table.remove(familiars, i)
+                end
+            end
+        end
+        
+        local dataToRemove = {}
+        for i, familiar in ipairs(familiars) do
+            familiar = familiar:ToFamiliar()
+
+            for j, familiarData in ipairs(sewingMachineMod.familiarData) do
+                if GetPtrHash(familiarData.Entity) == GetPtrHash(familiar) then
+                    for i = 1, familiarData.Upgrade do
+                        local position = sewingMachineMod.currentRoom:FindFreePickupSpawnPosition(familiar.Position, 0)
+                        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, position, v0, nil)
+                    end
+                    
+                    table.insert(dataToRemove, j)
+                end
+            end
+        end
+        for _, index in ipairs(dataToRemove) do
+            sewingMachineMod.familiarData[index] = nil -- Remove the upgrade
+        end
+    end, 0)
+end
 -----------------
 -- MC_GET_CARD --
 -----------------
@@ -1758,9 +1796,8 @@ function sewingMachineMod:onUpdate()
 
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(sewingMachineMod.familiarData) do
-
         -- If the familiarData hasn't an associated familiar entity
-        if familiarData.Entity == nil or familiarData.Entity.Ref == nil then
+        if familiarData.Entity == nil or familiarData.Entity:Exists() == false then
             local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)
             -- Reverse loop to get the last familiar first
             for j = #familiars, 1, -1 do
@@ -1772,18 +1809,18 @@ function sewingMachineMod:onUpdate()
                     sewingMachineMod:callFamiliarUpgrade(familiar)
                     fData.Sewn_upgradeState = familiarData.Upgrade
 
-                    familiarData.Entity = EntityPtr(familiar)
+                    familiarData.Entity = familiar
                     break
                 end
             end
         else
-            local fData = familiarData.Entity.Ref:GetData()
+            local fData = familiarData.Entity:GetData()
             if fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade then
                 -- Change familiar's data to prepare stats upgrade
                 fData.Sewn_upgradeState = familiarData.Upgrade
-                sewingMachineMod:callFamiliarUpgrade(familiarData.Entity.Ref)
+                sewingMachineMod:callFamiliarUpgrade(familiarData.Entity)
             elseif fData.Sewn_upgradeState > familiarData.Upgrade then
-                sewingMachineMod:resetFamiliarData(familiarData.Entity.Ref)
+                sewingMachineMod:resetFamiliarData(familiarData.Entity)
                 fData.Sewn_upgradeState = familiarData.Upgrade
             end
         end
@@ -2077,6 +2114,7 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useMonsterManual, CollectibleType.COLLECTIBLE_MONSTER_MANUAL)
+sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSacrificialAltar)
 sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
