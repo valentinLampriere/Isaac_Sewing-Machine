@@ -1039,78 +1039,92 @@ function sewnFamiliars:custom_fireInit_lilMonstro(familiar, tear)
 end
 
 -- DEMON BABY
-function sewnFamiliars:upDemonBaby(familiar)
-    local fData = familiar:GetData()
+function sewnFamiliars:upDemonBaby(demonBaby)
+    local fData = demonBaby:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
         fData.Sewn_demonBaby_lastDirection = nil
         fData.Sewn_demonBaby_flipX = false
-        sewnFamiliars:customFireInit(familiar, sewnFamiliars.custom_fireInit_demonBaby)
-        sewnFamiliars:customUpdate(familiar, sewnFamiliars.custom_update_demonBaby)
+        sewnFamiliars:customFireInit(demonBaby, sewnFamiliars.custom_fireInit_demonBaby)
+        sewnFamiliars:customUpdate(demonBaby, sewnFamiliars.custom_update_demonBaby)
     end
 end
-function sewnFamiliars:custom_fireInit_demonBaby(familiar, tear)
+function sewnFamiliars:custom_fireInit_demonBaby(demonBaby, tear)
     tear.TearFlags = tear.TearFlags | TearFlags.TEAR_SPECTRAL
 end
-function sewnFamiliars:custom_update_demonBaby(familiar)
-    local fData = familiar:GetData()
-    local sprite = familiar:GetSprite()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+function sewnFamiliars:custom_demonBaby_fireAtNpc(demonBaby, npc)
+    local fData = demonBaby:GetData()
+    local sprite = demonBaby:GetSprite()
+
+    if demonBaby.FireCooldown == 0 then
+        local velo = (npc.Position - demonBaby.Position)
+        velo = velo:Normalized() * 8
+        local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, demonBaby.Position, velo, demonBaby):ToTear()
+        newTear.CollisionDamage = 3
+        newTear.Parent = demonBaby
+        demonBaby.FireCooldown = 10
+        newTear:GetData().Sewn_demonBaby_isCustomTear = true
+        sewnFamiliars:toBabyBenderTear(demonBaby, newTear)
         
-        local range = 150
         
-        if sewingMachineMod:isUltra(fData) then
-            range = 180
+        local angle = (npc.Position - demonBaby.Position):GetAngleDegrees()
+        local direction = sewnFamiliars:getDirectionFromAngle(angle)
+        if direction == Direction.DOWN then
+            fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[1]
+            fData.Sewn_demonBaby_flipX = false
+        elseif direction == Direction.LEFT then
+            fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
+            fData.Sewn_demonBaby_flipX = true
+        elseif direction == Direction.UP then
+            fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[2]
+            fData.Sewn_demonBaby_flipX = false
+        elseif direction == Direction.RIGHT then
+            fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
+            fData.Sewn_demonBaby_flipX = false
         end
-        
-        -- Removing tears from Demon Baby
-        for _, tear in pairs(Isaac.FindByType(EntityType.ENTITY_TEAR, TearVariant.BLOOD, -1, false, false)) do
-            if tear.SpawnerType == EntityType.ENTITY_FAMILIAR and tear.SpawnerVariant == FamiliarVariant.DEMON_BABY then
-                if tear.Position:DistanceSquared(familiar.Position) < 5^2 then
-                    if tear.FrameCount == 0 then
-                        tear:Remove()
-                    end
-                end
+    end
+    
+    if fData.Sewn_demonBaby_lastDirection ~= nil and demonBaby.FireCooldown > 0 then
+        sprite:Play(fData.Sewn_demonBaby_lastDirection, true)
+        sprite.FlipX = fData.Sewn_demonBaby_flipX
+    end
+end
+function sewnFamiliars:custom_update_demonBaby(demonBaby)
+    local fData = demonBaby:GetData()
+    local range = 150
+    
+    if sewingMachineMod:isUltra(fData) then
+        range = 180
+    end
+    
+    -- Removing tears from Demon Baby
+    for _, tear in pairs(Isaac.FindByType(EntityType.ENTITY_TEAR, TearVariant.BLOOD, -1, false, false)) do
+        if tear.SpawnerType == EntityType.ENTITY_FAMILIAR and tear.SpawnerVariant == FamiliarVariant.DEMON_BABY then
+            if tear.FrameCount == 0 and tear:GetData().Sewn_demonBaby_isCustomTear == nil then
+                tear:Remove()
             end
         end
-        for _, npc in pairs(Isaac.FindInRadius(familiar.Position, range, EntityPartition.ENEMY)) do
-            if npc:IsVulnerableEnemy() then
-                if familiar.FireCooldown == 0 then
-                    local velo = (npc.Position - familiar.Position)
-                    velo = velo:Normalized() * 8
-                    local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, familiar.Position, velo, familiar):ToTear()
-                    newTear.CollisionDamage = 3
-                    newTear.Parent = familiar
-                    familiar.FireCooldown = 10
-                    sewnFamiliars:toBabyBenderTear(familiar, newTear)
-                    
-                    
-                    local angle = (npc.Position - familiar.Position):GetAngleDegrees()
-                    local direction = sewnFamiliars:getDirectionFromAngle(angle)
-                    if direction == Direction.DOWN then
-                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[1]
-                        fData.Sewn_demonBaby_flipX = false
-                    elseif direction == Direction.LEFT then
-                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
-                        fData.Sewn_demonBaby_flipX = true
-                    elseif direction == Direction.UP then
-                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[2]
-                        fData.Sewn_demonBaby_flipX = false
-                    elseif direction == Direction.RIGHT then
-                        fData.Sewn_demonBaby_lastDirection = ANIMATION_NAMES.SHOOT[3]
-                        fData.Sewn_demonBaby_flipX = false
-                    end
-                end
-                
-                if fData.Sewn_demonBaby_lastDirection ~= nil and familiar.FireCooldown > 0 then
-                    sprite:Play(fData.Sewn_demonBaby_lastDirection, true)
-                    sprite.FlipX = fData.Sewn_demonBaby_flipX
-                    break
-                end
+    end
+    local closestNpc = nil
+    local closestNpc_distanceSqrt = 999999
+
+    local npcs = Isaac.FindInRadius(demonBaby.Position, range, EntityPartition.ENEMY)
+
+    for _, npc in pairs(npcs) do
+        if npc:IsVulnerableEnemy() and not npc:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) then
+            local _distanceSqrt = (npc.Position - demonBaby.Position):LengthSquared()
+            if _distanceSqrt < closestNpc_distanceSqrt then
+                closestNpc_distanceSqrt = _distanceSqrt
+                closestNpc = npc
             end
         end
-        if familiar.FireCooldown > 0 then
-            familiar.FireCooldown = familiar.FireCooldown - 1
-        end
+    end
+
+    if closestNpc ~= nil then
+        sewnFamiliars:custom_demonBaby_fireAtNpc(demonBaby, closestNpc)
+    end
+
+    if demonBaby.FireCooldown > 0 then
+        demonBaby.FireCooldown = demonBaby.FireCooldown - 1
     end
 end
 
