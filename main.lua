@@ -1760,8 +1760,8 @@ function sewingMachineMod:updateCard(card)
                 sprite:Load("gfx/005_sewing_card.anm2", true)
             end
             
-            if card.FrameCount == 1 or
-                sewingMachineMod.currentRoom:GetFrameCount() and sewingMachineMod.currentRoom:IsFirstVisit() then
+            if (card.FrameCount == 1 or
+                sewingMachineMod.currentRoom:GetFrameCount() == 0 and sewingMachineMod.currentRoom:IsFirstVisit()) and not card:IsShopItem() then
                 sprite:Play("Appear")
             else
                 sprite:Play("Idle")
