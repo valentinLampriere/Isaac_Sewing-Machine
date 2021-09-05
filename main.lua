@@ -418,13 +418,10 @@ end
 
 -- Spawn a new Sewing Machine
 function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
+    local level = sewingMachineMod.currentLevel
     local room = sewingMachineMod.currentRoom
 
     if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
-        return
-    end
-
-    if StageAPI and StageAPI.InExtraRoom then
         return
     end
 
@@ -433,17 +430,17 @@ function sewingMachineMod:spawnMachine(position, playAppearAnim, machineSubType)
     end
 
     if machineSubType == nil then
-        if room:GetType() == RoomType.ROOM_ERROR then
+        if room:GetType() == RoomType.ROOM_ERROR then -- Error rooms
             machineSubType = grng:RandomInt(4)
-        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then
+        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then -- Bedrooms
             machineSubType = sewingMachineMod.SewingMachineSubType.BEDROOM
-        elseif room:GetType() == RoomType.ROOM_SHOP then
+        elseif room:GetType() == RoomType.ROOM_SHOP or level:GetStage() == LevelStage.STAGE8 then -- Shops or Home
             machineSubType = sewingMachineMod.SewingMachineSubType.SHOP
-        elseif room:GetType() == RoomType.ROOM_ANGEL then
+        elseif room:GetType() == RoomType.ROOM_ANGEL then -- Angel rooms
             machineSubType = sewingMachineMod.SewingMachineSubType.ANGELIC
-        elseif room:GetType() == RoomType.ROOM_DEVIL then
+        elseif room:GetType() == RoomType.ROOM_DEVIL then -- Devil rooms
             machineSubType = sewingMachineMod.SewingMachineSubType.EVIL
-        else
+        else -- Other rooms
             if grng:RandomInt(2) == 0 then
                 machineSubType = sewingMachineMod.SewingMachineSubType.BEDROOM
             else
@@ -1277,6 +1274,8 @@ end
 ----------------------
 function sewingMachineMod:newRoom()
     sewingMachineMod.currentRoom = game:GetRoom()
+    local room = sewingMachineMod.currentRoom
+    local level = sewingMachineMod.currentLevel
     local playerHasLostButton = false
     
     for i, familiar in pairs(temporaryFamiliars) do
@@ -1310,7 +1309,7 @@ function sewingMachineMod:newRoom()
             -- Call new room familiar callbacks
             if fData.Sewn_custom_newRoom ~= nil then
                 for _, f in ipairs(fData.Sewn_custom_newRoom) do
-                    f(_, familiar, sewingMachineMod.currentRoom)
+                    f(_, familiar, room)
                 end
             end
         end
@@ -1335,32 +1334,40 @@ function sewingMachineMod:newRoom()
         end
     end
 
-    if sewingMachineMod.currentRoom:IsFirstVisit() == true then
-        if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ISAACS or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_BARREN then
+    if room:IsFirstVisit() == true then
+        if room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then -- Bedrooms
+            -- do not spawn machines in extra rooms
+            if StageAPI and StageAPI.InExtraRoom then
+                return
+            end
             sewingMachineMod:spawnMachine()
-        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_SHOP then
-            if sewingMachineMod.currentRoom:IsClear() then
+        elseif room:GetType() == RoomType.ROOM_SHOP then -- Shops
+            if room:IsClear() then
                 local rollMachineShop = grng:RandomInt(100)
                 
-                if rollMachineShop < 20 or playerHasLostButton or sewingMachineMod.currentLevel:GetStage() == LevelStage.STAGE4_3 then
+                if rollMachineShop < 20 or playerHasLostButton or level:GetStage() == LevelStage.STAGE4_3 then -- Roll or hush floor
                     sewingMachineMod:spawnMachine()
                 end
             end
-        elseif sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL or sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL then
+        elseif room:GetType() == RoomType.ROOM_ANGEL or room:GetType() == RoomType.ROOM_DEVIL then -- Devil/Angel rooms with contrasted button or doll
             for i = 1, game:GetNumPlayers() do
                 local player = Isaac.GetPlayer(i - 1)
                 local rollContrastedButton = player:GetTrinketRNG(TrinketType.TRINKET_CONTRASTED_BUTTON):RandomInt(100)
                 local rollDollHead = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD):RandomInt(100)
                 local rollDollBody = player:GetCollectibleRNG(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY):RandomInt(100)
                 
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_ANGEL and
+                if room:GetType() == RoomType.ROOM_ANGEL and
                     (player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 or player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY) and rollDollBody < 10) then
                     sewingMachineMod:spawnMachine(nil, true, sewingMachineMod.SewingMachineSubType.ANGELIC)
                 end
-                if sewingMachineMod.currentRoom:GetType() == RoomType.ROOM_DEVIL and
+                if room:GetType() == RoomType.ROOM_DEVIL and
                 (player:HasTrinket(TrinketType.TRINKET_CONTRASTED_BUTTON) and rollContrastedButton < 50 or player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD) and rollDollHead < 10) then
                     sewingMachineMod:spawnMachine(nil, true, sewingMachineMod.SewingMachineSubType.EVIL)
                 end
+            end
+        elseif level:GetStage() == LevelStage.STAGE8 and room:GetRoomShape() == RoomShape.ROOMSHAPE_IH then -- Home
+            if room:GetDoor(DoorSlot.LEFT0) ~= nil then
+                sewingMachineMod:spawnMachine()
             end
         end
     end
