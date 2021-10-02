@@ -1,5 +1,5 @@
 <pocketitems>
-	<card type="tarot" achievement="355" description="Craft them crowns" hud="warrantyCard" name="Warranty Card" mimiccharge="8"/>
-	<card type="tarot" achievement="355" description="Shuffle their crowns" hud="stitchingCard" name="Stitching Card" />
-	<card type="tarot" achievement="355" description="Temporary crowns" hud="sewingCoupon" name="Sewing Coupon" />
+	<card type="special" pickup="756" achievement="355" description="Craft them crowns" hud="warrantyCard" name="Warranty Card" mimiccharge="8" greedmode="true"/>
+	<card type="special" pickup="756" achievement="355" description="Shuffle their crowns" hud="stitchingCard" name="Stitching Card" greedmode="true"/>
+	<card type="special" pickup="757" achievement="355" description="Temporary crowns" hud="sewingCoupon" name="Sewing Coupon" greedmode="true"/>
 </pocketitems>

@@ -196,6 +196,7 @@ if REPENTANCE then
         [FamiliarVariant.FREEZER_BABY] = {608, sewingMachineMod.sewnFamiliars.upFreezerBaby},
         [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
         [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
+        [FamiliarVariant.TINYTOMA] = {645, sewingMachineMod.sewnFamiliars.upTinytoma},
         [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby},
         [FamiliarVariant.VANISHING_TWIN] = {697, sewingMachineMod.sewnFamiliars.upVanishingTwin}
     }
@@ -1202,7 +1203,7 @@ end
 -----------------------------
 function sewingMachineMod:renderFamiliar(familiar, offset)
     local fData = familiar:GetData()
-    if fData == nil or type(fData) ~= "table" then return end
+    --if fData == nil or type(fData) ~= "table" then return end
     local pos = Isaac.WorldToScreen(familiar.Position)
     if sewingMachineMod.Config.familiarCrownPosition == sewingMachineMod.CONFIG_CONSTANT.FAMILIAR_CROWN_POSITION.CENTER then
         pos = Vector(pos.X-1, pos.Y - familiar.Size * 2)
@@ -1670,24 +1671,7 @@ function sewingMachineMod:useSacrificialAltar(collectibleType, _rng)
         end
     end, 0)
 end
------------------
--- MC_GET_CARD --
------------------
-function sewingMachineMod:getCard(_rng, card, includePlayingCard, includeRunes, onlyRunes)
-    local chance = 0.02
 
-    if card > 0 and card < Card.CARD_JOKER then
-        local roll = _rng:RandomFloat()
-
-        if roll < chance then
-            return Card.CARD_WARRANTY
-        elseif roll < chance * 2 then
-            return Card.CARD_STITCHING
-        elseif roll < chance * 3 then
-            return Card.CARD_SEWING_COUPON
-        end
-    end
-end
 --------------------------------------
 -- MC_USE_CARD - Card.CARD_WARRANTY --
 --------------------------------------
@@ -1741,36 +1725,6 @@ function sewingMachineMod:useReverseDevil(card, player, useFlag)
         end
     end, 0)
 end
-
-
----------------------------
--- MC_POST_PICKUP_UPDATE --
----------------------------
-function sewingMachineMod:updateCard(card)
-
-    if card.SubType == Card.CARD_WARRANTY or card.SubType == Card.CARD_STITCHING or card.SubType == Card.CARD_SEWING_COUPON then
-
-        local cData = card:GetData()
-
-        if cData.Sewn_isInit == nil then
-            local sprite = card:GetSprite()
-            if card.SubType == Card.CARD_SEWING_COUPON then
-                sprite:Load("gfx/005_sewing_card_coupon.anm2", true)
-            else
-                sprite:Load("gfx/005_sewing_card.anm2", true)
-            end
-            
-            if (card.FrameCount == 1 or
-                sewingMachineMod.currentRoom:GetFrameCount() == 0 and sewingMachineMod.currentRoom:IsFirstVisit()) and not card:IsShopItem() then
-                sprite:Play("Appear")
-            else
-                sprite:Play("Idle")
-            end
-            cData.Sewn_isInit = true
-        end
-    end
-end
-
 
 --------------------
 -- MC_POST_UPDATE --
@@ -2118,12 +2072,10 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, sewingMachineMod
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useSewingBox, CollectibleType.COLLECTIBLE_SEWING_BOX)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useGlowingHourglass, CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_ITEM, sewingMachineMod.useMonsterManual, CollectibleType.COLLECTIBLE_MONSTER_MANUAL)
-sewingMachineMod:AddCallback(ModCallbacks.MC_GET_CARD, sewingMachineMod.getCard)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useWarrantyCard, Card.CARD_WARRANTY)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useStitchingCard, Card.CARD_STITCHING)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useSewingCoupon, Card.CARD_SEWING_COUPON)
 sewingMachineMod:AddCallback(ModCallbacks.MC_USE_CARD, sewingMachineMod.useReverseDevil, Card.CARD_REVERSE_DEVIL)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_PICKUP_UPDATE, sewingMachineMod.updateCard, PickupVariant.PICKUP_TAROTCARD)
 
 -- Rooms related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_POST_NEW_ROOM, sewingMachineMod.newRoom)

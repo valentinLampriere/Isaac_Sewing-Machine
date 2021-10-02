@@ -4681,4 +4681,62 @@ function sewnFamiliars:custom_daddyLonglegs_postStompTriachnid(daddyLonglegs)
     Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_WHITE, 0, daddyLonglegs.Position, v0, daddyLonglegs)
 end
 
+
+
+-- TINYTOMA
+function sewnFamiliars:upTinytoma(tinytoma)
+    local fData = tinytoma:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:customUpdate(tinytoma, sewnFamiliars.custom_update_tinytoma)
+    end
+end
+function sewnFamiliars:custom_update_tinytoma(tinytoma)
+    local fData = tinytoma:GetData()
+    
+    if tinytoma.State == 449 then
+        local tinytoma2 = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.TINYTOMA_2, -1)
+
+        local variant = FamiliarVariant.TINYTOMA_2
+        local count = 0
+        local rng = tinytoma:GetDropRNG()
+
+        for _, t in ipairs(tinytoma2) do
+            if t.Parent ~= nil and GetPtrHash(t.Parent) == GetPtrHash(tinytoma) then
+                sewnFamiliars:customCollision(t, sewnFamiliars.custom_collision_tinytoma2)
+                count = count + 1
+            end
+        end
+        
+        if sewingMachineMod:isUltra(fData) then
+            tinytoma.Player:CheckFamiliar(variant, (#tinytoma2 - count) + count * 2, rng)
+        end
+        
+        --[[local tinytoma2 = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.TINYTOMA_2, -1)
+        for _, t in ipairs(tinytoma2) do
+            if GetPtrHash(t.Parent) == GetPtrHash(tinytoma) then
+                local _fData = t:GetData()
+                _fData.Sewn_upgradeState = fData.Sewn_upgradeState
+                _fData.Sewn_crown = nil
+            end
+        end--]]
+
+        sewingMachineMod:hideCrown(tinytoma, true)
+    elseif tinytoma.State == 1 then
+        sewingMachineMod:hideCrown(tinytoma, false)
+    end
+end
+function sewnFamiliars:custom_collision_tinytoma2(tinytoma2)
+    sewingMachineMod:delayFunction(function()
+        local rng = tinytoma2:GetDropRNG()
+        if not tinytoma2:Exists() then
+            for i = 0, rng:RandomInt(3) do
+                local velocity = Vector(0, 0)
+                velocity.X = (rng:RandomFloat() - 0.5)
+                velocity.Y = (rng:RandomFloat() - 0.5)
+                tinytoma2.Player:ThrowBlueSpider(tinytoma2.Position, velocity + tinytoma2.Position)
+            end
+        end
+    end, 1, tinytoma2)
+end
+
 sewingMachineMod.errFamiliars.Error()
