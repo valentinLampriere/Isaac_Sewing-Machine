@@ -310,12 +310,12 @@ function sewingMachineMod:InitFamiliarDescription()
         "Fire three tears instead of one#{{ArrowUp}} Range Up#Higher chance to spawn a fly turret",
         ConvertRGBToIsaac({59, 107, 203})
     )
-    sewingMachineMod:AddDescriptionsForFamiliar(
+    --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BLUEBABYS_ONLY_FRIEND,
         "Sometimes it will crush the ground dealing damage to close enemies",
         "When it hit the ground, it deals more damage and destroy rocks#Higher range",
         ConvertRGBToIsaac({0, 74, 128})
-    )
+    )--]]
     --[[sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.BOMB_BAG,
         "No more spawn Troll Bombs#Higher chance for better bombs (double pack and golden bombs)",
