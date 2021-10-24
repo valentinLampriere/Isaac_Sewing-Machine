@@ -2236,8 +2236,6 @@ function sewnFamiliars:custom_update_censer(censer)
 end
 
 -- PEEPER
-local peeper_amountOfAdditionalEyes = {}
-
 function sewnFamiliars:upPeeper(peeper)
     local fData = peeper:GetData()
     sewingMachineMod:addCrownOffset(peeper, Vector(0, 5))
@@ -2248,10 +2246,12 @@ function sewnFamiliars:upPeeper(peeper)
         if sewingMachineMod:isUltra(fData) then
             fData.Sewn_peeper_additionalEyes = {}
             if peeper.SubType == 0 then -- SubType zero means it is the standard Peeper Eye
+                
+                fData.Sewn_peeper_hasInnerEye = peeper.Player:HasCollectible(CollectibleType.COLLECTIBLE_INNER_EYE)
+                
                 sewnFamiliars:customCache(peeper, sewnFamiliars.custom_cache_peeper)
                 
-                peeper.Player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
-                peeper.Player:EvaluateItems()
+                sewnFamiliars:custom_cache_peeper(peeper, CacheFlag.CACHE_FAMILIARS)
             end
         end
     end
@@ -2272,7 +2272,7 @@ function sewnFamiliars:custom_update_peeper(peeper)
         local closerNpc = npcs[1]
         local closerNpcDistance = 999999
         for _, npc in ipairs(npcs) do
-            local npcDistance = (closerNpc.Position - peeper.Position):LengthSquared()
+            local npcDistance = (npc.Position - peeper.Position):LengthSquared()
             if npcDistance < closerNpcDistance then
                 closerNpc = npc
                 closerNpcDistance = npcDistance
@@ -2300,38 +2300,52 @@ end
 function sewnFamiliars:custom_cache_peeper(peeper, cacheFlag)
     local fData = peeper:GetData()
 
-    
     if cacheFlag == CacheFlag.CACHE_FAMILIARS then
+
+        --[[local machines = sewingMachineMod:getAllSewingMachines()
+        if machines ~= nil then
+            local closerMachine = machines[1]
+            local closerMachineDistance = 99999
+
+            for _, machine in ipairs(machines) do
+                local machineDistance = (machine.Position - peeper.Position):LengthSquared()
+                if machineDistance < closerMachineDistance then
+                    closerMachine = machine
+                    closerMachineDistance = machineDistance
+                end
+                if peeper.Player:GetData().Sewn_familiarsInMachine[closerMachine.InitSeed] == nil then
+                    return
+                end
+            end
+        end--]]
+
         local countPeeper = peeper.Player:GetCollectibleNum(CollectibleType.COLLECTIBLE_PEEPER)
         local amountOfAdditionalEyes = 1
         if peeper.Player:HasCollectible(CollectibleType.COLLECTIBLE_INNER_EYE) then
             amountOfAdditionalEyes = amountOfAdditionalEyes + 1
         end
-        
-        local additionalEyesPositions = {}
-        local additionalEyesVelocity = {}
-        for i, additionalEye in ipairs(fData.Sewn_peeper_additionalEyes) do
-            table.insert(additionalEyesPositions, additionalEye.Position)
-            table.insert(additionalEyesVelocity, additionalEye.Velocity)
+
+        local peeperEyesCopies = Isaac.FindByType(peeper.Type, peeper.Variant, 1, false, false)
+        for i, additionalEye in ipairs(peeperEyesCopies) do
             additionalEye:Remove()
         end
 
         peeper.Player:CheckFamiliar(peeper.Variant, countPeeper, peeper:GetDropRNG(), _, 0)
-        
-        for i = 1, amountOfAdditionalEyes do
-            local position = additionalEyesPositions[i] or peeper.Position
-            local velocity = additionalEyesVelocity[i] or v0
-            local newPeeper = Isaac.Spawn(peeper.Type, peeper.Variant, 1, position, velocity, peeper.Player)
-            local newFData = newPeeper:GetData()
-            newFData.Sewn_peeper_isAddtionalPeeperEye = true
-            newFData.Sewn_noUpgrade = true
-            newFData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
-            sewnFamiliars:upPeeper(newPeeper)
-            sewingMachineMod:hideCrown(newPeeper, true)
-            newPeeper:SetColor(Color(1,0.6,0.6,0.9,0,0,0), -1, 2, false, false)
-            
-            table.insert(fData.Sewn_peeper_additionalEyes, newPeeper)
-        end
+
+        sewingMachineMod:delayFunction(function(_)
+            for i = 1, amountOfAdditionalEyes do
+                local newPeeper = Isaac.Spawn(peeper.Type, peeper.Variant, 1, peeper.Position, v0, peeper.Player)
+                local newFData = newPeeper:GetData()
+                newFData.Sewn_peeper_isAddtionalPeeperEye = true
+                newFData.Sewn_noUpgrade = true
+                newFData.Sewn_upgradeState = sewingMachineMod.UpgradeState.SUPER
+                sewnFamiliars:upPeeper(newPeeper)
+                sewingMachineMod:hideCrown(newPeeper, true)
+                newPeeper:SetColor(Color(1,0.6,0.6,0.9,0,0,0), -1, 2, false, false)
+                
+                table.insert(fData.Sewn_peeper_additionalEyes, newPeeper)
+            end
+        end, 0, peeper)
     end
 end
 
