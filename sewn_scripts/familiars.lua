@@ -738,27 +738,53 @@ end
 function sewnFamiliars:upLittleSteven(littleSteven)
     local fData = littleSteven:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        sewnFamiliars:setDamageTearMultiplier(littleSteven, sewingMachineMod:isUltra(fData) and 1.5 or 1.25)
         sewnFamiliars:customFireInit(littleSteven, sewnFamiliars.custom_fireInit_littleSteven)
-        
+        sewnFamiliars:customHitEnemy(littleSteven, sewnFamiliars.custom_hitEnemy_littleSteven)
+        sewnFamiliars:customKillEnemy(littleSteven, sewnFamiliars.custom_killEnemy_littleSteven)
+    end
+end
+local littleStevenBulletPatterns = {
+    { AmountOfBullet = 8, Offset = 3, Damage = 5, Scale = 2 }, -- Steven
+    { Velocity = 7, AmountOfBullet = 8 } -- Baby Steven
+}
+function sewnFamiliars:custom_littleSteven_fireBullets(littleSteven, enemy, pattern)
+    local fData = littleSteven:GetData()
+    pattern = pattern or littleStevenBulletPatterns[littleSteven:GetDropRNG():RandomInt(#littleStevenBulletPatterns) + 1]
+    for i = 1, pattern.AmountOfBullet or 8 do
+        local offset = pattern.Offset or 1
+        local velocity = Vector(pattern.Velocity or 5, pattern.Velocity or 5)
+        velocity = velocity:Rotated((360 / pattern.AmountOfBullet) * i)
+        local position = enemy.Position + velocity * (enemy.Size * 0.1) * offset
+        local bullet = Isaac.Spawn(EntityType.ENTITY_PROJECTILE, ProjectileVariant.PROJECTILE_FCUK, 0, position, velocity, littleSteven):ToProjectile()
+        bullet:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES | ProjectileFlags.CANT_HIT_PLAYER)
+        bullet.Damage = pattern.Damage or 3.5
+        bullet.Scale = bullet.Scale * (pattern.Scale or 1)
+        bullet.FallingAccel = -0.08
 
-        if sewingMachineMod:isSuper(fData) then
-            sewnFamiliars:setDamageTearMultiplier(littleSteven, 1.5)
-        else
-            sewnFamiliars:setDamageTearMultiplier(littleSteven, 2)
-            sewnFamiliars:setTearRateBonus(littleSteven, 7)
+        local rollChainReaction = littleSteven:GetDropRNG():RandomFloat() * 100
+        if sewingMachineMod:isUltra(fData) and rollChainReaction < 15 then
+            bullet.Parent = littleSteven
         end
     end
 end
-function sewnFamiliars:custom_fireInit_littleSteven(littleSteven, tear)
-    local fData = littleSteven:GetData()
-    local rangeBoost = 2.5
-    local shotSpeedBoost = 0.95
-    if sewingMachineMod:isUltra(fData) then
-        rangeBoost = 5
-        shotSpeedBoost = 0.9
+function sewnFamiliars:custom_hitEnemy_littleSteven(littleSteven, enemy)
+    local chance = sewingMachineMod:isUltra(littleSteven:GetData()) and 7 or 3.5
+    local roll = littleSteven:GetDropRNG():RandomFloat() * 100
+    if roll < chance then
+        sewnFamiliars:custom_littleSteven_fireBullets(littleSteven, enemy, littleStevenBulletPatterns[2])
     end
-
-    -- Range boost
+end
+function sewnFamiliars:custom_killEnemy_littleSteven(littleSteven, enemy)
+    local chance = sewingMachineMod:isUltra(littleSteven:GetData()) and 75 or 50
+    local roll = littleSteven:GetDropRNG():RandomFloat() * 100
+    if roll < chance then
+        sewnFamiliars:custom_littleSteven_fireBullets(littleSteven, enemy, littleStevenBulletPatterns[1])
+    end
+end
+function sewnFamiliars:custom_fireInit_littleSteven(littleSteven, tear)
+    local rangeBoost = 2.5
+    local shotSpeedBoost = 0.9
     tear.FallingAcceleration = 0.02 + -0.02 * rangeBoost
     tear.Velocity = tear.Velocity * shotSpeedBoost
 end
@@ -2636,7 +2662,7 @@ function sewnFamiliars:custom_killEnemy_leech(leech, enemy)
     
     local data = {
         FAMILIAR = leech,
-        AMOUNT_TEARS = nbTears, 
+        AMOUNT_TEARS = nbTears,
         DAMAGE = 3.5,
         FORCE = 8,
         DIFFERENT_SIZE = true,
