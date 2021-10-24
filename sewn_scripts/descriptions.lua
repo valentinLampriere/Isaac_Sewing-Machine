@@ -235,8 +235,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.PEEPER,
-        "Fire 5 tears in differents directions every few seconds",
-        "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#New peeper eye spawn Ultra {{SewnCrownUltra}}",
+        "Fire 5 tears in differents directions every few seconds.#Try to home to close enemies",
+        "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well.#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawns two Peepers Eyes",
         ConvertRGBToIsaac({204, 204, 204})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
