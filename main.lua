@@ -1030,9 +1030,14 @@ function sewingMachineMod:entityTakeDamage(entity, amount, flags, source, countd
     for _, familiar in pairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
-        
-        if source.Entity ~= nil and source.Type == EntityType.ENTITY_FAMILIAR and entity:IsVulnerableEnemy() then
-            if GetPtrHash(source.Entity) == GetPtrHash(familiar) then
+        if source.Entity ~= nil and entity:IsVulnerableEnemy() then
+            local sourceFamiliar
+            if source.Type == EntityType.ENTITY_FAMILIAR then
+                sourceFamiliar = source.Entity
+            elseif source.Entity.Parent ~= nil and source.Entity.Parent.Type == EntityType.ENTITY_FAMILIAR then
+                sourceFamiliar = source.Entity.Parent
+            end
+            if sourceFamiliar ~= nil and GetPtrHash(sourceFamiliar) == GetPtrHash(familiar) then
                 if fData.Sewn_custom_hitEnemy ~= nil then
                     for i, f in ipairs(fData.Sewn_custom_hitEnemy) do
                         local getDamage = f(_, familiar, entity, amount, flags, countdown)
