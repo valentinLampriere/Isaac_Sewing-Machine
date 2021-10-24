@@ -404,7 +404,8 @@ function sewnFamiliars:toBabyBenderTear(familiar, tear)
     local player = familiar.Player
     if player ~= nil and player:HasTrinket(TrinketType.TRINKET_BABY_BENDER) then
         tear.TearFlags = tear.TearFlags | TearFlags.TEAR_HOMING
-        tear:SetColor(Color(0.4, 0.15, 0.38, 1, 55, 5, 95), -1, 2, false, false)
+        local color = CColor(0.4,0.15,0.38,1,55,5,95)
+        tear:SetColor(color, -1, 2, false, false)
     end
 end
 
@@ -2235,16 +2236,18 @@ function sewnFamiliars:custom_update_censer(censer)
 end
 
 -- PEEPER
+local peeper_amountOfAdditionalEyes = {}
+
 function sewnFamiliars:upPeeper(peeper)
     local fData = peeper:GetData()
-    
     sewingMachineMod:addCrownOffset(peeper, Vector(0, 5))
     if peeper.Variant == FamiliarVariant.PEEPER then
         if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customUpdate(peeper, sewnFamiliars.custom_update_peeper)
         end
         if sewingMachineMod:isUltra(fData) then
-            if peeper.Player ~= nil then -- If familiar have no player, it's because it's the second peeper
+            fData.Sewn_peeper_additionalEyes = {}
+            if peeper.SubType == 0 then -- SubType zero means it is the standard Peeper Eye
                 sewnFamiliars:customCache(peeper, sewnFamiliars.custom_cache_peeper)
                 
                 peeper.Player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
@@ -2255,31 +2258,70 @@ function sewnFamiliars:upPeeper(peeper)
 end
 function sewnFamiliars:custom_update_peeper(peeper)
     local fData = peeper:GetData()
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if fData.Sewn_custom_peeper_tearCooldown == nil then
-            fData.Sewn_custom_peeper_tearCooldown = peeper:GetDropRNG():RandomInt(100)
-            return
-        end
-        if fData.Sewn_custom_peeper_tearCooldown == 0 then
-            sewnFamiliars:shootTearsCircular(peeper, 5, nil, nil, nil, 4)
-            fData.Sewn_custom_peeper_tearCooldown = peeper:GetDropRNG():RandomInt(150 - 60) + 60
-        end
-        fData.Sewn_custom_peeper_tearCooldown = fData.Sewn_custom_peeper_tearCooldown - 1
+    if sewingMachineMod.currentRoom:IsClear() then
+        return
     end
+    if fData.Sewn_peeper_tearCooldown == nil then
+        fData.Sewn_peeper_tearCooldown = peeper:GetDropRNG():RandomInt(100)
+        return
+    end
+    if fData.Sewn_peeper_tearCooldown == 0 then
+        sewnFamiliars:shootTearsCircular(peeper, 5, nil, nil, nil, 5, TearFlags.TEAR_SPECTRAL)
+        fData.Sewn_peeper_tearCooldown = peeper:GetDropRNG():RandomInt(150 - 60) + 60
+    end
+
+    local npcs = Isaac.FindInRadius(peeper.Position + peeper.Velocity * 2, 50, EntityPartition.ENEMY)
+    if #npcs >= 1 then
+        local closerNpc = npcs[1]
+        local closerNpcDistance = 999999
+        for _, npc in ipairs(npcs) do
+            local npcDistance = (closerNpc.Position - peeper.Position):LengthSquared()
+            if npcDistance < closerNpcDistance then
+                closerNpc = npc
+                closerNpcDistance = npcDistance
+            end
+        end
+        local velocityMagnitude = peeper.Velocity:Length()
+        peeper.Velocity = (peeper.Velocity:Normalized() + (closerNpc.Position - peeper.Position):Normalized() * 0.15):Normalized() * velocityMagnitude
+    end
+
+
+    fData.Sewn_peeper_tearCooldown = fData.Sewn_peeper_tearCooldown - 1
 end
+
 function sewnFamiliars:custom_cache_peeper(peeper, cacheFlag)
     local fData = peeper:GetData()
+
     if cacheFlag == CacheFlag.CACHE_FAMILIARS then
-        if sewingMachineMod:isUltra(fData) then
-            local secondEye_pos = peeper.Position
-            if fData.Sewn_custom_peeper_secondEye ~= nil then
-                secondEye_pos = fData.Sewn_custom_peeper_secondEye.Position
-            end
-            -- Creating a second peeper
-            fData.Sewn_custom_peeper_secondEye = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, FamiliarVariant.PEEPER, 0, secondEye_pos, v0, peeper.Player)
-            -- Setting this second peeper ULTRA
-            fData.Sewn_custom_peeper_secondEye:GetData().Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
-            sewnFamiliars:upPeeper(fData.Sewn_custom_peeper_secondEye)
+        
+        local countPeeper = peeper.Player:GetCollectibleNum(CollectibleType.COLLECTIBLE_PEEPER)
+        local amountOfAdditionalEyes = 1
+        if peeper.Player:HasCollectible(CollectibleType.COLLECTIBLE_INNER_EYE) then
+            amountOfAdditionalEyes = amountOfAdditionalEyes + 1
+        end
+        
+        local additionalEyesPositions = {}
+        local additionalEyesVelocity = {}
+        for i, additionalEye in ipairs(fData.Sewn_peeper_additionalEyes) do
+            table.insert(additionalEyesPositions, additionalEye.Position)
+            table.insert(additionalEyesVelocity, additionalEye.Velocity)
+            additionalEye:Remove()
+        end
+
+        peeper.Player:CheckFamiliar(peeper.Variant, countPeeper, peeper:GetDropRNG(), _, 0)
+        
+        for i = 1, amountOfAdditionalEyes do
+            local position = additionalEyesPositions[i] or peeper.Position
+            local velocity = additionalEyesVelocity[i] or v0
+            local newPeeper = Isaac.Spawn(peeper.Type, peeper.Variant, 1, position, velocity, peeper.Player)
+            local newFData = newPeeper:GetData()
+            newFData.Sewn_peeper_isAddtionalPeeperEye = true
+            newFData.Sewn_noUpgrade = true
+            newFData.Sewn_upgradeState = sewingMachineMod.UpgradeState.ULTRA
+            sewnFamiliars:upPeeper(newPeeper)
+            newPeeper:SetColor(Color(1,0.6,0.6,0.9,0,0,0), -1, 2, false, false)
+            
+            table.insert(fData.Sewn_peeper_additionalEyes, newPeeper)
         end
     end
 end

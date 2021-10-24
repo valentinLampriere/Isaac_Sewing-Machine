@@ -1150,7 +1150,7 @@ function sewingMachineMod:updateFamiliar(familiar)
             end
         end
         -- Not available familiars
-        if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) then
+        if not sewingMachineMod:isAvailable(familiar.Variant) or sewingMachineMod:isUltra(fData) or fData.Sewn_noUpgrade == true then
             if sewingMachineMod.Config.familiarNotAllowedEffect == sewingMachineMod.CONFIG_CONSTANT.NOT_ALLOWED_FAMILIARS_EFFECT.TRANSPARENT then
                 if REPENTANCE then
                     familiar:SetColor(Color(fColor.R,fColor.G,fColor.B,0.5,fColor.RO,fColor.GO,fColor.BO),5,1,false,false)
@@ -1761,7 +1761,7 @@ function sewingMachineMod:onUpdate()
             for j = #familiars, 1, -1 do
                 local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
-                if (fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index then
+                if (fData.Sewn_upgradeState == nil or fData.Sewn_upgradeState < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade ~= true then
                     fData.Sewn_upgradeState = familiarData.Upgrade
                     -- Change familiar's data to prepare stats upgrade
                     sewingMachineMod:callFamiliarUpgrade(familiar)
