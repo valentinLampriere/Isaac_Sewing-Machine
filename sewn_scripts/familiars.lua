@@ -8,6 +8,7 @@ else
     require("sewn_scripts.apioverride")
 end
 local game = Game()
+local sfx = SFXManager()
 local v0 = Vector(0,0)
 
 local ANIMATION_NAMES = {
@@ -4828,6 +4829,106 @@ function sewnFamiliars:custom_collision_tinytoma2(tinytoma2)
             end
         end
     end, 1, tinytoma2)
+end
+
+-- LIL ABADDON
+local lilAbaddonStats = {
+    [sewingMachineMod.UpgradeState.SUPER] = { DamageMultiplier = 1.5, SwirlRate = 60, SwirlLaserDamage = 3, SwirlLaserRadius = 50, SwirlLaserTimeout = 15, BlackHeartChance = 0 },
+    [sewingMachineMod.UpgradeState.ULTRA] = { DamageMultiplier = 1.5, SwirlRate = 50, SwirlLaserDamage = 3.5, SwirlLaserRadius = 75, SwirlLaserTimeout = 20, BlackHeartChance = 0.03 }
+}
+function sewnFamiliars:upLilAbaddon(lilAbaddon)
+    local fData = lilAbaddon:GetData()
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_lilAbaddon_swirls = {}
+        sewnFamiliars:customNewRoom(lilAbaddon, sewnFamiliars.custom_newRoom_lilAbaddon)
+        sewnFamiliars:customUpdate(lilAbaddon, sewnFamiliars.custom_update_lilAbaddon)
+        sewnFamiliars:customAnimation(lilAbaddon, sewnFamiliars.custom_animation_lilAbaddon, ANIMATION_NAMES.SHOOT)
+    end
+end
+function sewnFamiliars:custom_newRoom_lilAbaddon(lilAbaddon, room)
+    local fData = lilAbaddon:GetData()
+    fData.Sewn_lilAbaddon_swirls = {}
+end
+function sewnFamiliars:custom_animation_lilAbaddon(lilAbaddon, sprite)
+    if sprite:GetFrame() > 0 then return end
+
+    sewnFamiliars:custom_lilAbaddon_spawnLasersFromSwirl(lilAbaddon)
+end
+function sewnFamiliars:custom_update_lilAbaddon(lilAbaddon)
+    local fData = lilAbaddon:GetData()
+    if lilAbaddon.FireCooldown % lilAbaddonStats[fData.Sewn_upgradeState].SwirlRate == 0 and (sewingMachineMod:isUltra(fData) or sewingMachineMod:isSuper(fData) and lilAbaddon.FireCooldown < 0) then
+        sewnFamiliars:custom_lilAbaddon_spawnSwirl(lilAbaddon)
+    end
+
+    local lasers = Isaac.FindByType(7, 1, -1, false, true)
+    for _, laser in ipairs(lasers) do
+        local lData = laser:GetData()
+        laser = laser:ToLaser()
+
+        if laser.SpawnerType == lilAbaddon.Type and laser.SpawnerVariant == lilAbaddon.Variant and (laser.Position - lilAbaddon.Position):LengthSquared() < 1 then -- lilAbaddon's laser
+            if laser.FrameCount == 0 then
+                laser.CollisionDamage = laser.CollisionDamage * lilAbaddonStats[fData.Sewn_upgradeState].DamageMultiplier
+                laser:SetBlackHpDropChance(lilAbaddonStats[fData.Sewn_upgradeState].BlackHeartChance)
+            end
+        end
+        
+        if lData.Sewn_lilAbaddon_customLaser == true then
+            local laserFadeoutFrame = 5
+            laser = laser:ToLaser()
+            local lData = laser:GetData()
+            -- Custom Timeout because EntityLaser.Timeout is buggy with ring lasers
+            if laser.FrameCount == lData.Sewn_lilAbaddon_timeout - laserFadeoutFrame then
+                laser.Timeout = laserFadeoutFrame
+            end
+        end
+    end
+end
+function sewnFamiliars:custom_lilAbaddon_spawnSwirl(lilAbaddon)
+    local fData = lilAbaddon:GetData()
+    local swirl = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.LIL_ABADDON_BRIMSTONE_SWIRL, 0, lilAbaddon.Position, v0, lilAbaddon)
+    table.insert(fData.Sewn_lilAbaddon_swirls, swirl)
+end
+function sewnFamiliars:custom_lilAbaddon_spawnLasersFromSwirl(lilAbaddon)
+    local fData = lilAbaddon:GetData()
+    
+    for _, swirl in ipairs(fData.Sewn_lilAbaddon_swirls) do
+        sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, swirl.Position, v0, lilAbaddonStats[fData.Sewn_upgradeState].SwirlLaserRadius, lilAbaddonStats[fData.Sewn_upgradeState].SwirlLaserDamage, lilAbaddonStats[fData.Sewn_upgradeState].SwirlLaserTimeout, TearFlags.TEAR_NORMAL, 8)
+        swirl:GetSprite():Play("Death")
+    end
+    fData.Sewn_lilAbaddon_swirls = {}
+end
+function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocity, radius, damage, timeout, tearFlags, size)
+    local fData = lilAbaddon:GetData()
+
+    -- Gives brimstone so the laser is a blood laser
+    local hasBrimstone = true
+    if not lilAbaddon.Player:HasCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE) then
+        lilAbaddon.Player:AddCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE, 0, false)
+        hasBrimstone = false
+    end
+    
+    local laser = lilAbaddon.Player:FireTechXLaser(position, velocity or v0, radius, lilAbaddon, 1)
+    local lData = laser:GetData()
+
+    sewingMachineMod:delayFunction(function()
+        sfx:Stop(SoundEffect.SOUND_BLOOD_LASER_SMALL)
+        sfx:Stop(SoundEffect.SOUND_LASERRING)
+    end, 0)
+
+    lData.Sewn_lilAbaddon_customLaser = true
+    lData.Sewn_lilAbaddon_timeout = timeout
+    laser.CollisionDamage = damage
+    laser.TearFlags = tearFlags
+    laser.Size = size
+    laser:SetColor(CColor(0, 0, 0, 1), -1, 1, true)
+    laser:SetBlackHpDropChance(lilAbaddonStats[fData.Sewn_upgradeState].BlackHeartChance)
+
+    -- Remove Brimstone
+    if hasBrimstone == false then
+        lilAbaddon.Player:RemoveCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE)
+    end
+
+    return laser
 end
 
 sewingMachineMod.errFamiliars.Error()

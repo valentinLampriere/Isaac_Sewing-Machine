@@ -70,6 +70,7 @@ EffectVariant.PULLING_EFFECT_2 = Isaac.GetEntityVariantByName("Pulling Effect 02
 EffectVariant.SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 EffectVariant.HALLOWED_GROUND_PERMANENT_AURA = Isaac.GetEntityVariantByName("Hallowed Ground Permanent Aura")
 EffectVariant.CUBE_BABY_AURA = Isaac.GetEntityVariantByName("Cube Baby Aura")
+EffectVariant.LIL_ABADDON_BRIMSTONE_SWIRL = Isaac.GetEntityVariantByName("Lil Abaddon Brimstone Swirl")
 
 -- Game variables
 local game = Game()
@@ -198,6 +199,7 @@ if REPENTANCE then
         [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
         [FamiliarVariant.TINYTOMA] = {645, sewingMachineMod.sewnFamiliars.upTinytoma},
         [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby},
+        [FamiliarVariant.LIL_ABADDON] = {679, sewingMachineMod.sewnFamiliars.upLilAbaddon},
         [FamiliarVariant.VANISHING_TWIN] = {697, sewingMachineMod.sewnFamiliars.upVanishingTwin}
     }
 
@@ -207,6 +209,7 @@ if REPENTANCE then
 end
 
 __require("sewn_scripts.descriptions")
+__require("sewn_scripts.effects")
 
 ---------------
 -- Syringes! --
@@ -969,59 +972,8 @@ function sewingMachineMod:entitySpawn(type, variant, subtype, pos, vel, spawner,
             end
         end
     end
-
-    -- Burning Farts effect
-    if type == EntityType.ENTITY_EFFECT and variant == EffectVariant.FART and subtype == 75 then
-        for _, npc in pairs(Isaac.FindInRadius(pos, 100, EntityPartition.ENEMY)) do
-            if npc:IsVulnerableEnemy() then
-                local rollTime = math.random(180) + 60
-                npc:TakeDamage(5, DamageFlag.DAMAGE_POISON_BURN, EntityRef(spawner), 5)
-                npc:AddBurn(EntityRef(spawner), rollTime, 3.5)
-            end
-        end
-    end
 end
 
----------------------------
--- MC_POST_EFFECT_UPDATE --
----------------------------
-function sewingMachineMod:effectUpdate(effect)
-    if effect.Variant == EffectVariant.SPIDER_MOD_EGG then
-        local eData = effect:GetData()
-
-        if effect.FrameCount >= 30 * 20 then -- Remove after 20 seconds
-            effect:Remove()
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.TOOTH_PARTICLE, 0, effect.Position, v0, nil)
-        end
-
-        for _, npc in pairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
-            if npc:IsVulnerableEnemy() then
-                if eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] == nil or eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] + 90 < game:GetFrameCount() then
-                    local rollEffect = npc:GetDropRNG():RandomInt(8)
-                    local rollDuration = npc:GetDropRNG():RandomInt(60) + 30
-                    if rollEffect == 0 then
-                        npc:AddPoison(EntityRef(egg), rollDuration, 3.5)
-                    elseif rollEffect == 1 then
-                        npc:AddFreeze(EntityRef(egg), rollDuration)
-                    elseif rollEffect == 2 then
-                        npc:AddSlowing(EntityRef(egg), rollDuration, 1, Color(1,1,1,1,0,0,0))
-                    elseif rollEffect == 3 then
-                        npc:AddCharmed(EntityRef(egg), rollDuration)
-                    elseif rollEffect == 4 then
-                        npc:AddConfusion(EntityRef(egg), rollDuration, false)
-                    elseif rollEffect == 5 then
-                        npc:AddFear(EntityRef(egg), rollDuration)
-                    elseif rollEffect == 6 then
-                        npc:AddBurn(EntityRef(egg), rollDuration, 3.5)
-                    elseif rollEffect == 7 then
-                        npc:AddShrink(EntityRef(egg), rollDuration)
-                    end
-                    eData.Sewn_spidermod_eggColliderCooldown[GetPtrHash(npc)] = game:GetFrameCount()
-                end
-            end
-        end
-    end
-end
 
 ------------------------
 -- MC_ENTITY_TAKE_DMG --
@@ -1536,6 +1488,7 @@ function sewingMachineMod:laserUpdate(laser)
     if laser.SpawnerType == EntityType.ENTITY_FAMILIAR then
         -- INIT
         if laser.FrameCount > 0 and not laser:GetData().Sewn_Init then
+
             local familiar = laser.Parent
             local fData
 
@@ -2089,7 +2042,6 @@ sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_SPAWN_CLEAN_AWARD, sewingMachin
 
 -- Entities related callbacks
 sewingMachineMod:AddCallback(ModCallbacks.MC_PRE_ENTITY_SPAWN, sewingMachineMod.entitySpawn)
-sewingMachineMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, sewingMachineMod.effectUpdate)
 sewingMachineMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, sewingMachineMod.entityTakeDamage)
 
 -- Game related callbacks
