@@ -2289,6 +2289,7 @@ function sewnFamiliars:custom_update_peeper(peeper)
     -- Track Inner Eye
     local hasInnerEye = peeper.Player:HasCollectible(CollectibleType.COLLECTIBLE_INNER_EYE)
     if sewingMachineMod:isUltra(fData) and fData.Sewn_peeper_hasInnerEye ~= hasInnerEye then
+        print("INNER EYE")
         fData.Sewn_peeper_hasInnerEye = hasInnerEye
         peeper.Player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
         peeper.Player:EvaluateItems()
@@ -2296,17 +2297,21 @@ function sewnFamiliars:custom_update_peeper(peeper)
     local center = peeper.Position + peeper.Velocity * 10
     local npcs = Isaac.FindInRadius(center, 50, EntityPartition.ENEMY)
     if #npcs >= 1 then
-        local closerNpc = npcs[1]
+        local closerNpc
         local closerNpcDistance = 999999
         for _, npc in ipairs(npcs) do
-            local npcDistance = (npc.Position - peeper.Position):LengthSquared()
-            if npcDistance < closerNpcDistance then
-                closerNpc = npc
-                closerNpcDistance = npcDistance
+            if npc:IsVulnerableEnemy() then
+                local npcDistance = (npc.Position - peeper.Position):LengthSquared()
+                if npcDistance < closerNpcDistance then
+                    closerNpc = npc
+                    closerNpcDistance = npcDistance
+                end
             end
         end
-        local velocityMagnitude = peeper.Velocity:Length()
-        peeper.Velocity = (peeper.Velocity:Normalized() + (closerNpc.Position - peeper.Position):Normalized() * 0.2):Normalized() * velocityMagnitude
+        if closerNpc ~= nil then
+            local velocityMagnitude = peeper.Velocity:Length()
+            peeper.Velocity = (peeper.Velocity:Normalized() + (closerNpc.Position - peeper.Position):Normalized() * 0.2):Normalized() * velocityMagnitude
+        end
     end
 
     if sewingMachineMod.currentRoom:IsClear() then
@@ -2328,6 +2333,8 @@ function sewnFamiliars:custom_cache_peeper(peeper, cacheFlag)
     local fData = peeper:GetData()
 
     if cacheFlag == CacheFlag.CACHE_FAMILIARS then
+
+        print("EVALUATE FAMILIAR CACHE")
 
         --[[local machines = sewingMachineMod:getAllSewingMachines()
         if machines ~= nil then
@@ -4833,8 +4840,8 @@ end
 
 -- LIL ABADDON
 local lilAbaddonStats = {
-    [sewingMachineMod.UpgradeState.SUPER] = { DamageMultiplier = 1.5, SwirlRate = 60, SwirlLaserDamage = 3, SwirlLaserRadius = 50, SwirlLaserTimeout = 15, BlackHeartChance = 0 },
-    [sewingMachineMod.UpgradeState.ULTRA] = { DamageMultiplier = 1.5, SwirlRate = 50, SwirlLaserDamage = 3.5, SwirlLaserRadius = 75, SwirlLaserTimeout = 20, BlackHeartChance = 0.03 }
+    [sewingMachineMod.UpgradeState.SUPER] = { DamageMultiplier = 1.5, SwirlRate = 60, SwirlLaserDamage = 3, SwirlLaserRadius = 50, SwirlLaserTimeout = 18, BlackHeartChance = 0 },
+    [sewingMachineMod.UpgradeState.ULTRA] = { DamageMultiplier = 1.5, SwirlRate = 50, SwirlLaserDamage = 3.5, SwirlLaserRadius = 75, SwirlLaserTimeout = 25, BlackHeartChance = 0.03 }
 }
 function sewnFamiliars:upLilAbaddon(lilAbaddon)
     local fData = lilAbaddon:GetData()
@@ -4903,7 +4910,8 @@ function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocit
     -- Gives brimstone so the laser is a blood laser
     local hasBrimstone = true
     if not lilAbaddon.Player:HasCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE) then
-        lilAbaddon.Player:AddCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE, 0, false)
+        --lilAbaddon.Player:UseActiveItem(CollectibleType.COLLECTIBLE_SULFUR, UseFlag.USE_NOANIM | UseFlag.USE_NOCOSTUME)
+        --lilAbaddon.Player:AddCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE, 0, false)
         hasBrimstone = false
     end
     
@@ -4917,15 +4925,21 @@ function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocit
 
     lData.Sewn_lilAbaddon_customLaser = true
     lData.Sewn_lilAbaddon_timeout = timeout
+    laser.Variant = 1
+    --laser.SubType = 3
     laser.CollisionDamage = damage
     laser.TearFlags = tearFlags
     laser.Size = size
-    laser:SetColor(CColor(0, 0, 0, 1), -1, 1, true)
+    --laser:SetColor(CColor(0, 0, 0, 1), -1, 1, true)
     laser:SetBlackHpDropChance(lilAbaddonStats[fData.Sewn_upgradeState].BlackHeartChance)
+
+    laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
+    laser:GetSprite():LoadGraphics()
 
     -- Remove Brimstone
     if hasBrimstone == false then
-        lilAbaddon.Player:RemoveCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE)
+        --lilAbaddon.Player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_SULFUR)
+        --lilAbaddon.Player:RemoveCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE)
     end
 
     return laser
