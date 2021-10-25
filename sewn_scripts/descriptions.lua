@@ -500,6 +500,12 @@ function sewingMachineMod:InitFamiliarDescription()
             "Increase chances to spawn a better item (based on Quality)#Can spawn items which came from the Treasure pool if no Boss item are found",
             ConvertRGBToIsaac({221, 197, 175})
         )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.LIL_ABADDON,
+            "{{ArrowUp}} Damage Up#When holding the fire button, spawn every few seconds a swirl, when fire button is release a laser ring is fired by swirls",
+            "Spawn more often swirls#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}",
+            ConvertRGBToIsaac({221, 197, 175})
+        )
     end
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then
         sewingMachineMod:AddDescriptionsForFamiliar(

@@ -4840,8 +4840,8 @@ end
 
 -- LIL ABADDON
 local lilAbaddonStats = {
-    [sewingMachineMod.UpgradeState.SUPER] = { DamageMultiplier = 1.5, SwirlRate = 60, SwirlLaserDamage = 3, SwirlLaserRadius = 50, SwirlLaserTimeout = 18, BlackHeartChance = 0 },
-    [sewingMachineMod.UpgradeState.ULTRA] = { DamageMultiplier = 1.5, SwirlRate = 50, SwirlLaserDamage = 3.5, SwirlLaserRadius = 75, SwirlLaserTimeout = 25, BlackHeartChance = 0.03 }
+    [sewingMachineMod.UpgradeState.SUPER] = { DamageMultiplier = 1.5, SwirlRate = 60, SwirlLaserDamage = 3, SwirlLaserRadius = 50, SwirlLaserTimeout = 18, BlackHeartChance = 0, MaxSwirl = 3 },
+    [sewingMachineMod.UpgradeState.ULTRA] = { DamageMultiplier = 1.5, SwirlRate = 50, SwirlLaserDamage = 3.5, SwirlLaserRadius = 70, SwirlLaserTimeout = 23, BlackHeartChance = 0.03, MaxSwirl = 4 }
 }
 function sewnFamiliars:upLilAbaddon(lilAbaddon)
     local fData = lilAbaddon:GetData()
@@ -4893,6 +4893,12 @@ end
 function sewnFamiliars:custom_lilAbaddon_spawnSwirl(lilAbaddon)
     local fData = lilAbaddon:GetData()
     local swirl = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.LIL_ABADDON_BRIMSTONE_SWIRL, 0, lilAbaddon.Position, v0, lilAbaddon)
+
+    if #fData.Sewn_lilAbaddon_swirls >= lilAbaddonStats[fData.Sewn_upgradeState].MaxSwirl then
+        fData.Sewn_lilAbaddon_swirls[1]:Remove()
+        table.remove(fData.Sewn_lilAbaddon_swirls, 1)
+    end
+
     table.insert(fData.Sewn_lilAbaddon_swirls, swirl)
 end
 function sewnFamiliars:custom_lilAbaddon_spawnLasersFromSwirl(lilAbaddon)
@@ -4906,14 +4912,6 @@ function sewnFamiliars:custom_lilAbaddon_spawnLasersFromSwirl(lilAbaddon)
 end
 function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocity, radius, damage, timeout, tearFlags, size)
     local fData = lilAbaddon:GetData()
-
-    -- Gives brimstone so the laser is a blood laser
-    local hasBrimstone = true
-    if not lilAbaddon.Player:HasCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE) then
-        --lilAbaddon.Player:UseActiveItem(CollectibleType.COLLECTIBLE_SULFUR, UseFlag.USE_NOANIM | UseFlag.USE_NOCOSTUME)
-        --lilAbaddon.Player:AddCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE, 0, false)
-        hasBrimstone = false
-    end
     
     local laser = lilAbaddon.Player:FireTechXLaser(position, velocity or v0, radius, lilAbaddon, 1)
     local lData = laser:GetData()
@@ -4935,12 +4933,6 @@ function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocit
 
     laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
     laser:GetSprite():LoadGraphics()
-
-    -- Remove Brimstone
-    if hasBrimstone == false then
-        --lilAbaddon.Player:GetEffects():RemoveCollectibleEffect(CollectibleType.COLLECTIBLE_SULFUR)
-        --lilAbaddon.Player:RemoveCollectible(CollectibleType.COLLECTIBLE_BRIMSTONE)
-    end
 
     return laser
 end
