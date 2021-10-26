@@ -4861,7 +4861,8 @@ function sewnFamiliars:custom_animation_lilAbaddon(lilAbaddon, sprite)
 end
 function sewnFamiliars:custom_update_lilAbaddon(lilAbaddon)
     local fData = lilAbaddon:GetData()
-    if lilAbaddon.FireCooldown % lilAbaddonStats[fData.Sewn_upgradeState].SwirlRate == 0 and (sewingMachineMod:isUltra(fData) or sewingMachineMod:isSuper(fData) and lilAbaddon.FireCooldown < 0) then
+    print(fData.Sewn_upgradeState)
+    if lilAbaddon.FireCooldown % lilAbaddonStats[sewingMachineMod:getLevel(fData)].SwirlRate == 0 and (sewingMachineMod:isUltra(fData) or sewingMachineMod:isSuper(fData) and lilAbaddon.FireCooldown < 0) then
         sewnFamiliars:custom_lilAbaddon_spawnSwirl(lilAbaddon)
     end
 
@@ -4872,8 +4873,8 @@ function sewnFamiliars:custom_update_lilAbaddon(lilAbaddon)
 
         if laser.SpawnerType == lilAbaddon.Type and laser.SpawnerVariant == lilAbaddon.Variant and (laser.Position - lilAbaddon.Position):LengthSquared() < 1 then -- lilAbaddon's laser
             if laser.FrameCount == 0 then
-                laser.CollisionDamage = laser.CollisionDamage * lilAbaddonStats[fData.Sewn_upgradeState].DamageMultiplier
-                laser:SetBlackHpDropChance(lilAbaddonStats[fData.Sewn_upgradeState].BlackHeartChance)
+                laser.CollisionDamage = laser.CollisionDamage * lilAbaddonStats[sewingMachineMod:getLevel(fData)].DamageMultiplier
+                laser:SetBlackHpDropChance(lilAbaddonStats[sewingMachineMod:getLevel(fData)].BlackHeartChance)
             end
         end
         
@@ -4892,7 +4893,7 @@ function sewnFamiliars:custom_lilAbaddon_spawnSwirl(lilAbaddon)
     local fData = lilAbaddon:GetData()
     local swirl = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.LIL_ABADDON_BRIMSTONE_SWIRL, 0, lilAbaddon.Position, v0, lilAbaddon)
 
-    if #fData.Sewn_lilAbaddon_swirls >= lilAbaddonStats[fData.Sewn_upgradeState].MaxSwirl then
+    if #fData.Sewn_lilAbaddon_swirls >= lilAbaddonStats[sewingMachineMod:getLevel(fData)].MaxSwirl then
         fData.Sewn_lilAbaddon_swirls[1]:Remove()
         table.remove(fData.Sewn_lilAbaddon_swirls, 1)
     end
@@ -4903,7 +4904,7 @@ function sewnFamiliars:custom_lilAbaddon_spawnLasersFromSwirl(lilAbaddon)
     local fData = lilAbaddon:GetData()
     
     for _, swirl in ipairs(fData.Sewn_lilAbaddon_swirls) do
-        sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, swirl.Position, v0, lilAbaddonStats[fData.Sewn_upgradeState].SwirlLaserRadius, lilAbaddonStats[fData.Sewn_upgradeState].SwirlLaserDamage, lilAbaddonStats[fData.Sewn_upgradeState].SwirlLaserTimeout, TearFlags.TEAR_NORMAL, 8)
+        sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, swirl.Position, v0, lilAbaddonStats[sewingMachineMod:getLevel(fData)].SwirlLaserRadius, lilAbaddonStats[sewingMachineMod:getLevel(fData)].SwirlLaserDamage, lilAbaddonStats[sewingMachineMod:getLevel(fData)].SwirlLaserTimeout, TearFlags.TEAR_NORMAL, 8)
         swirl:GetSprite():Play("Death")
     end
     fData.Sewn_lilAbaddon_swirls = {}
@@ -4927,7 +4928,7 @@ function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocit
     laser.TearFlags = tearFlags
     laser.Size = size
     --laser:SetColor(CColor(0, 0, 0, 1), -1, 1, true)
-    laser:SetBlackHpDropChance(lilAbaddonStats[fData.Sewn_upgradeState].BlackHeartChance)
+    laser:SetBlackHpDropChance(lilAbaddonStats[sewingMachineMod:getLevel(fData)].BlackHeartChance)
 
     laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
     laser:GetSprite():LoadGraphics()

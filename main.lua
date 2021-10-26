@@ -474,6 +474,13 @@ function sewingMachineMod:getAllSewingMachines()
     return allSewingMachine
 end
 
+function sewingMachineMod:getLevel(fData)
+    if fData.Sewn_upgradeState_temporary ~= nil then
+        return fData.Sewn_upgradeState_temporary
+    end
+    return fData.Sewn_upgradeState
+end
+
 -- Return true if the given familiar is SUPER, false otherwise
 function sewingMachineMod:isSuper(fData)
     if fData.Sewn_upgradeState_temporary ~= nil then
