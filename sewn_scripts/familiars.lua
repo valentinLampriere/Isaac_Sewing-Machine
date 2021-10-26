@@ -114,6 +114,10 @@ local function CColor(r, g, b, a, ro, go, bo)
     end
 end
 
+local function TEARFLAGS(x)
+    return x >= 64 and BitSet128(0,1<<(x - 64)) or BitSet128(1<<x,0)
+end
+
 ------------------------------------------------------------
 -- Prepare familiars upgrade, stats and custom behaviours --
 ------------------------------------------------------------
@@ -4861,7 +4865,6 @@ function sewnFamiliars:custom_animation_lilAbaddon(lilAbaddon, sprite)
 end
 function sewnFamiliars:custom_update_lilAbaddon(lilAbaddon)
     local fData = lilAbaddon:GetData()
-    print(fData.Sewn_upgradeState)
     if lilAbaddon.FireCooldown % lilAbaddonStats[sewingMachineMod:getLevel(fData)].SwirlRate == 0 and (sewingMachineMod:isUltra(fData) or sewingMachineMod:isSuper(fData) and lilAbaddon.FireCooldown < 0) then
         sewnFamiliars:custom_lilAbaddon_spawnSwirl(lilAbaddon)
     end
@@ -4936,9 +4939,6 @@ function sewnFamiliars:custom_lilAbaddon_fireLaser(lilAbaddon, position, velocit
     return laser
 end
 
-local function TEARFLAGS(x)
-    return x >= 64 and BitSet128(0,1<<(x - 64)) or BitSet128(1<<x,0)
-end
 -- FRUITY PLUM
 local fruityPlumTearEffect = {
     {  },
@@ -4956,83 +4956,25 @@ local fruityPlumTearEffect = {
 function sewnFamiliars:upFruityPlum(fruityPlum)
     local fData = fruityPlum:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        fData.SewnfruityPlum_damage = 0
+        sewnFamiliars:setDamageTearMultiplier(fruityPlum, 1.5)
         sewnFamiliars:customUpdate(fruityPlum, sewnFamiliars.custom_update_fruityPlum)
-        sewnFamiliars:customFireInit(fruityPlum, sewnFamiliars.custom_fireInit_fruityPlum)
-        sewnFamiliars:customHitEnemy(fruityPlum, sewnFamiliars.custom_hitEnemy_fruityPlum)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customFireInit(fruityPlum, sewnFamiliars.custom_fireInit_fruityPlum)
+        end
     end
-end
-function sewnFamiliars:custom_hitEnemy_fruityPlum(fruityPlum, enemy, amount, flags, countdown)
-    local fData = fruityPlum:GetData()
-    fData.SewnfruityPlum_damage = fData.SewnfruityPlum_damage + amount
 end
 function sewnFamiliars:custom_update_fruityPlum(fruityPlum)
     local fData = fruityPlum:GetData()
 
-    if sewingMachineMod:isUltra(fData) and fruityPlum.State == 4 or fruityPlum.State == 6 then
-
-        if fData.Sewn_fruityPlum_targetNpc == nil or not fData.Sewn_fruityPlum_targetNpc:Exists() then
-            fData.Sewn_fruityPlum_targetNpc = sewnFamiliars:getCloserEnemy(fruityPlum.Position, 250)
+    if fData.Sewn_fruityPlum_previousState == 6 and fruityPlum.State ~= 6 then
+        local tears = sewnFamiliars:shootTearsCircular(fruityPlum, 10, TearVariant.BLUE, nil, 4, 3)
+        for _, tear in ipairs(tears) do
+            tear = tear:ToTear()
+            tear.Scale = tear.Scale * 0.7
         end
     end
 
-    if fData.Sewn_fruityPlum_targetNpc ~= nil then
-
-        if fData.Sewn_fruityPlum_targetNpc:IsDead() or not fData.Sewn_fruityPlum_targetNpc:Exists() or fData.Sewn_fruityPlum_targetNpc:IsInvincible() then
-            fData.Sewn_fruityPlum_targetNpc = nil
-        else
-            local direction = (fData.Sewn_fruityPlum_targetNpc.Position - fruityPlum.Position):Normalized()
-            fruityPlum.Velocity = fruityPlum.Velocity + direction * 0.3
-        end
-    end
-
-    if game:GetFrameCount() % 150 == 0 then
-        print(fData.Sewn_upgradeState .. " - " .. fData.SewnfruityPlum_damage)
-    end
-
-    --[[local npcs = Isaac.FindInRadius(fruityPlum.Position, 100, EntityPartition.ENEMY)
-    if #npcs >= 1 then
-        local closerNpc
-        local closerNpcDistance = 999999
-        for _, npc in ipairs(npcs) do
-            if npc:IsVulnerableEnemy() then
-                local npcDistance = (npc.Position - fruityPlum.Position):LengthSquared()
-                if npcDistance < closerNpcDistance then
-                    closerNpc = npc
-                    closerNpcDistance = npcDistance
-                end
-            end
-        end
-        if closerNpc ~= nil then
-            local velocityMagnitude = fruityPlum.Velocity:Length()
-
-
-            local pos = sewnFamiliars:custom_orbitAround(fruityPlum, closerNpc.Position, Vector(50, 50), 0.05)
-            local dest = closerNpc.Position - pos
-
-            fruityPlum.Velocity = (fruityPlum.Velocity + (pos - fruityPlum.Position) * 0.5):Normalized() * velocityMagnitude
-            
-            --peeper.Velocity = (peeper.Velocity:Normalized() + (closerNpc.Position - peeper.Position):Normalized() * 0.2):Normalized() * velocityMagnitude
-        end
-    end--]]
-
-    --[[if fruityPlum.State == 5 then
-        fData.Sewn_fruityPlum_hasFire = true
-    end
-
-    if fData.Sewn_fruityPlum_hasFire == true then
-        fruityPlum.State = 5
-    end
-
-    print(fruityPlum.State)
-    
---]]
-end
-function sewnFamiliars:custom_orbitAround(entity, targetPosition, distance, speed)
-    return Vector(
-        math.cos(entity.FrameCount * speed) * distance.X + targetPosition.X,
-        math.sin(entity.FrameCount * speed) * distance.Y + targetPosition.Y
-    )
+    fData.Sewn_fruityPlum_previousState = fruityPlum.State
 end
 function sewnFamiliars:custom_fireInit_fruityPlum(fruityPlum, tear)
     local rollEffect = fruityPlum:GetDropRNG():RandomInt(#fruityPlumTearEffect) + 1
