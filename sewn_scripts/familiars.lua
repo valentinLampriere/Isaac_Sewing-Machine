@@ -4940,16 +4940,16 @@ local function TEARFLAGS(x)
 end
 -- FRUITY PLUM
 local fruityPlumTearEffect = {
-    --{  },
-    --{ TearFlag = TearFlags.TEAR_POISON, Color = CColor(0.4, 0.97, 0.5, 1, 0, 0, 0) },
-    --{ TearFlag = TearFlags.TEAR_FEAR, CColor(1, 1, 0.455, 1, 43, 37, 0) },
-    --{ TearFlag = TearFlags.TEAR_SHRINK },
+    {  },
+    { TearFlag = TearFlags.TEAR_POISON, Color = CColor(0.4, 0.97, 0.5, 1, 0, 0, 0) },
+    { TearFlag = TearFlags.TEAR_FEAR, CColor(1, 1, 0.455, 1, 43, 37, 0) },
+    { TearFlag = TearFlags.TEAR_SHRINK },
     { TearFlag = TEARFLAGS(65) }, -- ICE
-    --{ TearFlag = TearFlags.TEAR_CHARM, Color = CColor(1, 0, 1, 1, 50, 0, 0) },
-    --{ TearFlag = TearFlags.TEAR_FREEZE, Color = CColor(1.25, 0.05, 0.15, 1, 0, 0, 0) },
-    --{ TearFlag = TearFlags.TEAR_BURN, Color = CColor(1, 1, 1, 1, 76, 0, 0), Function = function(tear) tear:Update() --end },
-    --{ TearFlag = TearFlags.TEAR_HOMING, Color = CColor(0.4, 0.15, 0.38, 1, 71, 0, 116) },
-    --{ TearFlag = TEARFLAGS(67), Color = CColor(0.7, 0.14, 0.1, 1, 76, 0, 0) }, -- BAIT
+    { TearFlag = TearFlags.TEAR_CHARM, Color = CColor(1, 0, 1, 1, 50, 0, 0) },
+    { TearFlag = TearFlags.TEAR_FREEZE, Color = CColor(1.25, 0.05, 0.15, 1, 0, 0, 0) },
+    { TearFlag = TearFlags.TEAR_BURN, Color = CColor(1, 1, 1, 1, 76, 0, 0), Function = function(tear) tear:Update() end },
+    { TearFlag = TearFlags.TEAR_HOMING, Color = CColor(0.4, 0.15, 0.38, 1, 71, 0, 116) },
+    { TearFlag = TEARFLAGS(67), Color = CColor(0.7, 0.14, 0.1, 1, 76, 0, 0) }, -- BAIT
 
 }
 function sewnFamiliars:upFruityPlum(fruityPlum)
