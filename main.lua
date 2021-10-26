@@ -198,6 +198,7 @@ if REPENTANCE then
         [FamiliarVariant.LIL_DUMPY] = {615, sewingMachineMod.sewnFamiliars.upLilDumpy},
         [FamiliarVariant.BOT_FLY] = {629, sewingMachineMod.sewnFamiliars.upBotFly},
         [FamiliarVariant.TINYTOMA] = {645, sewingMachineMod.sewnFamiliars.upTinytoma},
+        [FamiliarVariant.FRUITY_PLUM] = {649, sewingMachineMod.sewnFamiliars.upFruityPlum},
         [FamiliarVariant.CUBE_BABY] = {652, sewingMachineMod.sewnFamiliars.upCubeBaby},
         [FamiliarVariant.LIL_ABADDON] = {679, sewingMachineMod.sewnFamiliars.upLilAbaddon},
         [FamiliarVariant.VANISHING_TWIN] = {697, sewingMachineMod.sewnFamiliars.upVanishingTwin}
