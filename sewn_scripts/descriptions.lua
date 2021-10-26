@@ -504,7 +504,13 @@ function sewingMachineMod:InitFamiliarDescription()
             FamiliarVariant.LIL_ABADDON,
             "{{ArrowUp}} Damage Up#When holding the fire button, spawn every few seconds a swirl, when fire button is release a laser ring is fired by swirls",
             "Spawn more often swirls#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}",
-            ConvertRGBToIsaac({221, 197, 175})
+            ConvertRGBToIsaac({155, 0, 0})
+        )
+        sewingMachineMod:AddDescriptionsForFamiliar(
+            FamiliarVariant.FRUITY_PLUM,
+            "{{ArrowUp}} Damage Up#Home into enemies",
+            "Gain a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack, fire tears in all directions",
+            ConvertRGBToIsaac({181, 127, 216})
         )
     end
     if sewingMachineMod.moddedFamiliar.MARSHMALLOW > -1 then

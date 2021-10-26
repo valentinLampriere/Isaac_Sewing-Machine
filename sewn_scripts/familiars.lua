@@ -4956,7 +4956,7 @@ local fruityPlumTearEffect = {
 function sewnFamiliars:upFruityPlum(fruityPlum)
     local fData = fruityPlum:GetData()
     if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        sewnFamiliars:setDamageTearMultiplier(fruityPlum, 1.5)
+        sewnFamiliars:setDamageTearMultiplier(fruityPlum, 1.33)
         sewnFamiliars:customUpdate(fruityPlum, sewnFamiliars.custom_update_fruityPlum)
         if sewingMachineMod:isUltra(fData) then
             sewnFamiliars:customFireInit(fruityPlum, sewnFamiliars.custom_fireInit_fruityPlum)
@@ -4966,12 +4966,31 @@ end
 function sewnFamiliars:custom_update_fruityPlum(fruityPlum)
     local fData = fruityPlum:GetData()
 
-    if fData.Sewn_fruityPlum_previousState == 6 and fruityPlum.State ~= 6 then
-        local tears = sewnFamiliars:shootTearsCircular(fruityPlum, 10, TearVariant.BLUE, nil, 4, 3)
-        for _, tear in ipairs(tears) do
-            tear = tear:ToTear()
-            tear.Scale = tear.Scale * 0.7
+    if fData.Sewn_fruityPlum_targetNpc == nil then
+        if fruityPlum.State == 4 or fruityPlum.State == 6 then
+            local npc = sewnFamiliars:getCloserEnemy(fruityPlum.Position + fruityPlum.Velocity * 10, 150)
+            fData.Sewn_fruityPlum_targetNpc = npc
         end
+    end
+
+    if fData.Sewn_fruityPlum_targetNpc ~= nil then
+        if not fData.Sewn_fruityPlum_targetNpc:Exists() or fData.Sewn_fruityPlum_targetNpc:IsDead() or fData.Sewn_fruityPlum_targetNpc:IsInvincible() then
+            fData.Sewn_fruityPlum_targetNpc = nil
+        else
+            local direction = (fData.Sewn_fruityPlum_targetNpc.Position - fruityPlum.Position):Normalized()
+            fruityPlum.Velocity = fruityPlum.Velocity + direction * 0.3
+        end
+    end
+
+    if fData.Sewn_fruityPlum_previousState == 6 and fruityPlum.State ~= 6 then
+        if sewingMachineMod:isUltra(fData) then
+            local tears = sewnFamiliars:shootTearsCircular(fruityPlum, 8, TearVariant.BLUE, nil, 4, 3)
+            for _, tear in ipairs(tears) do
+                tear = tear:ToTear()
+                tear.Scale = tear.Scale * 0.7
+            end
+        end
+        fData.Sewn_fruityPlum_targetNpc = nil
     end
 
     fData.Sewn_fruityPlum_previousState = fruityPlum.State
