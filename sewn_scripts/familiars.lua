@@ -2172,49 +2172,92 @@ end
 -----------------------
 -- OTHERS FAMILIARS --
 -----------------------
+local fartingBaby_farts = {
+    function(fartingBaby) game:Fart(fartingBaby.Position, 75, fartingBaby.Player, 1, 0) end,
+    function(fartingBaby) game:CharmFart(fartingBaby.Position, 75, fartingBaby.Player) end,
+    function(fartingBaby) game:ButterBeanFart(fartingBaby.Position, 75, fartingBaby.Player, true) end,
+    function(fartingBaby) Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, v0, fartingBaby) end,
+    function(fartingBaby, index)
+        local fart, roll = sewnFamiliars:custom_fartingBaby_rollFart(fartingBaby)
+        if roll == index then -- prevent recursive
+            fart = sewnFamiliars:custom_fartingBaby_rollFart(fartingBaby, 1)
+        end
 
+        if fartingBaby.Player:HasTrinket(TrinketType.TRINKET_GIANT_BEAN) then
+            fart(fartingBaby)
+            return
+        end
+
+        local trinketID = fartingBaby.Player:GetTrinket(0)
+        if trinketID > 0 then
+            fartingBaby.Player:TryRemoveTrinket(trinketID)
+        end
+        fartingBaby.Player:AddTrinket(TrinketType.TRINKET_GIANT_BEAN, false)
+        
+        fart(fartingBaby)
+        
+        fartingBaby.Player:TryRemoveTrinket(TrinketType.TRINKET_GIANT_BEAN)
+        if trinketID > 0 then
+            fartingBaby.Player:AddTrinket(trinketID, false)
+        end
+    end
+}
+local fartingBaby_stats = {
+    [sewingMachineMod.UpgradeState.SUPER] = { FART_COOLDOWN = 90, FART_BULLET_CHANCE = 50, RADIUS = 75 },
+    [sewingMachineMod.UpgradeState.ULTRA] = { FART_COOLDOWN = 30, FART_BULLET_CHANCE = 75, RADIUS = 125 }
+}
 -- FARTING BABY
 function sewnFamiliars:upFartingBaby(fartingBaby)
     local fData = fartingBaby:GetData()
-    if fartingBaby.Variant == FamiliarVariant.FARTING_BABY then
-        if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-            sewnFamiliars:customUpdate(fartingBaby, sewnFamiliars.custom_update_fartingBaby)
+    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
+        fData.Sewn_fartingBaby_fartCooldown = fartingBaby_stats[sewingMachineMod:getLevel(fData)].FART_COOLDOWN
+        sewnFamiliars:customCollision(fartingBaby, sewnFamiliars.custom_collision_fartingBaby)
+        sewnFamiliars:customUpdate(fartingBaby, sewnFamiliars.custom_update_fartingBaby)
+        if sewingMachineMod:isUltra(fData) then
+            sewnFamiliars:customAnimation(fartingBaby, sewnFamiliars.custom_animation_fartingBaby, "Hit")
         end
+    end
+end
+function sewnFamiliars:custom_collision_fartingBaby(fartingBaby, collider)
+    local fData = fartingBaby:GetData()
+    if collider.Type == EntityType.ENTITY_PROJECTILE then
+        local roll = fartingBaby:GetDropRNG():RandomFloat() * 100
+        if roll < fartingBaby_stats[sewingMachineMod:getLevel(fData)].FART_BULLET_CHANCE then
+            local sprite = fartingBaby:GetSprite()
+            sprite:Play("Hit", false)
+        end
+        collider:Die()
     end
 end
 function sewnFamiliars:custom_update_fartingBaby(fartingBaby)
     local fData = fartingBaby:GetData()
-    if sewingMachineMod.currentRoom:IsClear() then
+
+    if fData.Sewn_fartingBaby_fartCooldown > 0 then
+        fData.Sewn_fartingBaby_fartCooldown = fData.Sewn_fartingBaby_fartCooldown - 1
         return
     end
-    if sewingMachineMod:isSuper(fData) or sewingMachineMod:isUltra(fData) then
-        if fartingBaby.FrameCount < 5 then
-            return
-        end
-        if fData.Sewn_custom_fartingBaby_randomFartCooldown == nil or fData.Sewn_custom_fartingBaby_randomFartCooldown == 0 then
-            local rollMax = 3
-            local minCooldown = 250
-            if sewingMachineMod:isUltra(fData) then
-                minCooldown = 150
-                rollMax = 4
-            end
-            if fData.Sewn_custom_fartingBaby_randomFartCooldown == 0 then
-                local rollFart = fartingBaby:GetDropRNG():RandomInt(rollMax)
-                if rollFart == 0 then
-                    game:Fart(fartingBaby.Position, 75, fartingBaby.Player, 1, 0)
-                elseif rollFart == 1 then
-                    game:CharmFart(fartingBaby.Position, 75, fartingBaby.Player)
-                elseif rollFart == 2 then
-                    game:ButterBeanFart(fartingBaby.Position, 75, fartingBaby.Player, true)
-                elseif rollFart == 3 then
-                    -- Spawn a Burning fart
-                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, 75, fartingBaby.Position, v0, fartingBaby)
-                end
-            end
-            fData.Sewn_custom_fartingBaby_randomFartCooldown = fartingBaby:GetDropRNG():RandomInt(minCooldown * 1.5) + minCooldown
-        else
-            fData.Sewn_custom_fartingBaby_randomFartCooldown = fData.Sewn_custom_fartingBaby_randomFartCooldown - 1
-        end
+
+    if fartingBaby.FrameCount % 4 > 0 then -- Only find enemies every few frames
+        return
+    end
+    local npcs = Isaac.FindInRadius(fartingBaby.Position, fartingBaby_stats[sewingMachineMod:getLevel(fData)].RADIUS, EntityPartition.ENEMY)
+    local roll = fartingBaby:GetDropRNG():RandomFloat() * 100
+    if roll < #npcs then
+        fartingBaby:GetSprite():Play("Hit", true)
+        fData.Sewn_fartingBaby_fartCooldown = fartingBaby_stats[sewingMachineMod:getLevel(fData)].FART_COOLDOWN
+    end
+
+end
+function sewnFamiliars:custom_fartingBaby_rollFart(fartingBaby, forceIndex)
+    local rollFart = forceIndex or fartingBaby:GetDropRNG():RandomInt(#fartingBaby_farts) + 1
+    return fartingBaby_farts[rollFart], rollFart
+end
+function sewnFamiliars:custom_animation_fartingBaby(fartingBaby, sprite)
+    if sprite:GetFrame() == 24 then
+        local fart, roll = sewnFamiliars:custom_fartingBaby_rollFart(fartingBaby)
+        fart(fartingBaby, roll)
+        sewnFamiliars:custom_fartingBaby_makeFamiliarsFart(fartingBaby)
+        sprite:Play("Idle", true) -- Prevent the vanilla Farting Baby to fart
     end
 end
 

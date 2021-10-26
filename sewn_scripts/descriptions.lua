@@ -223,8 +223,8 @@ function sewingMachineMod:InitFamiliarDescription()
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.FARTING_BABY,
-        "Randomly farts",
-        "Farts more often#Can fart \"Burning Fart\"",
+        "Fart way more often when blocking a bullet#Occasionally fart when close to enemies",
+        "Farts more often#Can fart \"Burning Fart\" and giant farts",
         ConvertRGBToIsaac({180, 146, 104})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
