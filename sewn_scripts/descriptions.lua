@@ -111,7 +111,7 @@ function sewingMachineMod:InitFamiliarDescription()
         FamiliarVariant.LITTLE_STEVEN,
         "Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up",
         "Increase chances to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear causing a chain reaction#{{ArrowUp}} Damage Up",
-        ConvertRGBToIsaac({8, 0, 0})
+        ConvertRGBToIsaac({255, 255, 255})
     )
     sewingMachineMod:AddDescriptionsForFamiliar(
         FamiliarVariant.HEADLESS_BABY,
