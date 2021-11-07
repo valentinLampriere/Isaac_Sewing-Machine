@@ -1,4 +1,4 @@
-local SewnMod = RegisterMod("!Sewing machine", 1)
+local SewnMod = RegisterMod("!Sewing machine rework", 1)
 
 Sewn_API = require("sewn_scripts.sewn_api")
 
