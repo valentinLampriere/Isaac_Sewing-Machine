@@ -30,6 +30,8 @@
         "EffectVariant",
         "RoomType",
         "LevelCurse",
-        "EntityRef"
+        "EntityRef",
+        "ProjectileFlags",
+        "ProjectileVariant"
     ]
 }

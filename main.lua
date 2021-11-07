@@ -46,7 +46,6 @@ local PostMachineDestroy = require("sewn_scripts.callbacks.custom.post_machine_d
 SewnMod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PostPeffectUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, PostPlayerInit)
 SewnMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, EvaluateCache)
-SewnMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, EntityTakeDamage.Player, EntityType.ENTITY_PLAYER)
 -- Pickup related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.LilDelirium, CollectibleType.COLLECTIBLE_LIL_DELIRIUM)
@@ -54,6 +53,8 @@ SewnMod:AddCallback(ModCallbacks.MC_USE_CARD, UseCard)
 -- Familiar related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, FamiliarUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, PostFamiliarRender)
+-- Entity related callbacks
+SewnMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, EntityTakeDamage)
 -- Tear.Laser related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, PostTearUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, PostLaserUpdate)
