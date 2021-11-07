@@ -12,12 +12,14 @@ local GetLoseCollectibleHandler = require("sewn_scripts.callbacks.custom.handler
 local GetLoseTrinketHandler = require("sewn_scripts.callbacks.custom.handlers.get_lose_trinket_handler")
 local PreGetFamiliarFromSewingMachineHandler = require("sewn_scripts.callbacks.custom.handlers.pre_get_familiar_from_sewing_machine_handler")
 local PostGetFamiliarFromSewingMachineHandler = require("sewn_scripts.callbacks.custom.handlers.post_get_familiar_from_sewing_machine_handler")
+local FamiliarUpdateHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_update_handler")
 
 
 local postUpdate = { }
 local postTearUpdate = { }
 local postLaserUpdate = { }
 local peffectUpdate = { }
+local familiarUpdate = { }
 
 local customCallbacks = { }
 
@@ -36,6 +38,9 @@ local function InitCallback(callback)
 	end
 	if callback.PeffectUpdate ~= nil then
 		table.insert(peffectUpdate, callback.PeffectUpdate)
+	end
+	if callback.FamiliarUpdate ~= nil then
+		table.insert(familiarUpdate, callback.FamiliarUpdate)
 	end
 
 	customCallbacks[callback["ID"]] = callback
@@ -57,6 +62,7 @@ InitCallback(GetLoseCollectibleHandler)
 InitCallback(GetLoseTrinketHandler)
 InitCallback(PreGetFamiliarFromSewingMachineHandler)
 InitCallback(PostGetFamiliarFromSewingMachineHandler)
+InitCallback(FamiliarUpdateHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -77,6 +83,11 @@ function CustomCallbacksHandler:PostLaserUpdate(laser)
 end
 function CustomCallbacksHandler:PeffectUpdate(player)
 	for _, _function in ipairs(peffectUpdate) do
+		_function(_, player)
+	end
+end
+function CustomCallbacksHandler:FamiliarUpdate(player)
+	for _, _function in ipairs(familiarUpdate) do
 		_function(_, player)
 	end
 end
