@@ -1,6 +1,35 @@
 {
     "Lua.diagnostics.globals": [
         "Vector",
-        "GetPtrHash"
+        "GetPtrHash",
+        "CollectibleType",
+        "EntityType",
+        "Sewn_API",
+        "Isaac",
+        "EntityGridCollisionClass",
+        "Game",
+        "SFXManager",
+        "RNG",
+        "Random",
+        "CacheFlag",
+        "StageAPI",
+        "RegisterMod",
+        "ModCallbacks",
+        "REPENTANCE",
+        "ButtonAction",
+        "Input",
+        "UseFlag",
+        "DamageFlag",
+        "PickupVariant",
+        "CoinSubType",
+        "HeartSubType",
+        "FamiliarVariant",
+        "TearVariant",
+        "TearFlags",
+        "Sprite",
+        "EffectVariant",
+        "RoomType",
+        "LevelCurse",
+        "EntityRef"
     ]
 }
