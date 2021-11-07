@@ -1,6 +1,6 @@
-local SewingMachine = require("sewn_scripts/entities/slot/sewing_machine/sewing_machine")
-local SewingMachineManager = require("sewn_scripts/core/sewing_machine_manager")
-local MachineDataManager = require("sewn_scripts/core/machine_data_manager")
+local SewingMachine = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine")
+local SewingMachineManager = require("sewn_scripts.core.sewing_machine_manager")
+local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 
 
 -- Return true to remove pickups from the machine

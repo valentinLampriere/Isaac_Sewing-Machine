@@ -1,4 +1,4 @@
-local CrackedThimble = require("sewn_scripts/items/trinkets/cracked_thimble")
+local CrackedThimble = require("sewn_scripts.items.trinkets.cracked_thimble")
 
 local EntityTakeDamage = { }
 

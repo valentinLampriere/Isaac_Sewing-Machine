@@ -1,7 +1,7 @@
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
-local Enums = require("sewn_scripts/core/enums")
-local SewingMachine = require("sewn_scripts/entities/slot/sewing_machine/sewing_machine")
-local Delay = require("sewn_scripts/helpers/delay")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local Enums = require("sewn_scripts.core.enums")
+local SewingMachine = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine")
+local Delay = require("sewn_scripts.helpers.delay")
 
 local PinCushion = { }
 

@@ -1,5 +1,5 @@
-local Enums = require("sewn_scripts/core/enums")
-local Random = require("sewn_scripts/helpers/random")
+local Enums = require("sewn_scripts.core.enums")
+local Random = require("sewn_scripts.helpers.random")
 
 local SewingMachine_Shop = { }
 

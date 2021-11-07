@@ -1,5 +1,5 @@
-local Enums = require("sewn_scripts/core/enums")
-local GetPlayerUsingItem = require("sewn_scripts/helpers/get_player_using_item")
+local Enums = require("sewn_scripts.core.enums")
+local GetPlayerUsingItem = require("sewn_scripts.helpers.get_player_using_item")
 
 local SewingCoupon = { }
 

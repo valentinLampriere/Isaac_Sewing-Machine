@@ -1,6 +1,6 @@
-local Globals = require("sewn_scripts/core/globals")
-local SewingMachineManager = require("sewn_scripts/core/sewing_machine_manager")
-local UpgradeManager = require("sewn_scripts/core/upgrade_manager")
+local Globals = require("sewn_scripts.core.globals")
+local SewingMachineManager = require("sewn_scripts.core.sewing_machine_manager")
+local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 local json = require("json")
 
 local SaveManager = { }

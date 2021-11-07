@@ -1,16 +1,16 @@
-local Globals = require("sewn_scripts/core/globals")
-local Enums = require("sewn_scripts/core/enums")
-local Player = require("sewn_scripts/entities/player/player")
-local SewingMachineTypes = require("sewn_scripts/entities/slot/sewing_machine/sewing_machine_types")
-local UpgradeManager = require("sewn_scripts/core/upgrade_manager")
-local MachineDataManager = require("sewn_scripts/core/machine_data_manager")
-local AvailableFamiliarManager = require("sewn_scripts/core/available_familiars_manager")
-local Random = require("sewn_scripts/helpers/random")
-local CustomCallbacksHandler = require("sewn_scripts/callbacks/custom_callbacks_handler")
+local Globals = require("sewn_scripts.core.globals")
+local Enums = require("sewn_scripts.core.enums")
+local Player = require("sewn_scripts.entities.player.player")
+local SewingMachineTypes = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine_types")
+local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
+local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local Random = require("sewn_scripts.helpers.random")
+local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 
 local SewingMachine = { }
 
-SewingMachine.Stats = require("sewn_scripts/entities/slot/sewing_machine/sewing_machine_stats")
+SewingMachine.Stats = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine_stats")
 
 -------------------------------
 -- POST_PLAYER_TOUCH_MACHINE --

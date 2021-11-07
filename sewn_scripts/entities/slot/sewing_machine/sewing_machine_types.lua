@@ -1,9 +1,9 @@
-local SewingMachine_Bedroom = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_bedroom")
-local SewingMachine_Shop = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_shop")
-local SewingMachine_Angel = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_angel")
-local SewingMachine_Devil = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_devil")
+local SewingMachine_Bedroom = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_bedroom")
+local SewingMachine_Shop = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_shop")
+local SewingMachine_Angel = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_angel")
+local SewingMachine_Devil = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_devil")
 
-local Enums = require("sewn_scripts/core/enums")
+local Enums = require("sewn_scripts.core.enums")
 
 local SewingMachineTypes = { }
 local machineTypes = {

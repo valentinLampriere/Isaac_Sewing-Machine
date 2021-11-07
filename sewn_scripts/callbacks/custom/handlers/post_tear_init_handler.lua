@@ -1,6 +1,6 @@
 local PostTearInitHandler = { }
 
-local Enums = require("sewn_scripts/core/enums")
+local Enums = require("sewn_scripts.core.enums")
 
 PostTearInitHandler.ID = Enums.ModCallbacks.POST_TEAR_INIT
 

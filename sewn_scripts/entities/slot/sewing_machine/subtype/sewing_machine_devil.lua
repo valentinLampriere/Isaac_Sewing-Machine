@@ -1,4 +1,4 @@
-local Enums = require("sewn_scripts/core/enums")
+local Enums = require("sewn_scripts.core.enums")
 
 local SewingMachine_Devil = { }
 

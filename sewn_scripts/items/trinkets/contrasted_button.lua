@@ -1,7 +1,7 @@
-local Enums = require("sewn_scripts/core/enums")
-local SewingMachine_Angel = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_angel")
-local SewingMachine_Devil = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_devil")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
+local Enums = require("sewn_scripts.core.enums")
+local SewingMachine_Angel = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_angel")
+local SewingMachine_Devil = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_devil")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 
 local ContrastedButton = { }
 

@@ -1,6 +1,6 @@
-local Enums = require("sewn_scripts/core/enums")
-local Globals = require("sewn_scripts/core/globals")
-local AvailableFamiliarManager = require("sewn_scripts/core/available_familiars_manager")
+local Enums = require("sewn_scripts.core.enums")
+local Globals = require("sewn_scripts.core.globals")
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 
 local Familiar = { }
 
@@ -91,7 +91,6 @@ function Familiar:RenderCrown(familiar)
     if fData.Sewn_Init == nil then return end
 
     local position = GetCrownPosition(familiar)
-    
     if fData.Sewn_crown ~= nil and fData.Sewn_crown_hide ~= true then
         if fData.Sewn_crownPositionOffset ~= nil then
             position = position - fData.Sewn_crownPositionOffset

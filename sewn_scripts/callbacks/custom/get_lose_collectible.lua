@@ -1,4 +1,4 @@
-local Player = require("sewn_scripts/entities/player/player")
+local Player = require("sewn_scripts.entities.player.player")
 
 local GetLoseCollectible = { }
 

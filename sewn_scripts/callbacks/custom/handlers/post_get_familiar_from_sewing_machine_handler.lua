@@ -1,5 +1,5 @@
-local Enums = require("sewn_scripts/core/enums")
-local MachineDataManager = require("sewn_scripts/core/machine_data_manager")
+local Enums = require("sewn_scripts.core.enums")
+local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 
 local PostGetFamiliarFromSewingMachineHandler = { }
 

@@ -1,5 +1,5 @@
-local Globals = require("sewn_scripts/core/globals")
-local Delay = require("sewn_scripts/helpers/delay")
+local Globals = require("sewn_scripts.core.globals")
+local Delay = require("sewn_scripts.helpers.delay")
 
 local LittleGish = { }
 

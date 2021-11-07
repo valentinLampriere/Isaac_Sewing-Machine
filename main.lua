@@ -1,46 +1,46 @@
-local SewnMod = RegisterMod("!Sewing machine rework", 1)
+local SewnMod = RegisterMod("!Sewing machine", 1)
 
-Sewn_API = require("sewn_scripts/sewn_api")
+Sewn_API = require("sewn_scripts.sewn_api")
 
-local Enums = require("sewn_scripts/core/enums")
-local Globals = require("sewn_scripts/core/globals")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
-local CustomCallbacksHandler = require("sewn_scripts/callbacks/custom_callbacks_handler")
+local Enums = require("sewn_scripts.core.enums")
+local Globals = require("sewn_scripts.core.globals")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 
-require("sewn_scripts/helpers/embeddablecallbackhack")
-require("sewn_scripts/helpers/apioverride")
+require("sewn_scripts.helpers.embeddablecallbackhack")
+require("sewn_scripts.helpers.apioverride")
 
-local SaveManager = require("sewn_scripts/core/save_manager")
+local SaveManager = require("sewn_scripts.core.save_manager")
 SaveManager:Init(SewnMod)
 
 -- Player related callbacks
-local PostPeffectUpdate = require("sewn_scripts/callbacks/vanilla/post_peffect_update")
-local EvaluateCache = require("sewn_scripts/callbacks/vanilla/evaluate_cache")
-local PostPlayerInit = require("sewn_scripts/callbacks/vanilla/post_player_init")
+local PostPeffectUpdate = require("sewn_scripts.callbacks.vanilla.post_peffect_update")
+local EvaluateCache = require("sewn_scripts.callbacks.vanilla.evaluate_cache")
+local PostPlayerInit = require("sewn_scripts.callbacks.vanilla.post_player_init")
 -- Entity related callbacks
-local EntityTakeDamage = require("sewn_scripts/callbacks/vanilla/entity_take_damage")
+local EntityTakeDamage = require("sewn_scripts.callbacks.vanilla.entity_take_damage")
 -- Pickup related callbacks
-local UseItem = require("sewn_scripts/callbacks/vanilla/use_item")
-local GetLoseCollectible = require("sewn_scripts/callbacks/custom/get_lose_collectible")
-local UseCard = require("sewn_scripts/callbacks/vanilla/use_card")
+local UseItem = require("sewn_scripts.callbacks.vanilla.use_item")
+local GetLoseCollectible = require("sewn_scripts.callbacks.custom.get_lose_collectible")
+local UseCard = require("sewn_scripts.callbacks.vanilla.use_card")
 -- Familiar related callbacks
-local FamiliarUpdate = require("sewn_scripts/callbacks/vanilla/familiar_update")
-local PostFamiliarRender = require("sewn_scripts/callbacks/vanilla/post_familiar_render")
--- Tear/Laser related callbacks
-local PostTearUpdate = require("sewn_scripts/callbacks/vanilla/post_tear_update")
-local PostLaserUpdate = require("sewn_scripts/callbacks/vanilla/post_laser_update")
+local FamiliarUpdate = require("sewn_scripts.callbacks.vanilla.familiar_update")
+local PostFamiliarRender = require("sewn_scripts.callbacks.vanilla.post_familiar_render")
+-- Tear.Laser related callbacks
+local PostTearUpdate = require("sewn_scripts.callbacks.vanilla.post_tear_update")
+local PostLaserUpdate = require("sewn_scripts.callbacks.vanilla.post_laser_update")
 -- Level related callbacks
-local PostNewRoom = require("sewn_scripts/callbacks/vanilla/post_new_room")
-local PostNewLevel = require("sewn_scripts/callbacks/vanilla/post_new_level")
-local PreSpawnCleanAward = require("sewn_scripts/callbacks/vanilla/pre_spawn_clean_award")
+local PostNewRoom = require("sewn_scripts.callbacks.vanilla.post_new_room")
+local PostNewLevel = require("sewn_scripts.callbacks.vanilla.post_new_level")
+local PreSpawnCleanAward = require("sewn_scripts.callbacks.vanilla.pre_spawn_clean_award")
 -- Game related callbacks
-local PostUpdate = require("sewn_scripts/callbacks/vanilla/post_update")
-local PreGameExit = require("sewn_scripts/callbacks/vanilla/pre_game_exit")
-local PostGameStarted = require("sewn_scripts/callbacks/vanilla/post_game_started")
+local PostUpdate = require("sewn_scripts.callbacks.vanilla.post_update")
+local PreGameExit = require("sewn_scripts.callbacks.vanilla.pre_game_exit")
+local PostGameStarted = require("sewn_scripts.callbacks.vanilla.post_game_started")
 -- Sewing Machine related callbacks
-local PostMachineUpdate = require("sewn_scripts/callbacks/custom/post_machine_update")
-local PostPlayerTouchMachine = require("sewn_scripts/callbacks/custom/post_player_touch_machine")
-local PostMachineDestroy = require("sewn_scripts/callbacks/custom/post_machine_destroy")
+local PostMachineUpdate = require("sewn_scripts.callbacks.custom.post_machine_update")
+local PostPlayerTouchMachine = require("sewn_scripts.callbacks.custom.post_player_touch_machine")
+local PostMachineDestroy = require("sewn_scripts.callbacks.custom.post_machine_destroy")
 
 -- Player related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, PostPeffectUpdate)
@@ -48,13 +48,13 @@ SewnMod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, PostPlayerInit)
 SewnMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, EvaluateCache)
 SewnMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, EntityTakeDamage.Player, EntityType.ENTITY_PLAYER)
 -- Pickup related callbacks
-SewnMod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem.UseSewingBox, Enums.CollectibleType.COLLECTIBLE_SEWING_BOX)
+SewnMod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.LilDelirium, CollectibleType.COLLECTIBLE_LIL_DELIRIUM)
 SewnMod:AddCallback(ModCallbacks.MC_USE_CARD, UseCard)
 -- Familiar related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, FamiliarUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, PostFamiliarRender)
--- Tear/Laser related callbacks
+-- Tear.Laser related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, PostTearUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_POST_LASER_UPDATE, PostLaserUpdate)
 -- Level related callbacks
@@ -71,5 +71,5 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_PLAYER_TOUCH_MACHINE, PostPl
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachineDestroy, Enums.SlotMachineVariant.SEWING_MACHINE)
 
 
-require("sewn_scripts/entities/familiar/upgrades/prepare_vanilla_familiars")
-require("sewn_scripts/items/new_trinkets")
+require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
+require("sewn_scripts.items.new_trinkets")

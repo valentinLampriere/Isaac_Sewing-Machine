@@ -1,6 +1,6 @@
-local Enums = require("sewn_scripts/core/enums")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
-local MachineDataManager = require("sewn_scripts/core/machine_data_manager")
+local Enums = require("sewn_scripts.core.enums")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 
 local Thimble = { }
 

@@ -1,6 +1,6 @@
-local Enums = require("sewn_scripts/core/enums")
-local GetPlayerUsingItem = require("sewn_scripts/helpers/get_player_using_item")
-local UpgradeManager = require("sewn_scripts/core/upgrade_manager")
+local Enums = require("sewn_scripts.core.enums")
+local GetPlayerUsingItem = require("sewn_scripts.helpers.get_player_using_item")
+local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 
 local StitchingCard = { }
 

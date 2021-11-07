@@ -1,8 +1,8 @@
 local UpgradeManager = { }
 
-local Enums = require("sewn_scripts/core/enums")
-local Globals = require("sewn_scripts/core/globals")
-local AvailableFamiliarManager = require("sewn_scripts/core/available_familiars_manager")
+local Enums = require("sewn_scripts.core.enums")
+local Globals = require("sewn_scripts.core.globals")
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 
 UpgradeManager.FamiliarsData = { }
 

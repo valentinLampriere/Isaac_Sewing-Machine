@@ -1,6 +1,6 @@
 local PostLaserInitHandler = { }
 
-local Enums = require("sewn_scripts/core/enums")
+local Enums = require("sewn_scripts.core.enums")
 
 PostLaserInitHandler.ID = Enums.ModCallbacks.POST_LASER_INIT
 

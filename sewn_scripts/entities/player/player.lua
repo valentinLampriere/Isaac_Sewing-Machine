@@ -1,6 +1,6 @@
-local Globals = require("sewn_scripts/core/globals")
-local AvailableFamiliarManager = require("sewn_scripts/core/available_familiars_manager")
-local Familiar = require("sewn_scripts/entities/familiar/familiar")
+local Globals = require("sewn_scripts.core.globals")
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
 local Player = { }
 

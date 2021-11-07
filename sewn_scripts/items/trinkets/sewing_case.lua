@@ -1,7 +1,7 @@
-local Globals = require("sewn_scripts/core/globals")
-local Enums = require("sewn_scripts/core/enums")
-local Random = require("sewn_scripts/helpers/random")
-local Familiar = require("sewn_scripts/entities/familiar/familiar")
+local Globals = require("sewn_scripts.core.globals")
+local Enums = require("sewn_scripts.core.enums")
+local Random = require("sewn_scripts.helpers.random")
+local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
 local SewingCase = { }
 

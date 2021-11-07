@@ -1,5 +1,5 @@
-local Enums = require("sewn_scripts/core/enums")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
+local Enums = require("sewn_scripts.core.enums")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 
 local PostMachineDestroyHandler = { }
 

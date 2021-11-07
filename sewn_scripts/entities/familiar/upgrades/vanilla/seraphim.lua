@@ -1,4 +1,4 @@
-local Random = require("sewn_scripts/helpers/random")
+local Random = require("sewn_scripts.helpers.random")
 
 local Seraphim = { }
 

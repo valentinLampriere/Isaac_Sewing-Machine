@@ -1,9 +1,9 @@
-local Enums = require("sewn_scripts/core/enums")
-local Globals = require("sewn_scripts/core/globals")
-local SewingMachineTypes = require("sewn_scripts/entities/slot/sewing_machine/sewing_machine_types")
-local MachineDataManager = require("sewn_scripts/core/machine_data_manager")
-local SewingMachine = require("sewn_scripts/entities/slot/sewing_machine/sewing_machine")
-local Random = require("sewn_scripts/helpers/random")
+local Enums = require("sewn_scripts.core.enums")
+local Globals = require("sewn_scripts.core.globals")
+local SewingMachineTypes = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine_types")
+local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
+local SewingMachine = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine")
+local Random = require("sewn_scripts.helpers.random")
 
 local SewingMachineManager = { }
 
@@ -135,8 +135,6 @@ function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
 
     if position == nil then
         position = Globals.Room:FindFreePickupSpawnPosition(Globals.Room:GetGridPosition(27), 0, true)
-    else
-        position = Globals.Room:FindFreePickupSpawnPosition(position, 0, true)
     end
 
     if machineSubType == nil then

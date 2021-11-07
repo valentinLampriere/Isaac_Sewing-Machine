@@ -1,8 +1,8 @@
 local Sewn_API = { }
 
-local Enums = require("sewn_scripts/core/enums")
-local AvailableFamiliarManager = require("sewn_scripts/core/available_familiars_manager")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
+local Enums = require("sewn_scripts.core.enums")
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 
 Sewn_API.Enums = Enums
 

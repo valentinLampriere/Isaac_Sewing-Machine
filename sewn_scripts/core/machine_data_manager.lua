@@ -1,4 +1,4 @@
-local Globals = require("sewn_scripts/core/globals")
+local Globals = require("sewn_scripts.core.globals")
 
 local MachineDataManager = { }
 

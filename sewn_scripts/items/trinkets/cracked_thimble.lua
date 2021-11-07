@@ -1,6 +1,6 @@
-local UpgradeManager = require("sewn_scripts/core/upgrade_manager")
-local Enums = require("sewn_scripts/core/enums")
-local Random = require("sewn_scripts/helpers/random")
+local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
+local Enums = require("sewn_scripts.core.enums")
+local Random = require("sewn_scripts.helpers.random")
 
 local CrackedThimble = { }
 

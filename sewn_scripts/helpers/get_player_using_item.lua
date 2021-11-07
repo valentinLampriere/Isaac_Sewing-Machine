@@ -1,4 +1,4 @@
-local Globals = require("sewn_scripts/core/globals")
+local Globals = require("sewn_scripts.core.globals")
 
 local GetPlayerUsingItem = function(_)
     local player = Isaac.GetPlayer(0)

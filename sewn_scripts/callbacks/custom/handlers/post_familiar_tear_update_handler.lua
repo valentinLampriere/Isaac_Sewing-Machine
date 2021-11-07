@@ -1,5 +1,5 @@
-local Enums = require("sewn_scripts/core/enums")
-local CallbackFamiliarArgument = require("sewn_scripts/helpers/callback_familiar_argument")
+local Enums = require("sewn_scripts.core.enums")
+local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PostFamiliarTearUpdateHandler = { }
 PostFamiliarTearUpdateHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }

@@ -25,7 +25,7 @@ function AvailableFamiliarManager:IsFamiliarAvailable(familiarVariant)
     return availableFamiliars[familiarVariant] ~= nil
 end
 function AvailableFamiliarManager:GetFamiliarSprite(familiarVariant)
-    local default = "gfx/items/collectibles/questionmark.png"
+    local default = "gfx.items.collectibles.questionmark.png"
     if availableFamiliars[familiarVariant] ~= nil then
         return availableFamiliars[familiarVariant].Sprite or default
     end

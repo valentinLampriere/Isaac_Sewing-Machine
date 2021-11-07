@@ -1,6 +1,6 @@
-local Enums = require("sewn_scripts/core/enums")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
-local CallbackFamiliarArgument = require("sewn_scripts/helpers/callback_familiar_argument")
+local Enums = require("sewn_scripts.core.enums")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PostFamiliarFireTearHandler = { }
 PostFamiliarFireTearHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }

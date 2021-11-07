@@ -1,6 +1,6 @@
-local Enums = require("sewn_scripts/core/enums")
-local SewingMachine_Shop = require("sewn_scripts/entities/slot/sewing_machine/subtype/sewing_machine_shop")
-local CustomCallbacks = require("sewn_scripts/callbacks/custom_callbacks")
+local Enums = require("sewn_scripts.core.enums")
+local SewingMachine_Shop = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_shop")
+local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 
 local LostButton = { }
 
