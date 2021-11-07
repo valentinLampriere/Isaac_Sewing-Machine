@@ -207,9 +207,9 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
         --]]
         SewingMachineTypes:Pay(mData.Sewn_player, machine.SubType)
         --sewingMachineMod:payCost(machine, mData.Sewn_player)
-    end
 
-    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine)
+        CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine)
+    end
 
     -- Reset the machine data to nil
     mData.Sewn_currentFamiliarLevel = nil

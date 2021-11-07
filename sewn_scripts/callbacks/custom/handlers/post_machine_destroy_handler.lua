@@ -31,7 +31,10 @@ local function OnMachineUpdate(_, machine)
         if callback.Argument == -1 or machine.Variant == callback.Argument[1] then
             local asploded = machine.GridCollisionClass == EntityGridCollisionClass.GRIDCOLL_GROUND
             if asploded then
-                shouldRemoveRewards = callback:Function(machine)
+                local _shouldRemoveRewards = callback:Function(machine)
+                if _shouldRemoveRewards ~= nil then
+                    shouldRemoveRewards = _shouldRemoveRewards
+                end
                 _mData.Sewn_isMachineBroken = true
             end
         end

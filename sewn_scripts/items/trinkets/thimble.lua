@@ -1,4 +1,5 @@
 local Enums = require("sewn_scripts.core.enums")
+local Globals = require("sewn_scripts.core.globals")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 
@@ -45,6 +46,17 @@ function Thimble:GetFamiliarFromSewingMachine(machine, player, familiar)
 end
 
 function Thimble:OnSewingMachineDestroy(machine)
+    local playerHasThimble = false
+
+    for i = 1, Globals.game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        if player:HasTrinket(Enums.TrinketType.TRINKET_THIMBLE) then
+            playerHasThimble = true
+        end
+    end
+    if playerHasThimble == false then
+        return
+    end
     local mData = MachineDataManager:GetMachineData(machine)
     if mData.Sewn_sewingMachineBroken == true then
         return false
