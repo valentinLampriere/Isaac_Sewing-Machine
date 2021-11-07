@@ -2,8 +2,24 @@ local HarlequinBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HARLEQUIN_BABY, CollectibleType.COLLECTIBLE_HARLEQUIN_BABY)
 
+HarlequinBaby.Stats = {
+    DamageBonus = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.5
+    },
+    TearScale = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.25
+    }
+}
+
 local isFirstTear = true
 function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
+    local fData = familiar:GetData()
+
+    tear.CollisionDamage = tear.CollisionDamage * HarlequinBaby.Stats.DamageBonus[Sewn_API:GetLevel(fData)]
+    tear.Scale = tear.Scale * HarlequinBaby.Stats.TearScale[Sewn_API:GetLevel(fData)]
+
     local velocity
     if isFirstTear then
         velocity = tear.Velocity:Rotated(10)
