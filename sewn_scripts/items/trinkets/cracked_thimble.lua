@@ -5,7 +5,7 @@ local Random = require("sewn_scripts.helpers.random")
 local CrackedThimble = { }
 
 CrackedThimble.Stats = {
-    TriggerChance = 100
+    TriggerChance = 75
 }
 
 function CrackedThimble:OnPlayerTakeDamage(player, flags, source)

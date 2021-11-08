@@ -5,14 +5,14 @@ local EIDManager = { }
 
 local isEidLoaded = false
 
-function EIDManager:SetEIDFor(entity, name, description)
+function EIDManager:SetEIDForEntity(entity, name, description)
     local data = entity:GetData()
     data.EID_Description = {
         Name = name,
         Description = description
     }
 end
-function EIDManager:ResetEIDFor(entity)
+function EIDManager:ResetEIDForEntity(entity)
     local data = entity:GetData()
     data.EID_Description = nil
 end

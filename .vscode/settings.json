@@ -38,6 +38,8 @@
         "Direction",
         "KColor",
         "EID",
-        "EntityCollisionClass"
+        "EntityCollisionClass",
+        "TrinketType",
+        "Card"
     ]
 }
