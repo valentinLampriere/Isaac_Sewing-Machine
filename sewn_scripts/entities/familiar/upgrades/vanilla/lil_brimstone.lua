@@ -2,9 +2,15 @@ local LilBrimstone = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_BRIMSTONE, CollectibleType.COLLECTIBLE_LIL_BRIMSTONE)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_BRIMSTONE,
+    "{{ArrowUp}} Damage Up",
+    "{{ArrowUp}} Damage Up#Laser last longer"
+)
+
 LilBrimstone.Stats = {
     DamageBonus = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.33,
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.4,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.5,
     },
     LaserTimeout = {

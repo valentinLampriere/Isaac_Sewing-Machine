@@ -35,6 +35,8 @@
         "ProjectileVariant",
         "EntityPartition",
         "EntityFlag",
-        "Direction"
+        "Direction",
+        "KColor",
+        "EID"
     ]
 }

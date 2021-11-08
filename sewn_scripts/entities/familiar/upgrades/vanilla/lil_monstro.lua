@@ -4,6 +4,12 @@ local LilMonstro = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_MONSTRO, CollectibleType.COLLECTIBLE_LIL_MONSTRO)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_MONSTRO,
+    "Have a chance to fire a tooth#Tooth deal 3.2 normal damage",
+    "Fire way more tears"
+)
+
 LilMonstro.Stats = {
     ToothChance = 15,
     AdditionalTearChance = 40,

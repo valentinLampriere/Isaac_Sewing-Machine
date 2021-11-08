@@ -4,6 +4,12 @@ local RoboBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROBO_BABY, CollectibleType.COLLECTIBLE_ROBO_BABY)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ROBO_BABY,
+    "{{ArrowUp}} Tears Up",
+    "{{ArrowUp}} Tears Up"
+)
+
 local stats = {
     [Enums.FamiliarLevel.SUPER] = 7,
     [Enums.FamiliarLevel.ULTRA] = 14,

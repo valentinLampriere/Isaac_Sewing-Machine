@@ -3,6 +3,7 @@ local Sewn_API = { }
 local Enums = require("sewn_scripts.core.enums")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
 
 Sewn_API.Enums = Enums
 
@@ -42,12 +43,10 @@ function Sewn_API:GetLevel(fData)
     return fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
 end
 
-function Sewn_API:MakeFamiliarAvailable(familiarVariant, collectibleID_or_spritePath)
-    AvailableFamiliarManager:TryMakeFamiliarAvailable(familiarVariant, collectibleID_or_spritePath)
-end
-function Sewn_API:AddCallback(callbackId, _function, ...)
-    local args = {...}
-    CustomCallbacks:AddCallback(callbackId, _function, table.unpack(args))
-end
+Sewn_API.MakeFamiliarAvailable = AvailableFamiliarManager.TryMakeFamiliarAvailable
+
+Sewn_API.AddFamiliarDescription = FamiliarDescription.AddDescriptionsForFamiliar
+
+Sewn_API.AddCallback = CustomCallbacks.AddCallback
 
 return Sewn_API

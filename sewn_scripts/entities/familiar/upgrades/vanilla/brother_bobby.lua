@@ -2,6 +2,12 @@ local BrotherBobby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BROTHER_BOBBY, CollectibleType.COLLECTIBLE_BROTHER_BOBBY)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BROTHER_BOBBY,
+    "{{ArrowUp}} Tears Up",
+    "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up"
+)
+
 BrotherBobby.Stats = {
     TearRateBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 5,

@@ -2,6 +2,12 @@ local HarlequinBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HARLEQUIN_BABY, CollectibleType.COLLECTIBLE_HARLEQUIN_BABY)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GHOST_BABY,
+    "Fire an additional shot on each sides",
+    "{{ArrowUp}} Damage Up"
+)
+
 HarlequinBaby.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,

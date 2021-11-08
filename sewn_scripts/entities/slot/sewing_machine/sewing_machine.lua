@@ -7,6 +7,7 @@ local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local Random = require("sewn_scripts.helpers.random")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
+local SewingMachineDescription = require("sewn_scripts.mod_compat.eid.sewing_machine_description")
 
 local SewingMachine = { }
 
@@ -137,6 +138,8 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
     end
     
     choosenFamiliar:Remove()
+
+    SewingMachineDescription:SetMachineDescription(machine)
     --local allFamiliarsForChoosenVariant = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, choosenFamiliar.Variant, -1, false, false)
     --player:CheckFamiliar(choosenFamiliar.Variant, #allFamiliarsForChoosenVariant - 1, machine:GetDropRNG())
 end
@@ -223,6 +226,8 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     --end
     --sewingMachineMod:updateSewingMachineDescription(machine)
     TryBreakMachine(machine, isUpgrade)
+
+    SewingMachineDescription:ResetMachineDescription(machine)
 end
 
 return SewingMachine

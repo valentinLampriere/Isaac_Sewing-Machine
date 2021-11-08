@@ -4,6 +4,12 @@ local DemonBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLECTIBLE_DEMON_BABY)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEMON_BABY,
+    "Fire automatically through walls",
+    "{{ArrowUp}} Higher Range#{{ArrowUp}} Tears Up"
+)
+
 DemonBaby.Stats = {
     Range = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 150,
@@ -37,7 +43,7 @@ local function FireAtNpc(familiar, npc)
 
     if familiar.FireCooldown == 0 then
         local npcPositionOffset = npc.Position + npc.Velocity * 5
-        local velo = (npcPositionOffset:Normalized() - familiar.Position)
+        local velo = (npcPositionOffset - familiar.Position)
         velo = velo:Normalized() * 8
         local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, familiar.Position, velo, familiar):ToTear()
         newTear.CollisionDamage = 3
@@ -71,7 +77,7 @@ local function FireAtNpc(familiar, npc)
     end
 end
 
-function DemonBaby:OnFamiliarUpdateFireTear(familiar)
+function DemonBaby:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
     
     -- Removing tears from Demon Baby
@@ -95,4 +101,4 @@ function DemonBaby:OnFamiliarUpdateFireTear(familiar)
     end
 end
 
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, DemonBaby.OnFamiliarUpdateFireTear, FamiliarVariant.DEMON_BABY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, DemonBaby.OnFamiliarUpdate, FamiliarVariant.DEMON_BABY)

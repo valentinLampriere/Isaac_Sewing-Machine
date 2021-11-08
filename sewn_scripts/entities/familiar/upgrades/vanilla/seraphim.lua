@@ -2,6 +2,14 @@ local Random = require("sewn_scripts.helpers.random")
 
 local Seraphim = { }
 
+Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SERAPHIM, CollectibleType.COLLECTIBLE_SERAPHIM)
+
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SERAPHIM,
+    "Have a chance to fire Holy Tears",
+    "Higher chance to fire Holy Tears#{{ArrowUp}} Tears Up"
+)
+
 Seraphim.Stats = {
     TearRateBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
@@ -12,7 +20,6 @@ Seraphim.Stats = {
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 15
     }
 }
-Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SERAPHIM, CollectibleType.COLLECTIBLE_SERAPHIM)
 
 function Seraphim:OnFireTear(familiar, tear)
     local fData = familiar:GetData()

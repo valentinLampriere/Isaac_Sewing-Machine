@@ -4,8 +4,14 @@ local LittleSteven = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_STEVEN, CollectibleType.COLLECTIBLE_LITTLE_STEVEN)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_STEVEN,
+    "Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up",
+    "Increase chances to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear causing a chain reaction#{{ArrowUp}} Damage Up"
+)
+
 local littleStevenBulletPatterns = {
-    { AmountOfBullet = 8, Offset = 3, Damage = 5, Scale = 2 }, -- Steven
+    { AmountOfBullet = 8, Offset = 2.5, Damage = 5, Scale = 2 }, -- Steven
     { Velocity = 7, AmountOfBullet = 8 } -- Baby Steven
 }
 
@@ -44,10 +50,10 @@ local function LittleSteven_fireBullets(littleSteven, enemy, pattern)
     local fData = littleSteven:GetData()
     pattern = pattern or littleStevenBulletPatterns[littleSteven:GetDropRNG():RandomInt(#littleStevenBulletPatterns) + 1]
     for i = 1, pattern.AmountOfBullet or 8 do
-        local offset = pattern.Offset or 1
+        local offset = pattern.Offset or 1.5
         local velocity = Vector(pattern.Velocity or 5, pattern.Velocity or 5)
         velocity = velocity:Rotated((360 / pattern.AmountOfBullet) * i)
-        local position = enemy.Position + velocity * (enemy.Size * 0.1) * offset
+        local position = enemy.Position + velocity * (enemy.Size * 0.15) * offset
         local bullet = Isaac.Spawn(EntityType.ENTITY_PROJECTILE, ProjectileVariant.PROJECTILE_FCUK, 0, position, velocity, littleSteven):ToProjectile()
         bullet:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES | ProjectileFlags.CANT_HIT_PLAYER)
         bullet.Damage = pattern.Damage or 3.5

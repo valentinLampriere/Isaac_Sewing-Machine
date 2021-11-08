@@ -4,6 +4,12 @@ local LilLoki = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_LOKI, CollectibleType.COLLECTIBLE_LIL_LOKI)
 
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_LOKI,
+    "Fire in 8 directions",
+    "{{ArrowUp}} Damage Up"
+)
+
 LilLoki.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
