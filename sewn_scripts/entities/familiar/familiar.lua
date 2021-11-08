@@ -1,6 +1,7 @@
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 
 local Familiar = { }
 
@@ -52,7 +53,12 @@ function Familiar:TryInitFamiliar(familiar)
         fData.Sewn_Init = true
     end
 end
-
+function Familiar:Up(familiar, newLevel)
+    local fData = familiar:GetData()
+    fData.Sewn_crown = nil
+    fData.Sewn_upgradeLevel = newLevel
+    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, newLevel)
+end
 function Familiar:Update(familiar)
     local fData = familiar:GetData()
     if fData.Sewn_crown == nil and fData.Sewn_Init == true then

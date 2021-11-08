@@ -3,13 +3,13 @@ local Delay = { }
 local delayFunctions = { }
 
 --ripairs stuff from revel
-function ripairs_it(t,i)
+local function ripairs_it(t,i)
     i=i-1
     local v=t[i]
     if v==nil then return v end
     return i,v
 end
-function ripairs(t)
+local function ripairs(t)
     return ripairs_it, t, #t+1
 end
 

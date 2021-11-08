@@ -23,6 +23,9 @@ Enums.ModCallbacks = {
     FAMILIAR_UPDATE = 12,
     FAMILIAR_HIT_NPC = 13,
     FAMILIAR_KILL_NPC = 14,
+    POST_FAMILIAR_PLAY_ANIM = 15,
+    POST_FAMILIAR_NEW_ROOM = 16,
+    ON_FAMILIAR_UPGRADED = 17
 }
 
 Enums.FamiliarLevel = {

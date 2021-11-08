@@ -3,6 +3,7 @@ local UpgradeManager = { }
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
 UpgradeManager.FamiliarsData = { }
 
@@ -121,11 +122,10 @@ function UpgradeManager:CheckForChanges()
                 local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
                 if (fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade ~= true then
-                    fData.Sewn_upgradeLevel = familiarData.Upgrade
-                    fData.Sewn_crown = nil
                     -- Change familiar's data to prepare stats upgrade
                     --sewingMachineMod:callFamiliarUpgrade(familiar)
                     familiarData.Entity = familiar
+                    Familiar:Up(familiar, familiarData.Upgrade)
                     break
                 end
             end
@@ -133,13 +133,11 @@ function UpgradeManager:CheckForChanges()
             local fData = familiarData.Entity:GetData()
             if fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade then
                 -- Change familiar's data to prepare stats upgrade
-                fData.Sewn_crown = nil
-                fData.Sewn_upgradeLevel = familiarData.Upgrade
+                Familiar:Up(familiarData.Entity, familiarData.Upgrade)
                 --sewingMachineMod:callFamiliarUpgrade(familiarData.Entity)
             elseif fData.Sewn_upgradeLevel > familiarData.Upgrade then
                 --sewingMachineMod:resetFamiliarData(familiarData.Entity)
-                fData.Sewn_crown = nil
-                fData.Sewn_upgradeLevel = familiarData.Upgrade
+                Familiar:Up(familiarData.Entity, familiarData.Upgrade)
             end
         end
     end

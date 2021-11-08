@@ -15,7 +15,9 @@ local PostGetFamiliarFromSewingMachineHandler = require("sewn_scripts.callbacks.
 local FamiliarUpdateHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_update_handler")
 local FamiliarHitNpcHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_hit_npc_handler")
 local FamiliarKillNpcHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_kill_npc_handler")
-
+local PostFamiliarPlayAnimHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_play_anim_handler")
+local PostFamiliarNewRoomHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_new_room_handler")
+local OnFamiliarUpgradedHandler = require("sewn_scripts.callbacks.custom.handlers.on_familiar_upgraded_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -23,6 +25,7 @@ local postLaserUpdate = { }
 local peffectUpdate = { }
 local familiarUpdate = { }
 local entityTakeDamage = { }
+local postNewRoom = { }
 
 local customCallbacks = { }
 
@@ -48,6 +51,9 @@ local function InitCallback(callback)
 	if callback.EntityTakeDamage ~= nil then
 		table.insert(entityTakeDamage, callback.EntityTakeDamage)
 	end
+	if callback.PostNewRoom ~= nil then
+		table.insert(postNewRoom, callback.PostNewRoom)
+	end
 
 	customCallbacks[callback["ID"]] = callback
 
@@ -71,6 +77,10 @@ InitCallback(PostGetFamiliarFromSewingMachineHandler)
 InitCallback(FamiliarUpdateHandler)
 InitCallback(FamiliarHitNpcHandler)
 InitCallback(FamiliarKillNpcHandler)
+InitCallback(PostFamiliarPlayAnimHandler)
+InitCallback(PostFamiliarNewRoomHandler)
+InitCallback(OnFamiliarUpgradedHandler)
+
 
 local CustomCallbacksHandler = { }
 
@@ -102,6 +112,11 @@ end
 function CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
 	for _, _function in ipairs(entityTakeDamage) do
 		_function(_, entity, amount, flags, source, countdown)
+	end
+end
+function CustomCallbacksHandler:PostNewRoom()
+	for _, _function in ipairs(postNewRoom) do
+		_function(_)
 	end
 end
 

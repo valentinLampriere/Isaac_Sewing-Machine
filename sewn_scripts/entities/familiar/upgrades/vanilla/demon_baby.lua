@@ -1,3 +1,5 @@
+local FindCloserNpc = require("sewn_scripts.helpers.find_closer_npc")
+
 local DemonBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLECTIBLE_DEMON_BABY)
@@ -82,20 +84,8 @@ function DemonBaby:OnFamiliarUpdateFireTear(familiar)
             end
         end
     end
-    local closestNpc = nil
-    local closestNpc_distanceSqrt = 999999
-
-    local npcs = Isaac.FindInRadius(familiar.Position, DemonBaby.Stats.Range[Sewn_API:GetLevel(fData)], EntityPartition.ENEMY)
-    for _, npc in pairs(npcs) do
-        if npc:IsVulnerableEnemy() and not npc:HasEntityFlags(EntityFlag.FLAG_FRIENDLY) then
-            local _distanceSqrt = (npc.Position - familiar.Position):LengthSquared()
-            if _distanceSqrt < closestNpc_distanceSqrt then
-                closestNpc_distanceSqrt = _distanceSqrt
-                closestNpc = npc
-            end
-        end
-    end
-
+    local closestNpc = FindCloserNpc(familiar.Position, DemonBaby.Stats.Range[Sewn_API:GetLevel(fData)])
+    
     if closestNpc ~= nil then
         FireAtNpc(familiar, closestNpc)
     end
