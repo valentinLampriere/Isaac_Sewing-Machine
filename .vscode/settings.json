@@ -32,6 +32,9 @@
         "LevelCurse",
         "EntityRef",
         "ProjectileFlags",
-        "ProjectileVariant"
+        "ProjectileVariant",
+        "EntityPartition",
+        "EntityFlag",
+        "Direction"
     ]
 }
