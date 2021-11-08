@@ -37,6 +37,7 @@
         "EntityFlag",
         "Direction",
         "KColor",
-        "EID"
+        "EID",
+        "EntityCollisionClass"
     ]
 }

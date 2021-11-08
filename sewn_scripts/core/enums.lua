@@ -80,4 +80,20 @@ Enums.SlotMachineVariant = {
 }
 
 
+Enums.LaserVariant = {
+    LASER_BRIMSTONE = 1,
+    LASER_TECHNOLOGY = 2,
+    LASER_SHOOP_DA_WHOOP = 3,
+    LASER_PRIDE = 4,
+    LASER_LIGHT = 5,
+    LASER_MEGA_SATAN = 6,
+    LASER_TRACTOR_BEAM = 7,
+    LASER_BRIMTECH = 9,
+    LASER_ELECTRIC = 10,
+    LASER_BRIMSTONE_THICK = 11,
+    LASER_MONTEZUMA = 12,
+    LASER_BEAST = 13
+}
+
+
 return Enums
