@@ -11,12 +11,12 @@ Sewn_API:AddFamiliarDescription(
 )
 
 local stats = {
-    [Enums.FamiliarLevel.SUPER] = 7,
-    [Enums.FamiliarLevel.ULTRA] = 14,
+    [Enums.FamiliarLevel.SUPER] = 6,
+    [Enums.FamiliarLevel.ULTRA] = 11,
 }
 local stats_ab = {
-    [Enums.FamiliarLevel.SUPER] = 10,
-    [Enums.FamiliarLevel.ULTRA] = 20,
+    [Enums.FamiliarLevel.SUPER] = 8,
+    [Enums.FamiliarLevel.ULTRA] = 15,
 }
 function RoboBaby:OnFamiliarFireLaser(familiar, laser)
     local fData = familiar:GetData()

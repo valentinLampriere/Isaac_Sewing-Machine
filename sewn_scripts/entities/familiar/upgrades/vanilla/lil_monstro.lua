@@ -12,7 +12,7 @@ Sewn_API:AddFamiliarDescription(
 
 LilMonstro.Stats = {
     ToothChance = 15,
-    AdditionalTearChance = 40,
+    AdditionalTearChance = 25,
 }
 
 function LilMonstro:OnFamiliarFireTear_Ultra(familiar, tear)
