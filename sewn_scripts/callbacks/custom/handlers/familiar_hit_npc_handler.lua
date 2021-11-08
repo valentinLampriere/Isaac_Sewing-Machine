@@ -22,7 +22,7 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
         sourceFamiliar = sourceFamiliar:ToFamiliar()
         for _, callback in ipairs(FamiliarHitNpcHandler.RegisteredCallbacks) do
             if CallbackFamiliarArgument:Check(sourceFamiliar, callback.Argument[1], callback.Argument[2]) then
-                callback:Function(sourceFamiliar, entity, amount, flags)
+                callback:Function(sourceFamiliar, entity, amount, flags, source, countdown)
             end
         end
     end
