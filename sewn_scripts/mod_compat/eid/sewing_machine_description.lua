@@ -14,10 +14,12 @@ end
 
 function SewingMachineDescription:SetMachineDescription(machine)
     local mData = MachineDataManager:GetMachineData(machine)
-    local decription = SewingMachineDescription:GetMachineDescription(machine)
-    EIDManager:SetEIDForEntity(machine, decription.Name, decription.Description)
-    
-    mData.EID_Description = decription
+    local description = SewingMachineDescription:GetMachineDescription(machine)
+
+    if description ~= nil then
+        EIDManager:SetEIDForEntity(machine, description.Name, description.Description)
+    end
+    mData.EID_Description = description
 end
 function SewingMachineDescription:ResetMachineDescription(machine)
     EIDManager:ResetEIDForEntity(machine)

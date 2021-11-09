@@ -10,7 +10,7 @@ end
 
 function CustomCallbacks:AddCallback(callbackId, _function, ...)
 	local args = {...}
-	
+
 	if registeredCallbacks[callbackId] == nil then
 		return
 	end
