@@ -153,15 +153,9 @@ function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
 end
 
 function SewingMachineManager:TryToSpawnMachineOnRoomClear()
-    local sewingMachineTypes = SewingMachineTypes:GetSewingMachineTypes()
-    for subType, machineType in pairs(sewingMachineTypes) do
-        for _, roomType in ipairs(machineType.Room_Types) do
-            if Globals.Room:GetType() == roomType then
-                if machineType.NewRoomSpawnCondition == nil or machineType:NewRoomSpawnCondition() then
-                    SewingMachineManager:Spawn(nil, true, machineType.SubType)
-                end
-            end
-        end
+    local sewingMachineType = GetSewingMachineTypeForCurrentRoom()
+    if sewingMachineType ~= nil then
+        SewingMachineManager:Spawn(nil, sewingMachineType.PlayAppearAnimOnNewRoom, sewingMachineType.SubType)
     end
 end
 

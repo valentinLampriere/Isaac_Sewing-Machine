@@ -11,7 +11,7 @@ function SewingMachine_Angel:CanPay(player)
     return true
 end
 function SewingMachine_Angel:Pay(player)
-    
+
 end
 
 return SewingMachine_Angel
