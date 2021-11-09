@@ -24,30 +24,6 @@ function Familiar:TryInitFamiliar(familiar)
     if not fData.Sewn_Init and familiar.FrameCount > 0 then
         local player = familiar.Player
 
-        --[[if sewingMachineMod:isAvailable(familiar.Variant) then
-            if not sewingMachineMod:isUltra(fData) or fData.Sewn_upgradeLevel == nil then
-                -- Set the familiar as an available familiar (available for the Sewing machine)
-                if familiar:GetData().Sewn_noUpgrade ~= true then
-                    
-                    -- Add the familiar to the "Temporary Familiars" table
-                    temporaryFamiliars[GetPtrHash(familiar)] = familiar
-                end
-            end
-        end--]]
-        --[[if fData.Sewn_upgradeLevel == nil and sewingMachineMod:isAvailable(familiar.Variant) then
-            local hasDollsHead = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
-            local hasDollsBody = player:HasCollectible(CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
-            if hasDollsHead and not hasDollsBody or not hasDollsHead and hasDollsBody then
-                fData.Sewn_upgradeLevel = sewingMachineMod.UpgradeState.SUPER
-                sewingMachineMod:callFamiliarUpgrade(familiar)
-            elseif hasDollsHead and hasDollsBody then
-                fData.Sewn_upgradeLevel = sewingMachineMod.UpgradeState.ULTRA
-                sewingMachineMod:callFamiliarUpgrade(familiar)
-            else
-                fData.Sewn_upgradeLevel = sewingMachineMod.UpgradeState.NORMAL
-            end
-        end--]]
-
         fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
 
         local hasTaintedHead = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
