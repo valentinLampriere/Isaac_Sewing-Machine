@@ -42,7 +42,9 @@ Enums.FamiliarLevelFlag = {
 }
 
 Enums.CollectibleType = {
-    COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box")
+    COLLECTIBLE_SEWING_BOX = Isaac.GetItemIdByName("Sewing Box"),
+    COLLECTIBLE_DOLL_S_TAINTED_HEAD = Isaac.GetItemIdByName("Doll's Tainted Head"),
+    COLLECTIBLE_DOLL_S_PURE_BODY = Isaac.GetItemIdByName("Doll's Pure Body")
 }
 Enums.TrinketType = {
     TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble"),
@@ -96,5 +98,10 @@ Enums.LaserVariant = {
     LASER_BEAST = 13
 }
 
+Enums.FamiliarVariant = {
+    DOLL_S_PURE_BODY = Isaac.GetEntityVariantByName("Doll's Pure Body"),
+    DOLL_S_TAINTED_HEAD = Isaac.GetEntityVariantByName("Doll's Tainted Head"),
+    SEWN_DOLL = Isaac.GetEntityVariantByName("Sewn Doll")
+}
 
 return Enums

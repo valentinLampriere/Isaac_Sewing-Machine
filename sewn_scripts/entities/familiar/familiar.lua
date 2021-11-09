@@ -2,6 +2,7 @@ local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
+local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 
 local Familiar = { }
 
@@ -48,7 +49,15 @@ function Familiar:TryInitFamiliar(familiar)
         end--]]
 
         fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
-        
+
+        local hasTaintedHead = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
+        local hasPureBody = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
+        if hasTaintedHead and hasPureBody then
+            UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.ULTRA)
+        elseif hasTaintedHead or hasPureBody then
+            UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.SUPER)
+        end
+
         fData.Sewn_crown = nil
         fData.Sewn_Init = true
     end

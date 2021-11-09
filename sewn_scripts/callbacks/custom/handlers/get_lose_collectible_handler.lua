@@ -10,7 +10,7 @@ function GetLoseCollectible:PeffectUpdate(player)
     local pData = player:GetData()
     for _, callback in ipairs(GetLoseCollectible.RegisteredCallbacks) do
         if callback.Argument[1] ~= nil then
-            local collectibleNum = player:GetCollectibleNum(CollectibleType.COLLECTIBLE_LIL_DELIRIUM)
+            local collectibleNum = player:GetCollectibleNum(callback.Argument[1])
 
             if pData.Sewn_items[callback.Argument[1]] ~= collectibleNum then
                 if pData.Sewn_items[callback.Argument[1]] == nil then

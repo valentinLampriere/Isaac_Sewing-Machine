@@ -3,7 +3,7 @@ local UpgradeManager = { }
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
-local Familiar = require("sewn_scripts.entities.familiar.familiar")
+local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 
 UpgradeManager.FamiliarsData = { }
 
@@ -35,12 +35,9 @@ end
 
 function UpgradeManager:SaveUpgrades()
     local familiarsSave = { }
-    for _, familiarData in pairs(UpgradeManager.FamiliarsData) do
+    for _, familiarData in ipairs(UpgradeManager.FamiliarsData) do
         table.insert(familiarsSave, familiarData)
     end
-
-
-
     return familiarsSave
 end
 function UpgradeManager:LoadUpgrades(loadedData)
@@ -97,6 +94,10 @@ function UpgradeManager:TryUpgrade(variant, currentLevel, playerIndex, newLevel,
         return
     end
 
+    if not AvailableFamiliarManager:IsFamiliarAvailable(variant) then
+        return
+    end
+
     -- Prevent from upgrading above ULTRA
     if newLevel >= Enums.FamiliarLevel.ULTRA then
         newLevel = Enums.FamiliarLevel.ULTRA
@@ -105,6 +106,13 @@ function UpgradeManager:TryUpgrade(variant, currentLevel, playerIndex, newLevel,
     local _fData = UpgradeManager:FindFamiliarData(variant, currentLevel, playerIndex, _table)
 
     return UpgradeManager:AddOrUpdateFamiliarData(_fData, newLevel, variant, playerIndex, _table)
+end
+
+local function UpFamiliar(familiar, newLevel)
+    local fData = familiar:GetData()
+    fData.Sewn_crown = nil
+    fData.Sewn_upgradeLevel = newLevel
+    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, newLevel)
 end
 
 
@@ -125,7 +133,7 @@ function UpgradeManager:CheckForChanges()
                     -- Change familiar's data to prepare stats upgrade
                     --sewingMachineMod:callFamiliarUpgrade(familiar)
                     familiarData.Entity = familiar
-                    Familiar:Up(familiar, familiarData.Upgrade)
+                    UpFamiliar(familiar, familiarData.Upgrade)
                     break
                 end
             end
@@ -133,11 +141,11 @@ function UpgradeManager:CheckForChanges()
             local fData = familiarData.Entity:GetData()
             if fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade then
                 -- Change familiar's data to prepare stats upgrade
-                Familiar:Up(familiarData.Entity, familiarData.Upgrade)
+                UpFamiliar(familiarData.Entity, familiarData.Upgrade)
                 --sewingMachineMod:callFamiliarUpgrade(familiarData.Entity)
             elseif fData.Sewn_upgradeLevel > familiarData.Upgrade then
                 --sewingMachineMod:resetFamiliarData(familiarData.Entity)
-                Familiar:Up(familiarData.Entity, familiarData.Upgrade)
+                UpFamiliar(familiarData.Entity, familiarData.Upgrade)
             end
         end
     end
