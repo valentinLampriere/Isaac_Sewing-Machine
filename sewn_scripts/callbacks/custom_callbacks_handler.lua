@@ -19,6 +19,7 @@ local PostFamiliarPlayAnimHandler = require("sewn_scripts.callbacks.custom.handl
 local PostFamiliarNewRoomHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_new_room_handler")
 local OnFamiliarUpgradedHandler = require("sewn_scripts.callbacks.custom.handlers.on_familiar_upgraded_handler")
 local PostFamiliarNewLevelHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_new_level_handler")
+local PreFamiliarTearCollision = require("sewn_scripts.callbacks.custom.handlers.pre_familiar_tear_collision")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -28,6 +29,7 @@ local familiarUpdate = { }
 local entityTakeDamage = { }
 local postNewRoom = { }
 local postNewLevel = { }
+local preTearCollision = { }
 
 local customCallbacks = { }
 
@@ -59,6 +61,9 @@ local function InitCallback(callback)
 	if callback.PostNewLevel ~= nil then
 		table.insert(postNewLevel, callback.PostNewLevel)
 	end
+	if callback.PreTearCollision ~= nil then
+		table.insert(preTearCollision, callback.PreTearCollision)
+	end
 
 	customCallbacks[callback["ID"]] = callback
 
@@ -86,6 +91,7 @@ InitCallback(PostFamiliarPlayAnimHandler)
 InitCallback(PostFamiliarNewRoomHandler)
 InitCallback(OnFamiliarUpgradedHandler)
 InitCallback(PostFamiliarNewLevelHandler)
+InitCallback(PreFamiliarTearCollision)
 
 
 local CustomCallbacksHandler = { }
@@ -128,6 +134,14 @@ end
 function CustomCallbacksHandler:PostNewLevel()
 	for _, _function in ipairs(postNewLevel) do
 		_function(_)
+	end
+end
+function CustomCallbacksHandler:PreTearCollision(tear, collider)
+	for _, _function in ipairs(preTearCollision) do
+		local ignoreCollision = _function(_, tear, collider)
+		if ignoreCollision ~= nil then
+			return ignoreCollision
+		end
 	end
 end
 

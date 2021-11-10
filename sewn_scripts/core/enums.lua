@@ -27,6 +27,7 @@ Enums.ModCallbacks = {
     POST_FAMILIAR_NEW_ROOM = 16,
     ON_FAMILIAR_UPGRADED = 17,
     POST_FAMILIAR_NEW_LEVEL = 18,
+    PRE_FAMILIAR_TEAR_COLLISION = 19,
 }
 
 Enums.FamiliarLevel = {

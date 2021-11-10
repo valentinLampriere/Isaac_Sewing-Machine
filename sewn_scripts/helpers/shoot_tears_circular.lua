@@ -1,4 +1,4 @@
-local function ShootTearsCircular(familiar, amountTears, tearVariant, position, velocity, dmg, flags, hasRandomOffset, notFireFromFamiliar)
+local function ShootTearsCircular(familiar, amountTears, tearVariant, position, velocity, dmg, flags, notFireFromFamiliar)
     local tearFired = {}
     local spawnerTear = familiar
     tearVariant = tearVariant or TearVariant.BLUE
@@ -7,7 +7,7 @@ local function ShootTearsCircular(familiar, amountTears, tearVariant, position, 
     if notFireFromFamiliar == true then
         spawnerTear = nil
     end
-    local tearOffset = hasRandomOffset and math.random(360) or 0
+    local tearOffset = math.random(360) or 0
     for i = 1, amountTears do
         local velo = Vector(velocity, velocity)
         velo = velo:Rotated((360 / amountTears) * i + tearOffset)
