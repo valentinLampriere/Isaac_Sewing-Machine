@@ -8,8 +8,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_ABADDON, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_ABADDON,
-    "Spawn red creep#Creep rate and damage depends on the amount of half heart removed",
-    "When it stab, spawns random red hearts"
+    "{{ArrowUp}} Damage Up#When holding the fire button, spawn every few seconds a swirl, when fire button is release a laser ring is fired by swirls",
+    "Spawn more often swirls#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}"
 )
 
 LilAbaddon.Stats = {
@@ -23,7 +23,7 @@ LilAbaddon.Stats = {
     },
     BackHeartDropChance = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.03
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.025
     },
     LaserDamageMultiplier = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.5,
