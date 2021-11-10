@@ -14,12 +14,12 @@ Sewn_API:AddFamiliarDescription(
 BoiledBaby.Stats = {
     AdditionalTearsMin = 1,
     AdditionalTearsMax = 6,
-    BaseTearsDamage = 3.5,
+    BaseTearsDamage = 3,
     BigTearsChance = 30,
     BigTearsDamage = 6.25,
     BigTearsSizeMultiplier = 1.11,
-    FireTearCooldownMin = 1,
-    FireTearCooldownMax = 8,
+    FireTearCooldownMin = 5,
+    FireTearCooldownMax = 30,
 }
 
 local function GetDirectionPlayerFire(familiar, strength, randomStrength, familiarVelocityInfluenceStrength)
@@ -72,7 +72,7 @@ function BoiledBaby:OnFamiliarUpdate(familiar)
     end
 end
 
-function BoiledBaby:OnFamiliarUpgraded_Ultra(familiar)
+function BoiledBaby:OnFamiliarUpgraded_Ultra(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_boiledBaby_tearsCooldown = 0
 end

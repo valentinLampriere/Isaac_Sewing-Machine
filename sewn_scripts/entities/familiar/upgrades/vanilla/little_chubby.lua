@@ -15,7 +15,7 @@ function LittleChubby:OnFamiliarUpdate(familiar)
         familiar.FireCooldown = 15
     end
 end
-function LittleChubby:OnFamiliarUpgraded_Ultra(familiar)
+function LittleChubby:OnFamiliarUpgraded_Ultra(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_littleChubby_stickCooldown = 0
     fData.Sewn_littleChubby_lastStickCooldown = 0

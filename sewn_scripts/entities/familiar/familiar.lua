@@ -38,12 +38,6 @@ function Familiar:TryInitFamiliar(familiar)
         fData.Sewn_Init = true
     end
 end
-function Familiar:Up(familiar, newLevel)
-    local fData = familiar:GetData()
-    fData.Sewn_crown = nil
-    fData.Sewn_upgradeLevel = newLevel
-    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, newLevel)
-end
 function Familiar:Update(familiar)
     local fData = familiar:GetData()
     if fData.Sewn_crown == nil and fData.Sewn_Init == true then
@@ -117,7 +111,9 @@ function Familiar:TemporaryUpgrade(familiar)
         else
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel_temporary + 1
         end
-        --sewingMachineMod:callFamiliarUpgrade(familiar)
+        
+        CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, false)
+
         fData.Sewn_crown = nil
     end
 end

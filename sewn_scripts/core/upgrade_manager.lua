@@ -112,7 +112,7 @@ local function UpFamiliar(familiar, newLevel)
     local fData = familiar:GetData()
     fData.Sewn_crown = nil
     fData.Sewn_upgradeLevel = newLevel
-    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, newLevel)
+    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, true)
 end
 
 

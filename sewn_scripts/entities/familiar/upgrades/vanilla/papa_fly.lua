@@ -102,7 +102,7 @@ function PapaFly:OnPlayAnim(familiar, sprite)
     end
 end
 
-function PapaFly:OnUpgraded(familiar, newLevel)
+function PapaFly:OnUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_papaFly_nuggetPooterTracker = { }
 end

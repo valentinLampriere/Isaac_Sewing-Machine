@@ -44,7 +44,7 @@ function FreezerBaby:OnFamiliarKillNpc_Ultra(familiar, npc)
     fData.Sewn_freezerBaby_deadNpcs[GetPtrHash(npc)] = true
 end
 
-function FreezerBaby:OnFamiliarNewRoom_Ultra(familiar)
+function FreezerBaby:OnFamiliarNewRoom_Ultra(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_freezerBaby_deadNpcs = { }
 end

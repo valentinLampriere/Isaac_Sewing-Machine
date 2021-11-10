@@ -22,7 +22,7 @@ BloodOath.Stats = {
 }
 
 
-function BloodOath:OnFamiliarUpgraded(familiar, level)
+function BloodOath:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_bloodOath_creepCooldown = BloodOath.Stats.CreepCooldownDefaultMin
     fData.Sewn_bloodOath_playerRemovedHealth = 0
