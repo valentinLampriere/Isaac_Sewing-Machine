@@ -5,7 +5,7 @@ local Player = require("sewn_scripts.entities.player.player")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 
 local function MC_POST_NEW_LEVEL(_)
-    Globals.Level = Globals.game:GetLevel()
+    Globals.Level = Globals.Game:GetLevel()
 
     MachineDataManager:ResetMachinesData()
 

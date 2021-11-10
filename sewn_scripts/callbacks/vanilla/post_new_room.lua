@@ -6,7 +6,7 @@ local SewingCase = require("sewn_scripts.items.trinkets.sewing_case")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 
 local function MC_POST_NEW_ROOM(_)
-    Globals.Room = Globals.game:GetRoom()
+    Globals.Room = Globals.Game:GetRoom()
     SewingMachineManager:OnNewRoom()
     Delay:OnNewRoom()
     UpgradeManager:ResetTemporaryUpgrades()

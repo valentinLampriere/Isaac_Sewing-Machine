@@ -79,7 +79,7 @@ function SewingMachine:BreakMachine(machine)
 end
 
 local function GetFamiliarSprite(familiarVariant)
-    local curse = Globals.game:GetLevel():GetCurses()
+    local curse = Globals.Game:GetLevel():GetCurses()
     if curse == LevelCurse.CURSE_OF_BLIND then
         return AvailableFamiliarManager:GetFamiliarSprite(-1)
     end

@@ -48,7 +48,7 @@ end
 function Thimble:OnSewingMachineDestroy(machine)
     local playerHasThimble = false
 
-    for i = 1, Globals.game:GetNumPlayers() do
+    for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         if player:HasTrinket(Enums.TrinketType.TRINKET_THIMBLE) then
             playerHasThimble = true

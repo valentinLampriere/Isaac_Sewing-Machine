@@ -70,14 +70,14 @@ end
 function SewingMachineManager:RepairMachine(machine)
     local mData = MachineDataManager:GetMachineData(machine)
 
-    local gridPosition = Globals.game:GetRoom():GetGridPosition(Globals.game:GetRoom():GetGridIndex(machine.Position))
+    local gridPosition = Globals.Game:GetRoom():GetGridPosition(Globals.Game:GetRoom():GetGridIndex(machine.Position))
 
     local newMachine = SewingMachineManager:Spawn(gridPosition, false, machine.SubType)
 
     local new_mData = MachineDataManager:GetMachineData(newMachine)
     new_mData = mData
 
-    for i = 1, Globals.game:GetNumPlayers() do
+    for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         local pData = player:GetData()
         if pData.Sewn_familiarsInMachine ~= nil then

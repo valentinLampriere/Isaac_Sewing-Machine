@@ -105,4 +105,8 @@ Enums.FamiliarVariant = {
     SEWN_DOLL = Isaac.GetEntityVariantByName("Sewn Doll")
 }
 
+Enums.EffectVariant = {
+    LIL_ABADDON_BRIMSTONE_SWIRL = Isaac.GetEntityVariantByName("Lil Abaddon Brimstone Swirl")
+}
+
 return Enums

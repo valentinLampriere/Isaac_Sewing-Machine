@@ -42,6 +42,7 @@
         "TrinketType",
         "Card",
         "BitSet128",
-        "ItemPoolType"
+        "ItemPoolType",
+        "SoundEffect"
     ]
 }

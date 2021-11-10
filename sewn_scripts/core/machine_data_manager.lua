@@ -39,7 +39,7 @@ function MachineDataManager:LoadMachineData(loadedData)
         machineData[tonumber(machineId)] = {}
         for key, value in pairs(machineValues) do
             if key == "Sewn_player" then
-                for i = 1, Globals.game:GetNumPlayers() do
+                for i = 1, Globals.Game:GetNumPlayers() do
                     local player = Isaac.GetPlayer(i - 1)
                     if player:GetName() == value then
                         machineData[tonumber(machineId)][key] = player

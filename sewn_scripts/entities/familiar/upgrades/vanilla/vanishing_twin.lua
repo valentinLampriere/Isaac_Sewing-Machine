@@ -20,14 +20,14 @@ VanishingTwin.Stats = {
 }
 
 local function CheckItem(familiar, item)
-    local itemPool = Globals.game:GetItemPool()
+    local itemPool = Globals.Game:GetItemPool()
     local itemConfig = Isaac.GetItemConfig()
 
     local roll = Random:Roll(familiar:GetDropRNG())
 
     local currentItem = item.SubType
     local rollQuality = 1
-    local pool = itemPool:GetPoolForRoom(Globals.Room:GetType(), Globals.game:GetSeeds():GetStartSeed())
+    local pool = itemPool:GetPoolForRoom(Globals.Room:GetType(), Globals.Game:GetSeeds():GetStartSeed())
 
     local attempt = 0
     local bestItemFound = currentItem

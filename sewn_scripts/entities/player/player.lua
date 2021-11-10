@@ -59,7 +59,7 @@ function Player:ResetFamiliarsInMachine(player)
     player:EvaluateItems()
 end
 function Player:ResetFamiliarsInMachineForPlayers()
-    for i = 1, Globals.game:GetNumPlayers() do
+    for i = 1, Globals.Game:GetNumPlayers() do
         Player:ResetFamiliarsInMachine(Isaac.GetPlayer(i - 1))
     end
 end

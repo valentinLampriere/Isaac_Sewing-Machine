@@ -12,7 +12,7 @@ end
 
 local function SavePlayers()
     local playersSave = { }
-    for i = 1, Globals.game:GetNumPlayers() do
+    for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         local pData = player:GetData()
         playersSave[i] = { }
@@ -37,7 +37,7 @@ function SaveManager:SaveGame()
 end
 
 local function LoadPlayers(loadedData)
-    for i = 1, Globals.game:GetNumPlayers() do
+    for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         local pData = player:GetData()
         pData.Sewn_familiarsInMachine = {}

@@ -2,8 +2,8 @@ local Globals = { }
 
 Globals.V0 = Vector(0, 0)
 
-Globals.game = Game()
-Globals.sound = SFXManager()
+Globals.Game = Game()
+Globals.SFX = SFXManager()
 Globals.rng = RNG()
 Globals.rng:SetSeed(Random() + 1, 75)
 

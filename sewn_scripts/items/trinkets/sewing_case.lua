@@ -6,7 +6,7 @@ local Familiar = require("sewn_scripts.entities.familiar.familiar")
 local SewingCase = { }
 
 function SewingCase:OnNewRoom()
-    for i = 1, Globals.game:GetNumPlayers() do
+    for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         if player:HasTrinket(Enums.TrinketType.TRINKET_SEWING_CASE) then
 
