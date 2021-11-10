@@ -3,7 +3,7 @@ local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PostFamiliarFireTearHandler = { }
-PostFamiliarFireTearHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+PostFamiliarFireTearHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 
 PostFamiliarFireTearHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR

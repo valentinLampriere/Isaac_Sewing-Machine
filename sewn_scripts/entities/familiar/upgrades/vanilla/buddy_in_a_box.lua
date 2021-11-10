@@ -27,5 +27,5 @@ function BuddyInABox:OnFamiliarFireTear_Ultra(familiar, tear)
     AddAdditionalTearFlags(tear, 2, familiar:GetDropRNG())
 end
 
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, BuddyInABox.OnFamiliarFireTear_Super, FamiliarVariant.BUDDY_IN_A_BOX, Sewn_API.Enums.FamiliarLevelFlag.SUPER)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, BuddyInABox.OnFamiliarFireTear_Ultra, FamiliarVariant.BUDDY_IN_A_BOX, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, BuddyInABox.OnFamiliarFireTear_Super, FamiliarVariant.BUDDY_IN_A_BOX, Sewn_API.Enums.FamiliarLevelFlag.FLAG_SUPER)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, BuddyInABox.OnFamiliarFireTear_Ultra, FamiliarVariant.BUDDY_IN_A_BOX, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

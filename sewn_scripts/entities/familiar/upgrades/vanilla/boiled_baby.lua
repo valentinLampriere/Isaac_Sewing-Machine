@@ -7,8 +7,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOILED_BABY, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOILED_BABY,
-    "Spawn red creep#Creep rate and damage depends on the amount of half heart removed",
-    "When it stab, spawns random red hearts"
+    "Increase the amount of tears it burst",
+    "Fire tears in the directions the player is firing"
 )
 
 BoiledBaby.Stats = {
@@ -101,5 +101,5 @@ function BoiledBaby:OnFamiliarUpdate_Ultra(familiar)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BoiledBaby.OnFamiliarUpdate, FamiliarVariant.BOILED_BABY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BoiledBaby.OnFamiliarUpgraded_Ultra, FamiliarVariant.BOILED_BABY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BoiledBaby.OnFamiliarUpdate_Ultra, FamiliarVariant.BOILED_BABY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BoiledBaby.OnFamiliarUpgraded_Ultra, FamiliarVariant.BOILED_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BoiledBaby.OnFamiliarUpdate_Ultra, FamiliarVariant.BOILED_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

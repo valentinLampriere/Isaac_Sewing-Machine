@@ -3,7 +3,7 @@ local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local FamiliarKillNpcHandler = { }
-FamiliarKillNpcHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+FamiliarKillNpcHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 FamiliarKillNpcHandler.ID = Enums.ModCallbacks.FAMILIAR_KILL_NPC
 

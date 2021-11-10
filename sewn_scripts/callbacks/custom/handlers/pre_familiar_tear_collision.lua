@@ -3,7 +3,7 @@ local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PreFamiliarTearCollision = { }
-PreFamiliarTearCollision.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+PreFamiliarTearCollision.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 
 PreFamiliarTearCollision.ID = Enums.ModCallbacks.PRE_FAMILIAR_TEAR_COLLISION

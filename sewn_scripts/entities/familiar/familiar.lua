@@ -76,6 +76,13 @@ local function GetCrownPosition(familiar)
     local worldToScreen = Isaac.WorldToScreen(familiar.Position)
     return Vector(worldToScreen.X-1, worldToScreen.Y - familiar.Size * 2)
 end
+
+function Familiar:HideCrown(familiar, shouldHideCrown)
+    shouldHideCrown = shouldHideCrown or true
+    local fData = familiar:GetData()
+    fData.Sewn_crown_hide = shouldHideCrown
+end
+
 function Familiar:RenderCrown(familiar)
     local fData = familiar:GetData()
 

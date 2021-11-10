@@ -2,7 +2,7 @@ local Enums = require("sewn_scripts.core.enums")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local OnFamiliarUpgradedHandler = { }
-OnFamiliarUpgradedHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+OnFamiliarUpgradedHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 OnFamiliarUpgradedHandler.ID = Enums.ModCallbacks.ON_FAMILIAR_UPGRADED
 

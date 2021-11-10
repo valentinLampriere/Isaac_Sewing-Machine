@@ -108,6 +108,6 @@ function PapaFly:OnUpgraded(familiar, newLevel)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, PapaFly.OnFamiliarUpdate, FamiliarVariant.PAPA_FLY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, PapaFly.OnPlayAnim, FamiliarVariant.PAPA_FLY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA, "Attack")
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, PapaFly.OnPlayAnim, FamiliarVariant.PAPA_FLY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA, "Attack")
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, PapaFly.OnNewRoom, FamiliarVariant.PAPA_FLY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, PapaFly.OnUpgraded, FamiliarVariant.PAPA_FLY)

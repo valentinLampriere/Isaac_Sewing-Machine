@@ -4,7 +4,7 @@ local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar
 local PostFamiliarNewRoom = { }
 
 PostFamiliarNewRoom.ID = Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM
-PostFamiliarNewRoom.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+PostFamiliarNewRoom.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 function PostFamiliarNewRoom:PostNewRoom()
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)

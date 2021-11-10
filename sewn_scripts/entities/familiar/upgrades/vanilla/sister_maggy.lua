@@ -29,5 +29,5 @@ function SisterMaggy:OnFamiliarFireTear_Ultra(familiar, tear)
     end
 end
 
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, SisterMaggy.OnFamiliarFireTear_Super, FamiliarVariant.SISTER_MAGGY, Sewn_API.Enums.FamiliarLevelFlag.SUPER)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, SisterMaggy.OnFamiliarFireTear_Ultra, FamiliarVariant.SISTER_MAGGY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, SisterMaggy.OnFamiliarFireTear_Super, FamiliarVariant.SISTER_MAGGY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_SUPER)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, SisterMaggy.OnFamiliarFireTear_Ultra, FamiliarVariant.SISTER_MAGGY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

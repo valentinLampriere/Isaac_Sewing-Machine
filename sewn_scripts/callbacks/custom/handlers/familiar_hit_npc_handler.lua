@@ -2,7 +2,7 @@ local Enums = require("sewn_scripts.core.enums")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local FamiliarHitNpcHandler = { }
-FamiliarHitNpcHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+FamiliarHitNpcHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 FamiliarHitNpcHandler.ID = Enums.ModCallbacks.FAMILIAR_HIT_NPC
 

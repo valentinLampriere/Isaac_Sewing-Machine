@@ -63,7 +63,7 @@ function FreezerBaby:OnFamiliarTearCollision(familiar, tear, collider)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, FreezerBaby.OnFamiliarFireTear, FamiliarVariant.FREEZER_BABY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, FreezerBaby.OnFamiliarNewRoom_Ultra, FamiliarVariant.FREEZER_BABY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, FreezerBaby.OnFamiliarNewRoom_Ultra, FamiliarVariant.FREEZER_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, FreezerBaby.OnFamiliarNewRoom_Ultra, FamiliarVariant.FREEZER_BABY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_KILL_NPC, FreezerBaby.OnFamiliarKillNpc_Ultra, FamiliarVariant.FREEZER_BABY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_KILL_NPC, FreezerBaby.OnFamiliarKillNpc_Ultra, FamiliarVariant.FREEZER_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_FAMILIAR_TEAR_COLLISION, FreezerBaby.OnFamiliarTearCollision, FamiliarVariant.FREEZER_BABY)

@@ -88,5 +88,5 @@ end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, FruityPlum.OnFamiliarUpdate, FamiliarVariant.FRUITY_PLUM)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, FruityPlum.OnFamiliarFireTear, FamiliarVariant.FRUITY_PLUM)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, FruityPlum.OnFamiliarUpdate_Ultra, FamiliarVariant.FRUITY_PLUM, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, FruityPlum.OnFamiliarFireTear_Ultra, FamiliarVariant.FRUITY_PLUM, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, FruityPlum.OnFamiliarUpdate_Ultra, FamiliarVariant.FRUITY_PLUM, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, FruityPlum.OnFamiliarFireTear_Ultra, FamiliarVariant.FRUITY_PLUM, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

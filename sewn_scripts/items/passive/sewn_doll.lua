@@ -21,6 +21,6 @@ function SewnDoll:OnFamiliarUpdate(familiar)
     familiar:FollowParent()
 end
 
-CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, SewnDoll.OnFamiliarUpdate, Enums.FamiliarVariant.SEWN_DOLL, Sewn_API.Enums.FamiliarLevelFlag.NORMAL)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, SewnDoll.OnFamiliarUpdate, Enums.FamiliarVariant.SEWN_DOLL, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
 
 return SewnDoll

@@ -37,9 +37,9 @@ Enums.FamiliarLevel = {
 }
 
 Enums.FamiliarLevelFlag = {
-    NORMAL = 2^0,
-    SUPER = 2^1,
-    ULTRA = 2^2
+    FLAG_NORMAL = 2^0,
+    FLAG_SUPER = 2^1,
+    FLAG_ULTRA = 2^2
 }
 
 Enums.CollectibleType = {

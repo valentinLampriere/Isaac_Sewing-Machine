@@ -4,6 +4,7 @@ local Enums = require("sewn_scripts.core.enums")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
+local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
 Sewn_API.Enums = Enums
 
@@ -42,11 +43,31 @@ function Sewn_API:GetLevel(fData)
     end
     return fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
 end
-
+-- Make the familiar available for the Sewing Machine
+-- Parameters :
+--   [FamiliarVariant]
+--   [CollectibleType] (optional) : The collectible associated to the familiar. The sprite for this collectible will be seen in the Sewing Machine
 Sewn_API.MakeFamiliarAvailable = AvailableFamiliarManager.TryMakeFamiliarAvailable
 
+-- Add an EID description for the given familiar upgrades. Those descriptions will be shown when the familiar is in the Sewing Machine
+-- Parameters :
+--   [FamiliarVariant]
+--   [string] : The text which will be seen for the SUPER upgrade
+--   [string] : The text which will be seen for the ULTRA upgrade
 Sewn_API.AddFamiliarDescription = FamiliarDescription.AddDescriptionsForFamiliar
 
+-- Add a callback
+-- Parameters :
+--   [Sewn_API.Enums.ModCallbacks] : The callback ID
+--   [function] : The function which will be called
+--   [...] (optional) : Additional arguments, depending on the callback called
 Sewn_API.AddCallback = CustomCallbacks.AddCallback
+
+-- Hide/Unhide the crown of a familiar
+-- Parameters :
+--   [EntityFamiliar] : the familiar you want to hide/unhide the crown to
+--   [boolean] (optional) : true to hide the crown, false to unhide it. Default is true
+Sewn_API.HideCrown = Familiar.HideCrown
+
 
 return Sewn_API

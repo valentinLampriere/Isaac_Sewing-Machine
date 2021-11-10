@@ -53,4 +53,4 @@ function HeadlessBaby:OnFamiliarUpdate_Ultra(familiar)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, HeadlessBaby.OnFamiliarUpdate, FamiliarVariant.HEADLESS_BABY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, HeadlessBaby.OnFamiliarUpdate_Ultra, FamiliarVariant.HEADLESS_BABY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, HeadlessBaby.OnFamiliarUpdate_Ultra, FamiliarVariant.HEADLESS_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

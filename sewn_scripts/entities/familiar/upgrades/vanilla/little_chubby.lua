@@ -59,5 +59,5 @@ function LittleChubby:OnFamiliarUpdate_Ultra(familiar)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LittleChubby.OnFamiliarUpdate, FamiliarVariant.LITTLE_CHUBBY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, LittleChubby.OnFamiliarUpgraded_Ultra, FamiliarVariant.LITTLE_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LittleChubby.OnFamiliarUpdate_Ultra, FamiliarVariant.LITTLE_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, LittleChubby.OnFamiliarUpgraded_Ultra, FamiliarVariant.LITTLE_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LittleChubby.OnFamiliarUpdate_Ultra, FamiliarVariant.LITTLE_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

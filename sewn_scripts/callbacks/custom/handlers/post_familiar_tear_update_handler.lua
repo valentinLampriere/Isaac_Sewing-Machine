@@ -2,7 +2,7 @@ local Enums = require("sewn_scripts.core.enums")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PostFamiliarTearUpdateHandler = { }
-PostFamiliarTearUpdateHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.SUPER | Enums.FamiliarLevelFlag.ULTRA }
+PostFamiliarTearUpdateHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
 
 PostFamiliarTearUpdateHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_TEAR_UPDATE
 
