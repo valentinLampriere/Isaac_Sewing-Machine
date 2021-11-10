@@ -28,6 +28,7 @@ local FamiliarUpdate = require("sewn_scripts.callbacks.vanilla.familiar_update")
 local PostFamiliarRender = require("sewn_scripts.callbacks.vanilla.post_familiar_render")
 -- Entities related callbacks
 local PostEffectUpdate = require("sewn_scripts.callbacks.vanilla.post_effect_update")
+local PostEffectInit = require("sewn_scripts.callbacks.vanilla.post_effect_init")
 -- Tear.Laser related callbacks
 local PostTearUpdate = require("sewn_scripts.callbacks.vanilla.post_tear_update")
 local PreTearCollision = require("sewn_scripts.callbacks.vanilla.pre_tear_collision")
@@ -61,6 +62,7 @@ SewnMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, PostFamiliarRender)
 -- Entity related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, EntityTakeDamage)
 SewnMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, PostEffectUpdate)
+SewnMod:AddCallback(ModCallbacks.MC_POST_EFFECT_INIT, PostEffectInit)
 -- Tear/Laser related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_POST_TEAR_UPDATE, PostTearUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_PRE_TEAR_COLLISION, PreTearCollision)

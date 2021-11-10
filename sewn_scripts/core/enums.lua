@@ -28,6 +28,7 @@ Enums.ModCallbacks = {
     ON_FAMILIAR_UPGRADED = 17,
     POST_FAMILIAR_NEW_LEVEL = 18,
     PRE_FAMILIAR_TEAR_COLLISION = 19,
+    FAMILIAR_CLEAN_ROOM = 20
 }
 
 Enums.FamiliarLevel = {
@@ -106,7 +107,8 @@ Enums.FamiliarVariant = {
 }
 
 Enums.EffectVariant = {
-    LIL_ABADDON_BRIMSTONE_SWIRL = Isaac.GetEntityVariantByName("Lil Abaddon Brimstone Swirl")
+    LIL_ABADDON_BRIMSTONE_SWIRL = Isaac.GetEntityVariantByName("Lil Abaddon Brimstone Swirl"),
+    SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg")
 }
 
 return Enums
