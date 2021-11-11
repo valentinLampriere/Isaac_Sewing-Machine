@@ -21,6 +21,8 @@ local OnFamiliarUpgradedHandler = require("sewn_scripts.callbacks.custom.handler
 local PostFamiliarNewLevelHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_new_level_handler")
 local PreFamiliarTearCollision = require("sewn_scripts.callbacks.custom.handlers.pre_familiar_tear_collision")
 local FamiliarCleanRoom = require("sewn_scripts.callbacks.custom.handlers.familiar_clean_room")
+local PreAddFamiliarInSewingMachineHandler = require("sewn_scripts.callbacks.custom.handlers.pre_add_familiar_in_sewing_machine")
+local OnFamiliarLoseUpgradeHandler = require("sewn_scripts.callbacks.custom.handlers.on_familiar_lose_upgrade_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -98,7 +100,8 @@ InitCallback(OnFamiliarUpgradedHandler)
 InitCallback(PostFamiliarNewLevelHandler)
 InitCallback(PreFamiliarTearCollision)
 InitCallback(FamiliarCleanRoom)
-
+InitCallback(PreAddFamiliarInSewingMachineHandler)
+InitCallback(OnFamiliarLoseUpgradeHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -158,6 +161,7 @@ end
 
 function CustomCallbacksHandler:Evaluate(callbackId, ...)
 	local args = {...}
+	print(callbackId)
 	return customCallbacks[callbackId]:Evaluate(table.unpack(args))
 end
 

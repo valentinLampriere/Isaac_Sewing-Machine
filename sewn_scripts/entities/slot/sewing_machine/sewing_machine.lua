@@ -114,6 +114,8 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
     local rollFamiliar = machine:GetDropRNG():RandomInt(#availableFamiliars) + 1
     local choosenFamiliar = availableFamiliars[rollFamiliar]
 
+    CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.PRE_ADD_FAMILIAR_IN_SEWING_MACHINE, machine, choosenFamiliar)
+
     mData.Sewn_currentFamiliarVariant = choosenFamiliar.Variant
     mData.Sewn_currentFamiliarSubType = choosenFamiliar.SubType
     mData.Sewn_currentFamiliarLevel = choosenFamiliar:GetData().Sewn_upgradeLevel or 0

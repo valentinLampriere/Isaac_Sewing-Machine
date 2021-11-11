@@ -154,7 +154,11 @@ end
 function UpgradeManager:ResetTemporaryUpgrades()
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
     for _, familiar in ipairs(familiars) do
-        familiar:GetData().Sewn_upgradeLevel_temporary = nil
+        local fData = familiar:GetData()
+        if fData.Sewn_upgradeLevel_temporary ~= nil and fData.Sewn_upgradeLevel_temporary ~= Enums.FamiliarLevel.NORMAL then
+            CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, familiar, false)
+        end
+        fData.Sewn_upgradeLevel_temporary = nil
     end
 end
 

@@ -8,6 +8,9 @@ local SpiderModEgg = { }
 local colliderCooldownName = "spiderModEggCollidersCooldown"
 
 function SpiderModEgg:EffectInit(effect)
+    if effect.Variant ~= Enums.EffectVariant.SPIDER_MOD_EGG then
+        return
+    end
     local eData = effect:GetData()
     eData.Sewn_spiderModEgg_colliderCooldown = { }
     
