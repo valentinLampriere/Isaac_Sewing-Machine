@@ -26,6 +26,7 @@ local UseCard = require("sewn_scripts.callbacks.vanilla.use_card")
 -- Familiar related callbacks
 local FamiliarUpdate = require("sewn_scripts.callbacks.vanilla.familiar_update")
 local PostFamiliarRender = require("sewn_scripts.callbacks.vanilla.post_familiar_render")
+local PreFamiliarCollision = require("sewn_scripts.callbacks.vanilla.pre_familiar_collision")
 -- Entities related callbacks
 local PostEffectUpdate = require("sewn_scripts.callbacks.vanilla.post_effect_update")
 local PostEffectInit = require("sewn_scripts.callbacks.vanilla.post_effect_init")
@@ -59,6 +60,7 @@ SewnMod:AddCallback(ModCallbacks.MC_USE_CARD, UseCard)
 -- Familiar related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, FamiliarUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_POST_FAMILIAR_RENDER, PostFamiliarRender)
+SewnMod:AddCallback(ModCallbacks.MC_PRE_FAMILIAR_COLLISION, PreFamiliarCollision)
 -- Entity related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, EntityTakeDamage)
 SewnMod:AddCallback(ModCallbacks.MC_POST_EFFECT_UPDATE, PostEffectUpdate)

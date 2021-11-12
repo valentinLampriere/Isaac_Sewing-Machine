@@ -32,6 +32,7 @@ Enums.ModCallbacks = {
     PRE_ADD_FAMILIAR_IN_SEWING_MACHINE = 21,
     ON_FAMILIAR_LOSE_UPGRADE = 22,
     FAMILIAR_EVALUATE_CACHE = 23,
+    PRE_FAMILIAR_COLLISION = 24,
 }
 
 Enums.FamiliarLevel = {

@@ -24,6 +24,7 @@ local FamiliarCleanRoom = require("sewn_scripts.callbacks.custom.handlers.famili
 local PreAddFamiliarInSewingMachineHandler = require("sewn_scripts.callbacks.custom.handlers.pre_add_familiar_in_sewing_machine")
 local OnFamiliarLoseUpgradeHandler = require("sewn_scripts.callbacks.custom.handlers.on_familiar_lose_upgrade_handler")
 local FamiliarEvaluateCacheHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_evaluate_cache_handler")
+local PreFamiliarCollisionHandler = require("sewn_scripts.callbacks.custom.handlers.pre_familiar_collision_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -36,6 +37,7 @@ local postNewLevel = { }
 local preTearCollision = { }
 local preSpawnCleanAward = { }
 local evaluateCache = { }
+local preFamiliarCollision = { }
 
 local customCallbacks = { }
 
@@ -76,6 +78,9 @@ local function InitCallback(callback)
 	if callback.EvaluateCache ~= nil then
 		table.insert(evaluateCache, callback.EvaluateCache)
 	end
+	if callback.PreFamiliarCollision ~= nil then
+		table.insert(preFamiliarCollision, callback.PreFamiliarCollision)
+	end
 
 	customCallbacks[callback["ID"]] = callback
 
@@ -108,6 +113,7 @@ InitCallback(FamiliarCleanRoom)
 InitCallback(PreAddFamiliarInSewingMachineHandler)
 InitCallback(OnFamiliarLoseUpgradeHandler)
 InitCallback(FamiliarEvaluateCacheHandler)
+InitCallback(PreFamiliarCollisionHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -167,6 +173,11 @@ end
 function CustomCallbacksHandler:EvaluateCache(player, cacheFlag)
 	for _, _function in ipairs(evaluateCache) do
 		_function(_, player, cacheFlag)
+	end
+end
+function CustomCallbacksHandler:PreFamiliarCollision(familiar, collider, low)
+	for _, _function in ipairs(preFamiliarCollision) do
+		_function(_, familiar, collider)
 	end
 end
 
