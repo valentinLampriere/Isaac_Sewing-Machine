@@ -10,15 +10,13 @@ PostFamiliarFireTearHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR
 
 local function OnTearInit(_, tear)
     local familiar = tear.Parent
-    local fData
     
     -- If tear hasn't been fired from a familiar
-    if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
+    if familiar == nil or familiar:ToFamiliar() == nil then
         return
     end
     
     familiar = familiar:ToFamiliar()
-    fData = familiar:GetData()
 
     for _, callback in ipairs(PostFamiliarFireTearHandler.RegisteredCallbacks) do
         if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then

@@ -2,6 +2,7 @@ local Sewn_API = { }
 
 local Enums = require("sewn_scripts.core.enums")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
 local Familiar = require("sewn_scripts.entities.familiar.familiar")
@@ -68,6 +69,12 @@ Sewn_API.AddCallback = CustomCallbacks.AddCallback
 --   [EntityFamiliar] : the familiar you want to hide/unhide the crown to
 --   [boolean] (optional) : true to hide the crown, false to unhide it. Default is true
 Sewn_API.HideCrown = Familiar.HideCrown
+
+-- Upgrade your familiar and call the ON_FAMILIAR_UPGRADED callbacks
+-- Parameters :
+--   [EntityFamiliar] : the familiar you want to upgrade
+--   [Sewn_API.Enums.FamiliarLevel] : the level to set
+Sewn_API.UpFamiliar = UpgradeManager.UpFamiliar
 
 
 return Sewn_API

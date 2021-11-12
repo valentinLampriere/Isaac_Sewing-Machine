@@ -23,6 +23,7 @@ local PreFamiliarTearCollision = require("sewn_scripts.callbacks.custom.handlers
 local FamiliarCleanRoom = require("sewn_scripts.callbacks.custom.handlers.familiar_clean_room")
 local PreAddFamiliarInSewingMachineHandler = require("sewn_scripts.callbacks.custom.handlers.pre_add_familiar_in_sewing_machine")
 local OnFamiliarLoseUpgradeHandler = require("sewn_scripts.callbacks.custom.handlers.on_familiar_lose_upgrade_handler")
+local FamiliarEvaluateCacheHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_evaluate_cache_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -34,6 +35,7 @@ local postNewRoom = { }
 local postNewLevel = { }
 local preTearCollision = { }
 local preSpawnCleanAward = { }
+local evaluateCache = { }
 
 local customCallbacks = { }
 
@@ -71,6 +73,9 @@ local function InitCallback(callback)
 	if callback.PreSpawnCleanAward ~= nil then
 		table.insert(preSpawnCleanAward, callback.PreSpawnCleanAward)
 	end
+	if callback.EvaluateCache ~= nil then
+		table.insert(evaluateCache, callback.EvaluateCache)
+	end
 
 	customCallbacks[callback["ID"]] = callback
 
@@ -102,6 +107,7 @@ InitCallback(PreFamiliarTearCollision)
 InitCallback(FamiliarCleanRoom)
 InitCallback(PreAddFamiliarInSewingMachineHandler)
 InitCallback(OnFamiliarLoseUpgradeHandler)
+InitCallback(FamiliarEvaluateCacheHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -125,9 +131,9 @@ function CustomCallbacksHandler:PeffectUpdate(player)
 		_function(_, player)
 	end
 end
-function CustomCallbacksHandler:FamiliarUpdate(player)
+function CustomCallbacksHandler:FamiliarUpdate(familiar)
 	for _, _function in ipairs(familiarUpdate) do
-		_function(_, player)
+		_function(_, familiar)
 	end
 end
 function CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
@@ -158,10 +164,14 @@ function CustomCallbacksHandler:PreSpawnCleanAward()
 		_function(_)
 	end
 end
+function CustomCallbacksHandler:EvaluateCache(player, cacheFlag)
+	for _, _function in ipairs(evaluateCache) do
+		_function(_, player, cacheFlag)
+	end
+end
 
 function CustomCallbacksHandler:Evaluate(callbackId, ...)
 	local args = {...}
-	print(callbackId)
 	return customCallbacks[callbackId]:Evaluate(table.unpack(args))
 end
 

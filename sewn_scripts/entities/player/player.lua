@@ -31,7 +31,8 @@ end
 
 function Player:GetAvailableFamiliars(player)
     local availableFamiliars = {}
-    for _, familiar in ipairs(Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)) do
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    for _, familiar in ipairs(familiars) do
         familiar = familiar:ToFamiliar()
         local fData = familiar:GetData()
         if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and Familiar:IsReady(fData) then

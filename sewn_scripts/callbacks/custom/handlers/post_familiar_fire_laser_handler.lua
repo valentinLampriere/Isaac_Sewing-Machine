@@ -1,6 +1,6 @@
 local Enums = require("sewn_scripts.core.enums")
-local Globals = require("sewn_scripts.core.globals")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PostFamiliarFireLaserHandler = { }
 PostFamiliarFireLaserHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA }
@@ -8,25 +8,18 @@ PostFamiliarFireLaserHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FL
 
 PostFamiliarFireLaserHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER
 
-local function OnLaserInit(_, laser)    
+local function OnLaserInit(_, laser)
     local familiar = laser.Parent
-    local fData
 
-    -- If laser hasn't been fired from a familiar
-    if laser.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
+    if familiar == nil or familiar:ToFamiliar() then
         return
     end
     
     familiar = familiar:ToFamiliar()
-    fData = familiar:GetData()
 
     for _, callback in ipairs(PostFamiliarFireLaserHandler.RegisteredCallbacks) do
-        if callback.Argument[1] == -1 or callback.Argument[1] == familiar.Variant then
-            if  callback.Argument[2] & Enums.FamiliarLevelFlag.FLAG_NORMAL == Enums.FamiliarLevelFlag.FLAG_NORMAL and not Sewn_API:IsSuper(fData, false) and not Sewn_API:IsUltra(fData) or
-                callback.Argument[2] & Enums.FamiliarLevelFlag.FLAG_SUPER == Enums.FamiliarLevelFlag.FLAG_SUPER and Sewn_API:IsSuper(fData, false) or
-                callback.Argument[2] & Enums.FamiliarLevelFlag.FLAG_ULTRA == Enums.FamiliarLevelFlag.FLAG_ULTRA and Sewn_API:IsUltra(fData) then
-                callback:Function(familiar, laser)
-            end
+        if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
+            callback:Function(familiar, laser)
         end
     end
 end

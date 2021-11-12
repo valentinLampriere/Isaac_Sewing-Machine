@@ -7,6 +7,8 @@ FamiliarUpdateHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPE
 FamiliarUpdateHandler.ID = Enums.ModCallbacks.FAMILIAR_UPDATE
 
 function FamiliarUpdateHandler:FamiliarUpdate(familiar)
+    local fData = familiar:GetData()
+    if fData.Sewn_Init == nil then return end
     for _, callback in ipairs(FamiliarUpdateHandler.RegisteredCallbacks) do
         if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
             callback:Function(familiar)
