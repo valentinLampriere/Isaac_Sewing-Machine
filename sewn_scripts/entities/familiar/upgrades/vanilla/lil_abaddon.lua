@@ -57,7 +57,7 @@ end
 
 local function FireLaser(lilAbaddon, position, velocity, radius, damage, timeout, tearFlags, size)
     local fData = lilAbaddon:GetData()
-    
+
     local laser = lilAbaddon.Player:FireTechXLaser(position, velocity or Globals.V0, radius, lilAbaddon, 1)
     local lData = laser:GetData()
 
@@ -78,7 +78,7 @@ local function FireLaser(lilAbaddon, position, velocity, radius, damage, timeout
 
     laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
     laser:GetSprite():LoadGraphics()
-
+    
     return laser
 end
 
