@@ -16,27 +16,17 @@ function Sewn_API:IsSuper(fData, includeUltra)
     if includeUltra == nil then
         includeUltra = true
     end
-    if fData.Sewn_upgradeLevel_temporary ~= nil then
-        if includeUltra then
-            return fData.Sewn_upgradeLevel_temporary >= Enums.FamiliarLevel.SUPER
-        else
-            return fData.Sewn_upgradeLevel_temporary == Enums.FamiliarLevel.SUPER
-        end
-    end
     if includeUltra then
-        return fData.Sewn_upgradeLevel >= Enums.FamiliarLevel.SUPER
+        return Sewn_API:GetLevel(fData) >= Enums.FamiliarLevel.SUPER
     else
-        return fData.Sewn_upgradeLevel == Enums.FamiliarLevel.SUPER
+        return Sewn_API:GetLevel(fData) == Enums.FamiliarLevel.SUPER
     end
 end
 
 -- Return true if the familiar is upgraded as ULTRA (blue crown)
 -- fData (table) : data attributes of the familiar retrieved with familiar:GetData()
 function Sewn_API:IsUltra(fData)
-    if fData.Sewn_upgradeLevel_temporary ~= nil then
-        return fData.Sewn_upgradeLevel_temporary >= Enums.FamiliarLevel.ULTRA
-    end
-    return fData.Sewn_upgradeLevel >= Enums.FamiliarLevel.ULTRA
+    return Sewn_API:GetLevel(fData) >= Enums.FamiliarLevel.ULTRA
 end
 function Sewn_API:GetLevel(fData)
     if fData.Sewn_upgradeLevel_temporary ~= nil then
