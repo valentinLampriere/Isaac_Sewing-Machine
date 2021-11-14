@@ -25,6 +25,7 @@ local PreAddFamiliarInSewingMachineHandler = require("sewn_scripts.callbacks.cus
 local OnFamiliarLoseUpgradeHandler = require("sewn_scripts.callbacks.custom.handlers.on_familiar_lose_upgrade_handler")
 local FamiliarEvaluateCacheHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_evaluate_cache_handler")
 local PreFamiliarCollisionHandler = require("sewn_scripts.callbacks.custom.handlers.pre_familiar_collision_handler")
+local FamiliarPlayerTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_player_take_damage_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -38,6 +39,7 @@ local preTearCollision = { }
 local preSpawnCleanAward = { }
 local evaluateCache = { }
 local preFamiliarCollision = { }
+local playerTakeDamage = { }
 
 local customCallbacks = { }
 
@@ -81,6 +83,9 @@ local function InitCallback(callback)
 	if callback.PreFamiliarCollision ~= nil then
 		table.insert(preFamiliarCollision, callback.PreFamiliarCollision)
 	end
+	if callback.PlayerTakeDamage ~= nil then
+		table.insert(playerTakeDamage, callback.PlayerTakeDamage)
+	end
 
 	customCallbacks[callback["ID"]] = callback
 
@@ -114,6 +119,7 @@ InitCallback(PreAddFamiliarInSewingMachineHandler)
 InitCallback(OnFamiliarLoseUpgradeHandler)
 InitCallback(FamiliarEvaluateCacheHandler)
 InitCallback(PreFamiliarCollisionHandler)
+InitCallback(FamiliarPlayerTakeDamageHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -178,6 +184,11 @@ end
 function CustomCallbacksHandler:PreFamiliarCollision(familiar, collider, low)
 	for _, _function in ipairs(preFamiliarCollision) do
 		_function(_, familiar, collider)
+	end
+end
+function CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
+	for _, _function in ipairs(playerTakeDamage) do
+		_function(_, player, amount, flags, source, countdown)
 	end
 end
 

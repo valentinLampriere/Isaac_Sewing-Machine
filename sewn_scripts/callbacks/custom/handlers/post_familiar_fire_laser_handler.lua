@@ -11,7 +11,7 @@ PostFamiliarFireLaserHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER
 local function OnLaserInit(_, laser)
     local familiar = laser.Parent
 
-    if familiar == nil or familiar:ToFamiliar() then
+    if familiar == nil or familiar:ToFamiliar() == nil then
         return
     end
     

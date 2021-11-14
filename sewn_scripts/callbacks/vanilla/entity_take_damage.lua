@@ -5,6 +5,7 @@ function MC_ENTITY_TAKE_DMG(_, entity, amount, flags, source, countdown)
     if entity.Type == EntityType.ENTITY_PLAYER then
         local player = entity:ToPlayer()
         CrackedThimble:OnPlayerTakeDamage(player, flags, source)
+        CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
     else
         CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
     end

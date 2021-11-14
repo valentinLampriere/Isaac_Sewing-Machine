@@ -43,6 +43,7 @@
         "Card",
         "BitSet128",
         "ItemPoolType",
-        "SoundEffect"
+        "SoundEffect",
+        "EntityPtr"
     ]
 }

@@ -41,7 +41,7 @@ function SpiderModEgg:EffectUpdate(effect)
             elseif rollEffect == 1 then
                 npc:AddFreeze(EntityRef(effect), rollDuration)
             elseif rollEffect == 2 then
-                npc:AddSlowing(EntityRef(effect), rollDuration, 1, CColor(255,255,255,255,0,0,0))
+                npc:AddSlowing(EntityRef(effect), rollDuration, 1, CColor(1,1,1,1,0,0,0))
             elseif rollEffect == 3 then
                 npc:AddCharmed(EntityRef(effect), rollDuration)
             elseif rollEffect == 4 then

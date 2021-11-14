@@ -6,10 +6,9 @@ local Player = { }
 
 function Player:Init(player)
     local pData = player:GetData()
-    pData.Sewn_items = {}
-    pData.Sewn_hasTrinket = {}
+    pData.Sewn_items = { }
+    pData.Sewn_hasTrinket = { }
 end
-
 local function RemoveFamiliarsInMachineOnCache(player)
     local pData = player:GetData()
 

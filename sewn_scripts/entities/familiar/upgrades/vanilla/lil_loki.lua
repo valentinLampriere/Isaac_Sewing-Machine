@@ -34,7 +34,7 @@ function LilLoki:OnFamiliarFireTear(familiar, tear)
         for i = 1, 4 do
             local velocity = velocities[i] + familiar.Player.Velocity
             local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, familiar.Position, velocity, familiar):ToTear()
-            newTear:SetColor(CColor(255, 0, 0), -1, 1, false, false)
+            newTear:SetColor(CColor(1, 0, 0), -1, 1, false, false)
             newTear.Scale = tear.Scale
             newTear.CollisionDamage = tear.CollisionDamage
             --sewnFamiliars:toBabyBenderTear(familiar, newTear)

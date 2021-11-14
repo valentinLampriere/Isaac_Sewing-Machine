@@ -96,7 +96,7 @@ function Peeper:EvaluateFamiliarCache(familiar, player)
 
             --sewnFamiliars:upPeeper(newPeeper)
             Sewn_API:HideCrown(newPeeper, true)
-            newPeeper:SetColor(CColor(255,150,150,225), -1, 2, false, false)
+            newPeeper:SetColor(CColor(1,0.6,0.6,0.9), -1, 2, false, false)
             
             table.insert(fData.Sewn_peeper_additionalEyes, newPeeper)
         end

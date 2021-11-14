@@ -1,14 +1,14 @@
 ---@diagnostic disable: undefined-global
 local function CColor(r, g, b, a, ro, go, bo)
-    a = a or 255
+    a = a or 1
     ro = ro or 0
     go = go or 0
     bo = bo or 0
 
     if REPENTANCE then
-        return Color(r / 255, g / 255, b / 255, a / 255, ro / 255, go / 255, bo / 255)
+        return Color(r, g, b, a, ro, go, bo)
     else
-        return Color(r / 255, g / 255, b, a / 255, ro, go, bo)
+        return Color(r, g, b, a, ro * 255, go * 255, bo * 255)
     end
 end
 

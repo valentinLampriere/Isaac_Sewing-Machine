@@ -78,7 +78,7 @@ function VanishingTwin:OnFamiliarUpdate(familiar)
                     fData.Sewn_vanishingTwin_copyBoss = true
 
                     local c = npc:GetColor()
-                    local nColor = CColor(c.R * 255, c.G * 255, c.B * 255, c.A * 255, c.RO, c.GO, c.BO)
+                    local nColor = CColor(c.R, c.G, c.B, c.A, c.RO, c.GO, c.BO)
                     nColor:SetOffset(0.10, 0.08, 0.05)
                     npc:SetColor(nColor, -1, 1, false, true)
                 end

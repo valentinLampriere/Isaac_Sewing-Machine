@@ -26,7 +26,7 @@ local function SetNpcColor(effect, npc)
         return
     end
     local t = eData.Sewn_cubeBabyAura_freezeEnemies[ptrNpc] / eData.Sewn_cubeBabyAura_maxFreeze[ptrNpc]
-    npc:SetColor(Color.Lerp(CColor(255, 255, 255), CColor(200, 220, 330, 255, 56, 85, 150), t), 4, 1, true, false)
+    npc:SetColor(Color.Lerp(CColor(1, 1, 1), CColor(0.78, 0.86, 1.29, 1, 0.22, 0.33, 0.59), t), 4, 1, true, false)
 end
 local function IncreaseCold(effect, npc, t)
     local eData = effect:GetData()

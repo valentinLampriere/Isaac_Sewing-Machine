@@ -73,7 +73,7 @@ local function FireLaser(lilAbaddon, position, velocity, radius, damage, timeout
     laser.CollisionDamage = damage
     laser.TearFlags = tearFlags
     laser.Size = size
-    --laser:SetColor(CColor(0, 0, 0, 1), -1, 1, true)
+    
     laser:SetBlackHpDropChance(LilAbaddon.Stats.BackHeartDropChance[Sewn_API:GetLevel(fData)])
 
     laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
