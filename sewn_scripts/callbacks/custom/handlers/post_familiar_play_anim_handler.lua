@@ -2,7 +2,7 @@ local Enums = require("sewn_scripts.core.enums")
 local CallbackFamiliarArgument = require("sewn_scripts.helpers.callback_familiar_argument")
 
 local PostFamiliarPlayAnimHandler = { }
-PostFamiliarPlayAnimHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA, "" }
+PostFamiliarPlayAnimHandler.DefaultArguments = { -1, Enums.FamiliarLevelFlag.FLAG_SUPER | Enums.FamiliarLevelFlag.FLAG_ULTRA, "_" }
 
 PostFamiliarPlayAnimHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM
 

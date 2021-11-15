@@ -219,8 +219,6 @@ function PunchingBag:OnFamiliarLoseUpgrade(familiar, losePermanentUpgrade)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
 
-    print(level)
-
     if level == Sewn_API.Enums.FamiliarLevel.NORMAL then
         ResetColor(familiar)
         RemovePullingEffects()

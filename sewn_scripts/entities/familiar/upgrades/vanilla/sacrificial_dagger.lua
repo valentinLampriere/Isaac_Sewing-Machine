@@ -20,9 +20,7 @@ function SacrificialDagger:OnFamiliarHitNpc(familiar, npc, amount, flags, source
         if not npc:IsBoss() then
             npc:AddEntityFlags(EntityFlag.FLAG_BLEED_OUT)
         end
-        if not (flags & DamageFlag.DAMAGE_CLONES > 0) then
-            npc:TakeDamage(SacrificialDagger.Stats.DamageBonus[Sewn_API:GetLevel(familiar:GetData())], DamageFlag.DAMAGE_CLONES, EntityRef(familiar), countdown)
-        end
+        npc:TakeDamage(SacrificialDagger.Stats.DamageBonus[Sewn_API:GetLevel(familiar:GetData())], DamageFlag.DAMAGE_CLONES, EntityRef(familiar), countdown)
     end
 end
 

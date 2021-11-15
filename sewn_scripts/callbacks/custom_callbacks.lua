@@ -21,13 +21,13 @@ function CustomCallbacks:AddCallback(callbackId, _function, ...)
 
 	local arguments = { }
 
-	for i, value in ipairs(args) do
-		table.insert(arguments, value)
+	for i = 1, #args do
+		table.insert(arguments, args[i] or callbackDefaultValues[callbackId][i])
 	end
-	for i, defaultValue in ipairs(callbackDefaultValues[callbackId]) do
-		arguments[i] = arguments[i] or callbackDefaultValues[callbackId][i]
+	for i = #args, #callbackDefaultValues[callbackId] do
+		table.insert(arguments, callbackDefaultValues[callbackId][i])
 	end
-
+	
 	table.insert(registeredCallbacks[callbackId], {
 		Function = _function,
 		Argument = arguments

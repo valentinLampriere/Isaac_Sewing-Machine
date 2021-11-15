@@ -101,6 +101,7 @@ end
 function LilAbaddon:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
+    
     if familiar.FireCooldown % LilAbaddon.Stats.SwirlRate[level] == 0 and (Sewn_API:IsUltra(fData) or familiar.FireCooldown < 0) then
         SpawnSwirl(familiar)
     end

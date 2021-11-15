@@ -11,6 +11,10 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
         return
     end
 
+    if flags & DamageFlag.DAMAGE_CLONES == DamageFlag.DAMAGE_CLONES then
+        return
+    end
+
     local sourceFamiliar
     if source.Type == EntityType.ENTITY_FAMILIAR then
         sourceFamiliar = source.Entity

@@ -33,11 +33,9 @@ function Leech:familiarCollider(familiar, collider)
 end
 function Leech:familiarHitNpc(familiar, npc, amount, flags, source, countdown)
     if GetPtrHash(source.Entity) == GetPtrHash(familiar) then
-        if not (flags & DamageFlag.DAMAGE_CLONES > 0) then
-            local fData = familiar:GetData()
-            local damage = amount * Leech.Stats.AdditionalDamageMultiplier[Sewn_API:GetLevel(fData)]
-            npc:TakeDamage(damage, DamageFlag.DAMAGE_CLONES, EntityRef(familiar), countdown)
-        end
+        local fData = familiar:GetData()
+        local damage = amount * Leech.Stats.AdditionalDamageMultiplier[Sewn_API:GetLevel(fData)]
+        npc:TakeDamage(damage, DamageFlag.DAMAGE_CLONES, EntityRef(familiar), countdown)
     end
 end
 
