@@ -7,7 +7,7 @@ SewingMachine_Bedroom.Room_Types = { RoomType.ROOM_ISAACS, RoomType.ROOM_BARREN 
 SewingMachine_Bedroom.IsDefaultMachine = true
 SewingMachine_Bedroom.PlayAppearAnimOnNewRoom = true
 SewingMachine_Bedroom.ShouldExplodeOnBreak = true
-
+SewingMachine_Bedroom.AppearChance = 100
 
 function SewingMachine_Bedroom:CanPay(player)
     return player:GetSoulHearts() >= 2
