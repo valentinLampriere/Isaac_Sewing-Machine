@@ -155,6 +155,7 @@ function UpgradeManager:ResetTemporaryUpgrades()
     for _, familiar in ipairs(familiars) do
         local fData = familiar:GetData()
         local hasUpgrade = false
+        familiar = familiar:ToFamiliar()
         
         if fData.Sewn_upgradeLevel_temporary ~= nil and fData.Sewn_upgradeLevel_temporary ~= Enums.FamiliarLevel.NORMAL then
             hasUpgrade = true

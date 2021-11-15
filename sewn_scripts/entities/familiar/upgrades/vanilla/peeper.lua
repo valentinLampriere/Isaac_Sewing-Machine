@@ -103,10 +103,15 @@ function Peeper:EvaluateFamiliarCache(familiar, player)
         end
     end)
 end
+function Peeper:LoseUpgrade(familiar, losePermanentUpgrade)
+    familiar.Player:AddCacheFlags(CacheFlag.CACHE_FAMILIARS)
+    familiar.Player:EvaluateItems()
+end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, Peeper.OnFamiliarUpgraded, FamiliarVariant.PEEPER)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, Peeper.OnFamiliarUpdate, FamiliarVariant.PEEPER)
 
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, Peeper.LoseUpgrade, FamiliarVariant.PEEPER)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, Peeper.OnFamiliarUpgraded_Ultra, FamiliarVariant.PEEPER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, Peeper.OnFamiliarUpdate_Ultra, FamiliarVariant.PEEPER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_EVALUATE_CACHE, Peeper.EvaluateFamiliarCache, FamiliarVariant.PEEPER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA, CacheFlag.CACHE_FAMILIARS)
