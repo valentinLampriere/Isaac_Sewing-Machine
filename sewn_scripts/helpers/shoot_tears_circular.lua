@@ -1,3 +1,5 @@
+local scaleFactor = 0.2
+local scaleOffset = 0.67
 local function ShootTearsCircular(familiar, amountTears, tearVariant, position, velocity, dmg, flags, notFireFromFamiliar)
     local tearFired = {}
     local spawnerTear = familiar
@@ -16,6 +18,7 @@ local function ShootTearsCircular(familiar, amountTears, tearVariant, position, 
         tear.Parent = spawnerTear
         if dmg then
             tear.CollisionDamage = dmg
+            tear.Scale = scaleFactor * math.log(dmg + 1, 10) + scaleFactor + scaleOffset
         end
         if flags then
             tear.TearFlags = tear.TearFlags | flags

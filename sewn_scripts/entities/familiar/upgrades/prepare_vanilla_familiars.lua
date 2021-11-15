@@ -16,7 +16,6 @@ require("sewn_scripts.entities.familiar.upgrades.vanilla.papa_fly")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.sacrificial_dagger")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.little_chubby")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.juicy_sack")
-require("sewn_scripts.entities.familiar.upgrades.vanilla.vanishing_twin")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.spider_mod")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.isaac_s_heart")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.peeper")
@@ -27,6 +26,7 @@ require("sewn_scripts.entities.familiar.upgrades.vanilla.lil_spewer")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.dry_baby")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.daddy_longlegs")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.rainbow_baby")
+require("sewn_scripts.entities.familiar.upgrades.vanilla.lil_gurdy")
 
 if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.fruity_plum")
@@ -37,4 +37,5 @@ if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.cube_baby")
     require("sewn_scripts.entities.familiar.upgrades.vanilla.bot_fly")
     require("sewn_scripts.entities.familiar.upgrades.vanilla.paschal_candle")
+    require("sewn_scripts.entities.familiar.upgrades.vanilla.vanishing_twin")
 end

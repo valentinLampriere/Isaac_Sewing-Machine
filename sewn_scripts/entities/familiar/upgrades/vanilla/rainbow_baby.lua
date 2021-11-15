@@ -8,7 +8,6 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.RAINBOW_BABY, CollectibleType.COL
 RainbowBaby.Stats = {
     TearDamageMultiplier = 1.3,
     FireRateBonus = 7,
-    UltraTearDamage = 5,
     UltraTearFlags = TearFlags.TEAR_HOMING | TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_CHARM | TearFlags.TEAR_SLOW,
 }
 
@@ -23,9 +22,6 @@ function RainbowBaby:TearInit(familiar, tear)
     familiar.FireCooldown = familiar.FireCooldown - RainbowBaby.Stats.FireRateBonus
 end
 function RainbowBaby:TearInit_Ultra(familiar, tear)
-    if tear.CollisionDamage < RainbowBaby.Stats.UltraTearDamage then
-        tear.CollisionDamage = RainbowBaby.Stats.UltraTearDamage
-    end
     tear.TearFlags = tear.TearFlags | RainbowBaby.Stats.UltraTearFlags
 end
 function RainbowBaby:TearUpdate_Ultra(familiar, tear)
