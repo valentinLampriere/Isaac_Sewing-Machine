@@ -67,8 +67,21 @@ local function GetCrownPosition(familiar)
     end
     --]]
 
+    local fData = familiar:GetData()
+
     local worldToScreen = Isaac.WorldToScreen(familiar.Position)
-    return Vector(worldToScreen.X-1, worldToScreen.Y - familiar.Size * 2)
+    local position = Vector(worldToScreen.X-1, worldToScreen.Y - familiar.Size * 2)
+
+    if fData.Sewn_crownPositionOffset ~= nil then
+        position = position - fData.Sewn_crownPositionOffset
+    end
+
+    return position
+end
+
+function Familiar:AddCrownOffset(familiar, offset)
+    local fData = familiar:GetData()
+    fData.Sewn_crownPositionOffset = offset
 end
 
 function Familiar:HideCrown(familiar, shouldHideCrown)
@@ -84,9 +97,6 @@ function Familiar:RenderCrown(familiar)
 
     local position = GetCrownPosition(familiar)
     if fData.Sewn_crown ~= nil and fData.Sewn_crown_hide ~= true then
-        if fData.Sewn_crownPositionOffset ~= nil then
-            position = position - fData.Sewn_crownPositionOffset
-        end
         -- if familiar is super -> has a golden crown
         if Sewn_API:IsSuper(fData, false) then
             fData.Sewn_crown:Render(position, Globals.V0, Globals.V0)

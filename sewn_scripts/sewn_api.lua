@@ -66,5 +66,11 @@ Sewn_API.HideCrown = Familiar.HideCrown
 --   [Sewn_API.Enums.FamiliarLevel] : the level to set
 Sewn_API.UpFamiliar = UpgradeManager.UpFamiliar
 
+-- Add an offset to the familiar's crown
+-- Parameters :
+--   [EntityFamiliar] : the familiar entity
+--   [Vector] : the offset
+Sewn_API.AddCrownOffset = Familiar.AddCrownOffset
+
 
 return Sewn_API

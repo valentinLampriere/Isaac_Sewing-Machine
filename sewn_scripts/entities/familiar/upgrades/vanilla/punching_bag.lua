@@ -176,6 +176,10 @@ PunchingBag.Stats = {
     }
 }
 
+local function ResetColor(familiar)
+    familiar:SetColor(CColor(1, 1, 1, 1), -1, 2, false, false)
+end
+
 local function ChangeColor(familiar)
     local fData = familiar:GetData()
     
@@ -190,7 +194,7 @@ local function ChangeColor(familiar)
     local level = Sewn_API:GetLevel(fData)
 
     local rollChampion = familiar:GetDropRNG():RandomInt( #PunchingBag.Stats.AvailableChampions[level] ) + 1
-    fData.Sewn_punchingBag_champion = championForms.MOSTLY_PURE_VIOLET --PunchingBag.Stats.AvailableChampions[level][rollChampion]
+    fData.Sewn_punchingBag_champion = PunchingBag.Stats.AvailableChampions[level][rollChampion]
 
     local choosenChampion = championEffects[fData.Sewn_punchingBag_champion]
 
@@ -210,6 +214,17 @@ function PunchingBag:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     fData.Sewn_punchingBag_championCooldown = 0
     ChangeColor(familiar)
     familiar.CollisionDamage = PunchingBag.Stats.CollisionDamage[Sewn_API:GetLevel(fData)]
+end
+function PunchingBag:OnFamiliarLoseUpgrade(familiar, losePermanentUpgrade)
+    local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+
+    print(level)
+
+    if level == Sewn_API.Enums.FamiliarLevel.NORMAL then
+        ResetColor(familiar)
+        RemovePullingEffects()
+    end
 end
 function PunchingBag:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
@@ -244,6 +259,7 @@ function PunchingBag:AddToMachine(familiar, machine)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, PunchingBag.OnFamiliarUpgraded, FamiliarVariant.PUNCHING_BAG)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, PunchingBag.OnFamiliarLoseUpgrade, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, PunchingBag.OnFamiliarUpdate, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_PLAYER_TAKE_DAMAGE, PunchingBag.PlayerTakeDamage, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_ADD_FAMILIAR_IN_SEWING_MACHINE, PunchingBag.AddToMachine, FamiliarVariant.PUNCHING_BAG)

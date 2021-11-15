@@ -15,7 +15,7 @@ function FamiliarEvaluateCacheHandler:EvaluateCache(player, cacheFlag)
             for _, callback in ipairs(FamiliarEvaluateCacheHandler.RegisteredCallbacks) do
                 if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
                     if callback.Argument[3] == nil or callback.Argument[3] == cacheFlag then
-                        callback:Function(familiar)
+                        callback:Function(familiar, cacheFlag)
                     end
                 end
             end
