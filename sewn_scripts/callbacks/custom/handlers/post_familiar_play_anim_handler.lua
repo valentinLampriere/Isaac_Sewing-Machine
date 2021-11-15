@@ -12,7 +12,7 @@ function PostFamiliarPlayAnimHandler:FamiliarUpdate(familiar)
             local sprite = familiar:GetSprite()
             local animIndex = 3
             while callback.Argument[animIndex] ~= nil do
-                if sprite:IsPlaying(callback.Argument[animIndex]) then
+                if sprite:IsPlaying(callback.Argument[animIndex]) or sprite:IsFinished(callback.Argument[animIndex]) then
                     callback:Function(familiar, sprite)
                 end
                 animIndex = animIndex + 1

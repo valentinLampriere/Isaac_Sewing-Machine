@@ -5,28 +5,31 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_BRIMSTONE, CollectibleType.CO
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_BRIMSTONE,
     "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Damage Up#Laser last longer"
+    "{{ArrowUp}} Slight Damage Up#Laser last longer#Can be charged quicker"
 )
 
 LilBrimstone.Stats = {
     DamageBonus = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.4,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.5,
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.5,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.6,
     },
     LaserTimeout = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 2,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.3,
     }
 }
 
 function LilBrimstone:OnFamiliarFireLaser(familiar, laser)
     local level = Sewn_API:GetLevel(familiar:GetData())
     laser.CollisionDamage = laser.CollisionDamage * LilBrimstone.Stats.DamageBonus[level]
-    laser:SetTimeout(laser.Timeout * LilBrimstone.Stats.LaserTimeout[level])
+    laser:SetTimeout(math.floor(laser.Timeout * LilBrimstone.Stats.LaserTimeout[level]))
 end
 
-function LilBrimstone:OnFamiliarFireLaser_Ultra(familiar, laser)
-    laser:SetTimeout(laser.Timeout * LilBrimstone.Stats.LaserTimeout)
+function LilBrimstone:Charging(familiar, sprite)
+    if familiar.FrameCount % 4 == 0 then
+        familiar.FireCooldown = familiar.FireCooldown - 1
+    end
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER, LilBrimstone.OnFamiliarFireLaser, FamiliarVariant.LIL_BRIMSTONE)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, LilBrimstone.Charging, FamiliarVariant.LIL_BRIMSTONE, nil, "FloatChargeUp", "FloatChargeDown", "FloatChargeSide", "ChargeUp", "ChargeDown", "ChargeSide")
