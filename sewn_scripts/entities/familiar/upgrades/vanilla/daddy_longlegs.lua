@@ -102,7 +102,6 @@ end
 function DaddyLonglegs:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
 
-    print(fData.Sewn_daddyLonglegs_attackPosition)
     if fData.Sewn_daddyLonglegs_attackPosition ~= nil then
         familiar.Position = fData.Sewn_daddyLonglegs_attackPosition
         familiar.Velocity = Globals.V0

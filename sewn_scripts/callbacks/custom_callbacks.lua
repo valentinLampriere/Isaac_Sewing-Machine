@@ -24,7 +24,7 @@ function CustomCallbacks:AddCallback(callbackId, _function, ...)
 	for i = 1, #args do
 		table.insert(arguments, args[i] or callbackDefaultValues[callbackId][i])
 	end
-	for i = #args, #callbackDefaultValues[callbackId] do
+	for i = #args + 1, #callbackDefaultValues[callbackId] do
 		table.insert(arguments, callbackDefaultValues[callbackId][i])
 	end
 	
