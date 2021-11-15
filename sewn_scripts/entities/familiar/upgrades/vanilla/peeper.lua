@@ -25,6 +25,7 @@ Sewn_API:AddFamiliarDescription(
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_peeper_tearCooldown = familiar:GetDropRNG():RandomInt(Peeper.Stats.TearCooldownMax - Peeper.Stats.TearCooldownMin) + Peeper.Stats.TearCooldownMin
+    Sewn_API:AddCrownOffset(familiar, Vector(0, 5))
 end
 
 function Peeper:OnFamiliarUpdate(familiar)

@@ -110,7 +110,6 @@ end
 
 function UpgradeManager:UpFamiliar(familiar, newLevel)
     local fData = familiar:GetData()
-    fData.Sewn_crown = nil
     fData.Sewn_upgradeLevel = newLevel
     CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, true)
 end
@@ -156,6 +155,7 @@ function UpgradeManager:ResetTemporaryUpgrades()
     for _, familiar in ipairs(familiars) do
         local fData = familiar:GetData()
         local hasUpgrade = false
+        
         if fData.Sewn_upgradeLevel_temporary ~= nil and fData.Sewn_upgradeLevel_temporary ~= Enums.FamiliarLevel.NORMAL then
             hasUpgrade = true
         end

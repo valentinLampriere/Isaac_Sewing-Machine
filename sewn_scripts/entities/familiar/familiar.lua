@@ -34,15 +34,46 @@ function Familiar:TryInitFamiliar(familiar)
             UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.SUPER)
         end
 
-        fData.Sewn_crown = nil
         fData.Sewn_Init = true
     end
 end
+
+local function CheckCrown(familiar)
+    local fData = familiar:GetData()
+
+    -- Not set yet
+    if fData.Sewn_crown == nil then
+        SetCrownSprite(familiar)
+        return
+    end
+    -- Is super but do not have the gold crown
+    if Sewn_API:IsSuper(fData, false) and not fData.Sewn_crown:IsPlaying("Super") then
+        SetCrownSprite(familiar)
+        return
+    end
+    -- Is ultra but do not have the diamond crown
+    if Sewn_API:IsUltra(fData) and not fData.Sewn_crown:IsPlaying("Ultra") then
+        SetCrownSprite(familiar)
+        return
+    end
+    -- Is not super but has the gold crown
+    if not Sewn_API:IsSuper(fData, false) and fData.Sewn_crown:IsPlaying("Super") then
+        SetCrownSprite(familiar)
+        return
+    end
+    -- Is not ultra but has the diamond crown
+    if not Sewn_API:IsUltra(fData) and fData.Sewn_crown:IsPlaying("Ultra") then
+        SetCrownSprite(familiar)
+        return
+    end
+end
+
 function Familiar:Update(familiar)
     local fData = familiar:GetData()
-    if fData.Sewn_crown == nil and fData.Sewn_Init == true then
-        SetCrownSprite(familiar)
+    if fData.Sewn_Init ~= true then
+        return
     end
+    CheckCrown(familiar)
 end
 function Familiar:CheckForDelirium(familiar)
     local fData = familiar:GetData()
@@ -108,7 +139,7 @@ function Familiar:RenderCrown(familiar)
 end
 
 function Familiar:IsReady(fData)
-    return fData.Sewn_isDelirium ~= true
+    return fData.Sewn_isDelirium ~= true and fData.Sewn_noUpgrade ~= true
 end
 
 function Familiar:TemporaryUpgrade(familiar)
@@ -123,8 +154,6 @@ function Familiar:TemporaryUpgrade(familiar)
         end
         
         CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, false)
-
-        fData.Sewn_crown = nil
     end
 end
 
