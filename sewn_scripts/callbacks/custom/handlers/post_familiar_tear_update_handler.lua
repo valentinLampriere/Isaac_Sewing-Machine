@@ -9,16 +9,14 @@ PostFamiliarTearUpdateHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_TEAR_UPDATE
 function PostFamiliarTearUpdateHandler:PostTearUpdate(tear)
     local familiar = tear.Parent
     
-    -- If tear hasn't been fired from a familiar
-    if familiar == nil or familiar:ToFamiliar() == nil or familiar:Exists() == false then
-        return
-    end
-    
-    familiar = familiar:ToFamiliar()
-
-    for _, callback in ipairs(PostFamiliarTearUpdateHandler.RegisteredCallbacks) do
-        if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
-            callback:Function(familiar, tear)
+    if tear.Parent ~= nil and tear.Parent:ToFamiliar() ~= nil or tear.SpawnerEntity ~= nil and tear.SpawnerEntity.Type == EntityType.ENTITY_FAMILIAR then
+        familiar = familiar or tear.SpawnerEntity
+        familiar = familiar:ToFamiliar()
+        
+        for _, callback in ipairs(PostFamiliarTearUpdateHandler.RegisteredCallbacks) do
+            if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
+                callback:Function(familiar, tear)
+            end
         end
     end
 end

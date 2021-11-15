@@ -44,6 +44,7 @@
         "BitSet128",
         "ItemPoolType",
         "SoundEffect",
-        "EntityPtr"
+        "EntityPtr",
+        "EntityLaser"
     ]
 }

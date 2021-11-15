@@ -11,18 +11,16 @@ PreFamiliarTearCollision.ID = Enums.ModCallbacks.PRE_FAMILIAR_TEAR_COLLISION
 function PreFamiliarTearCollision:PreTearCollision(tear, collider)
     local familiar = tear.Parent
 
-    -- If tear hasn't been fired from a familiar
-    if tear.SpawnerType ~= EntityType.ENTITY_FAMILIAR or familiar == nil then
-        return
-    end
+    if tear.Parent ~= nil and tear.Parent:ToFamiliar() ~= nil or tear.SpawnerEntity ~= nil and tear.SpawnerEntity.Type == EntityType.ENTITY_FAMILIAR then
+        familiar = familiar or tear.SpawnerEntity
+        familiar = familiar:ToFamiliar()
 
-    familiar = familiar:ToFamiliar()
-
-    for _, callback in ipairs(PreFamiliarTearCollision.RegisteredCallbacks) do
-        if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
-            local ignoreCollision = callback:Function(familiar, tear, collider)
-            if ignoreCollision ~= nil then
-                return ignoreCollision
+        for _, callback in ipairs(PreFamiliarTearCollision.RegisteredCallbacks) do
+            if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
+                local ignoreCollision = callback:Function(familiar, tear, collider)
+                if ignoreCollision ~= nil then
+                    return ignoreCollision
+                end
             end
         end
     end
