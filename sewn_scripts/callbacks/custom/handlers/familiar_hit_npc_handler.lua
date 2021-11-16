@@ -21,13 +21,16 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
     elseif source.Entity.Parent ~= nil and source.Entity.Parent.Type == EntityType.ENTITY_FAMILIAR then
         sourceFamiliar = source.Entity.Parent
     end
-
-    if sourceFamiliar ~= nil then
-        sourceFamiliar = sourceFamiliar:ToFamiliar()
-        for _, callback in ipairs(FamiliarHitNpcHandler.RegisteredCallbacks) do
-            if CallbackFamiliarArgument:Check(sourceFamiliar, callback.Argument[1], callback.Argument[2]) then
-                callback:Function(sourceFamiliar, entity, amount, flags, source, countdown)
-            end
+    if sourceFamiliar == nil then
+        return
+    end
+    sourceFamiliar = sourceFamiliar:ToFamiliar()
+    if sourceFamiliar == nil then
+        return
+    end
+    for _, callback in ipairs(FamiliarHitNpcHandler.RegisteredCallbacks) do
+        if CallbackFamiliarArgument:Check(sourceFamiliar, callback.Argument[1], callback.Argument[2]) then
+            callback:Function(sourceFamiliar, entity, amount, flags, source, countdown)
         end
     end
 end

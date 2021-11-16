@@ -11,15 +11,16 @@ PostFamiliarFireLaserHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER
 local function OnLaserInit(_, laser)
     local familiar = laser.Parent
 
-    if familiar == nil or familiar:ToFamiliar() == nil then
-        return
-    end
-    
-    familiar = familiar:ToFamiliar()
-
-    for _, callback in ipairs(PostFamiliarFireLaserHandler.RegisteredCallbacks) do
-        if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
-            callback:Function(familiar, laser)
+    if laser.Parent ~= nil or laser.SpawnerEntity ~= nil and laser.SpawnerEntity.Type == EntityType.ENTITY_FAMILIAR then
+        familiar = familiar or laser.SpawnerEntity
+        familiar = familiar:ToFamiliar()
+        if familiar == nil then
+            return
+        end
+        for _, callback in ipairs(PostFamiliarFireLaserHandler.RegisteredCallbacks) do
+            if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
+                callback:Function(familiar, laser)
+            end
         end
     end
 end

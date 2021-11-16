@@ -1,5 +1,4 @@
 local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
-local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 local Enums = require("sewn_scripts.core.enums")
 local EIDManager = require("sewn_scripts.mod_compat.eid.eid_manager")
 
@@ -13,7 +12,7 @@ if EID ~= nil then
 end
 
 function SewingMachineDescription:SetMachineDescription(machine)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
     local description = SewingMachineDescription:GetMachineDescription(machine)
 
     if description ~= nil then
@@ -26,7 +25,7 @@ function SewingMachineDescription:ResetMachineDescription(machine)
 end
 
 function SewingMachineDescription:GetMachineDescription(machine)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
 
     if mData.Sewn_currentFamiliarVariant == nil then
         return

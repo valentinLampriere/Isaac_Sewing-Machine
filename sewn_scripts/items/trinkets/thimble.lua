@@ -1,7 +1,6 @@
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
-local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 
 local Thimble = { }
 
@@ -9,7 +8,7 @@ local function RandomVelocity()
     return Vector(0,2):Rotated(math.random(-45,45))
 end
 
-function Thimble:GetFamiliarFromSewingMachine(machine, player, familiar)
+function Thimble:GetFamiliarFromSewingMachine(familiar, player, machine, newLevel)
     if not player:HasTrinket(Enums.TrinketType.TRINKET_THIMBLE) then
         return
     end
@@ -57,7 +56,7 @@ function Thimble:OnSewingMachineDestroy(machine)
     if playerHasThimble == false then
         return
     end
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
     if mData.Sewn_sewingMachineBroken == true then
         return false
     end

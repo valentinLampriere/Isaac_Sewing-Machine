@@ -14,6 +14,7 @@ LostButton.Stats = {
 
 function LostButton:GetLoseLostButton(player, getTrinket)
     if getTrinket then
+        print("Get Lost Button")
         SewingMachine_Shop.AppearChance = SewingMachine_Shop.AppearChance + LostButton.Stats.ShopBonus
         SewingMachine_Angel.AppearChance = SewingMachine_Angel.AppearChance + LostButton.Stats.AngelDevilBonus
         SewingMachine_Devil.AppearChance = SewingMachine_Devil.AppearChance + LostButton.Stats.AngelDevilBonus

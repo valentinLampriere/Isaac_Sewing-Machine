@@ -1,12 +1,11 @@
 local Enums = require("sewn_scripts.core.enums")
-local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 
 local PreGetFamiliarFromSewingMachineHandler = { }
 
 PreGetFamiliarFromSewingMachineHandler.ID = Enums.ModCallbacks.PRE_GET_FAMILIAR_FROM_SEWING_MACHINE
 
 function PreGetFamiliarFromSewingMachineHandler:Evaluate(sewingMachine, player, isUpgrade)
-    local mData = MachineDataManager:GetMachineData(sewingMachine)
+    local mData = sewingMachine:GetData().SewingMachineData
 
     local preventUpgrade
 

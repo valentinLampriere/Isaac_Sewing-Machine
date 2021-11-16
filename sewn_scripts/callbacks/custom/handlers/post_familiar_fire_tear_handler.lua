@@ -11,10 +11,12 @@ PostFamiliarFireTearHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR
 local function OnTearInit(_, tear)
     local familiar = tear.Parent
     
-    if tear.Parent ~= nil and tear.Parent:ToFamiliar() ~= nil or tear.SpawnerEntity ~= nil and tear.SpawnerEntity.Type == EntityType.ENTITY_FAMILIAR then
+    if tear.Parent ~= nil or tear.SpawnerEntity ~= nil and tear.SpawnerEntity.Type == EntityType.ENTITY_FAMILIAR then
         familiar = familiar or tear.SpawnerEntity
         familiar = familiar:ToFamiliar()
-
+        if familiar == nil then
+            return
+        end
         for _, callback in ipairs(PostFamiliarFireTearHandler.RegisteredCallbacks) do
             if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
                 callback:Function(familiar, tear)

@@ -3,7 +3,6 @@ local Enums = require("sewn_scripts.core.enums")
 local Player = require("sewn_scripts.entities.player.player")
 local SewingMachineTypes = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine_types")
 local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
-local MachineDataManager = require("sewn_scripts.core.machine_data_manager")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local Random = require("sewn_scripts.helpers.random")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
@@ -17,7 +16,7 @@ SewingMachine.Stats = require("sewn_scripts.entities.slot.sewing_machine.sewing_
 -- POST_PLAYER_TOUCH_MACHINE --
 -------------------------------
 function SewingMachine:PlayerTouchMachine(player, machine)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData()
 
     if mData.Sewn_touchCooldown > 0 then
         return -- The machine is in a cooldown state
@@ -50,7 +49,7 @@ end
 -- POST_MACHINE_UPDATE --
 -------------------------
 function SewingMachine:MachineUpdate(machine)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
 
     SetMachineAnimation(machine)
 
@@ -93,7 +92,7 @@ function SewingMachine:SetIdleAnim(machine)
 end
 function SewingMachine:SetFloatingAnim(machine)
     local machineSprite = machine:GetSprite()
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
     machineSprite:ReplaceSpritesheet(1, GetFamiliarSprite(mData.Sewn_currentFamiliarVariant))
     machineSprite:Play("IdleFloating")
     machineSprite:LoadGraphics()
@@ -102,7 +101,7 @@ end
 -- Try to put a familiar from the given player in the machine
 -- Called when a player touch a Sewing Machine (and there is no familiar in it)
 function SewingMachine:TryAddFamiliarInMachine(machine, player)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
     local pData = player:GetData()
     local availableFamiliars = Player:GetAvailableFamiliars(player)
 
@@ -147,7 +146,7 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
 end
 
 local function TryBreakMachine(machine, isUpgrade)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
     local machineType = SewingMachineTypes:GetSewingMachineType(machine.SubType)
     mData.Sewn_machineUsed_counter = mData.Sewn_machineUsed_counter or 0
 
@@ -167,7 +166,7 @@ end
 -- Try to give the familiar back to the player
 -- Called when a player interact a second time with a Sewing Machine, or when a sewing machine is bombed
 function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
 
     if mData.Sewn_player == nil or mData.Sewn_currentFamiliarVariant == nil then
         return
@@ -181,7 +180,7 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
         return -- Can't pay the cost
     end
 
-    local familiarFromMachine = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, -1, machine.Position, Globals.V0, nil):ToFamiliar()
+    local familiarFromMachine = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, 0, machine.Position, Globals.V0, nil):ToFamiliar()
     local fData = familiarFromMachine:GetData()
     fData.Sewn_upgradeLevel = mData.Sewn_currentFamiliarLevel
 
@@ -195,7 +194,8 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     
     -- Upgrade the familiar
     if isUpgrade then
-        UpgradeManager:TryUpgrade(mData.Sewn_currentFamiliarVariant, mData.Sewn_currentFamiliarLevel, mData.Sewn_player.Index, SewingMachineTypes:GetSewingMachineType(machine.SubType).FixedUpgradeLevel)
+        local fixedUpgradeLevel = SewingMachineTypes:GetSewingMachineType(machine.SubType).FixedUpgradeLevel
+        UpgradeManager:TryUpgrade(mData.Sewn_currentFamiliarVariant, mData.Sewn_currentFamiliarLevel, mData.Sewn_player.Index, fixedUpgradeLevel)
         --[[local _fData = FamiliarData:FindFamiliarData(mData.Sewn_currentFamiliarVariant, mData.Sewn_currentFamiliarLevel, mData.Sewn_player.Index)
 
         local newUpgrade = mData.Sewn_currentFamiliarLevel + 1
@@ -213,7 +213,7 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
         SewingMachineTypes:Pay(mData.Sewn_player, machine.SubType)
         --sewingMachineMod:payCost(machine, mData.Sewn_player)
 
-        CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine)
+        CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine, fixedUpgradeLevel or mData.Sewn_currentFamiliarLevel + 1)
     end
 
     -- Reset the machine data to nil

@@ -2,13 +2,14 @@ local SewnMod = RegisterMod("!Sewing machine rework", 1)
 
 Sewn_API = require("sewn_scripts.sewn_api")
 
+
+require("sewn_scripts.helpers.embeddablecallbackhack")
+require("sewn_scripts.helpers.apioverride")
+
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
-
-require("sewn_scripts.helpers.embeddablecallbackhack")
-require("sewn_scripts.helpers.apioverride")
 
 local SaveManager = require("sewn_scripts.core.save_manager")
 SaveManager:Init(SewnMod)

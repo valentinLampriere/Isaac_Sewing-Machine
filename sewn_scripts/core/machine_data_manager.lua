@@ -1,4 +1,5 @@
 local Globals = require("sewn_scripts.core.globals")
+local Enums = require("sewn_scripts.core.enums")
 
 local MachineDataManager = { }
 
@@ -52,4 +53,30 @@ function MachineDataManager:LoadMachineData(loadedData)
     end
 end
 
+function MachineDataManager:TryMatchMachineData(machine)
+    local _mData = machine:GetData()
+    if _mData.Sewn_machineInit == nil then
+        _mData.SewingMachineData = setmetatable({},
+        {
+            __index = function(t, k)
+                return MachineDataManager:GetMachineData(machine)[k]
+            end,
+            __newindex = function(t, k, v)
+                machineData[machine.InitSeed][k] = v
+                --MachineDataManager:GetMachineData(machine)[k] = v
+            end,
+        })
+        _mData.Sewn_machineInit = true
+    end
+end
+
+--[[require("sewn_scripts.helpers.apioverride")
+
+local OldGetData = APIOverride.GetCurrentClassFunction(Entity, "GetData")
+APIOverride.OverrideClassFunction(Entity, "GetData", function(entity)
+    if entity.Type == EntityType.ENTITY_SLOT and entity.Variant == Enums.SlotMachineVariant.SEWING_MACHINE then
+        return MachineDataManager:GetMachineData(entity)
+    end
+    return OldGetData(entity)
+end)--]]
 return MachineDataManager

@@ -45,6 +45,7 @@
         "ItemPoolType",
         "SoundEffect",
         "EntityPtr",
-        "EntityLaser"
+        "EntityLaser",
+        "Entity"
     ]
 }

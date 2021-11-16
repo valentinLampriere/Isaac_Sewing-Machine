@@ -25,14 +25,13 @@ function SewingMachineManager:SaveMachines()
 end
 function SewingMachineManager:LoadMachines(loadedData)
     MachineDataManager:LoadMachineData(loadedData)
-
     SewingMachineManager:ResetMachineFloatingAnimation()
 end
 
 
 function SewingMachineManager:ResetMachineFloatingAnimation()
     for _, machine in ipairs(SewingMachineManager:GetAllSewingMachines()) do
-        local mData = MachineDataManager:GetMachineData(machine)
+        local mData = machine:GetData().SewingMachineData
         if mData.Sewn_currentFamiliarVariant ~= nil then
             SewingMachine:SetFloatingAnim(machine)
         end
@@ -45,7 +44,7 @@ local function GetSewingMachineTypeForCurrentRoom()
     while #sewingMachineTypesForRoomType > 0 do
         local rollMachineType = Globals.rng:RandomInt(#sewingMachineTypesForRoomType) + 1
         local machineType = sewingMachineTypesForRoomType[rollMachineType]
-
+        print(machineType.SubType .. " -> Chances : " .. machineType.AppearChance)
         if Random:CheckRoll(machineType.AppearChance) then
             return machineType
         end
@@ -68,13 +67,13 @@ end
 -- POST_MACHINE_DESTROY --
 -- Remove the machine and spawn a similar one
 function SewingMachineManager:RepairMachine(machine)
-    local mData = MachineDataManager:GetMachineData(machine)
+    local mData = machine:GetData().SewingMachineData
 
     local gridPosition = Globals.Game:GetRoom():GetGridPosition(Globals.Game:GetRoom():GetGridIndex(machine.Position))
 
     local newMachine = SewingMachineManager:Spawn(gridPosition, false, machine.SubType)
 
-    local new_mData = MachineDataManager:GetMachineData(newMachine)
+    local new_mData = newMachine:GetData().SewingMachineData
     new_mData = mData
 
     for i = 1, Globals.Game:GetNumPlayers() do
@@ -179,6 +178,9 @@ end
 ----------------------
 function SewingMachineManager:OnNewRoom()
     SewingMachineManager:TryToSpawnMachineOnNewRoom()
+    for _, machine in ipairs(SewingMachineManager:GetAllSewingMachines()) do
+        MachineDataManager:TryMatchMachineData(machine)
+    end
     SewingMachineManager:ResetMachineFloatingAnimation()
 end
 
