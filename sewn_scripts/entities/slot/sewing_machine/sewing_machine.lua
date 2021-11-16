@@ -16,7 +16,7 @@ SewingMachine.Stats = require("sewn_scripts.entities.slot.sewing_machine.sewing_
 -- POST_PLAYER_TOUCH_MACHINE --
 -------------------------------
 function SewingMachine:PlayerTouchMachine(player, machine)
-    local mData = machine:GetData()
+    local mData = machine:GetData().SewingMachineData
 
     if mData.Sewn_touchCooldown > 0 then
         return -- The machine is in a cooldown state
