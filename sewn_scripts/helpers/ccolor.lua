@@ -8,7 +8,7 @@ local function CColor(r, g, b, a, ro, go, bo)
     if REPENTANCE then
         return Color(r, g, b, a, ro, go, bo)
     else
-        return Color(r, g, b, a, ro * 255, go * 255, bo * 255)
+        return Color(r, g, b, a, math.floor(ro * 255), math.floor(go * 255), math.floor(bo * 255))
     end
 end
 
