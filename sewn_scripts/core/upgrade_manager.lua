@@ -45,8 +45,6 @@ function UpgradeManager:LoadUpgrades(loadedData)
     for key, familiarData in pairs(loadedData) do
         table.insert(UpgradeManager.FamiliarsData, familiarData)
     end
-    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
-    --UpgradeManager:CheckForChanges()
 end
 
 function UpgradeManager:RemoveUpgrade(index)
