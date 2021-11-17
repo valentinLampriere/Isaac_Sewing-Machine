@@ -175,6 +175,13 @@ function LilSpewer:OnFamiliarUpdate_Ultra(familiar)
     end
 end
 
+function LilSpewer:OnFamiliarLoseUpgrade(familiar, losePermanentUpgrade)
+    local sprite = familiar:GetSprite()
+    sprite:ReplaceSpritesheet(1, "")
+    sprite:LoadGraphics()
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilSpewer.OnFamiliarUpdate, FamiliarVariant.LIL_SPEWER)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, LilSpewer.OnFamiliarLoseUpgrade, FamiliarVariant.LIL_SPEWER)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, LilSpewer.OnFamiliarUpgrade_Ultra, FamiliarVariant.LIL_SPEWER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilSpewer.OnFamiliarUpdate_Ultra, FamiliarVariant.LIL_SPEWER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
