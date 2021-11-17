@@ -9,8 +9,6 @@ function SacrificialAltar:OnUseItem(collectibleType, rng)
     if collectibleType ~= CollectibleType.COLLECTIBLE_SACRIFICIAL_ALTAR then
         return
     end
-    local player = GetPlayerUsingItem()
-    
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
 
     Delay:DelayFunction(function ()

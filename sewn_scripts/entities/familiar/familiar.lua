@@ -142,15 +142,17 @@ function Familiar:IsReady(fData)
     return fData.Sewn_isDelirium ~= true and fData.Sewn_noUpgrade ~= true
 end
 
-function Familiar:TemporaryUpgrade(familiar)
+function Familiar:TemporaryUpgrade(familiar, newLevel)
     local fData = familiar:GetData()
     if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and not Sewn_API:IsUltra(fData) then
         --sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
         if fData.Sewn_upgradeLevel_temporary == nil then
-            fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+            fData.Sewn_upgradeLevel_temporry = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+        end
+        if newLevel == nil then
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel_temporary + 1
         else
-            fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel_temporary + 1
+            fData.Sewn_upgradeLevel_temporary = newLevel
         end
         
         CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, false)
