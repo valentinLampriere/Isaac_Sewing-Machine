@@ -22,6 +22,11 @@ HarlequinBaby.Stats = {
 local isFirstTear = true
 function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
     local fData = familiar:GetData()
+    local tData = tear:GetData()
+
+    if tData.Sewn_isAdditionalHarlequinBaby == true then
+        return
+    end
 
     tear.CollisionDamage = tear.CollisionDamage * HarlequinBaby.Stats.DamageBonus[Sewn_API:GetLevel(fData)]
     tear.Scale = tear.Scale * HarlequinBaby.Stats.TearScale[Sewn_API:GetLevel(fData)]
@@ -36,6 +41,7 @@ function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
     --sewnFamiliars:toBabyBenderTear(familiar, newTear)
     newTear.Scale = tear.Scale
     newTear.CollisionDamage = tear.CollisionDamage
+    newTear:GetData().Sewn_isAdditionalHarlequinBaby = true
     isFirstTear = not isFirstTear
 end
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, HarlequinBaby.OnFamiliarFireTear, FamiliarVariant.HARLEQUIN_BABY)
