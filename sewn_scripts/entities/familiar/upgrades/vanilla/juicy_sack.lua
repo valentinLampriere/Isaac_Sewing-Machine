@@ -1,4 +1,5 @@
 local BurstTears = require("sewn_scripts.helpers.burst_tears")
+local IsSpawnedBy = require("sewn_scripts.helpers.is_spawned_by")
 
 local JuicySack = { }
 
@@ -34,7 +35,7 @@ local function TryToScaleCreepFrom(familiar)
     local creeps = Isaac.FindByType(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_WHITE, -1, false, false)
     for _, creep in ipairs(creeps) do
         local eData = creep:GetData()
-        if creep.SpawnerEntity ~= nil and GetPtrHash(creep.SpawnerEntity) == GetPtrHash(familiar) and eData.Sewn_juicySack_creepIsScaled == nil then
+        if IsSpawnedBy(creep, familiar) and eData.Sewn_juicySack_creepIsScaled == nil then
             creep.Size = creep.Size * JuicySack.Stats.CreepScale
             creep.SpriteScale = creep.SpriteScale * JuicySack.Stats.CreepScale
             eData.Sewn_juicySack_creepIsScaled = true

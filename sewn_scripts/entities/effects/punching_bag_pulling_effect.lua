@@ -22,7 +22,7 @@ function PunchingBagPullingEffect:EffectUpdate(effect)
     for _, npc in ipairs(Isaac.FindInRadius(effect.Position, effect.Size, EntityPartition.ENEMY)) do
         local direction = (effect.Position - npc.Position):Normalized()
         local distance = npc.Position:Distance(effect.Position)
-        if npc:IsFlying() or Globals.Room:CheckLine(npc.Position, effect.Position, 0) then
+        if npc:IsFlying() or Globals.Room:CheckLine(npc.Position, effect.Position, 0, 0, false, false) then
             if npc.Type ~= EntityType.ENTITY_BOMBDROP then
                 npc.Position = npc.Position + direction * (effect.Size / (distance + 2.5))
             end

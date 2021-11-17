@@ -15,7 +15,7 @@ function SpiderModEgg:EffectInit(effect)
     eData.Sewn_spiderModEgg_colliderCooldown = { }
     
     -- Flip the egg sprite
-    effect.FlipX = math.random(1) == 1
+    effect.FlipX = math.random(1) == 0
 end
 
 function SpiderModEgg:EffectUpdate(effect)
@@ -43,7 +43,11 @@ function SpiderModEgg:EffectUpdate(effect)
             elseif rollEffect == 2 then
                 npc:AddSlowing(EntityRef(effect), rollDuration, 1, CColor(1,1,1,1,0,0,0))
             elseif rollEffect == 3 then
-                npc:AddCharmed(EntityRef(effect), rollDuration)
+                if REPENTANCE then
+                    npc:AddCharmed(EntityRef(effect), rollDuration)
+                else
+                    npc:AddCharmed(rollDuration)
+                end
             elseif rollEffect == 4 then
                 npc:AddConfusion(EntityRef(effect), rollDuration, false)
             elseif rollEffect == 5 then

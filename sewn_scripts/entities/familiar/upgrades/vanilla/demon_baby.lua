@@ -1,4 +1,5 @@
 local FindCloserNpc = require("sewn_scripts.helpers.find_closer_npc")
+local IsSpawnedBy = require("sewn_scripts.helpers.is_spawned_by")
 
 local DemonBaby = { }
 
@@ -83,8 +84,7 @@ function DemonBaby:OnFamiliarUpdate(familiar)
     -- Removing tears from Demon Baby
     for _, tear in pairs(Isaac.FindByType(EntityType.ENTITY_TEAR, TearVariant.BLOOD, -1, false, false)) do
         tear = tear:ToTear()
-        if tear.SpawnerEntity ~= nil and GetPtrHash(tear.SpawnerEntity) == GetPtrHash(familiar) then
-        --if tear.SpawnerType == EntityType.ENTITY_FAMILIAR and tear.SpawnerVariant == FamiliarVariant.DEMON_BABY then
+        if IsSpawnedBy(tear, familiar) then
             if tear.FrameCount == 0 and tear:GetData().Sewn_demonBaby_isCustomTear == nil then
                 tear:Remove()
             end

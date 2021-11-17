@@ -1,6 +1,7 @@
 local Random = require("sewn_scripts.helpers.random")
 local Delay = require("sewn_scripts.helpers.delay")
 local FindCloserNpc = require("sewn_scripts.helpers.find_closer_npc")
+local IsSpawnedBy = require("sewn_scripts.helpers.is_spawned_by")
 
 local PapaFly = { }
 
@@ -81,7 +82,7 @@ function PapaFly:OnPlayAnim(familiar, sprite)
             tear = tear:ToTear()
             tear.FallingAcceleration = PapaFly.Stats.RangeBonus[level]
 
-            if tData.Sewn_papaFly_isAdditionalTear == nil and tear.SpawnerEntity ~= nil and GetPtrHash(tear.SpawnerEntity) == GetPtrHash(familiar) then
+            if tData.Sewn_papaFly_isAdditionalTear == nil and IsSpawnedBy(tear, familiar) then
 
                 for i = 1, PapaFly.Stats.AmountOfAdditionalTears do
                     Delay:DelayFunction(TryToShootAdditionalTear, PapaFly.Stats.DelayBetweenTears * i, true, familiar, tear)

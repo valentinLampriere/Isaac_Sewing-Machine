@@ -36,7 +36,6 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
                 break
             end
         end
-        return
     end
     for _, callback in ipairs(FamiliarHitNpcHandler.RegisteredCallbacks) do
         if CallbackFamiliarArgument:Check(sourceFamiliar, callback.Argument[1], callback.Argument[2]) then

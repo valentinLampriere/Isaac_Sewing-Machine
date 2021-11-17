@@ -1,3 +1,7 @@
+if REPENTANCE == nil then
+    return
+end
+
 local Random = require("sewn_scripts.helpers.random")
 
 local LittleSteven = { }

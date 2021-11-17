@@ -1,4 +1,5 @@
 local Random = require("sewn_scripts.helpers.random")
+local Globals = require("sewn_scripts.core.globals")
 
 local GuppysHairball = { }
 
@@ -49,7 +50,8 @@ local function SpawnBlueFlies(familiar)
     local amountFiles = familiar:GetDropRNG():RandomInt( GuppysHairball.Stats.BlueFliesAmountMax[level] - GuppysHairball.Stats.BlueFliesAmountMin[level] ) + GuppysHairball.Stats.BlueFliesAmountMin[level]
     for i = 1, amountFiles do
         local velo = Vector(math.random(-25.0, 25.0), math.random(-25.0, 25.0))
-        local blueFly = familiar.Player:AddBlueFlies(1, familiar.Position, familiar.Player)
+        local player = familiar.Player or Isaac.GetPlayer(0)
+        local blueFly = player:AddBlueFlies(1, familiar.Position, player)
         blueFly.Velocity = velo
     end
 end

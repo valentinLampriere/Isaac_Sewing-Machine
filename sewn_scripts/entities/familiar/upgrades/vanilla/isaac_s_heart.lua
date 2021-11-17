@@ -1,3 +1,7 @@
+if not REPENTANCE then
+    return
+end
+
 local ShootTearsCircular = require("sewn_scripts.helpers.shoot_tears_circular")
 local Globals = require("sewn_scripts.core.globals")
 

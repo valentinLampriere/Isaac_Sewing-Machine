@@ -1,4 +1,5 @@
 local BurstTears = require("sewn_scripts.helpers.burst_tears")
+local IsSpawnedBy = require("sewn_scripts.helpers.is_spawned_by")
 
 local HeadlessBaby = { }
 
@@ -31,7 +32,7 @@ function HeadlessBaby:OnFamiliarUpdate(familiar)
     for _, creep in ipairs(creeps) do
         local eData = creep:GetData()
         creep = creep:ToEffect()
-        if eData.Sewn_headlessBaby_creepInit == nil and creep.SpawnerEntity ~= nil and GetPtrHash(creep.SpawnerEntity) == GetPtrHash(familiar) then
+        if eData.Sewn_headlessBaby_creepInit == nil and IsSpawnedBy(creep, familiar) then
             local level = Sewn_API:GetLevel(fData)
             creep.Size = creep.Size * HeadlessBaby.Stats.CreepScale[level]
             creep.SpriteScale = creep.SpriteScale * HeadlessBaby.Stats.CreepScale[level]

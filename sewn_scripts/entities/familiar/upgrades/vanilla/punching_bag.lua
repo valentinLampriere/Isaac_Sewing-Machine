@@ -56,7 +56,6 @@ championEffects[championForms.STRONG_LIME_GREEN] = {
     Update = function (_, this, familiar)
         if familiar.FrameCount % this.Stats.CreepSpawnRate == 0 then
             local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_GREEN, 0, familiar.Position, Globals.V0, familiar):ToEffect()
-            creep.
             creep.Timeout = this.Stats.CreepTimeout
             creep.CollisionDamage = this.Stats.CreepDamage
         end

@@ -81,7 +81,7 @@ local function PreStomp(familiar, sprite, animType)
     end
 
     sprite:Play(animPrefix .. animSuffix, true)
-    sprite:SetFrame(2)
+    --sprite:SetFrame(2)
 end
 
 function DaddyLonglegs:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
