@@ -1,7 +1,5 @@
 local GetPlayerUsingItem = require("sewn_scripts.helpers.get_player_using_item")
 local Delay = require("sewn_scripts.helpers.delay")
-local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
-local Globals = require("sewn_scripts.core.globals")
 local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
 local BoxOfFriends = { }

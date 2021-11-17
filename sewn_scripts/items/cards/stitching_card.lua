@@ -1,5 +1,4 @@
 local Enums = require("sewn_scripts.core.enums")
-local GetPlayerUsingItem = require("sewn_scripts.helpers.get_player_using_item")
 local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 
 local StitchingCard = { }
@@ -8,8 +7,6 @@ function StitchingCard:OnUse(card, player, useFlags)
     if card ~= Enums.Card.CARD_STITCHING then
         return
     end
-    player = player or GetPlayerUsingItem()
-
     local hasUpgrades = false
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
 
