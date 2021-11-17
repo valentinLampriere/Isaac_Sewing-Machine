@@ -1,4 +1,5 @@
 local Enums = require("sewn_scripts.core.enums")
+local Delay = require("sewn_scripts.helpers.delay")
 
 local RoboBaby = { }
 
@@ -23,7 +24,9 @@ function RoboBaby:OnFamiliarFireLaser(familiar, laser)
     if REPENTANCE then
         familiar.FireCooldown = familiar.FireCooldown - stats[Sewn_API:GetLevel(fData)]
     else
-        familiar.FireCooldown = familiar.FireCooldown - stats_ab[Sewn_API:GetLevel(fData)]
+        Delay:DelayFunction(function ()
+            familiar.FireCooldown = familiar.FireCooldown - stats_ab[Sewn_API:GetLevel(fData)]
+        end)
     end
 end
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER, RoboBaby.OnFamiliarFireLaser, FamiliarVariant.ROBO_BABY)

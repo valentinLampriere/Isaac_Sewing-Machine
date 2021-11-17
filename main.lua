@@ -18,8 +18,6 @@ SaveManager:Init(SewnMod)
 local PostPeffectUpdate = require("sewn_scripts.callbacks.vanilla.post_peffect_update")
 local EvaluateCache = require("sewn_scripts.callbacks.vanilla.evaluate_cache")
 local PostPlayerInit = require("sewn_scripts.callbacks.vanilla.post_player_init")
--- Entity related callbacks
-local EntityTakeDamage = require("sewn_scripts.callbacks.vanilla.entity_take_damage")
 -- Pickup related callbacks
 local UseItem = require("sewn_scripts.callbacks.vanilla.use_item")
 local GetLoseCollectible = require("sewn_scripts.callbacks.custom.get_lose_collectible")
@@ -31,6 +29,7 @@ local PreFamiliarCollision = require("sewn_scripts.callbacks.vanilla.pre_familia
 -- Entities related callbacks
 local PostEffectUpdate = require("sewn_scripts.callbacks.vanilla.post_effect_update")
 local PostEffectInit = require("sewn_scripts.callbacks.vanilla.post_effect_init")
+local EntityTakeDamage = require("sewn_scripts.callbacks.vanilla.entity_take_damage")
 -- Tear.Laser related callbacks
 local PostTearUpdate = require("sewn_scripts.callbacks.vanilla.post_tear_update")
 local PreTearCollision = require("sewn_scripts.callbacks.vanilla.pre_tear_collision")

@@ -28,6 +28,16 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
     if sourceFamiliar == nil then
         return
     end
+    if sourceFamiliar.GetData == nil then
+        local familiars = Isaac.FindByType(sourceFamiliar.Type, sourceFamiliar.Variant, -1, false, false)
+        for _, familiar in ipairs(familiars) do
+            if GetPtrHash(familiar) == GetPtrHash(sourceFamiliar) then
+                sourceFamiliar = familiar
+                break
+            end
+        end
+        return
+    end
     for _, callback in ipairs(FamiliarHitNpcHandler.RegisteredCallbacks) do
         if CallbackFamiliarArgument:Check(sourceFamiliar, callback.Argument[1], callback.Argument[2]) then
             callback:Function(sourceFamiliar, entity, amount, flags, source, countdown)
