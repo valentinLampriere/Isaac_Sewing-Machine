@@ -67,6 +67,8 @@ function SewingMachine:BreakMachine(machine)
     local machineSprite = machine:GetSprite()
     local machineType = SewingMachineTypes:GetSewingMachineType(machine.SubType)
 
+    print("BreakMachine")
+
     if machineType.ShouldDisappearOnBreak == true then
         machineSprite:Play("Disappear")
     else
@@ -156,7 +158,7 @@ local function TryBreakMachine(machine, isUpgrade)
 
     local chancePerUse = machineType.BreakChancePerUse or SewingMachine.Stats.DefaultBreakChanceForEachUse
     local flatBreakChance = machineType.BreakChanceFlat or SewingMachine.Stats.DefaultFlatBreakChance
-
+    flatBreakChance = isUpgrade and flatBreakChance or 0
     if Random:CheckRoll(mData.Sewn_machineUsed_counter * chancePerUse + flatBreakChance, machine:GetDropRNG()) then
         machine:TakeDamage(100, DamageFlag.DAMAGE_EXPLOSION, EntityRef(machine), 1)
         mData.Sewn_sewingMachineBroken = true
@@ -173,6 +175,7 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     end
     
     if CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.PRE_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, isUpgrade) == true then
+        print("Pre Get Familiar true")
         return
     end
     
@@ -192,6 +195,8 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
 
     mData.Sewn_player:GetData().Sewn_familiarsInMachine[machine.InitSeed] = nil
     
+    local preventExplosion = false
+
     -- Upgrade the familiar
     if isUpgrade then
         local fixedUpgradeLevel = SewingMachineTypes:GetSewingMachineType(machine.SubType).FixedUpgradeLevel
@@ -213,7 +218,15 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
         SewingMachineTypes:Pay(mData.Sewn_player, machine.SubType)
         --sewingMachineMod:payCost(machine, mData.Sewn_player)
 
-        CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine, fixedUpgradeLevel or mData.Sewn_currentFamiliarLevel + 1)
+        local _preventExplosion = CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine, true, fixedUpgradeLevel or mData.Sewn_currentFamiliarLevel + 1)
+        if _preventExplosion == true then
+            preventExplosion = true
+        end
+    else
+        local _preventExplosion = CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine, false, mData.Sewn_currentFamiliarLevel)
+        if _preventExplosion == true then
+            preventExplosion = true
+        end
     end
 
     -- Reset the machine data to nil
@@ -222,13 +235,7 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     --mData.Sewn_player:GetData().Sewn_machine_upgradeFree = nil
     mData.Sewn_player = nil
 
-    -- Do not break the machine with Pin Cushion
-    --if not hasPinCushion then
-    --    sewingMachineMod:breakMachine(machine, isUpgrade)
-    --end
-    --sewingMachineMod:updateSewingMachineDescription(machine)
-    TryBreakMachine(machine, isUpgrade)
-
+    TryBreakMachine(machine, isUpgrade and not preventExplosion)
     SewingMachineDescription:ResetMachineDescription(machine)
 end
 

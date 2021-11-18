@@ -76,7 +76,7 @@ function GuppysHairball:PreAddInSewingMachine(familiar, machine)
     local mData = machine:GetData().SewingMachineData
     mData.Sewn_guppysHairball_subtype = familiar.SubType
 end
-function GuppysHairball:GetFromSewingMachine(familiar, player, machine, newLevel)
+function GuppysHairball:GetFromSewingMachine(familiar, player, machine, isUpgraded, newLevel)
     local mData = machine:GetData().SewingMachineData
     familiar.SubType = mData.Sewn_guppysHairball_subtype or 0
     SetMinLevel(familiar, newLevel)

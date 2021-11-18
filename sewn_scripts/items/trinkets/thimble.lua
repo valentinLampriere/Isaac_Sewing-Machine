@@ -8,8 +8,8 @@ local function RandomVelocity()
     return Vector(0,2):Rotated(math.random(-45,45))
 end
 
-function Thimble:GetFamiliarFromSewingMachine(familiar, player, machine, newLevel)
-    if not player:HasTrinket(Enums.TrinketType.TRINKET_THIMBLE) then
+function Thimble:GetFamiliarFromSewingMachine(familiar, player, machine, isUpgraded, newLevel)
+    if not player:HasTrinket(Enums.TrinketType.TRINKET_THIMBLE) or not isUpgraded then
         return
     end
     if machine.SubType == Enums.SewingMachineSubType.SHOP then
