@@ -46,6 +46,7 @@
         "SoundEffect",
         "EntityPtr",
         "EntityLaser",
-        "Entity"
+        "Entity",
+        "PlayerType"
     ]
 }

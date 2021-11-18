@@ -16,7 +16,7 @@ local function RemoveRecentRewards(pos)
     end
 
     for _, trollbomb in ipairs(Isaac.FindByType(4, -1, -1)) do
-        if (trollbomb.Variant == 3 or trollbomb.Variant == 4)
+        if (trollbomb.Variant == 3 or trollbomb.Variant == 4 or trollbomb.Variant == 18)
         and trollbomb.FrameCount <= 1 and trollbomb.SpawnerType == 0
         and trollbomb.Position:DistanceSquared(pos) <= 400 then
             trollbomb:Remove()

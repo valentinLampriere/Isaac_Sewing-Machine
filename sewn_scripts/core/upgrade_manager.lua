@@ -76,6 +76,7 @@ function UpgradeManager:FindFamiliarData(variant, level, playerIndex, _table)
     _table = _table or UpgradeManager.FamiliarsData
 
     for i, fData in ipairs(_table) do
+        --print(tostring(fData.Variant) .. " == " .. tostring(variant) .. " AND " .. tostring(fData.PlayerIndex) .. " == " .. tostring(playerIndex) .. " AND " .. tostring(level) .. " == " .. tostring(fData.Upgrade))
         if fData.Variant == variant and fData.PlayerIndex == playerIndex and level == fData.Upgrade then
             return fData, i
         end
