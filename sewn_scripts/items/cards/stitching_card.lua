@@ -3,8 +3,11 @@ local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 
 local StitchingCard = { }
 
+StitchingCard.ID = Enums.Card.CARD_STITCHING
+StitchingCard.SpawnChance = 1
+
 function StitchingCard:OnUse(card, player, useFlags)
-    if card ~= Enums.Card.CARD_STITCHING then
+    if card ~= StitchingCard.ID then
         return
     end
     local hasUpgrades = false

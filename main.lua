@@ -22,6 +22,7 @@ local PostPlayerInit = require("sewn_scripts.callbacks.vanilla.post_player_init"
 local UseItem = require("sewn_scripts.callbacks.vanilla.use_item")
 local GetLoseCollectible = require("sewn_scripts.callbacks.custom.get_lose_collectible")
 local UseCard = require("sewn_scripts.callbacks.vanilla.use_card")
+local GetCard = require("sewn_scripts.callbacks.vanilla.get_card")
 -- Familiar related callbacks
 local FamiliarUpdate = require("sewn_scripts.callbacks.vanilla.familiar_update")
 local PostFamiliarRender = require("sewn_scripts.callbacks.vanilla.post_familiar_render")
@@ -56,6 +57,7 @@ SewnMod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.LilDelirium, CollectibleType.COLLECTIBLE_LIL_DELIRIUM)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.DollsTaintedHead, Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.DollsPureBody, Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
+SewnMod:AddCallback(ModCallbacks.MC_GET_CARD, GetCard)
 SewnMod:AddCallback(ModCallbacks.MC_USE_CARD, UseCard)
 -- Familiar related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_FAMILIAR_UPDATE, FamiliarUpdate)

@@ -2,8 +2,11 @@ local Enums = require("sewn_scripts.core.enums")
 
 local SewingCoupon = { }
 
+SewingCoupon.ID = Enums.Card.CARD_SEWING_COUPON
+SewingCoupon.SpawnChance = 1.2
+
 function SewingCoupon:OnUse(card, player, useFlags)
-    if card ~= Enums.Card.CARD_SEWING_COUPON then
+    if card ~= SewingCoupon.ID then
         return
     end
     

@@ -4,8 +4,11 @@ local SewingMachineManager = require("sewn_scripts.core.sewing_machine_manager")
 
 local WarrantyCard = { }
 
+WarrantyCard.ID = Enums.Card.CARD_WARRANTY
+WarrantyCard.SpawnChance = 0.9
+
 function WarrantyCard:OnUse(card, player, useFlags)
-    if card ~= Enums.Card.CARD_WARRANTY then
+    if card ~= WarrantyCard.ID then
         return
     end
     SewingMachineManager:Spawn(Globals.Room:FindFreePickupSpawnPosition(player.Position, 0, true), true)
