@@ -222,6 +222,7 @@ function PunchingBag:OnFamiliarLoseUpgrade(familiar, losePermanentUpgrade)
         ResetColor(familiar)
         RemovePullingEffects()
     end
+    familiar.CollisionDamage = 0
 end
 function PunchingBag:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
