@@ -28,6 +28,7 @@ require("sewn_scripts.entities.familiar.upgrades.vanilla.daddy_longlegs")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.rainbow_baby")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.lil_gurdy")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.guppy_s_hairball")
+require("sewn_scripts.entities.familiar.upgrades.vanilla.rotten_baby")
 
 if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.fruity_plum")
