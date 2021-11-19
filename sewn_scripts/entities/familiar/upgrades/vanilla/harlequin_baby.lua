@@ -19,7 +19,10 @@ HarlequinBaby.Stats = {
     }
 }
 
-local isFirstTear = true
+function HarlequinBaby:OnFamiliarUpgraded(familiar, tear)
+    local fData = familiar:GetData()
+    fData.Sewn_harlequinBaby_isFirstTear = true
+end
 function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
     local fData = familiar:GetData()
     local tData = tear:GetData()
@@ -32,7 +35,7 @@ function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
     tear.Scale = tear.Scale * HarlequinBaby.Stats.TearScale[Sewn_API:GetLevel(fData)]
 
     local velocity
-    if isFirstTear then
+    if fData.Sewn_harlequinBaby_isFirstTear then
         velocity = tear.Velocity:Rotated(10)
     else
         velocity = tear.Velocity:Rotated(-10)
@@ -42,6 +45,7 @@ function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
     newTear.Scale = tear.Scale
     newTear.CollisionDamage = tear.CollisionDamage
     newTear:GetData().Sewn_isAdditionalHarlequinBaby = true
-    isFirstTear = not isFirstTear
+    fData.Sewn_harlequinBaby_isFirstTear = not fData.Sewn_harlequinBaby_isFirstTear
 end
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, HarlequinBaby.OnFamiliarUpgraded, FamiliarVariant.HARLEQUIN_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, HarlequinBaby.OnFamiliarFireTear, FamiliarVariant.HARLEQUIN_BABY)

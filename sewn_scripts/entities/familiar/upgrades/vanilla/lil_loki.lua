@@ -21,14 +21,13 @@ LilLoki.Stats = {
     }
 }
 
-local isFirstTear = true
 function LilLoki:OnFamiliarFireTear(familiar, tear)
     local fData = familiar:GetData()
 
     tear.CollisionDamage = tear.CollisionDamage * LilLoki.Stats.DamageBonus[Sewn_API:GetLevel(fData)]
     tear.Scale = tear.Scale * LilLoki.Stats.TearScale[Sewn_API:GetLevel(fData)]
 
-    if isFirstTear then
+    if fData.Sewn_lilLoki_isFirstTear then
 
         local velocities = {Vector(8, -8), Vector(8, 8), Vector(-8, -8), Vector(-8, 8)}
         for i = 1, 4 do
@@ -40,12 +39,13 @@ function LilLoki:OnFamiliarFireTear(familiar, tear)
             --sewnFamiliars:toBabyBenderTear(familiar, newTear)
         end
 
-        isFirstTear = false
+        fData.Sewn_lilLoki_isFirstTear = false
     end
 end
 function LilLoki:OnFamiliarUpdate(familiar)
+    local fData = familiar:GetData()
     if familiar.FireCooldown == 1 then
-        isFirstTear = true
+        fData.Sewn_lilLoki_isFirstTear = true
     end
 end
 
