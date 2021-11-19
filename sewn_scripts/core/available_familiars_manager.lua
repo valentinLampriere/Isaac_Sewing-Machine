@@ -34,11 +34,17 @@ function AvailableFamiliarManager:IsFamiliarAvailable(familiarVariant)
     return availableFamiliars[familiarVariant] ~= nil
 end
 function AvailableFamiliarManager:GetFamiliarSprite(familiarVariant)
-    local default = "gfx.items.collectibles.questionmark.png"
+    local default = "gfx/items/collectibles/questionmark.png"
     if availableFamiliars[familiarVariant] ~= nil then
         return availableFamiliars[familiarVariant].Sprite or default
     end
     return default
+end
+function AvailableFamiliarManager:GetFamiliarCollectibleId(familiarVariant)
+    if availableFamiliars[familiarVariant] ~= nil then
+        return availableFamiliars[familiarVariant].CollectibleID or -1
+    end
+    return -1
 end
 function AvailableFamiliarManager:GetFamiliarName(familiarVariant)
     local collectible = Isaac.GetItemConfig():GetCollectible(availableFamiliars[familiarVariant].CollectibleID)

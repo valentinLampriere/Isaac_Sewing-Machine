@@ -84,7 +84,6 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_UPDATE, PostMachineU
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_PLAYER_TOUCH_MACHINE, PostPlayerTouchMachine, Enums.SlotMachineVariant.SEWING_MACHINE)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachineDestroy, Enums.SlotMachineVariant.SEWING_MACHINE)
 
-
 require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
 require("sewn_scripts.items.new_trinkets")
 

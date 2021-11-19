@@ -19,20 +19,49 @@ local function SetCrownSprite(familiar)
     fData.Sewn_crown:LoadGraphics()
 end
 
+local function HandleDolls(familiar)
+    local fData = familiar:GetData()
+
+    local hasTaintedHead = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
+    local hasPureBody = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
+    if hasTaintedHead and hasPureBody then
+        UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.ULTRA)
+    elseif hasTaintedHead or hasPureBody then
+        UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.SUPER)
+    end
+end
+
+local function HandleLemegetonWisps(familiar)
+    if not REPENTANCE then return end
+
+    if not AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) then
+        return
+    end
+
+    local fData = familiar:GetData()
+
+    local lemegetonWisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ITEM_WISP, AvailableFamiliarManager:GetFamiliarCollectibleId(familiar.Variant), false, false)
+    for _, lemegetonWisp in ipairs(lemegetonWisps) do
+        if lemegetonWisp.FrameCount == 5 then -- This familiar came from the lemegeton wisp
+            fData.Sewn_noUpgrade = true
+        end
+    end
+end
+
+local function InitFamiliar(familiar)
+    local fData = familiar:GetData()
+
+    fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+
+    HandleDolls(familiar)
+    HandleLemegetonWisps(familiar)
+end
+
 function Familiar:TryInitFamiliar(familiar)
     local fData = familiar:GetData()
     if not fData.Sewn_Init and familiar.FrameCount > 0 then
-        local player = familiar.Player
 
-        fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
-
-        local hasTaintedHead = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
-        local hasPureBody = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
-        if hasTaintedHead and hasPureBody then
-            UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.ULTRA)
-        elseif hasTaintedHead or hasPureBody then
-            UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.SUPER)
-        end
+        InitFamiliar(familiar)
 
         fData.Sewn_Init = true
     end
