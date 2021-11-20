@@ -4,7 +4,7 @@ local AngelicPrism = { }
 
 AngelicPrism.Stats = {
     MinDistanceWithPlayer = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 50,
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 45,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 30
     },
     MoveTowardPlayerDeltaValue = 1.2,
