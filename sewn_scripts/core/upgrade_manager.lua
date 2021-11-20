@@ -120,7 +120,7 @@ function UpgradeManager:CheckForChanges()
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(UpgradeManager.FamiliarsData) do
         -- If the familiarData hasn't an associated familiar entity
-        if familiarData.Entity == nil or familiarData.Entity:Exists() == false then
+        if familiarData.Entity == nil --[[or familiarData.Entity:Exists() == false--]] then
             local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)
             
             -- Reverse loop to get the last familiar first

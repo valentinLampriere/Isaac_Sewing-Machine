@@ -26,6 +26,7 @@ local OnFamiliarLoseUpgradeHandler = require("sewn_scripts.callbacks.custom.hand
 local FamiliarEvaluateCacheHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_evaluate_cache_handler")
 local PreFamiliarCollisionHandler = require("sewn_scripts.callbacks.custom.handlers.pre_familiar_collision_handler")
 local FamiliarPlayerTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_player_take_damage_handler")
+local PostFamiliarInitHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_init_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -120,6 +121,7 @@ InitCallback(OnFamiliarLoseUpgradeHandler)
 InitCallback(FamiliarEvaluateCacheHandler)
 InitCallback(PreFamiliarCollisionHandler)
 InitCallback(FamiliarPlayerTakeDamageHandler)
+InitCallback(PostFamiliarInitHandler)
 
 local CustomCallbacksHandler = { }
 

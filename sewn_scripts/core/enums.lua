@@ -34,6 +34,7 @@ Enums.ModCallbacks = {
     FAMILIAR_EVALUATE_CACHE = 23,
     PRE_FAMILIAR_COLLISION = 24,
     FAMILIAR_PLAYER_TAKE_DAMAGE = 25,
+    POST_FAMILIAR_INIT = 26,
 }
 
 Enums.FamiliarLevel = {

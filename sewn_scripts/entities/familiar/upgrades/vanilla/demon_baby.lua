@@ -1,6 +1,6 @@
 local FindCloserNpc = require("sewn_scripts.helpers.find_closer_npc")
 local IsSpawnedBy = require("sewn_scripts.helpers.is_spawned_by")
-
+local GetDirectionFromAngle = require("sewn_scripts.helpers.get_direction_from_angle")
 local DemonBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLECTIBLE_DEMON_BABY)
@@ -23,20 +23,6 @@ DemonBaby.Stats = {
 }
 
 local animationNames = {"FloatShootDown", "FloatShootUp", "FloatShootSide"}
-
-local function GetDirectionFromAngle(angle)
-    if angle == nil then return Direction.NO_DIRECTION end
-    if angle > 45 and angle < 135 then
-        return Direction.DOWN
-    elseif angle > 135 and angle < 180 or angle > -180 and angle < -135 then
-        return Direction.LEFT
-    elseif angle > -135 and angle < -45 then
-        return Direction.UP
-    elseif angle > -45 and angle < 0 or angle > 0 and angle < 45 then
-        return Direction.RIGHT
-    end
-    return Direction.NO_DIRECTION
-end
 
 local function FireAtNpc(familiar, npc)
     local fData = familiar:GetData()

@@ -67,8 +67,6 @@ function SewingMachine:BreakMachine(machine)
     local machineSprite = machine:GetSprite()
     local machineType = SewingMachineTypes:GetSewingMachineType(machine.SubType)
 
-    print("BreakMachine")
-
     if machineType.ShouldDisappearOnBreak == true then
         machineSprite:Play("Disappear")
     else
