@@ -117,6 +117,7 @@ Enums.EffectVariant = {
     SPIDER_MOD_EGG = Isaac.GetEntityVariantByName("Spider Mod Egg"),
     CUBE_BABY_AURA = Isaac.GetEntityVariantByName("Cube Baby Aura"),
     PUNCHING_BAG_PULLING_EFFECT = Isaac.GetEntityVariantByName("Punching Bag Pulling Effect"),
+    BOMB_BAG_POWDER = Isaac.GetEntityVariantByName("Bomb Bag Powder"),
 }
 
 return Enums

@@ -47,6 +47,7 @@
         "EntityPtr",
         "EntityLaser",
         "Entity",
-        "PlayerType"
+        "PlayerType",
+        "BombSubType"
     ]
 }

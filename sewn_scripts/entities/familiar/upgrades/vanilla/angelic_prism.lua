@@ -1,4 +1,3 @@
-local Globals = require("sewn_scripts.core.globals")
 local GetDirectionFromAngle = require("sewn_scripts.helpers.get_direction_from_angle")
 local AngelicPrism = { }
 

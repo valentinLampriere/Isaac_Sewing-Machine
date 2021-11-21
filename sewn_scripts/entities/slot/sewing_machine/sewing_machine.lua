@@ -173,7 +173,6 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     end
     
     if CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.PRE_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, isUpgrade) == true then
-        print("Pre Get Familiar true")
         return
     end
     
