@@ -7,6 +7,8 @@ local SewingMachine_Devil = require("sewn_scripts.entities.slot.sewing_machine.s
 
 local LostButton = { }
 
+local hasLostButton = false
+
 LostButton.Stats = {
     ShopBonus = 100 - SewingMachine_Shop.AppearChance,
     AngelDevilBonus = 50
@@ -14,14 +16,21 @@ LostButton.Stats = {
 
 function LostButton:GetLoseLostButton(player, getTrinket)
     if getTrinket then
-        print("Get Lost Button")
         SewingMachine_Shop.AppearChance = SewingMachine_Shop.AppearChance + LostButton.Stats.ShopBonus
         SewingMachine_Angel.AppearChance = SewingMachine_Angel.AppearChance + LostButton.Stats.AngelDevilBonus
         SewingMachine_Devil.AppearChance = SewingMachine_Devil.AppearChance + LostButton.Stats.AngelDevilBonus
+        hasLostButton = true
     else
         SewingMachine_Shop.AppearChance = SewingMachine_Shop.AppearChance - LostButton.Stats.ShopBonus
         SewingMachine_Angel.AppearChance = SewingMachine_Angel.AppearChance - LostButton.Stats.AngelDevilBonus
         SewingMachine_Devil.AppearChance = SewingMachine_Devil.AppearChance - LostButton.Stats.AngelDevilBonus
+        hasLostButton = false
+    end
+end
+
+function LostButton:NewGame()
+    if hasLostButton then
+        LostButton:GetLoseLostButton(nil, false)
     end
 end
 

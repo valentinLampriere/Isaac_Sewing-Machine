@@ -44,7 +44,6 @@ local function GetSewingMachineTypeForCurrentRoom()
     while #sewingMachineTypesForRoomType > 0 do
         local rollMachineType = Globals.rng:RandomInt(#sewingMachineTypesForRoomType) + 1
         local machineType = sewingMachineTypesForRoomType[rollMachineType]
-        print(machineType.SubType .. " -> Chances : " .. machineType.AppearChance)
         if Random:CheckRoll(machineType.AppearChance) then
             return machineType
         end
@@ -95,43 +94,6 @@ end
 
 -- Spawn a new Sewing Machine
 function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
-    --[[local level = sewingMachineMod.currentLevel
-    local room = sewingMachineMod.currentRoom
-
-    if InfinityTrueCoopInterface ~= nil and sewingMachineMod.Config.TrueCoop_removeMachine then
-        return
-    end
-
-    if position == nil then
-        position = room:FindFreePickupSpawnPosition(room:GetGridPosition(27), 0, true)
-    end
-
-    if machineSubType == nil then
-        if room:GetType() == RoomType.ROOM_ERROR then -- Error rooms
-            machineSubType = grng:RandomInt(4)
-        elseif room:GetType() == RoomType.ROOM_ISAACS or room:GetType() == RoomType.ROOM_BARREN then -- Bedrooms
-            machineSubType = sewingMachineMod.SewingMachineSubType.BEDROOM
-        elseif room:GetType() == RoomType.ROOM_SHOP or level:GetStage() == LevelStage.STAGE8 then -- Shops or Home
-            machineSubType = sewingMachineMod.SewingMachineSubType.SHOP
-        elseif room:GetType() == RoomType.ROOM_ANGEL then -- Angel rooms
-            machineSubType = sewingMachineMod.SewingMachineSubType.ANGELIC
-        elseif room:GetType() == RoomType.ROOM_DEVIL then -- Devil rooms
-            machineSubType = sewingMachineMod.SewingMachineSubType.EVIL
-        else -- Other rooms
-            if grng:RandomInt(2) == 0 then
-                machineSubType = sewingMachineMod.SewingMachineSubType.BEDROOM
-            else
-                machineSubType = sewingMachineMod.SewingMachineSubType.SHOP
-            end
-        end
-    end
-
-    local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, sewingMachineMod.SewingMachine, machineSubType, position, v0, nil)
-    if playAppearAnim == true then
-        machine:GetSprite():Play("Appear", true)
-    end
-    --]]
-
     if position == nil then
         position = Globals.Room:FindFreePickupSpawnPosition(Globals.Room:GetGridPosition(27), 0, true)
     end
@@ -154,7 +116,7 @@ end
 function SewingMachineManager:TryToSpawnMachineOnRoomClear()
     local sewingMachineType = GetSewingMachineTypeForCurrentRoom()
     if sewingMachineType ~= nil then
-        SewingMachineManager:Spawn(nil, sewingMachineType.PlayAppearAnimOnNewRoom, sewingMachineType.SubType)
+        SewingMachineManager:Spawn(nil, true, sewingMachineType.SubType)
     end
 end
 
