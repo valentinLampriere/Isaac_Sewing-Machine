@@ -2,7 +2,6 @@ local SewnMod = RegisterMod("!Sewing machine rework", 1)
 
 Sewn_API = require("sewn_scripts.sewn_api")
 
-
 require("sewn_scripts.helpers.embeddablecallbackhack")
 require("sewn_scripts.helpers.apioverride")
 
@@ -84,7 +83,9 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_UPDATE, PostMachineU
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_PLAYER_TOUCH_MACHINE, PostPlayerTouchMachine, Enums.SlotMachineVariant.SEWING_MACHINE)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachineDestroy, Enums.SlotMachineVariant.SEWING_MACHINE)
 
+
 require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
 require("sewn_scripts.items.new_trinkets")
 
 require("sewn_scripts.mod_compat.eid.eid")
+require("sewn_scripts.mod_compat.minimapi.minimapi")
