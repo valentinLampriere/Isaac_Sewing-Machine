@@ -28,7 +28,7 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
     if sourceFamiliar == nil then
         return
     end
-    if sourceFamiliar.GetData == nil then
+    if sourceFamiliar.GetData == nil then -- the callback is broken in AB+. This is a workaround
         local familiars = Isaac.FindByType(sourceFamiliar.Type, sourceFamiliar.Variant, -1, false, false)
         for _, familiar in ipairs(familiars) do
             if GetPtrHash(familiar) == GetPtrHash(sourceFamiliar) then
