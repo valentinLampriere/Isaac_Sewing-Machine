@@ -69,5 +69,6 @@ function AngelicPrism:OnFamiliarUpdate(familiar)
     end
 end
 
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, AngelicPrism.OnFamiliarInit, FamiliarVariant.ANGELIC_PRISM)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, AngelicPrism.OnFamiliarInit, FamiliarVariant.ANGELIC_PRISM)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, AngelicPrism.OnFamiliarUpdate, FamiliarVariant.ANGELIC_PRISM)

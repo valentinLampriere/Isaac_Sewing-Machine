@@ -126,9 +126,11 @@ function BombBag:FamiliarUpdate_Ultra(familiar)
     end
 end
 
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BombBag.FamiliarInit, FamiliarVariant.BOMB_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, BombBag.FamiliarInit, FamiliarVariant.BOMB_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, BombBag.PlaySpawnAnim, FamiliarVariant.BOMB_BAG, nil, "Spawn")
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BombBag.FamiliarUpdate, FamiliarVariant.BOMB_BAG)
 
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BombBag.FamiliarInit_Ultra, FamiliarVariant.BOMB_BAG, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, BombBag.FamiliarInit_Ultra, FamiliarVariant.BOMB_BAG, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BombBag.FamiliarUpdate_Ultra, FamiliarVariant.BOMB_BAG, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

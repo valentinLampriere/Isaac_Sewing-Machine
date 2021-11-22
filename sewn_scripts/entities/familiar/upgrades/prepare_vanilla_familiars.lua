@@ -43,4 +43,5 @@ if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.bot_fly")
     require("sewn_scripts.entities.familiar.upgrades.vanilla.paschal_candle")
     require("sewn_scripts.entities.familiar.upgrades.vanilla.vanishing_twin")
+    require("sewn_scripts.entities.familiar.upgrades.vanilla.psy_fly")
 end
