@@ -58,7 +58,6 @@ function AngelicPrism:OnFamiliarUpdate(familiar)
     local level = Sewn_API:GetLevel(fData)
 
     HandleSpin(familiar)
-    print(fData.Sewn_angelicPrism_tValue)
 
     local tears = Isaac.FindInRadius(familiar.Position, familiar.Size + 5, EntityPartition.TEAR)
     for _, tear in ipairs(tears) do

@@ -10,7 +10,6 @@ function GlowingHourglass:OnUseItem(collectibleType, rng)
     if collectibleType ~= CollectibleType.COLLECTIBLE_GLOWING_HOUR_GLASS then
         return
     end
-    print("Use Glowing Hourglass")
 
     UpgradeManager:LoadUpgrades(upgradeSaves)
 end
