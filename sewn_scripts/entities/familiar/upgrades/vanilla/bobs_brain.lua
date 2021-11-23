@@ -15,9 +15,6 @@ Sewn_API:AddFamiliarDescription(
     "Sticks to enemies before exploding"
 )
 
-function BobsBrain:OnFamiliarUpgraded(familiar)
-    
-end
 function BobsBrain:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
     if familiar.FireCooldown > 30 and fData.Sewn_crown_hide == true then
@@ -93,8 +90,6 @@ function BobsBrain:OnFamiliarUpdate_Ultra(familiar)
     end
 end
 
-
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BobsBrain.OnFamiliarUpgraded, FamiliarVariant.BOBS_BRAIN)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BobsBrain.OnFamiliarUpdate, FamiliarVariant.BOBS_BRAIN)
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BobsBrain.OnFamiliarUpdate_Ultra, FamiliarVariant.BOBS_BRAIN, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)

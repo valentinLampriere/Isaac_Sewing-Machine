@@ -7,7 +7,11 @@ local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
 local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
-Sewn_API.Enums = Enums
+Sewn_API.Enums = {
+    ModCallbacks = Enums.ModCallbacks,
+    FamiliarLevel = Enums.FamiliarLevel,
+    FamiliarLevelFlag = Enums.FamiliarLevelFlag,
+}
 
 -- Return true if the familiar is upgraded as SUPER (yellow crown)
 -- fData (table)                   : data attributes of the familiar retrieved with familiar:GetData()
