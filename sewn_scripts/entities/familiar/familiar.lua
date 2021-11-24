@@ -3,6 +3,7 @@ local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
+local CColor = require("sewn_scripts.helpers.ccolor")
 
 local Familiar = { }
 
@@ -103,6 +104,17 @@ function Familiar:Update(familiar)
         return
     end
     CheckCrown(familiar)
+end
+function Familiar:SetTransparencyForUnavailableFamiliar(familiar)
+    local pData = familiar.Player:GetData()
+    if pData.Sewn_isCloseFromMachine ~= true then
+        return
+    end
+    local fData = familiar:GetData()
+    local color = familiar:GetColor()
+    if not AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) or Sewn_API:IsUltra(fData) or fData.Sewn_noUpgrade == true then
+        familiar:SetColor(CColor(color.R, color.G, color.B, 0.5, color.RO, color.GO, color.BO, true), 5, 1, false,false)
+    end
 end
 function Familiar:CheckForDelirium(familiar)
     local fData = familiar:GetData()

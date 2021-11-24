@@ -35,7 +35,7 @@ function SewingMachine:PlayerTouchMachine(player, machine)
     mData.Sewn_touchCooldown = SewingMachine.Stats.PlayerTouchCooldown
 end
 
-local function SetMachineAnimation(machine)
+function SewingMachine:HandleMachineAnimation(machine)
     local machineSprite = machine:GetSprite()
 
     if machineSprite:IsFinished("Appear") then
@@ -45,17 +45,20 @@ local function SetMachineAnimation(machine)
     end
 end
 
--------------------------
--- POST_MACHINE_UPDATE --
--------------------------
-function SewingMachine:MachineUpdate(machine)
+function SewingMachine:HandleMachineCooldown(machine)
     local mData = machine:GetData().SewingMachineData
-
-    SetMachineAnimation(machine)
 
     -- Reduce machine cooldown
     if mData.Sewn_touchCooldown > 0 then
         mData.Sewn_touchCooldown = mData.Sewn_touchCooldown - 1
+    end
+end
+
+function SewingMachine:SetPlayeCloseFromMachine(machine)
+    for i = 1, Globals.Game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        local pData = player:GetData()
+        pData.Sewn_isCloseFromMachine = (machine.Position - player.Position):LengthSquared() < 100 ^ 2
     end
 end
 

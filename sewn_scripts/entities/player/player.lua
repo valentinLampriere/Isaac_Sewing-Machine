@@ -52,6 +52,14 @@ function Player:GetAvailableFamiliars(player)
     return availableFamiliars
 end
 
+function Player:ResetCloseToMachine()
+    for i = 1, Globals.Game:GetNumPlayers() do
+        local player = Isaac.GetPlayer(i - 1)
+        local pData = player:GetData()
+        pData.Sewn_isCloseFromMachine = nil
+    end
+end
+
 function Player:ResetFamiliarsInMachine(player)
     local pData = player:GetData()
     pData.Sewn_familiarsInMachine = { }

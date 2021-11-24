@@ -5,6 +5,7 @@ local function MC_FAMILIAR_UPDATE(_, familiar)
     Familiar:TryInitFamiliar(familiar)
     Familiar:Update(familiar)
     Familiar:CheckForDelirium(familiar)
+    Familiar:SetTransparencyForUnavailableFamiliar(familiar)
     CustomCallbacksHandler:FamiliarUpdate(familiar)
 end
 

@@ -7,6 +7,7 @@ local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_
 local BoxOfFriends = require("sewn_scripts.items.active.box_of_friends")
 local TheTwins = require("sewn_scripts.items.trinkets.the_twins")
 local GlowingHourglass = require("sewn_scripts.items.active.glowing_hourglass")
+local Player = require("sewn_scripts.entities.player.player")
 
 local function MC_POST_NEW_ROOM(_)
     Globals.Room = Globals.Game:GetRoom()
@@ -18,6 +19,7 @@ local function MC_POST_NEW_ROOM(_)
     BoxOfFriends:OnNewRoom()
     TheTwins:OnNewRoom()
     GlowingHourglass:OnNewRoom()
+    Player:ResetCloseToMachine()
 end
 
 return MC_POST_NEW_ROOM
