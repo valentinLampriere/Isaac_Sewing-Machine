@@ -7,9 +7,9 @@ local function POST_MACHINE_UPDATE(_, machine)
     if mData == nil then
         return
     end
-    SewingMachine:HandleMachineAnimation(machine)
     SewingMachine:HandleMachineCooldown(machine)
     SewingMachine:SetPlayeCloseFromMachine(machine)
+    SewingMachine:HandleMachineAnimation(machine)
 end
 
 return POST_MACHINE_UPDATE
