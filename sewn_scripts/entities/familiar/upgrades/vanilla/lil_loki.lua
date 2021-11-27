@@ -7,7 +7,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_LOKI, CollectibleType.COLLECT
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_LOKI,
     "Fire in 8 directions",
-    "{{ArrowUp}} Damage Up"
+    "{{ArrowUp}} Damage Up", nil, "Lil Loki"
 )
 
 LilLoki.Stats = {

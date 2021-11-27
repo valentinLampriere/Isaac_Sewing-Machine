@@ -8,7 +8,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.CUBE_BABY, CollectibleType.COLLEC
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CUBE_BABY,
     "Gain a freezing aura. Enemies which stay for too long in the aura will take damage until they are completely frozen",
-    "Spawn creep when moved around#The more is goes fast, the more it spawns creep"
+    "Spawn creep when moved around#The more is goes fast, the more it spawns creep", nil, "Cube Baby"
 )
 
 CubeBaby.Stats = {

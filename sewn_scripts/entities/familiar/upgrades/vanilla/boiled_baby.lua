@@ -8,7 +8,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOILED_BABY, CollectibleType.COLL
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOILED_BABY,
     "Increase the amount of tears it burst",
-    "Fire tears in the directions the player is firing"
+    "Fire tears in the directions the player is firing", nil, "Boiled Baby"
 )
 
 BoiledBaby.Stats = {

@@ -8,7 +8,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_SPEWER, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_SPEWER,
     "When it shoots, it fires additional tears which depends on it color",
-    "Had two colors at the same time"
+    "Had two colors at the same time", nil, "Lil Spewer"
 )
 
 LilSpewer.Stats = {

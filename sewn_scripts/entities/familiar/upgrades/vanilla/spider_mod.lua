@@ -9,7 +9,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SPIDER_MOD, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SPIDER_MOD,
     "Spawn eggs which apply a random effect to enemies which walk over them#Eggs last 20 seconds",
-    "Higher chance to spawn eggs#At the end of rooms, eggs spawn blue spiders"
+    "Higher chance to spawn eggs#At the end of rooms, eggs spawn blue spiders", nil, "Spider Mod"
 )
 
 SpiderMod.Stats = {

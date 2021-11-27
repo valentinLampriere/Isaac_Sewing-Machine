@@ -35,7 +35,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOMB_BAG, CollectibleType.COLLECT
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOMB_BAG,
     "While the player fire tears in the direction where the prism stands, it get closer to the player#Tears which goes through it turn spectral",
-    "Move even closer to the player#Tears which goes through it gain homing"
+    "Move even closer to the player#Tears which goes through it gain homing", nil, "Bomb Bag"
 )
 
 local function GetCloseBombBagPowders(position)

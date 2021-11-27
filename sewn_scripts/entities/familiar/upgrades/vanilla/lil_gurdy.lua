@@ -27,7 +27,7 @@ LilGurdy.Stats = {
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_GURDY,
     "{{ArrowUp}} Can be charge quicker#While charging, fire tear in different directions",
-    "{{ArrowUp}} Can be charge quicker#When it dash, it leaves red creep#Fire 3 waves of tears in different directions after dashing"
+    "{{ArrowUp}} Can be charge quicker#When it dash, it leaves red creep#Fire 3 waves of tears in different directions after dashing", nil, "Lil Gurdy"
 )
 
 local function ShootTears(familiar)

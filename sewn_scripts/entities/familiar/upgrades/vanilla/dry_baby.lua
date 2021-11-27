@@ -16,7 +16,7 @@ DryBaby.Stats = {
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DRY_BABY,
     "{{ArrowUp}} Increase chances to trigger Necronomicon effect#When it trigger the effect, destroy projectiles",
-    "More Necronomicon effect !#When it trigger the effect, turn bullet to bone shards"
+    "More Necronomicon effect !#When it trigger the effect, turn bullet to bone shards", nil, "Dry Baby"
 )
 
 function DryBaby:familiarCollide(familiar, collider)

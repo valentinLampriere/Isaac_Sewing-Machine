@@ -22,7 +22,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_GISH, CollectibleType.COLL
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LITTLE_GISH,
     "Tears create a puddle of creep on hit#{{ArrowUp}} Slight Tears Up",
-    "Larger creep#{{ArrowUp}} Tears Up##{{ArrowUp}} Damage Up"
+    "Larger creep#{{ArrowUp}} Tears Up##{{ArrowUp}} Damage Up", nil, "Little Gish"
 )
 
 function LittleGish:OnFamiliarTearUpdate(familiar, tear)

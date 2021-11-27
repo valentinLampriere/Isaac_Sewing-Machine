@@ -12,7 +12,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOBS_BRAIN, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOBS_BRAIN,
     "Spawn a large green creep when it explodes",
-    "Sticks to enemies before exploding"
+    "Sticks to enemies before exploding", nil, "Bob's Brain"
 )
 
 function BobsBrain:OnFamiliarUpdate(familiar)

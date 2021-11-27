@@ -7,7 +7,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_MONSTRO, CollectibleType.COLL
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_MONSTRO,
     "Have a chance to fire a tooth#Tooth deal 3.2 normal damage",
-    "Fire way more tears"
+    "Fire way more tears", nil, "Lil Monstro"
 )
 
 LilMonstro.Stats = {

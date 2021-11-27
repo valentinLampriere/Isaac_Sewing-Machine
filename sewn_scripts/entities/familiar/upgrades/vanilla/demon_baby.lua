@@ -8,7 +8,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEMON_BABY,
     "Fire automatically through walls",
-    "{{ArrowUp}} Higher Range#{{ArrowUp}} Tears Up"
+    "{{ArrowUp}} Higher Range#{{ArrowUp}} Tears Up", nil, "Demon Baby"
 )
 
 DemonBaby.Stats = {

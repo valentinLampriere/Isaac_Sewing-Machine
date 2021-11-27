@@ -12,7 +12,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.INCUBUS, CollectibleType.COLLECTI
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.INCUBUS,
     "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Damage Up"
+    "{{ArrowUp}} Damage Up", nil, "Incubus"
 )
 
 function Incubus:OnEntityTakeDamage(familiar, entity, amount, flags, source, countdown)

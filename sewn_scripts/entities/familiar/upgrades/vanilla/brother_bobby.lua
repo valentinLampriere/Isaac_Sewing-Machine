@@ -5,7 +5,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BROTHER_BOBBY, CollectibleType.CO
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BROTHER_BOBBY,
     "{{ArrowUp}} Tears Up",
-    "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up"
+    "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up", nil, "Brother Bobby"
 )
 
 BrotherBobby.Stats = {

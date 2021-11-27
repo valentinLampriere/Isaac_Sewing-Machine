@@ -5,7 +5,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SACRIFICIAL_DAGGER, CollectibleTy
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SACRIFICIAL_DAGGER,
     "Apply bleed effect#{{ArrowUp}} Small damage up",
-    "{{ArrowUp}} Damage Up"
+    "{{ArrowUp}} Damage Up", nil, "Sacrificial Dagger"
 )
 
 SacrificialDagger.Stats = {

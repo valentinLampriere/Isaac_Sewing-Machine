@@ -8,7 +8,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROBO_BABY, CollectibleType.COLLEC
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROBO_BABY,
     "{{ArrowUp}} Tears Up",
-    "{{ArrowUp}} Tears Up"
+    "{{ArrowUp}} Tears Up", nil, "Robo-Baby"
 )
 
 local stats = {

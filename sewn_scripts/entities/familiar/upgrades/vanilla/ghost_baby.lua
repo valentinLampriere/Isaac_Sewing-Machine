@@ -5,7 +5,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.GHOST_BABY, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.GHOST_BABY,
     "Gain piercing Pupula tears#{{ArrowUp}} Damage Up",
-    "Tears are larger#{{ArrowUp}} Damage Up"
+    "Tears are larger#{{ArrowUp}} Damage Up", nil, "Ghost Baby"
 )
 
 GhostBaby.Stats = {

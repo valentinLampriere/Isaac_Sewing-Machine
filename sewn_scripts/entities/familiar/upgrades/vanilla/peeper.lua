@@ -19,7 +19,7 @@ Peeper.Stats = {
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PEEPER,
     "Fire ".. Peeper.Stats.AmountTears .." tears in differents directions every few seconds.#Try to home to close enemies",
-    "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well.#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawns two Peepers Eyes"
+    "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well.#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawns two Peepers Eyes", nil, "Peeper"
 )
 
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)

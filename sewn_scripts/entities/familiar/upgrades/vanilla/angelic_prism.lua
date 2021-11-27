@@ -18,7 +18,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ANGELIC_PRISM, CollectibleType.CO
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ANGELIC_PRISM,
     "While the player fire tears in the direction where the prism stands, it get closer to the player#Tears which goes through it turn spectral",
-    "Move even closer to the player#Tears which goes through it gain homing"
+    "Move even closer to the player#Tears which goes through it gain homing", nil, "Angelic Prism"
 )
 
 local defaultOrbitDistance = Vector(85, 67.5)

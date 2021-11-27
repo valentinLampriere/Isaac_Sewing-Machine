@@ -11,7 +11,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_STEVEN, CollectibleType.CO
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LITTLE_STEVEN,
     "Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up",
-    "Increase chances to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear causing a chain reaction#{{ArrowUp}} Damage Up"
+    "Increase chances to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear causing a chain reaction#{{ArrowUp}} Damage Up", nil, "Little Steven"
 )
 
 local littleStevenBulletPatterns = {

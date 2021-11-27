@@ -14,7 +14,7 @@ RainbowBaby.Stats = {
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.RAINBOW_BABY,
     "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
-    "Tears combine effects"
+    "Tears combine effects", nil, "Rainbow Baby"
 )
 
 function RainbowBaby:TearInit(familiar, tear)

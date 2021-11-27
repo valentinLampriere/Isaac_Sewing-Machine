@@ -13,7 +13,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PSY_FLY, CollectibleType.COLLECTI
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PSY_FLY,
     "When it blocks a bullet, fire a homing tear in the opposite direction",
-    "{{ArrowUp}} Damage Up (collision and tears)"
+    "{{ArrowUp}} Damage Up (collision and tears)", nil, "Psy Fly"
 )
 
 function PsyFly:OnFamiliarCollide(familiar, collider)

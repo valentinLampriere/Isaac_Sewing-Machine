@@ -10,7 +10,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEAD_CAT, CollectibleType.COLLECT
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,
     "Gain an additional soul heart when dying",
-    "Gain an additional red heart container when dying"
+    "Gain an additional red heart container when dying", nil, "Dead Cat"
 )
 
 local function Respawn(player, isUltra)

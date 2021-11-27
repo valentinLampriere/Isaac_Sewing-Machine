@@ -5,7 +5,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SISTER_MAGGY, CollectibleType.COL
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISTER_MAGGY,
     "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up"
+    "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up", nil, "Sister Maggy"
 )
 
 function SisterMaggy:OnFamiliarFireTear_Super(familiar, tear)

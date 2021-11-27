@@ -7,7 +7,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROTTEN_BABY, CollectibleType.COLL
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROTTEN_BABY,
     "Spawn an additional blue fly",
-    "Spawn a random locust"
+    "Spawn a random locust", nil, "Rotten Baby"
 )
 
 local function CheckIfStillFlyExists(tableFlies)
