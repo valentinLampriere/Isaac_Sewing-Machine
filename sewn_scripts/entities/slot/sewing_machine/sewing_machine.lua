@@ -1,6 +1,6 @@
 local Globals = require("sewn_scripts.core.globals")
+local Familiar = require("sewn_scripts.entities.familiar.familiar")
 local Enums = require("sewn_scripts.core.enums")
-local Player = require("sewn_scripts.entities.player.player")
 local SewingMachineTypes = require("sewn_scripts.entities.slot.sewing_machine.sewing_machine_types")
 local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
@@ -54,14 +54,6 @@ function SewingMachine:HandleMachineCooldown(machine)
     end
 end
 
-function SewingMachine:SetPlayeCloseFromMachine(machine)
-    for i = 1, Globals.Game:GetNumPlayers() do
-        local player = Isaac.GetPlayer(i - 1)
-        local pData = player:GetData()
-        pData.Sewn_isCloseFromMachine = (machine.Position - player.Position):LengthSquared() < 100 ^ 2
-    end
-end
-
 --------------------------
 -- POST_MACHINE_DESTROY --
 --------------------------
@@ -101,12 +93,40 @@ function SewingMachine:SetFloatingAnim(machine)
     machineSprite:LoadGraphics()
 end
 
+function SewingMachine:ResetFloatingAnim(machine)
+    local mData = machine:GetData().SewingMachineData
+    if mData.Sewn_currentFamiliarVariant ~= nil then
+        SewingMachine:SetFloatingAnim(machine)
+    else
+        SewingMachine:SetIdleAnim(machine)
+    end
+end
+
+local function GetAvailableFamiliars(player)
+    local availableFamiliars = {}
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    for _, familiar in ipairs(familiars) do
+        familiar = familiar:ToFamiliar()
+        local fData = familiar:GetData()
+        if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and Familiar:IsReady(fData) then
+            -- if the familiar belongs to the player AND the familiar is ready AND it isn't Ultra
+            if GetPtrHash(familiar.Player) == GetPtrHash(player) then
+                local fData = familiar:GetData()
+                if not Sewn_API:IsUltra(fData) then
+                    table.insert(availableFamiliars, familiar)
+                end
+            end
+        end
+    end
+    return availableFamiliars
+end
+
 -- Try to put a familiar from the given player in the machine
 -- Called when a player touch a Sewing Machine (and there is no familiar in it)
 function SewingMachine:TryAddFamiliarInMachine(machine, player)
     local mData = machine:GetData().SewingMachineData
     local pData = player:GetData()
-    local availableFamiliars = Player:GetAvailableFamiliars(player)
+    local availableFamiliars = GetAvailableFamiliars(player)
 
     -- Does nothing if the player has no available familiars
     if #availableFamiliars == 0 then

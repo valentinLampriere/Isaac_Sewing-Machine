@@ -1,6 +1,7 @@
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local Familiar = require("sewn_scripts.entities.familiar.familiar")
+local SewingMachineManager = require("sewn_scripts.core.sewing_machine_manager")
 
 local Player = { }
 
@@ -28,35 +29,17 @@ function Player:OnEvaluateCache(player, cacheFlag)
     end
 end
 
-function Player:GetAvailableFamiliars(player)
-    local availableFamiliars = {}
-    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
-    for _, familiar in ipairs(familiars) do
-        familiar = familiar:ToFamiliar()
-        local fData = familiar:GetData()
-        if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and Familiar:IsReady(fData) then
-            -- if the familiar belongs to the player AND the familiar is ready AND it isn't Ultra
-            if GetPtrHash(familiar.Player) == GetPtrHash(player) then
-                local fData = familiar:GetData()
-                --[[
-                if familiar:GetData().Sewn_familiarReady == true and sewingMachineMod:isUltra(fData) == false then
-                    table.insert(availableFamiliars, familiar)
-                end
-                --]]
-                if not Sewn_API:IsUltra(fData) then
-                    table.insert(availableFamiliars, familiar)
-                end
-            end
+function Player:SetIsCloseFromMachine(player)
+    local pData = player:GetData()
+    local isCloseFromMachine = false
+    local machines = SewingMachineManager:GetAllSewingMachines()
+    for _, machine in ipairs(machines) do
+        if (machine.Position - player.Position):LengthSquared() < 100 ^ 2 then
+            isCloseFromMachine = true
         end
     end
-    return availableFamiliars
-end
-
-function Player:ResetCloseToMachine()
-    for i = 1, Globals.Game:GetNumPlayers() do
-        local player = Isaac.GetPlayer(i - 1)
-        local pData = player:GetData()
-        pData.Sewn_isCloseFromMachine = nil
+    if pData.Sewn_isCloseFromMachine ~= isCloseFromMachine then
+        pData.Sewn_isCloseFromMachine = isCloseFromMachine
     end
 end
 

@@ -8,7 +8,6 @@ local function POST_MACHINE_UPDATE(_, machine)
         return
     end
     SewingMachine:HandleMachineCooldown(machine)
-    SewingMachine:SetPlayeCloseFromMachine(machine)
     SewingMachine:HandleMachineAnimation(machine)
 end
 

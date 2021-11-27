@@ -25,16 +25,8 @@ function SewingMachineManager:SaveMachines()
 end
 function SewingMachineManager:LoadMachines(loadedData)
     MachineDataManager:LoadMachineData(loadedData)
-    SewingMachineManager:ResetMachineFloatingAnimation()
-end
-
-
-function SewingMachineManager:ResetMachineFloatingAnimation()
     for _, machine in ipairs(SewingMachineManager:GetAllSewingMachines()) do
-        local mData = machine:GetData().SewingMachineData
-        if mData.Sewn_currentFamiliarVariant ~= nil then
-            SewingMachine:SetFloatingAnim(machine)
-        end
+        SewingMachine:ResetFloatingAnim(machine)
     end
 end
 
@@ -142,8 +134,8 @@ function SewingMachineManager:OnNewRoom()
     SewingMachineManager:TryToSpawnMachineOnNewRoom()
     for _, machine in ipairs(SewingMachineManager:GetAllSewingMachines()) do
         MachineDataManager:TryMatchMachineData(machine)
+        SewingMachine:ResetFloatingAnim(machine)
     end
-    SewingMachineManager:ResetMachineFloatingAnimation()
 end
 
 return SewingMachineManager
