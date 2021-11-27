@@ -7,7 +7,7 @@ function MC_ENTITY_TAKE_DMG(_, entity, amount, flags, source, countdown)
         CrackedThimble:OnPlayerTakeDamage(player, flags, source)
         CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
     else
-        CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
+        return CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
     end
 end
 

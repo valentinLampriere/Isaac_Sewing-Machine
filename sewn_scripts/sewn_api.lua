@@ -11,6 +11,7 @@ Sewn_API.Enums = {
     ModCallbacks = Enums.ModCallbacks,
     FamiliarLevel = Enums.FamiliarLevel,
     FamiliarLevelFlag = Enums.FamiliarLevelFlag,
+    NoUpgrade = Enums.NoUpgrade
 }
 
 -- Return true if the familiar is upgraded as SUPER (yellow crown)

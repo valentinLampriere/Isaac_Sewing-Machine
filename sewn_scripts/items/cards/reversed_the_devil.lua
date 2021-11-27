@@ -16,7 +16,7 @@ function ReversedTheDevil:OnUse(card, player, useFlags)
             if GetPtrHash(player) == GetPtrHash(seraphim.Player) then
                 if seraphim.FrameCount <= 1 then
                     local fData = seraphim:GetData()
-                    fData.Sewn_noUpgrade = true
+                    fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.MACHINE
                 end
             end
         end

@@ -18,7 +18,7 @@ function MonsterManual:OnUseItem(collectibleType, rng)
             if GetPtrHash(player) == GetPtrHash(familiar.Player) then
                 if familiar.FrameCount <= 1 then
                     local fData = familiar:GetData()
-                    fData.Sewn_noUpgrade = true
+                    fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.MACHINE
                 end
             end
         end

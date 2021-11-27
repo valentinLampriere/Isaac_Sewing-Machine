@@ -44,7 +44,7 @@ local function HandleLemegetonWisps(familiar)
     local lemegetonWisps = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, FamiliarVariant.ITEM_WISP, AvailableFamiliarManager:GetFamiliarCollectibleId(familiar.Variant), false, false)
     for _, lemegetonWisp in ipairs(lemegetonWisps) do
         if lemegetonWisp.FrameCount == 5 then -- This familiar came from the lemegeton wisp
-            fData.Sewn_noUpgrade = true
+            fData.Sewn_noUpgrade = Enums.NoUpgrade.MACHINE
         end
     end
 end
@@ -53,6 +53,7 @@ local function InitFamiliar(familiar)
     local fData = familiar:GetData()
 
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+    fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Enums.NoUpgrade.NONE
 
     HandleDolls(familiar)
     HandleLemegetonWisps(familiar)
@@ -112,7 +113,7 @@ function Familiar:SetTransparencyForUnavailableFamiliar(familiar)
     end
     local fData = familiar:GetData()
     local color = familiar:GetColor()
-    if not AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) or Sewn_API:IsUltra(fData) or fData.Sewn_noUpgrade == true then
+    if not AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) or Sewn_API:IsUltra(fData) or fData.Sewn_noUpgrade & Enums.NoUpgrade.MACHINE == Enums.NoUpgrade.MACHINE then
         familiar:SetColor(CColor(color.R, color.G, color.B, 0.5, color.RO, color.GO, color.BO, true), 5, 1, false,false)
     end
 end
@@ -180,7 +181,7 @@ function Familiar:RenderCrown(familiar)
 end
 
 function Familiar:IsReady(fData)
-    return fData.Sewn_isDelirium ~= true and fData.Sewn_noUpgrade ~= true
+    return fData.Sewn_isDelirium ~= true and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.MACHINE ~= Sewn_API.Enums.NoUpgrade.MACHINE
 end
 
 function Familiar:TemporaryUpgrade(familiar, newLevel)
@@ -188,7 +189,7 @@ function Familiar:TemporaryUpgrade(familiar, newLevel)
     if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and not Sewn_API:IsUltra(fData) then
         --sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
         if fData.Sewn_upgradeLevel_temporary == nil then
-            fData.Sewn_upgradeLevel_temporry = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+            fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
         end
         if newLevel == nil then
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel_temporary + 1

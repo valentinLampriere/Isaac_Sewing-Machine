@@ -119,14 +119,14 @@ function UpgradeManager:CheckForChanges()
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(UpgradeManager.FamiliarsData) do
         -- If the familiarData hasn't an associated familiar entity
-        if familiarData.Entity == nil --[[or familiarData.Entity:Exists() == false--]] then
+        if familiarData.Entity == nil or familiarData.Entity:Exists() == false then
             local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, familiarData.Variant, -1, false, false)
             
             -- Reverse loop to get the last familiar first
             for j = #familiars, 1, -1 do
                 local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
-                if (fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade ~= true then
+                if (fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade == Enums.NoUpgrade.NONE then
                     -- Change familiar's data to prepare stats upgrade
                     --sewingMachineMod:callFamiliarUpgrade(familiar)
                     familiarData.Entity = familiar

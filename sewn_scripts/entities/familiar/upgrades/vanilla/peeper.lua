@@ -91,7 +91,7 @@ function Peeper:EvaluateFamiliarCache(familiar, player)
             local newPeeper = Isaac.Spawn(familiar.Type, familiar.Variant, 1, familiar.Position, Globals.V0, familiar.Player)
             local newFData = newPeeper:GetData()
             newFData.Sewn_peeper_isAddtionalPeeperEye = true
-            newFData.Sewn_noUpgrade = true
+            newFData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.ANY
             
             Sewn_API:UpFamiliar(newPeeper, Sewn_API.Enums.FamiliarLevel.SUPER)
 

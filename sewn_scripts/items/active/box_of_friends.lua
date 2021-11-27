@@ -47,7 +47,7 @@ function BoxOfFriends:OnUseItem(collectibleType, rng)
             if GetPtrHash(player) == GetPtrHash(familiar.Player) then
                 if familiar.FrameCount <= 1 then
                     TryCopyCrown(familiar)
-                    familiar:GetData().Sewn_noUpgrade = true
+                    familiar:GetData().Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.MACHINE
                 else
                     TryAssociateCopyFamiliarToPermanent(familiar)
                 end

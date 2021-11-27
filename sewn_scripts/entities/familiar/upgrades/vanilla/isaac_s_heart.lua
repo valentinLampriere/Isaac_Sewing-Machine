@@ -4,6 +4,7 @@ end
 
 local ShootTearsCircular = require("sewn_scripts.helpers.shoot_tears_circular")
 local Globals = require("sewn_scripts.core.globals")
+local FamiliarFollowTrail = require("sewn_scripts.helpers.familiar_follow_trail")
 
 local IsaacsHeart = { }
 
@@ -23,17 +24,6 @@ IsaacsHeart.Stats = {
     PanicRadius = 35,
     PanicCooldown = 30,
 }
-
-local function FamiliarFollowTrail(familiar, position, forceChildLeash)
-    if familiar.Player and (familiar.Player:HasTrinket(TrinketType.TRINKET_CHILD_LEASH) or forceChildLeash == true) and (familiar.Position-position):LengthSquared() > 9 then
-        familiar:FollowPosition(position + (familiar.Position-position):Resized(3))
-    elseif (familiar.Position-position):LengthSquared() > 625 then
-        familiar:FollowPosition(position + (familiar.Position-position):Resized(25))
-    else
-        familiar:FollowPosition(familiar.Position)
-    end
-    familiar.Velocity = familiar.Velocity * 1.9
-end
 
 function IsaacsHeart:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()

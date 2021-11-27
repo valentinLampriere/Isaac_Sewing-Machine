@@ -27,6 +27,7 @@ local FamiliarEvaluateCacheHandler = require("sewn_scripts.callbacks.custom.hand
 local PreFamiliarCollisionHandler = require("sewn_scripts.callbacks.custom.handlers.pre_familiar_collision_handler")
 local FamiliarPlayerTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_player_take_damage_handler")
 local PostFamiliarInitHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_init_handler")
+local EntityTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.entity_take_damage_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -122,6 +123,7 @@ InitCallback(FamiliarEvaluateCacheHandler)
 InitCallback(PreFamiliarCollisionHandler)
 InitCallback(FamiliarPlayerTakeDamageHandler)
 InitCallback(PostFamiliarInitHandler)
+InitCallback(EntityTakeDamageHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -152,7 +154,9 @@ function CustomCallbacksHandler:FamiliarUpdate(familiar)
 end
 function CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
 	for _, _function in ipairs(entityTakeDamage) do
-		_function(_, entity, amount, flags, source, countdown)
+		if _function(_, entity, amount, flags, source, countdown) == false then
+			return false
+		end
 	end
 end
 function CustomCallbacksHandler:PostNewRoom()

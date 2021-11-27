@@ -35,6 +35,7 @@ require("sewn_scripts.entities.familiar.upgrades.vanilla.bomb_bag")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.sissy_longlegs")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.bobs_brain")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.dead_cat")
+require("sewn_scripts.entities.familiar.upgrades.vanilla.incubus")
 
 if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.fruity_plum")
