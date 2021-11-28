@@ -34,7 +34,7 @@ local function SetMinLevel(familiar, currentLevel)
     local fData = familiar:GetData()
     currentLevel = currentLevel or Sewn_API:GetLevel(fData)
 
-    local minLevel = GuppysHairball.Stats.MinLevel[currentLevel]
+    local minLevel = GuppysHairball.Stats.MinLevel[currentLevel] or 0
     if familiar.SubType < minLevel then
         familiar.SubType = minLevel
     end
