@@ -18,6 +18,9 @@ local function CheckFamiliarsSpawn(player)
 end
 
 function TheTwins:OnNewRoom()
+    if not REPENTANCE then
+        return
+    end
     for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
         if player:HasTrinket(TrinketType.TRINKET_THE_TWINS) then
