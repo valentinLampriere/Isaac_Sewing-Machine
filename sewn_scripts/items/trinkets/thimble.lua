@@ -1,6 +1,7 @@
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local Random = require("sewn_scripts.helpers.random")
 
 local Thimble = { }
 
@@ -18,23 +19,20 @@ function Thimble:GetFamiliarFromSewingMachine(familiar, player, machine, isUpgra
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_PENNY, machine.Position, RandomVelocity(), machine)
         end
     elseif machine.SubType == Enums.SewingMachineSubType.BEDROOM then
-        local rollSoulHeart = machine:GetDropRNG():RandomInt(3)
-        if rollSoulHeart > 0 then
+        if Random:CheckRoll(50, machine:GetDropRNG()) then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_SOUL, machine.Position, RandomVelocity(), machine)
         end
     elseif machine.SubType == Enums.SewingMachineSubType.ANGEL then
-        local rollSoulHeart = machine:GetDropRNG():RandomInt(4)
         local rollCoins = machine:GetDropRNG():RandomInt(2)
-        if rollSoulHeart == 0 then
+        if Random:CheckRoll(15, machine:GetDropRNG()) then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_ETERNAL, machine.Position, RandomVelocity(), machine)
         end
         for i = 1, rollCoins do
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_PENNY, machine.Position, RandomVelocity(), machine)
         end
     elseif machine.SubType == Enums.SewingMachineSubType.DEVIL then
-        local rollBlackHeart = machine:GetDropRNG():RandomInt(3)
         local rollBlueFlies = machine:GetDropRNG():RandomInt(6) - 1
-        if rollBlackHeart == 0 then
+        if Random:CheckRoll(40, machine:GetDropRNG()) then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, HeartSubType.HEART_BLACK, machine.Position, RandomVelocity(), machine)
         end
         for i = 1, rollBlueFlies do
