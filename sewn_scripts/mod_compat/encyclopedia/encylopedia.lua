@@ -1,0 +1,3 @@
+local Encyclopedia = { }
+
+return Encyclopedia
