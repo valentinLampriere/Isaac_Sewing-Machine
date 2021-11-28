@@ -49,6 +49,7 @@
         "Entity",
         "PlayerType",
         "BombSubType",
-        "MinimapAPI"
+        "MinimapAPI",
+        "Encyclopedia"
     ]
 }

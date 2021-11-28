@@ -31,7 +31,9 @@ function SewingCase:OnNewRoom()
             
             if Random:CheckRoll((math.sqrt(#playerAvailableFamiliars * 0.1) + luck * 0.008) * 100, player:GetTrinketRNG(Enums.TrinketType.TRINKET_SEWING_CASE)) then
                 local rollFamiliar = player:GetTrinketRNG(Enums.TrinketType.TRINKET_SEWING_CASE):RandomInt(#playerAvailableFamiliars) + 1
-                Familiar:TemporaryUpgrade(playerAvailableFamiliars[rollFamiliar])
+                if playerAvailableFamiliars[rollFamiliar] ~= nil and playerAvailableFamiliars[rollFamiliar]:Exists() then
+                    Familiar:TemporaryUpgrade(playerAvailableFamiliars[rollFamiliar])
+                end
             end
         end
     end

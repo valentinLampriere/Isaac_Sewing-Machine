@@ -6,8 +6,8 @@ local Enums = require("sewn_scripts.core.enums")
 
 -- EID Collectibles
 EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "Upgrade every familiars from normal to super, or super to ultra form#Using it twice in a room will upgrade familiars twice#Ultra familiars can't be upgraded")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Every familiars will be SUPER#With Doll's Pure Body every familiars will be ULTRA")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Every familiars will be SUPER#With Doll's Tainted Head every familiars will be ULTRA")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Upgrade every normal familiars to super#With Doll's Pure Body, upgrade every familiars to ultra")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Upgrade every normal familiars to super#With Doll's Tainted Body, upgrade every familiars to ultra")
 
 -- EID Trinkets
 EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "Refund familiars upgrade when using the Sewing Machine#Spawn pickups on the floor, pickups depends on the Sewing Machine type")
