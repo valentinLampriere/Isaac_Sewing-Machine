@@ -37,11 +37,16 @@ function FamiliarHitNpcHandler:EntityTakeDamage(entity, amount, flags, source, c
             end
         end
     end
+    local preventDamage = nil
     for _, callback in ipairs(FamiliarHitNpcHandler.RegisteredCallbacks) do
         if CallbackFamiliarArgument:Check(sourceFamiliar, callback.Argument[1], callback.Argument[2]) then
-            callback:Function(sourceFamiliar, entity, amount, flags, source, countdown)
+            local _preventDamage = callback:Function(sourceFamiliar, entity, amount, flags, source, countdown)
+            if _preventDamage == false then
+                preventDamage = _preventDamage
+            end
         end
     end
+    return preventDamage
 end
 
 return FamiliarHitNpcHandler
