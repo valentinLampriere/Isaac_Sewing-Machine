@@ -8,6 +8,12 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up", nil, "Sacrificial Dagger"
 )
 
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.SACRIFICIAL_DAGGER,
+    "Apply bleed effect#Small damage up (+1 dmg)",
+    "Damage up (+4 dmg)"
+)
+
 SacrificialDagger.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,

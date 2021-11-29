@@ -36,6 +36,7 @@ function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUp
     --[[if Encyclopedia ~= nil then
         sewingMachineMod:SetEncyclopedia(sewingMachineMod.availableFamiliar[familiarVariant][1], familiarVariant)
     end--]]
+    Sewn_API:AddEncyclopediaUpgrade(familiarVariant, firstUpgrade, secondUpgrade, nil, false)
 end
 
 return FamiliarDescription

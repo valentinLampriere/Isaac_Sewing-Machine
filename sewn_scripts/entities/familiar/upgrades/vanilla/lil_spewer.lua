@@ -10,6 +10,11 @@ Sewn_API:AddFamiliarDescription(
     "When it shoots, it fires additional tears which depends on it color",
     "Had two colors at the same time", nil, "Lil Spewer"
 )
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.LIL_SPEWER,
+    "When it throw creep, it fires tears whic depends on it color.#- Normal: Fire three normal tears (one forward, two in diagonal directions) which deal 5 damage#- Black and White: Fire 3 tears (one forward, two in diagonal directions) which deal 3.5 damage and apply a slow effect#- Yellow: Fire three tears in the same direction with a 2 frames delay#- Red: Fire a single large tear which deal 12.5 damage.",
+    "Has two colors at the same time allowing it to combine effects"
+)
 
 LilSpewer.Stats = {
     TearVelocity = 10

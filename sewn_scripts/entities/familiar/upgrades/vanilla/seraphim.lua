@@ -10,6 +10,12 @@ Sewn_API:AddFamiliarDescription(
     "Higher chance to fire Holy Tears#{{ArrowUp}} Tears Up", nil, "Seraphim"
 )
 
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.SERAPHIM,
+    "Have 10% chance to fire a Holy Tear#Holy Tear spawn a light beam on contact",
+    "Have 15% chance to fire a Holy Tear#Tears Up (x1.24)"
+)
+
 Seraphim.Stats = {
     TearRateBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
@@ -22,6 +28,7 @@ Seraphim.Stats = {
 }
 
 function Seraphim:OnFireTear(familiar, tear)
+    print(familiar.FireCooldown)
     local fData = familiar:GetData()
     familiar.FireCooldown = familiar.FireCooldown - Seraphim.Stats.TearRateBonus[Sewn_API:GetLevel(fData)]
 

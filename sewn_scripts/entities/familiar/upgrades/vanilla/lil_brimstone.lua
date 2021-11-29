@@ -7,7 +7,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up",
     "{{ArrowUp}} Slight Damage Up#Laser last longer#Can be charged quicker", nil, "Lil Brimstone"
 )
-
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.LIL_BRIMSTONE,
+    "Damage Up (x1.5)",
+    "Laser last longer (x1.3)#Slight Damage Up (x1.6)#Can be charged quicker"
+)
 LilBrimstone.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.5,

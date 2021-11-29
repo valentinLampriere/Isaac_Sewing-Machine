@@ -90,4 +90,4 @@ require("sewn_scripts.items.new_trinkets")
 require("sewn_scripts.mod_compat.eid.eid")
 require("sewn_scripts.mod_compat.minimapi.minimapi")
 
-require("sewn_scripts.mod_compat.encyclopedia.encylopedia")
+require("sewn_scripts.mod_compat.encyclopedia.encyclopedia")

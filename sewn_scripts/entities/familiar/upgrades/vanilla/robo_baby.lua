@@ -8,7 +8,12 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROBO_BABY, CollectibleType.COLLEC
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROBO_BABY,
     "{{ArrowUp}} Tears Up",
-    "{{ArrowUp}} Tears Up", nil, "Robo-Baby"
+    "{{ArrowUp}} Tears Up", nil, "Robo Baby"
+)
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.ROBO_BABY,
+    "Tears Up (x1.29)",
+    "Tears Up (x1.52)"
 )
 
 local stats = {
@@ -20,6 +25,7 @@ local stats_ab = {
     [Enums.FamiliarLevel.ULTRA] = 15,
 }
 function RoboBaby:OnFamiliarFireLaser(familiar, laser)
+    print(familiar.FireCooldown)
     local fData = familiar:GetData()
     if REPENTANCE then
         familiar.FireCooldown = familiar.FireCooldown - stats[Sewn_API:GetLevel(fData)]

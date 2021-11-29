@@ -7,8 +7,14 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up",
     "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up", nil, "Sister Maggy"
 )
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.SISTER_MAGGY,
+    "Damage Up (x1.33)",
+    "Damage Up (x1.66)#Tears Up (x1.28)"
+)
 
 function SisterMaggy:OnFamiliarFireTear_Super(familiar, tear)
+    print(familiar.FireCooldown)
     if REPENTANCE then
         tear.CollisionDamage = tear.CollisionDamage * 1.33
         tear.Scale = tear.Scale * 1.08

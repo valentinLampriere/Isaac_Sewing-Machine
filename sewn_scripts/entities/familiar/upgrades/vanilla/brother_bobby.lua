@@ -2,6 +2,11 @@ local BrotherBobby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BROTHER_BOBBY, CollectibleType.COLLECTIBLE_BROTHER_BOBBY)
 
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.BROTHER_BOBBY,
+    "Tears Up (x1.33)",
+    "Tears Up (x1.47)#Damage Up (x1.33)"
+)
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BROTHER_BOBBY,
     "{{ArrowUp}} Tears Up",

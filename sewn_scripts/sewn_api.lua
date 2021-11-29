@@ -6,6 +6,7 @@ local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
 local Familiar = require("sewn_scripts.entities.familiar.familiar")
+local EncyclopediaUpgrades = require("sewn_scripts.mod_compat.encyclopedia.encyclopedia_upgrades")
 
 Sewn_API.Enums = {
     ModCallbacks = Enums.ModCallbacks,
@@ -76,6 +77,16 @@ Sewn_API.UpFamiliar = UpgradeManager.UpFamiliar
 --   [EntityFamiliar] : the familiar entity
 --   [Vector] : the offset
 Sewn_API.AddCrownOffset = Familiar.AddCrownOffset
+
+-- Add an Encyclopedia description for the familiar's Upgrade. This will be added in the familiar item wiki.
+-- It is possible to add 3 sections : Super upgrade, Ultra upgrade, Notes for additional informations
+-- By default the EID description is used in the Encyclopedia
+-- Parameters :
+--   [FamiliarVariant] : the familiar vatiant
+--   [string] (optionnal) : the super upgraded text (EID formatted). If not set, the EID text is choosen
+--   [string] (optionnal) : the ulta upgraded text (EID formatted). If not set, the EID text is choosen
+--   [string] (optionnal) : the notes text (EID formatted)
+Sewn_API.AddEncyclopediaUpgrade = EncyclopediaUpgrades.AddEncyclopediaUpgrade
 
 
 return Sewn_API

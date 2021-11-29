@@ -40,7 +40,7 @@ function SewingMachineDescription:GetMachineDescription(machine)
     local levelCrown = mData.Sewn_currentFamiliarLevek == Enums.FamiliarLevel.NORMAL and "Super" or "Ultra"
 
     local colorMarkup = "{{ColorWhite}}"
-    if EID.InlineColors["SewnColor_"..info.Name] then
+    if EID and EID.InlineColors["SewnColor_"..info.Name] then
         colorMarkup = "{{SewnColor_"..info.Name .. "}}"
     end
 

@@ -9,6 +9,11 @@ Sewn_API:AddFamiliarDescription(
     "Spawn an additional blue fly",
     "Spawn a random locust", nil, "Rotten Baby"
 )
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.ROTTEN_BABY,
+    nil,
+    "Spawn a random locust#Spawn two conquest locusts at a time"
+)
 
 local function CheckIfStillFlyExists(tableFlies)
     for _, flyPtr in ipairs(tableFlies) do
