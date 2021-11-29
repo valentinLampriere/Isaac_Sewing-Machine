@@ -39,16 +39,19 @@ local function GetDollWiki(isTaintedHead)
     local otherDollName
     local dollID
     local dollPool
+    local dollRoom
     if isTaintedHead then
         dollName = "Doll's Tainted Head"
         otherDollName = "Doll's Pure Body"
         dollID = Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD
         dollPool = Encyclopedia.ItemPools.POOL_DEVIL
+        dollRoom = "Devil"
     else
         dollName = "Doll's Pure Body"
         otherDollName = "Doll's Tainted Head"
         dollID = Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY
         dollPool = Encyclopedia.ItemPools.POOL_ANGEL
+        dollRoom = "Angel"
     end
 
     return {
@@ -59,13 +62,15 @@ local function GetDollWiki(isTaintedHead)
             {
                 { str = "Effect", fsize = 2, clr = 3, halign = 0 },
                 { str = "Upgrade every normal familiars to super" },
-                { str = "With " .. otherDollName .. ", upgrade every familiars to ultra" }
+                { str = "With " .. otherDollName .. ", upgrade every familiars to ultra" },
+                { str = "Add 20% chance to find a Sewing machine in " .. dollRoom .. " rooms" }
             },
             {
                 { str = "Synergies", fsize = 2, clr = 3, halign = 0 },
                 { str = otherDollName..": Upgrade summoned familiar" },
                 { str = "Quints: Upgrade Quints familiars" },
-                { str = "Monster Manual: Upgrade summoned familiar" }
+                { str = "Monster Manual: Upgrade summoned familiar" },
+                { str = "Lost Button: Both increase the chance to spawn a machine in "..dollRoom.." rooms. The chance goes to 70%" }
             }
         },
         Pools = {

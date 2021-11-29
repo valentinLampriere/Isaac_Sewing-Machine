@@ -1,10 +1,16 @@
 local Enums = require("sewn_scripts.core.enums")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
 local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
+local AngelSewingMachine = require("sewn_scripts.entities.slot.sewing_machine.subtype.sewing_machine_angel")
 
 local DollPureBody = { }
 
 DollPureBody.CollectibleID = Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY
+
+
+DollPureBody.Stats = {
+    AngelSewingMachineChance = 20
+}
 
 function DollPureBody:GetCollectible(player)
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1)
@@ -15,6 +21,11 @@ function DollPureBody:GetCollectible(player)
             UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index)
         end
     end
+    AngelSewingMachine.AppearChance = AngelSewingMachine.AppearChance + DollPureBody.Stats.AngelSewingMachineChance
+end
+
+function DollPureBody:LoseCollectible(player)
+    AngelSewingMachine.AppearChance = AngelSewingMachine.AppearChance - DollPureBody.Stats.AngelSewingMachineChance
 end
 
 function DollPureBody:OnEvaluateCache(player, cacheFlags)

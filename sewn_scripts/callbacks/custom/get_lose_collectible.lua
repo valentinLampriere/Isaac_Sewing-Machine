@@ -12,11 +12,15 @@ end
 function GetLoseCollectible:DollsTaintedHead(player, getCollectible)
     if getCollectible == true then
         DollTaintedHead:GetCollectible(player)
+    else
+        DollTaintedHead:LoseCollectible(player)
     end
 end
 function GetLoseCollectible:DollsPureBody(player, getCollectible)
     if getCollectible == true then
         DollPureBody:GetCollectible(player)
+    else
+        DollPureBody:LoseCollectible(player)
     end
 end
 
