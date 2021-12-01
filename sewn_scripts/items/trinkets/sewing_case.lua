@@ -24,7 +24,7 @@ function SewingCase:OnNewRoom()
             for _, familiar in ipairs(familiars) do
                 local fData = familiar:GetData()
                 familiar = familiar:ToFamiliar()
-                if not Sewn_API:IsUltra(fData) and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.TEMPORARY ~= Sewn_API.Enums.NoUpgrade.TEMPORARY then
+                if not Sewn_API:IsUltra(fData) and (fData.Sewn_noUpgrade ~= nil and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.TEMPORARY ~= Sewn_API.Enums.NoUpgrade.TEMPORARY) then
                     table.insert(playerAvailableFamiliars, familiar)
                 end
             end
