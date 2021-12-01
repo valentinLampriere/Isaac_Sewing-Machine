@@ -43,7 +43,7 @@ function HeadlessBaby:OnFamiliarUpdate(familiar)
 end
 function HeadlessBaby:OnFamiliarUpdate_Ultra(familiar)
     if familiar.FireCooldown <= 0 then
-        if familiar.Player:GetShootingInput():Length() > 0 then
+        if familiar.Player:GetShootingInput():LengthSquared() > 0 then
             local nbTears = familiar:GetDropRNG():RandomInt(8) + 5
             BurstTears(familiar, nbTears, nil, nil, true, TearVariant.BLOOD)
             familiar.FireCooldown = HeadlessBaby.Stats.FireCooldown[Sewn_API.Enums.FamiliarLevel.ULTRA]

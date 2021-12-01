@@ -27,7 +27,7 @@ IsaacsHeart.Stats = {
 
 function IsaacsHeart:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
-    if familiar.Player:GetShootingInput():Length() == 0 then
+    if familiar.Player:GetShootingInput():LengthSquared() == 0 then
         FamiliarFollowTrail(familiar, familiar.Player.Position, true)
     end
     if familiar.FireCooldown > 0 and familiar.FireCooldown < 30 then
