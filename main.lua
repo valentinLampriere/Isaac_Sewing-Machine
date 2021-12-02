@@ -85,7 +85,7 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachine
 
 
 require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
-require("sewn_scripts.items.new_trinkets")
+require("sewn_scripts.items.trinkets")
 
 require("sewn_scripts.mod_compat.eid.eid")
 require("sewn_scripts.mod_compat.minimapi.minimapi")
