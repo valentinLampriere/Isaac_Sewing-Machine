@@ -22,7 +22,7 @@ LilLoki.Stats = {
     },
     TearScale = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.2
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.1
     }
 }
 
