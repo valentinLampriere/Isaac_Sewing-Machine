@@ -115,7 +115,7 @@ end
 function SewingMachineManager:TryToSpawnMachineOnNewRoom()
     if Globals.Room:IsFirstVisit() == true and Globals.Room:IsClear() then
         -- Do not spawn machines in extra rooms
-        if StageAPI and StageAPI.InExtraRoom() then
+        if StageAPI and StageAPI.InExtraRoom and StageAPI.InExtraRoom() then
             return
         end
 
