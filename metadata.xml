@@ -8,7 +8,7 @@
 
 The [b]Sewing Machine[/b] is a brand new machine which allows you to [b]upgrade your familiars[/b] during a run !
 
-This mod include also 3 new items, 6 new trinkets and 3 new cards related to the Sewing Machine.
+This mod include also 3 new items, 5 new trinkets and 3 new cards related to the Sewing Machine.
 
 --------------------------------
 
@@ -60,7 +60,7 @@ Discord : valentinL#3711
 Sewing Machine is now on [b]Discord[/b], join it to share your ideas, report bugs or just discuss about the mod :[url=https://discord.gg/56HzHdAKKG/]The Discord[/url] 
 
 Here is a wiki of the mod :[url=https://docs.google.com/document/d/13M91ymwSUrZHAEVGApZ8ZzXwuqGyaq4OsmYeq41FldY]the wiki[/url]</description>
-    <version>1.26</version>
+    <version>1.27</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
