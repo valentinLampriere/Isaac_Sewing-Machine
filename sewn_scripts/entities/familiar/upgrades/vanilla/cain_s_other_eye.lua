@@ -22,16 +22,19 @@ CainsOtherEye.Stats = {
 
 local function FireTear(familiar, tear)
     local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, familiar.Position, tear.Velocity, familiar):ToTear()
+    local tData = newTear:GetData()
     newTear.CollisionDamage = tear.CollisionDamage
     newTear.TearFlags = tear.TearFlags
     newTear.Scale = tear.Scale
     newTear.TearFlags = tear.TearFlags | TearFlags.TEAR_BOUNCE
     newTear.FallingAcceleration = -0.05
     
-    --sewnFamiliars:toBabyBenderTear(cainsOtherEye, newTear)
+    tData.Sewn_cainsOtherEyeTear = true
 end
 
 function CainsOtherEye:FamiliarFireTear(familiar, tear)
+    local tData = tear:GetData()
+    if tData.Sewn_cainsOtherEyeTear == true then return end
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
     
