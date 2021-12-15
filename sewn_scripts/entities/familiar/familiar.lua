@@ -158,7 +158,7 @@ function Familiar:AddCrownOffset(familiar, offset)
 end
 
 function Familiar:HideCrown(familiar, shouldHideCrown)
-    shouldHideCrown = shouldHideCrown or true
+    if shouldHideCrown == nil then shouldHideCrown = true end
     local fData = familiar:GetData()
     fData.Sewn_crown_hide = shouldHideCrown
 end
