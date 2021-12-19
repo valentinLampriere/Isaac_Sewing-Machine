@@ -36,17 +36,17 @@ function DollTaintedHead:OnEvaluateCache(player, cacheFlags)
             return
         end
         player:CheckFamiliar(Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, 1, player:GetCollectibleRNG(DollTaintedHead.CollectibleID))
-        local taintedHeads = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, -1, false, false)
-        for _, taintedHead in ipairs(taintedHeads) do
-            taintedHead:ToFamiliar():AddToFollowers()
-        end
     end
 end
 
 function DollTaintedHead:OnFamiliarUpdate(familiar)
     familiar:FollowParent()
 end
+function DollTaintedHead:OnFamiliarInit(familiar)
+    familiar:ToFamiliar():AddToFollowers()
+end
 
+CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_INIT, DollTaintedHead.OnFamiliarInit, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollTaintedHead.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
 
 return DollTaintedHead

@@ -38,17 +38,18 @@ function DollPureBody:OnEvaluateCache(player, cacheFlags)
             return
         end
         player:CheckFamiliar(Enums.FamiliarVariant.DOLL_S_PURE_BODY, 1, player:GetCollectibleRNG(DollPureBody.CollectibleID))
-        local pureBodies = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, Enums.FamiliarVariant.DOLL_S_PURE_BODY, -1, false, false)
-        for _, pureBody in ipairs(pureBodies) do
-            pureBody:ToFamiliar():AddToFollowers()
-        end
     end
 end
 
 function DollPureBody:OnFamiliarUpdate(familiar)
     familiar:FollowParent()
 end
+function DollPureBody:OnFamiliarInit(familiar)
+    familiar:ToFamiliar():AddToFollowers()
+end
 
+
+CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_INIT, DollPureBody.OnFamiliarInit, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollPureBody.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
 
 return DollPureBody
