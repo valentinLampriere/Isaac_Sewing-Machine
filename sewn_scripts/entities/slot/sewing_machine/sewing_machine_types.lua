@@ -49,5 +49,11 @@ function SewingMachineTypes:GetSewingMachineTypesForRoomType(roomType)
     end
     return sewingMachineTypesForRoomType
 end
+function SewingMachineTypes:UpdateMachine(machine)
+    if machineTypes[machine.SubType].Update == nil then
+        return
+    end
+    machineTypes[machine.SubType].Update(machine)
+end
 
 return SewingMachineTypes

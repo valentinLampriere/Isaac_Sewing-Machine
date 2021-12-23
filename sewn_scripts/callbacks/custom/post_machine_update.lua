@@ -9,6 +9,7 @@ local function POST_MACHINE_UPDATE(_, machine)
     end
     SewingMachine:HandleMachineCooldown(machine)
     SewingMachine:HandleMachineAnimation(machine)
+    SewingMachine:SubTypeUpdate(machine)
 end
 
 return POST_MACHINE_UPDATE
