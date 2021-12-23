@@ -11,11 +11,11 @@ ContrastedButton.Stats = {
 
 function ContrastedButton:GetLoseContrastedButton(player, getTrinket)
     if getTrinket then
-        SewingMachine_Angel.AppearChance = SewingMachine_Angel.AppearChance + ContrastedButton.Stats.AppearChanceBonus
-        SewingMachine_Devil.AppearChance = SewingMachine_Devil.AppearChance + ContrastedButton.Stats.AppearChanceBonus
+        SewingMachine_Angel.AppearChanceBonus = SewingMachine_Angel.AppearChanceBonus + ContrastedButton.Stats.AppearChanceBonus
+        SewingMachine_Devil.AppearChanceBonus = SewingMachine_Devil.AppearChanceBonus + ContrastedButton.Stats.AppearChanceBonus
     else
-        SewingMachine_Angel.AppearChance = SewingMachine_Angel.AppearChance - ContrastedButton.Stats.AppearChanceBonus
-        SewingMachine_Devil.AppearChance = SewingMachine_Devil.AppearChance - ContrastedButton.Stats.AppearChanceBonus
+        SewingMachine_Angel.AppearChanceBonus = SewingMachine_Angel.AppearChanceBonus - ContrastedButton.Stats.AppearChanceBonus
+        SewingMachine_Devil.AppearChanceBonus = SewingMachine_Devil.AppearChanceBonus - ContrastedButton.Stats.AppearChanceBonus
     end
 end
 

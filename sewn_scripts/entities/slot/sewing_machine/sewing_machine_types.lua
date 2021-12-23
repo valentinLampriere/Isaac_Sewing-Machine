@@ -15,6 +15,8 @@ local machineTypes = {
 
 local function InitMachineType(machineType)
     machineType.AppearChance = machineType.AppearChance or 0
+    machineType.AppearChanceBonus = 0
+    machineType.GetAppearChance = machineType.GetAppearChance or function () return machineType.AppearChance + machineType.AppearChanceBonus end
 end
 InitMachineType(machineTypes[Enums.SewingMachineSubType.BEDROOM])
 InitMachineType(machineTypes[Enums.SewingMachineSubType.SHOP])

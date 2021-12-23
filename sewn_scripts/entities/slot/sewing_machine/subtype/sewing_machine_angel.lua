@@ -1,4 +1,5 @@
 local Enums = require("sewn_scripts.core.enums")
+local Globals = require("sewn_scripts.core.globals")
 
 local SewingMachine_Angel = { }
 

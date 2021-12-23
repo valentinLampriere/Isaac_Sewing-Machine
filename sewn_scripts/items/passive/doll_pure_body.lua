@@ -21,11 +21,11 @@ function DollPureBody:GetCollectible(player)
             UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index)
         end
     end
-    AngelSewingMachine.AppearChance = AngelSewingMachine.AppearChance + DollPureBody.Stats.AngelSewingMachineChance
+    AngelSewingMachine.AppearChanceBonus = AngelSewingMachine.AppearChanceBonus + DollPureBody.Stats.AngelSewingMachineChance
 end
 
 function DollPureBody:LoseCollectible(player)
-    AngelSewingMachine.AppearChance = AngelSewingMachine.AppearChance - DollPureBody.Stats.AngelSewingMachineChance
+    AngelSewingMachine.AppearChanceBonus = AngelSewingMachine.AppearChanceBonus - DollPureBody.Stats.AngelSewingMachineChance
 end
 
 function DollPureBody:OnEvaluateCache(player, cacheFlags)

@@ -50,6 +50,7 @@
         "PlayerType",
         "BombSubType",
         "MinimapAPI",
-        "Encyclopedia"
+        "Encyclopedia",
+        "LevelStage"
     ]
 }

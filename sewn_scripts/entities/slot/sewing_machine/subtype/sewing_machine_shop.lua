@@ -42,6 +42,12 @@ function SewingMachine_Shop.Update(machine)
     end
 end
 
+function SewingMachine_Shop:GetAppearChance(bool_onRoomClear)
+    if Globals.Level:GetStage() == LevelStage.STAGE4_3 then
+        return 100
+    end
+    return SewingMachine_Shop.AppearChance + SewingMachine_Shop.AppearChanceBonus
+end
 function SewingMachine_Shop:CanPay(player)
     if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
         return player:GetNumCoins() >= SewingMachine_Shop.Stats.Cost_Sale

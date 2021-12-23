@@ -20,10 +20,10 @@ function DollTaintedHead:GetCollectible(player)
             UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index)
         end
     end
-    DevilSewingMachine.AppearChance = DevilSewingMachine.AppearChance + DollTaintedHead.Stats.DevilSewingMachineChance
+    DevilSewingMachine.AppearChanceBonus = DevilSewingMachine.AppearChanceBonus + DollTaintedHead.Stats.DevilSewingMachineChance
 end
 function DollTaintedHead:LoseCollectible(player)
-    DevilSewingMachine.AppearChance = DevilSewingMachine.AppearChance - DollTaintedHead.Stats.DevilSewingMachineChance
+    DevilSewingMachine.AppearChanceBonus = DevilSewingMachine.AppearChanceBonus - DollTaintedHead.Stats.DevilSewingMachineChance
 end
 
 function DollTaintedHead:OnEvaluateCache(player, cacheFlags)

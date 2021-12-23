@@ -36,7 +36,7 @@ local function GetSewingMachineTypeForCurrentRoom()
     while #sewingMachineTypesForRoomType > 0 do
         local rollMachineType = Globals.rng:RandomInt(#sewingMachineTypesForRoomType) + 1
         local machineType = sewingMachineTypesForRoomType[rollMachineType]
-        if Random:CheckRoll(machineType.AppearChance) then
+        if Random:CheckRoll(machineType:GetAppearChance()) then
             return machineType
         end
 
