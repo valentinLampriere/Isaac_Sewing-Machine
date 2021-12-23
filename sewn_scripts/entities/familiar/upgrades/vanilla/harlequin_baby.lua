@@ -19,7 +19,7 @@ HarlequinBaby.Stats = {
     }
 }
 
-function HarlequinBaby:OnFamiliarUpgraded(familiar, tear)
+function HarlequinBaby:OnFamiliarUpgraded(familiar)
     local fData = familiar:GetData()
     fData.Sewn_harlequinBaby_isFirstTear = true
 end
