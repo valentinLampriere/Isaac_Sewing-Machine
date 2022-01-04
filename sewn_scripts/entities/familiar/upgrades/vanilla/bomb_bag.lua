@@ -115,7 +115,14 @@ function BombBag:FamiliarUpdate_Ultra(familiar)
     local fData = familiar:GetData()
 
     local closeNpcs = Isaac.FindInRadius(familiar.Position - familiar.Velocity, familiar.Size * 2, EntityPartition.ENEMY)
-    if #closeNpcs > 0 then
+    local hasCloseEnemy = false
+    for _, npc in ipairs(closeNpcs) do
+        if npc:IsVulnerableEnemy() then
+            hasCloseEnemy = true
+            break
+        end
+    end
+    if hasCloseEnemy then
         if fData.Sewn_bombBag_selfExplodeCooldown <= 0 then
             Isaac.Explode(familiar.Position, familiar.Player, 30)
 
