@@ -6,7 +6,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SERAPHIM, CollectibleType.COLLECT
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SERAPHIM,
-    "Have a chance to fire Holy Tears",
+    "Has a chance to fire Holy Tears",
     "Higher chance to fire Holy Tears#{{ArrowUp}} Tears Up", nil, "Seraphim"
 )
 

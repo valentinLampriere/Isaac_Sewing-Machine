@@ -4,7 +4,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HARLEQUIN_BABY, CollectibleType.C
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HARLEQUIN_BABY,
-    "Fire an additional shot on each sides",
+    "Fire an additional shot on each side",
     "{{ArrowUp}} Damage Up", nil, "Harlequin Baby"
 )
 

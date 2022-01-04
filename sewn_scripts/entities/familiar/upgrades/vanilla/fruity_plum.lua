@@ -8,8 +8,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.FRUITY_PLUM, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FRUITY_PLUM,
-    "{{ArrowUp}} Damage Up#Home a bit into enemies",
-    "Gain a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack, fire tears in all directions", nil, "Fruity Plum"
+    "{{ArrowUp}} Damage Up#Small homing effect",
+    "Gains a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack, fire tears in all directions", nil, "Fruity Plum"
 )
 local function TEARFLAGS(x)
     return x >= 64 and BitSet128(0,1<<(x - 64)) or BitSet128(1<<x,0)

@@ -8,8 +8,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.CAINS_OTHER_EYE, CollectibleType.
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CAINS_OTHER_EYE,
-    "Fire 2 tears instead of one#Tears gain a Rubber Cement effect {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} ",
-    "Fire 4 tears#Range up", nil, "Cain's other Eye"
+    "Fires 2 tears instead of 1#Tears gain a Rubber Cement effect {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} ",
+    "Fires 4 tears#Range Up", nil, "Cain's other Eye"
 )
 
 CainsOtherEye.Stats = {

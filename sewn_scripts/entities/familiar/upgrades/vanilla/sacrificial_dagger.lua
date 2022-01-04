@@ -4,13 +4,13 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SACRIFICIAL_DAGGER, CollectibleTy
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SACRIFICIAL_DAGGER,
-    "Apply bleed effect#{{ArrowUp}} Small damage up",
+    "Applies a bleed effect#{{ArrowUp}} Small Damage Up",
     "{{ArrowUp}} Damage Up", nil, "Sacrificial Dagger"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SACRIFICIAL_DAGGER,
-    "Apply bleed effect#Small damage up (+1 dmg)",
+    "Applies a bleed effect#Small damage Up (+1 dmg)",
     "Damage up (+4 dmg)"
 )
 

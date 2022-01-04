@@ -20,8 +20,8 @@ Leech.Stats = {
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LEECH,
-    "Spawn creep when it collide with an enemy#{{ArrowUp}} Damage Up",
-    "Enemies it kill explode into lot of tears#{{ArrowUp}} Damage Up", nil, "Leech"
+    "Spawns creep when it collide with an enemy#{{ArrowUp}} Damage Up",
+    "Enemies it kills explode into lots of tears#{{ArrowUp}} Damage Up", nil, "Leech"
 )
 
 function Leech:familiarCollider(familiar, collider)

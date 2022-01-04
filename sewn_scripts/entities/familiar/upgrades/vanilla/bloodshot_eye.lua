@@ -12,8 +12,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BLOODSHOT_EYE, CollectibleType.CO
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BLOODSHOT_EYE,
-    "Fire three tears at once",
-    "Fire a blood laser instead of tears", nil, "Bloodshot Eye"
+    "Fires three tears at once",
+    "Fires a blood laser instead of tears", nil, "Bloodshot Eye"
 )
 
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)

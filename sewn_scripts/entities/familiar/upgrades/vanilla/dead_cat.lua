@@ -9,14 +9,13 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEAD_CAT, CollectibleType.COLLECT
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,
-    "Gain an additional soul heart when dying",
-    "Gain an additional red heart container when dying", nil, "Dead Cat"
+    "When the player dies, they respawn with an additional soul heart",
+    "When the player dies, they respawn with an additional soul heart and an additional red heart container", nil, "Dead Cat"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.DEAD_CAT,
-    "Gain an additional soul heart when dying",
-    "Gain an additional red heart container when dying",
-    "Gives a soul heart even if the player respawn without Dead Cat"
+    nil, nil,
+    "Gives a soul heart even if the player respawn without Dead Cat (due to API limitation)"
 )
 
 local function Respawn(player, isUltra)

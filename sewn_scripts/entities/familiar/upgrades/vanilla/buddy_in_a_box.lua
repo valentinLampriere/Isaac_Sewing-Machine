@@ -4,8 +4,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BUDDY_IN_A_BOX, CollectibleType.C
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BUDDY_IN_A_BOX,
-    "Gain a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy",
-    "Gain an other random additional tear effect", nil, "Buddy in a Box"
+    "Gains a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy",
+    "Gains another random additional tear effect", nil, "Buddy in a Box"
 )
 
 local function AddAdditionalTearFlags(tear, amountTearFlags, rng)

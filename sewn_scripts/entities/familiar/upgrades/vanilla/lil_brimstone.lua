@@ -5,12 +5,12 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_BRIMSTONE, CollectibleType.CO
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_BRIMSTONE,
     "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Slight Damage Up#Laser last longer#Can be charged quicker", nil, "Lil Brimstone"
+    "{{ArrowUp}} Slight Damage Up#Laser lasts longer#Charges quicker", nil, "Lil Brimstone"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_BRIMSTONE,
     "Damage Up (x1.5)",
-    "Laser last longer (x1.3)#Slight Damage Up (x1.6)#Can be charged quicker"
+    "Laser lasts longer (x1.3)#Slight Damage Up (x1.6)#Charges quicker"
 )
 LilBrimstone.Stats = {
     DamageBonus = {

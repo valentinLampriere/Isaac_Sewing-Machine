@@ -34,7 +34,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOMB_BAG, CollectibleType.COLLECT
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOMB_BAG,
-    "Do no more spawn troll bombs#Better bomb drops#Spawn powder on the ground. The powder turn to flames when it is close to fires or when something explode",
+    "No longer spawns troll bombs#Better bomb drops#Spawn powder on the ground. The powder catches fire when it is close to fires or when something explode",
     "Better bombs drops#Can drop Giga bombs [Rep]#When it is to close to an enemy, it will sometimes explode", nil, "Bomb Bag"
 )
 

@@ -6,8 +6,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROTTEN_BABY, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROTTEN_BABY,
-    "Spawn an additional blue fly",
-    "Spawn a random locust", nil, "Rotten Baby"
+    "Spawns an additional blue fly",
+    "Spawns a random locust", nil, "Rotten Baby"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.ROTTEN_BABY,

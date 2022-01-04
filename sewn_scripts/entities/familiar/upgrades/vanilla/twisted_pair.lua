@@ -5,7 +5,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.TWISTED_BABY, CollectibleType.COL
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.TWISTED_BABY,
     "They move closer to the player while they fire#+0.33 damage",
-    "Align with the player's direction", nil, "Twisted Pair"
+    "They align with the player's direction ", nil, "Twisted Pair"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.INCUBUS,

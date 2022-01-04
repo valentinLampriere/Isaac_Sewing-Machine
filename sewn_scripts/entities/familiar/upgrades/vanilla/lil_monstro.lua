@@ -6,13 +6,13 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_MONSTRO, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_MONSTRO,
-    "Have a chance to fire a tooth#Tooth deal 3.2 normal damage",
-    "Fire way more tears", nil, "Lil Monstro"
+    "Has a chance to fire a tooth#Teeth deal x3.2 normal damage",
+    "Fires way more tears", nil, "Lil Monstro"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_MONSTRO,
-    "Have 15% chance to fire a tooth instead of a tear#Tooth deal 3.2 normal damage",
-    "Fire more tears#For each tears it spawn, there is 25% chance to fire an additional one"
+    "Has 15% chance to fire a tooth instead of a tear#Teeth deal x3.2 normal damage",
+    "Fires more tears#For each tears it spawn, there is 25% chance to fire an additional one"
 )
 
 LilMonstro.Stats = {
