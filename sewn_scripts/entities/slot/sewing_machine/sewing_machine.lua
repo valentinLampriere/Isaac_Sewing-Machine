@@ -157,8 +157,6 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
     end
 
     pData.Sewn_familiarsInMachine[machine.InitSeed] = choosenFamiliar.Variant
-    
-    --local allFamiliarsForChoosenVariant = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, choosenFamiliar.Variant, -1, false, false)
 
     local _fData, _i = UpgradeManager:FindFamiliarData(choosenFamiliar.Variant, mData.Sewn_currentFamiliarLevel, player.Index)
     if _fData ~= nil then
@@ -168,8 +166,6 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
     choosenFamiliar:Remove()
 
     SewingMachineDescription:SetMachineDescription(machine)
-    --local allFamiliarsForChoosenVariant = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, choosenFamiliar.Variant, -1, false, false)
-    --player:CheckFamiliar(choosenFamiliar.Variant, #allFamiliarsForChoosenVariant - 1, machine:GetDropRNG())
 end
 
 local function TryBreakMachine(machine, isUpgrade)
@@ -207,7 +203,7 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
         return -- Can't pay the cost
     end
 
-    local familiarFromMachine = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, 0, machine.Position, Globals.V0, nil):ToFamiliar()
+    local familiarFromMachine = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, 0, machine.Position, Globals.V0, mData.Sewn_player):ToFamiliar()
     local fData = familiarFromMachine:GetData()
     fData.Sewn_upgradeLevel = mData.Sewn_currentFamiliarLevel
 
