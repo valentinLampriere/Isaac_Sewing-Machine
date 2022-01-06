@@ -181,6 +181,7 @@ function Familiar:RenderCrown(familiar)
 end
 
 function Familiar:IsReady(fData)
+    if fData.Sewn_Init == nil then return false end
     return fData.Sewn_isDelirium ~= true and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.MACHINE ~= Sewn_API.Enums.NoUpgrade.MACHINE
 end
 
