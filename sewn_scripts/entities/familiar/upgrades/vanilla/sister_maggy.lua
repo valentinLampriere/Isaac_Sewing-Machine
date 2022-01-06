@@ -14,7 +14,6 @@ Sewn_API:AddEncyclopediaUpgrade(
 )
 
 function SisterMaggy:OnFamiliarFireTear_Super(familiar, tear)
-    print(familiar.FireCooldown)
     if REPENTANCE then
         tear.CollisionDamage = tear.CollisionDamage * 1.33
         tear.Scale = tear.Scale * 1.08

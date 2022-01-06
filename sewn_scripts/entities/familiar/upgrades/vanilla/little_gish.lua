@@ -44,8 +44,6 @@ function LittleGish:OnFamiliarTearUpdate(familiar, tear)
 end
 
 function LittleGish:OnFireTear(familiar, tear)
-    print(familiar.FireCooldown)
-    print(tear.CollisionDamage)
     local fData = familiar:GetData()
     familiar.FireCooldown = familiar.FireCooldown - LittleGish.Stats.TearRateBonus[Sewn_API:GetLevel(fData)]
     tear.CollisionDamage = tear.CollisionDamage * LittleGish.Stats.DamageBonus[Sewn_API:GetLevel(fData)]

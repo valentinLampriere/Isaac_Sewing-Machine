@@ -28,7 +28,6 @@ Seraphim.Stats = {
 }
 
 function Seraphim:OnFireTear(familiar, tear)
-    print(familiar.FireCooldown)
     local fData = familiar:GetData()
     familiar.FireCooldown = familiar.FireCooldown - Seraphim.Stats.TearRateBonus[Sewn_API:GetLevel(fData)]
 
