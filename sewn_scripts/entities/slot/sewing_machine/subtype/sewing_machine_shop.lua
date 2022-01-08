@@ -28,16 +28,16 @@ end
 function SewingMachine_Shop.Update(machine)
     for i = 1, Globals.Game:GetNumPlayers() do
         local player = Isaac.GetPlayer(i - 1)
-        local mData = machine:GetData().SewingMachineData
+        local _mData = machine:GetData()
 
         local playerHasSteamSale = player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE)
 
-        if playerHasSteamSale and not mData.Sewn_machineSale then
+        if playerHasSteamSale and not _mData.Sewn_machineSale then
             ChangeSaleSprite(machine, true)
-            mData.Sewn_machineSale = true
-        elseif not playerHasSteamSale and mData.Sewn_machineSale then
+            _mData.Sewn_machineSale = true
+        elseif not playerHasSteamSale and _mData.Sewn_machineSale then
             ChangeSaleSprite(machine, false)
-            mData.Sewn_machineSale = nil
+            _mData.Sewn_machineSale = nil
         end
     end
 end
