@@ -188,7 +188,6 @@ end
 function Familiar:TemporaryUpgrade(familiar, newLevel)
     local fData = familiar:GetData()
     if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and not Sewn_API:IsUltra(fData) and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.TEMPORARY ~= Sewn_API.Enums.NoUpgrade.TEMPORARY then
-        --sewingMachineMod:resetFamiliarData(familiar, {"Sewn_upgradeState_temporary"})
         if fData.Sewn_upgradeLevel_temporary == nil then
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
         end
