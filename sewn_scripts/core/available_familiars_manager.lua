@@ -16,19 +16,21 @@ function AvailableFamiliarManager:IterateOverAvailableFamiliars(_function)
     end
 end
 
-function AvailableFamiliarManager:TryMakeFamiliarAvailable(familiarVariant, collectibleID)
+function AvailableFamiliarManager:TryMakeFamiliarAvailable(familiarVariant, collectibleID, customSprite)
     if familiarVariant == nil then
         error("Can't make this familiar available for Sewing Machine")
         return
     end
-    --[[
-    if type(collectibleID_or_spritePath) == "string" then
-        availableFamiliars[familiarVariant] = { Sprite = collectibleID_or_spritePath}
-    elseif type(collectibleID_or_spritePath) == "number" then
-        availableFamiliars[familiarVariant] = { Sprite = GetSpriteFromCollectibleId(collectibleID_or_spritePath)}
+    
+    local sprite
+
+    if customSprite == nil then
+        sprite = GetSpriteFromCollectibleId(collectibleID)
+    else
+        sprite = customSprite
     end
-    --]]
-    availableFamiliars[familiarVariant] = { CollectibleID = collectibleID, Sprite = GetSpriteFromCollectibleId(collectibleID)}
+    
+    availableFamiliars[familiarVariant] = { CollectibleID = collectibleID, Sprite = sprite}
 end
 function AvailableFamiliarManager:IsFamiliarAvailable(familiarVariant)
     return availableFamiliars[familiarVariant] ~= nil
