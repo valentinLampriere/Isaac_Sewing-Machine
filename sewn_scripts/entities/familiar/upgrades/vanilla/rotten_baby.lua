@@ -52,7 +52,6 @@ function RottenBaby:OnFamiliarShoot(familiar, sprite)
         
         if not CheckIfStillFlyExists(fData.Sewn_rottenBaby_additionalFlies) then
             SpawnFly(familiar)
-            --familiar.Player:AddBlueFlies(RottenBaby.Stats.AmountAdditionalFlies[level], familiar.Position, familiar.Player)
         end
         if Sewn_API:IsUltra(fData) then
             if not CheckIfStillFlyExists(fData.Sewn_rottenBaby_additionalLocusts) then
