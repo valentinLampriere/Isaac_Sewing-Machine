@@ -51,6 +51,8 @@ Sewn_API.MakeFamiliarAvailable = AvailableFamiliarManager.TryMakeFamiliarAvailab
 --   [FamiliarVariant]
 --   [string] : The text which will be seen for the SUPER upgrade
 --   [string] : The text which will be seen for the ULTRA upgrade
+--   [table]  : The color of the familiar name text. It is a table with 3 numbers [0, 1]. Ex : {1, 0.8, 0.4}
+--   [string] : The name of the familiar, will be displayed as the title. If not set the name of the associated collectible is taken. Note : it is marked optional but due to the last repentance patch it is impossible to get the name of collectibles, so it is recommended to enter the name of the familiar
 Sewn_API.AddFamiliarDescription = FamiliarDescription.AddDescriptionsForFamiliar
 
 -- Add a callback
