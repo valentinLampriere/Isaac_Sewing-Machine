@@ -21,3 +21,9 @@ EID:addTrinket(Enums.TrinketType.TRINKET_SEWING_CASE, "When entering a room, has
 EID:addCard(Enums.Card.CARD_WARRANTY, "Spawns a sewing machine#The Sewing machine change depending on the room type")
 EID:addCard(Enums.Card.CARD_STITCHING, "Rerolls familiar crowns#Gives a free upgrades if none of your familiars are upgraded")
 EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Upgrade all familiars for a single room#One time use of Sewing Box")
+
+local icon = Sprite()
+icon:Load("/gfx/mapicon.anm2", true)
+EID:addIcon("SewingMachine", "Icon", 0, 13, 13, 0, 0, icon)
+EID:setModIndicatorIcon("SewingMachine")
+EID:setModIndicatorName("Sewing Machine")
