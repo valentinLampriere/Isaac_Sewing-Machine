@@ -114,8 +114,6 @@ end
 
 
 function UpgradeManager:CheckForChanges()
-    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
-    
     -- Loop through familiars data to check changes in upgrades
     for i, familiarData in ipairs(UpgradeManager.FamiliarsData) do
         -- If the familiarData hasn't an associated familiar entity

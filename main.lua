@@ -1,6 +1,9 @@
-local SewnMod = RegisterMod("!Sewing machine rework", 1)
+--local SewnMod = RegisterMod("Sewing machine", 1)
+
+local SewnMod = require("sewn_scripts.sewn_mod")
 
 Sewn_API = require("sewn_scripts.sewn_api")
+
 
 require("sewn_scripts.helpers.embeddablecallbackhack")
 require("sewn_scripts.helpers.apioverride")

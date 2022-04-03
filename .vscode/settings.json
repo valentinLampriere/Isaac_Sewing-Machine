@@ -10,7 +10,6 @@
         "Game",
         "SFXManager",
         "RNG",
-        "Random",
         "CacheFlag",
         "StageAPI",
         "RegisterMod",
@@ -51,6 +50,8 @@
         "BombSubType",
         "MinimapAPI",
         "Encyclopedia",
-        "LevelStage"
+        "LevelStage",
+        "RoomShape",
+        "DoorSlot"
     ]
 }

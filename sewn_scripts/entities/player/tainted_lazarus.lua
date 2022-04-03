@@ -1,4 +1,3 @@
-local Delay = require("sewn_scripts.helpers.delay")
 local Globals = require("sewn_scripts.core.globals")
 local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 

@@ -7,6 +7,7 @@ local DollPureBody = { }
 
 DollPureBody.CollectibleID = Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY
 
+local id = PickupVariant.PICKUP_COLLECTIBLE .. "." .. Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY
 
 DollPureBody.Stats = {
     AngelSewingMachineChance = 20
@@ -21,11 +22,11 @@ function DollPureBody:GetCollectible(player)
             UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index)
         end
     end
-    AngelSewingMachine.AppearChanceBonus = AngelSewingMachine.AppearChanceBonus + DollPureBody.Stats.AngelSewingMachineChance
+    AngelSewingMachine:AddChance(id, DollPureBody.Stats.AngelSewingMachineChance)
 end
 
 function DollPureBody:LoseCollectible(player)
-    AngelSewingMachine.AppearChanceBonus = AngelSewingMachine.AppearChanceBonus - DollPureBody.Stats.AngelSewingMachineChance
+    AngelSewingMachine:RemoveChance(id)
 end
 
 function DollPureBody:OnEvaluateCache(player, cacheFlags)

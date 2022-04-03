@@ -29,20 +29,6 @@ function SewingMachineManager:LoadMachines(loadedData)
         SewingMachine:ResetFloatingAnim(machine)
     end
 end
-
-local function GetSewingMachineTypeForCurrentRoom()
-    local sewingMachineTypesForRoomType = SewingMachineTypes:GetSewingMachineTypesForRoomType(Globals.Room:GetType())
-    
-    while #sewingMachineTypesForRoomType > 0 do
-        local rollMachineType = Globals.rng:RandomInt(#sewingMachineTypesForRoomType) + 1
-        local machineType = sewingMachineTypesForRoomType[rollMachineType]
-        if Random:CheckRoll(machineType:GetAppearChance()) then
-            return machineType
-        end
-
-        table.remove(sewingMachineTypesForRoomType, rollMachineType)
-    end
-end
 local function GetDefaultMachineSubType()
     local sewingMachineTypes = SewingMachineTypes:GetSewingMachineTypes()
     local defaultSewingMachines = { }
@@ -84,6 +70,40 @@ function SewingMachineManager:RepairMachine(machine)
 end
 
 
+
+-- Evaluate spawn chances for each machines types and return if a machine should spawn (boolean) and the machine type (sewing_machine_type). If several machine types are correctly evaluated, a random one is choosen among all of them.
+local function EvaluateSpawns(ignoreRandom)
+    local sewingMachineType = SewingMachineTypes:GetSewingMachineTypes()
+    local validSewingMachines = { }
+
+    local room = Globals.Room
+    local rng = RNG()
+    rng:SetSeed(room:GetAwardSeed(), 1)
+
+    for subType, machineType in pairs(sewingMachineType) do
+        if machineType:EvaluateSpawn(rng, room, Globals.Level, ignoreRandom) == true then
+            table.insert(validSewingMachines, machineType)
+        end
+    end
+
+    if #validSewingMachines == 0 then
+        return false
+    end
+
+    local roll = rng:RandomInt(#validSewingMachines) + 1
+
+    return true, validSewingMachines[roll]
+end
+
+-- Spawn the first machine which is evaluated for the current room
+local function TrySpawnMachine()
+    local shouldSpawnMachine, spawnMachineType = EvaluateSpawns(false)
+
+    if shouldSpawnMachine == true then
+        SewingMachineManager:Spawn(nil, spawnMachineType.PlayAppearAnimOnNewRoom, spawnMachineType.SubType)
+    end
+end
+
 -- Spawn a new Sewing Machine
 function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
     if position == nil then
@@ -91,13 +111,17 @@ function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
     end
 
     if machineSubType == nil then
-        local sewingMachineType = GetSewingMachineTypeForCurrentRoom()
-        if sewingMachineType ~= nil then
-            machineSubType = sewingMachineType.SubType
+        local shouldSpawnMachine, spawnMachineType = EvaluateSpawns(true)
+
+        if shouldSpawnMachine == true then
+            machineSubType = spawnMachineType.SubType
+        else
+            machineSubType = Random:CheckRoll(50) and Enums.SewingMachineSubType.BEDROOM or Enums.SewingMachineSubType.SHOP
         end
     end
 
     local machine = Isaac.Spawn(EntityType.ENTITY_SLOT, Enums.SlotMachineVariant.SEWING_MACHINE, machineSubType or GetDefaultMachineSubType(), position, Globals.V0, nil)
+    
     if playAppearAnim == true then
         machine:GetSprite():Play("Appear", true)
     end
@@ -106,23 +130,17 @@ function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
 end
 
 function SewingMachineManager:TryToSpawnMachineOnRoomClear()
-    local sewingMachineType = GetSewingMachineTypeForCurrentRoom()
-    if sewingMachineType ~= nil then
-        SewingMachineManager:Spawn(nil, true, sewingMachineType.SubType)
-    end
+    TrySpawnMachine()
 end
 
 function SewingMachineManager:TryToSpawnMachineOnNewRoom()
-    if Globals.Room:IsFirstVisit() == true and Globals.Room:IsClear() then
+    if Globals.Room:IsFirstVisit() == true and Globals.Room:IsClear() and Globals.Level ~= nil then
         -- Do not spawn machines in extra rooms
         if StageAPI and StageAPI.InExtraRoom and StageAPI.InExtraRoom() then
             return
         end
 
-        local sewingMachineType = GetSewingMachineTypeForCurrentRoom()
-        if sewingMachineType ~= nil then
-            SewingMachineManager:Spawn(nil, sewingMachineType.PlayAppearAnimOnNewRoom, sewingMachineType.SubType)
-        end
+        TrySpawnMachine()
     end
 end
 
@@ -132,6 +150,7 @@ end
 ----------------------
 function SewingMachineManager:OnNewRoom()
     SewingMachineManager:TryToSpawnMachineOnNewRoom()
+    
     for _, machine in ipairs(SewingMachineManager:GetAllSewingMachines()) do
         MachineDataManager:TryMatchMachineData(machine)
         SewingMachine:ResetFloatingAnim(machine)

@@ -1,18 +1,17 @@
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
+local Random = require("sewn_scripts.helpers.random")
 
 local SewingMachine_Shop = { }
 
 SewingMachine_Shop.SubType = Enums.SewingMachineSubType.SHOP
-SewingMachine_Shop.Room_Types = { RoomType.ROOM_SHOP }
-SewingMachine_Shop.IsDefaultMachine = true
 SewingMachine_Shop.BreakChancePerUse = 7
-SewingMachine_Shop.ShouldExplodeOnBreak = true
-SewingMachine_Shop.AppearChance = 25
 
 SewingMachine_Shop.Stats = {
     Cost = 10,
-    Cost_Sale = 5
+    Cost_Sale = 5,
+    SpawnChance = 25,
+    SpawnChanceInHome = 75
 }
 
 local function ChangeSaleSprite(machine, bool_onSale)
@@ -42,12 +41,24 @@ function SewingMachine_Shop.Update(machine)
     end
 end
 
-function SewingMachine_Shop:GetAppearChance(bool_onRoomClear)
-    if Globals.Level:GetStage() == LevelStage.STAGE4_3 then
-        return 100
+function SewingMachine_Shop:EvaluateSpawn(rng, room, level, ignoreRandom)
+    local chance = SewingMachine_Shop:GetChance()
+    if room:GetType() == RoomType.ROOM_SHOP then
+        if (Random:CheckRoll(chance, rng) or ignoreRandom) or level:GetStage() == LevelStage.STAGE4_3 then
+            return true
+        end
     end
-    return SewingMachine_Shop.AppearChance + SewingMachine_Shop.AppearChanceBonus
+
+    -- Spawn machine in Home
+    if SewingMachine_Shop.Parent:IsHomeClosetRoom(room, level) then
+        if (Random:CheckRoll(SewingMachine_Shop.Stats.SpawnChanceInHome, rng) or not ignoreRandom) then
+            return true
+        end
+    end
+
+    return false
 end
+
 function SewingMachine_Shop:CanPay(player)
     if player:HasCollectible(CollectibleType.COLLECTIBLE_STEAM_SALE) then
         return player:GetNumCoins() >= SewingMachine_Shop.Stats.Cost_Sale

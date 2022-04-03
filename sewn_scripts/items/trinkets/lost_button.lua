@@ -8,22 +8,23 @@ local SewingMachine_Devil = require("sewn_scripts.entities.slot.sewing_machine.s
 local LostButton = { }
 
 local hasLostButton = false
+local id = PickupVariant.PICKUP_TRINKET .. "." .. Enums.TrinketType.TRINKET_LOST_BUTTON
 
 LostButton.Stats = {
-    ShopBonus = 100 - SewingMachine_Shop.AppearChance,
+    ShopBonus = 100,
     AngelDevilBonus = 50
 }
 
 function LostButton:GetLoseLostButton(player, getTrinket)
     if getTrinket then
-        SewingMachine_Shop.AppearChanceBonus = SewingMachine_Shop.AppearChanceBonus + LostButton.Stats.ShopBonus
-        SewingMachine_Angel.AppearChanceBonus = SewingMachine_Angel.AppearChanceBonus + LostButton.Stats.AngelDevilBonus
-        SewingMachine_Devil.AppearChanceBonus = SewingMachine_Devil.AppearChanceBonus + LostButton.Stats.AngelDevilBonus
+        SewingMachine_Shop:AddChance(id, LostButton.Stats.ShopBonus)
+        SewingMachine_Angel:AddChance(id, LostButton.Stats.AngelDevilBonus)
+        SewingMachine_Devil:AddChance(id, LostButton.Stats.AngelDevilBonus)
         hasLostButton = true
     else
-        SewingMachine_Shop.AppearChanceBonus = SewingMachine_Shop.AppearChanceBonus - LostButton.Stats.ShopBonus
-        SewingMachine_Angel.AppearChanceBonus = SewingMachine_Angel.AppearChanceBonus - LostButton.Stats.AngelDevilBonus
-        SewingMachine_Devil.AppearChanceBonus = SewingMachine_Devil.AppearChanceBonus - LostButton.Stats.AngelDevilBonus
+        SewingMachine_Shop:RemoveChance(id)
+        SewingMachine_Angel:RemoveChance(id)
+        SewingMachine_Devil:RemoveChance(id)
         hasLostButton = false
     end
 end
