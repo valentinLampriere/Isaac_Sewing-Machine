@@ -10,6 +10,10 @@ function SewingMachine_Bedroom:CanPay(player)
 end
 function SewingMachine_Bedroom:Pay(player)
     player:AddSoulHearts(-2)
+
+    if player:GetHearts() + player:GetSoulHearts() == 0 then
+        player:Die()
+    end
 end
 
 function SewingMachine_Bedroom:EvaluateSpawn(rng, room, level, ignoreRandom)

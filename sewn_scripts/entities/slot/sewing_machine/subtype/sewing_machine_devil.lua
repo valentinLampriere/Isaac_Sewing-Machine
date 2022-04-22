@@ -28,6 +28,10 @@ function SewingMachine_Devil:CanPay(player)
 end
 function SewingMachine_Devil:Pay(player)
     player:AddMaxHearts(-2, false)
+    
+    if player:GetHearts() + player:GetSoulHearts() == 0 then
+        player:Die()
+    end
 end
 
 return SewingMachine_Devil

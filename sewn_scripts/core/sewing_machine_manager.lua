@@ -7,6 +7,8 @@ local Random = require("sewn_scripts.helpers.random")
 
 local SewingMachineManager = { }
 
+local sewingMachineAlreadySpawn = false
+
 -- Return a table with all the Sewing machines
 function SewingMachineManager:GetAllSewingMachines(subtype)
     subtype = subtype or -1
@@ -101,6 +103,8 @@ local function TrySpawnMachine()
 
     if shouldSpawnMachine == true then
         SewingMachineManager:Spawn(nil, spawnMachineType.PlayAppearAnimOnNewRoom, spawnMachineType.SubType)
+
+        sewingMachineAlreadySpawn = true
     end
 end
 
@@ -130,10 +134,14 @@ function SewingMachineManager:Spawn(position, playAppearAnim, machineSubType)
 end
 
 function SewingMachineManager:TryToSpawnMachineOnRoomClear()
-    TrySpawnMachine()
+    if sewingMachineAlreadySpawn == false then
+        TrySpawnMachine()
+    end
 end
 
 function SewingMachineManager:TryToSpawnMachineOnNewRoom()
+    sewingMachineAlreadySpawn = false
+
     if Globals.Room:IsFirstVisit() == true and Globals.Room:IsClear() and Globals.Level ~= nil then
         -- Do not spawn machines in extra rooms
         if StageAPI and StageAPI.InExtraRoom and StageAPI.InExtraRoom() then
