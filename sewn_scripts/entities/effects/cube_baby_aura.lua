@@ -50,11 +50,10 @@ function CubeBabyAura:EffectUpdate(effect)
     
     -- Prevent from looping through all enemies each frames
     if effect.FrameCount % CubeBabyAura.Stats.FrameRate == 0 then
-        for _, npc in pairs(npcs) do
+        for _, npc in ipairs(npcs) do
             if npc:IsVulnerableEnemy() then
-
                 local ptrNpc = GetPtrHash(npc)
-                if npc.Position:DistanceSquared(effect.Position) <= effect.Size ^ 2 then
+                if npc.Position:DistanceSquared(effect.Position) <= (effect.Size * effect.Scale) ^ 2 then
                     if eData.Sewn_cubeBabyAura_freezeEnemies[ptrNpc] == nil then
                         eData.Sewn_cubeBabyAura_freezeEnemies[ptrNpc] = 0
                         eData.Sewn_cubeBabyAura_maxFreeze[ptrNpc] = npc.HitPoints * 5

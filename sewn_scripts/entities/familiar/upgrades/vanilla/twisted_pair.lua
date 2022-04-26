@@ -48,7 +48,7 @@ function TwistedPair:OnInit(familiar)
     fData.Sewn_twistedPair_twistedIndex = familiar.Player:GetCollectibleNum(CollectibleType.COLLECTIBLE_TWISTED_PAIR)
 end
 
-function TwistedPair:OnUpgraded_OnLoseUpgrade(familiar, isPermanentUpgrade_losePermanentUpgrade)
+function TwistedPair:OnUpgraded_OnLoseUpgrade(familiar, losePermanentUpgrade)
     if familiar.SubType == 1 then return end
     local fData = familiar:GetData()
     local _fData = GetFindTwin(familiar):GetData()

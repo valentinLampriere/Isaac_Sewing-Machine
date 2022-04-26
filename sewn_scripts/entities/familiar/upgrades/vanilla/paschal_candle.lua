@@ -7,7 +7,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PASCHAL_CANDLE, CollectibleType.C
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PASCHAL_CANDLE,
     "When the player takes damage, spreads flames around itself#The amount of flames depends on the size of the flame's candle",
-    "Taking damage only reduces the flame’s size by one step", nil, "Paschal Candle"
+    "Taking damage only reduces the flame's size by one step", nil, "Paschal Candle"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(
