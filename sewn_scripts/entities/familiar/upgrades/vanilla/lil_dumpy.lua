@@ -152,18 +152,16 @@ end
 
 local function ChangeDumpling(familiar, variant)
     local fData = familiar:GetData()
-    local sprite = familiar:GetSprite()
     local dumplingVariant = variant or RollDumpling(familiar)
     
-    if fData.Sewn_lilDumpy_variant == dumplingVariant then
+    if familiar.SubType == dumplingVariant then
         -- Does nothing, we roll the same variant.
         return
     end
 
-    sprite:ReplaceSpritesheet(0, LilDumpy.Dumpies[dumplingVariant].GFX)
-    sprite:LoadGraphics()
+    familiar.SubType = dumplingVariant
 
-    fData.Sewn_lilDumpy_variant = dumplingVariant
+    LilDumpy:InitSprite(familiar)
 end
 
 function LilDumpy:OnFamiliarInit(familiar)
@@ -194,7 +192,7 @@ function LilDumpy:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
     local sprite = familiar:GetSprite()
 
-    local dumpy = LilDumpy.Dumpies[fData.Sewn_lilDumpy_variant]
+    local dumpy = LilDumpy.Dumpies[familiar.SubType]
 
     -- Track when the familiar farts.
     if sprite:IsPlaying("Fart") and sprite:GetFrame() == 0 then
@@ -237,6 +235,13 @@ function LilDumpy:OnFamiliarUpdate(familiar)
     end
 end
 
+function LilDumpy:InitSprite(familiar)
+    local sprite = familiar:GetSprite()
+    sprite:ReplaceSpritesheet(0, LilDumpy.Dumpies[familiar.SubType].GFX)
+    sprite:LoadGraphics()
+end
+
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, LilDumpy.InitSprite, FamiliarVariant.LIL_DUMPY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, LilDumpy.OnFamiliarInit, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, LilDumpy.OnFamiliarInit, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, LilDumpy.OnFamiliarLoseUpgrade, FamiliarVariant.LIL_DUMPY)
