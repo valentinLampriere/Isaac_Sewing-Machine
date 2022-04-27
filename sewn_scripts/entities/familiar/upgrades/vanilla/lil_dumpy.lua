@@ -18,7 +18,6 @@ LilDumpy.DumpiesVariant = {
 
 local function Frostling_clearNpcIceFlag(npc)
     if npc:HasEntityFlags(EntityFlag.FLAG_KNOCKED_BACK) == false then
-        print("Clear Ice flag for npc")
         npc:ClearEntityFlags(EntityFlag.FLAG_ICE)
     else
         Delay:DelayFunction(Frostling_clearNpcIceFlag, 1, true, npc)
@@ -49,7 +48,7 @@ LilDumpy.Dumpies = {
         GFX = "gfx/familiar/lilDumpy/scorchling.png",
         OnFart = function (familiar, fart)
             local flame = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, fart.Position, Globals.V0, familiar.Player):ToEffect()
-            flame.CollisionDamage = 10
+            flame.CollisionDamage = 20
         end,
         EvaluateWeight = function (familiar)
             return DumplingsMod == nil and 0.5 or 1
@@ -58,13 +57,28 @@ LilDumpy.Dumpies = {
     [LilDumpy.DumpiesVariant.MORTLING] = {
         GFX = "gfx/familiar/lilDumpy/mortling.png",
         OnFart = function (familiar, fart)
-            Globals.Game:Fart(fart.Position, nil, familiar, nil, 0)
+            --[[Globals.Game:Fart(fart.Position, nil, familiar, nil, 0)
             fart:Remove()
             local cloud = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SMOKE_CLOUD, 0, fart.Position, Globals.V0, familiar.Player):ToEffect()
-            cloud.Timeout = familiar:GetDropRNG():RandomInt(310) + 90
+            cloud.Timeout = familiar:GetDropRNG():RandomInt(310) + 90--]]
+        end,
+        OnRest = function (familiar)
+            local rng = familiar:GetDropRNG()
+            local roll = rng:RandomFloat() * familiar.Velocity:Length() * 0.15
+            roll = math.floor(roll)
+            for i = 1, roll do
+                local randomOffset = Vector(rng:RandomFloat() * 3, rng:RandomFloat() * 3)
+                Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, -familiar.Velocity * 0.4 + randomOffset, familiar)
+            end
+            if familiar.FrameCount % (rng:RandomInt(5) + 1) == 0 then
+                if familiar.Velocity:LengthSquared() > 10 then
+                    Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, -familiar.Velocity*0.5, familiar)
+                end
+            end
         end,
         EvaluateWeight = function (familiar)
-            return DumplingsMod == nil and 0.2 or 0.3
+            --return DumplingsMod == nil and 0.2 or 0.3
+            return 1000
         end
     },
     [LilDumpy.DumpiesVariant.FROSTLING] = {
