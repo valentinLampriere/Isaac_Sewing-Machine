@@ -12,7 +12,7 @@ LilDumpy.DumpiesVariant = {
     SKINLING = 1,
     SCABLING = 2,
     SCORCHLING = 3,
-    MORTLING = 4,
+    DROPLING = 4,
     FROSTLING = 5,
 }
 
@@ -35,7 +35,7 @@ LilDumpy.Dumpies = {
             fart:Remove()
         end,
         EvaluateWeight = function (familiar)
-            return 0.75
+            return 0.8
         end
     },
     [LilDumpy.DumpiesVariant.SCABLING] = {
@@ -51,34 +51,23 @@ LilDumpy.Dumpies = {
             flame.CollisionDamage = 20
         end,
         EvaluateWeight = function (familiar)
-            return DumplingsMod == nil and 0.5 or 1
+            return DumplingsMod == nil and 0.5 or LilDumpy.Stats.Default.EvaluateWeight(familiar)
         end
     },
-    [LilDumpy.DumpiesVariant.MORTLING] = {
-        GFX = "gfx/familiar/lilDumpy/mortling.png",
-        OnFart = function (familiar, fart)
-            --[[Globals.Game:Fart(fart.Position, nil, familiar, nil, 0)
-            fart:Remove()
-            local cloud = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.SMOKE_CLOUD, 0, fart.Position, Globals.V0, familiar.Player):ToEffect()
-            cloud.Timeout = familiar:GetDropRNG():RandomInt(310) + 90--]]
-        end,
+    [LilDumpy.DumpiesVariant.DROPLING] = {
+        GFX = "gfx/familiar/lilDumpy/dropling.png",
         OnRest = function (familiar)
             local rng = familiar:GetDropRNG()
-            local roll = rng:RandomFloat() * familiar.Velocity:Length() * 0.15
+            local roll = rng:RandomFloat() * familiar.Velocity:LengthSquared() * 0.01
             roll = math.floor(roll)
             for i = 1, roll do
                 local randomOffset = Vector(rng:RandomFloat() * 3, rng:RandomFloat() * 3)
-                Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, -familiar.Velocity * 0.4 + randomOffset, familiar)
-            end
-            if familiar.FrameCount % (rng:RandomInt(5) + 1) == 0 then
-                if familiar.Velocity:LengthSquared() > 10 then
-                    Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, -familiar.Velocity*0.5, familiar)
-                end
+                local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, -familiar.Velocity * 0.4 + randomOffset, familiar):ToTear()
+                tear.Scale = 0.8
             end
         end,
         EvaluateWeight = function (familiar)
-            --return DumplingsMod == nil and 0.2 or 0.3
-            return 1000
+            return 0.8
         end
     },
     [LilDumpy.DumpiesVariant.FROSTLING] = {
@@ -189,7 +178,7 @@ function LilDumpy:OnFamiliarInit(familiar)
     fData.Sewn_lilDumpy_state = 0
     fData.Sewn_lilDumpy_cooldown = 0
 
-    Sewn_API:AddCrownOffset(familiar, Vector(0, 5))
+    Sewn_API:AddCrownOffset(familiar, Vector(0, 10))
 end
 
 function LilDumpy:OnFamiliarLoseUpgrade(familiar, losePermanentUpgrade)

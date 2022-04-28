@@ -52,6 +52,7 @@
         "Encyclopedia",
         "LevelStage",
         "RoomShape",
-        "DoorSlot"
+        "DoorSlot",
+        "DumplingsMod"
     ]
 }
