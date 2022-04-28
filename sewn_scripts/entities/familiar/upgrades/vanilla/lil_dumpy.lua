@@ -50,8 +50,20 @@ LilDumpy.Dumpies = {
             local flame = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, fart.Position, Globals.V0, familiar.Player):ToEffect()
             flame.CollisionDamage = 20
         end,
+        OnCollision = function (familiar, collider)
+            if familiar.State == 0 then
+                return
+            end
+            
+            if collider:IsVulnerableEnemy() then
+                local burnDuration = math.floor(familiar.Velocity:LengthSquared() * 0.01)
+                collider:AddBurn(EntityRef(familiar), burnDuration, 1)
+            end
+        end,
         EvaluateWeight = function (familiar)
-            return DumplingsMod == nil and 0.5 or LilDumpy.Stats.Default.EvaluateWeight(familiar)
+            return 10000
+            --local defaultWeight = LilDumpy.Stats.Default.EvaluateWeight(familiar)
+            --return DumplingsMod == nil and defaultWeight * 0.5 or defaultWeight
         end
     },
     [LilDumpy.DumpiesVariant.DROPLING] = {
@@ -240,8 +252,20 @@ function LilDumpy:OnFamiliarUpdate(familiar)
     end
 end
 
+function LilDumpy:OnFamiliarCollision(familiar, collider)
+    local fData = familiar:GetData()
+
+    local dumpy = LilDumpy.Dumpies[fData.Sewn_lilDumpy_variant]
+
+    if dumpy.OnCollision ~= nil then
+        dumpy.OnCollision(familiar, collider)
+    end
+end
+
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, LilDumpy.OnFamiliarInit, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, LilDumpy.OnFamiliarInit, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, LilDumpy.OnFamiliarLoseUpgrade, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilDumpy.OnFamiliarUpdate, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, LilDumpy.OnFamiliarNewRoom, FamiliarVariant.LIL_DUMPY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_FAMILIAR_COLLISION, LilDumpy.OnFamiliarCollision, FamiliarVariant.LIL_DUMPY)
