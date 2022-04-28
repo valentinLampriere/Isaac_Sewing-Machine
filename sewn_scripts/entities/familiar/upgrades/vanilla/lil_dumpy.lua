@@ -48,22 +48,24 @@ LilDumpy.Dumpies = {
         GFX = "gfx/familiar/lilDumpy/scorchling.png",
         OnFart = function (familiar, fart)
             local flame = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.RED_CANDLE_FLAME, 0, fart.Position, Globals.V0, familiar.Player):ToEffect()
-            flame.CollisionDamage = 20
+            flame.CollisionDamage = 15
         end,
         OnCollision = function (familiar, collider)
-            if familiar.State == 0 then
+            local fData = familiar:GetData()
+            if familiar.State == 0 or fData.Sewn_lilDumpy_finishProjection == true then
                 return
             end
             
-            if collider:IsVulnerableEnemy() then
-                local burnDuration = math.floor(familiar.Velocity:LengthSquared() * 0.01)
-                collider:AddBurn(EntityRef(familiar), burnDuration, 1)
+            if collider:HasEntityFlags(EntityFlag.FLAG_BURN) == false and collider:IsVulnerableEnemy() then
+                local burnDuration = math.floor(familiar.Velocity:LengthSquared())
+                if burnDuration > 0 then
+                    collider:AddBurn(EntityRef(familiar), burnDuration, 1)
+                end
             end
         end,
         EvaluateWeight = function (familiar)
-            return 10000
-            --local defaultWeight = LilDumpy.Stats.Default.EvaluateWeight(familiar)
-            --return DumplingsMod == nil and defaultWeight * 0.5 or defaultWeight
+            local defaultWeight = LilDumpy.Stats.Default.EvaluateWeight(familiar)
+            return DumplingsMod == nil and defaultWeight * 0.5 or defaultWeight
         end
     },
     [LilDumpy.DumpiesVariant.DROPLING] = {
@@ -189,6 +191,7 @@ function LilDumpy:OnFamiliarInit(familiar)
     fData.Sewn_lilDumpy_sleepTimer = 0
     fData.Sewn_lilDumpy_state = 0
     fData.Sewn_lilDumpy_cooldown = 0
+    fData.Sewn_lilDumpy_finishProjection = false
 
     Sewn_API:AddCrownOffset(familiar, Vector(0, 10))
 end
@@ -227,6 +230,7 @@ function LilDumpy:OnFamiliarUpdate(familiar)
     -- Check if familiar change state.
     if familiar.State == 0 and fData.Sewn_lilDumpy_state == 1 then
         fData.Sewn_lilDumpy_state = 0
+        fData.Sewn_lilDumpy_finishProjection = false
         if dumpy.OnRestEnd ~= nil then
             dumpy.OnRestEnd(familiar)
         end
@@ -238,6 +242,10 @@ function LilDumpy:OnFamiliarUpdate(familiar)
             if dumpy.OnRestStart ~= nil then
                 dumpy.OnRestStart(familiar)
             end
+        end
+
+        if fData.Sewn_lilDumpy_finishProjection == false and familiar.Velocity:LengthSquared() < 1 then
+            fData.Sewn_lilDumpy_finishProjection = true
         end
 
         if dumpy.OnRest ~= nil then
