@@ -37,7 +37,7 @@ function SewingMachineDescription:GetMachineDescription(machine)
     if info == nil then return end
 
     local upgradeDescription = mData.Sewn_currentFamiliarLevel == Enums.FamiliarLevel.NORMAL and info.SuperUpgrade or info.UltraUpgrade
-    local levelCrown = mData.Sewn_currentFamiliarLevek == Enums.FamiliarLevel.NORMAL and "Super" or "Ultra"
+    local levelCrown = mData.Sewn_currentFamiliarLevel == Enums.FamiliarLevel.NORMAL and "Super" or "Ultra"
 
     local colorMarkup = "{{ColorWhite}}"
     if EID and EID.InlineColors["SewnColor_"..info.Name] then

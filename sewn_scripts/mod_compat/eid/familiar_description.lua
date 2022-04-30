@@ -17,9 +17,6 @@ function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUp
     else
         kColor = {1, 1, 1}
     end
-    --[[if sewingMachineMod.Config.EID_textColored == false then
-        kColor = {1, 1, 1}
-    end--]]
 
     if EID ~= nil then
         local markupName = name.gsub(name, "'", "")
@@ -33,9 +30,6 @@ function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUp
         Color = kColor
     }
 
-    --[[if Encyclopedia ~= nil then
-        sewingMachineMod:SetEncyclopedia(sewingMachineMod.availableFamiliar[familiarVariant][1], familiarVariant)
-    end--]]
     Sewn_API:AddEncyclopediaUpgrade(familiarVariant, firstUpgrade, secondUpgrade, nil, false)
 end
 
