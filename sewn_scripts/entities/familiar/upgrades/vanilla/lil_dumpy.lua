@@ -129,16 +129,43 @@ LilDumpy.Stats = {
     }
 }
 
+
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_DUMPY, CollectibleType.COLLECTIBLE_LIL_DUMPY)
+
+-- Adding markups
+if EID then
+    for variant, dumpy in pairs(LilDumpy.Dumpies) do
+        dumpy.Sprite = Sprite()
+        dumpy.Sprite:Load("gfx/eid_lil dumpy.anm2", true)
+        dumpy.Sprite:ReplaceSpritesheet(0, LilDumpy.Dumpies[variant].GFX)
+        dumpy.Sprite.Scale = Vector(0.25, 0.25)
+        dumpy.Sprite:LoadGraphics()
+
+        EID:addIcon("LilDumpyVariant"..variant, "markup", 1, 10, 10, -3, -3, dumpy.Sprite)
+    end
+end
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_DUMPY,
-    "Turn Lil Dumpy to different variants with unique effects",
+    "Change to another Lil Dumpy variant each rooms as :" ..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Standard effect."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Poisons enemies when farting."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} When it farts, fire 6 tears in a circular pattern."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, spawn a flame which deal 15 damage."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Enemies it kills turn to ice. While resting, gain a freezing aura."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} When it farts, fire tears in the opposite direction.",
     "Return to the player after a random amount of seconds, even if the player is far away", nil, "Lil Dumpy"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_DUMPY,
-    "Lil Dumpy gains differents variants version of himself, each of them have a unique effect based on Antibirth's Dumplings monsters.#There are additional variants which are based on the Mod \"Dumplings!\" and which can only appear while the mod is enabled.#Variants have different weight which affect how often each variants are choosen."
+    "Change to another Lil Dumpy variant each rooms as :" ..
+    "#Dumpling : Standard effect."..
+    "#Skinling : Poisons enemies when farting."..
+    "#Scabling : When it farts, fire 6 tears in a circular pattern. Tears deal 5 damage."..
+    "#Scortchling : When it farts, spawn a flame which deal 15 damage. While it is pushed by it own fart, it will apply burning effect to enemies it collide with."..
+    "#Frostling : Enemies it kills turn to ice. While resting, gain a freezing aura which freeze enemies which stay in it radius for too long."..
+    "#Dropling : When it farts, fire tears in the opposite direction. Tears deal 3 damage." ..
+    "# #Variants have a different weight which affect their chances to be picked."
 )
 
 local function RollDumpling(familiar)
