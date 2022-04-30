@@ -28,6 +28,7 @@ local PreFamiliarCollisionHandler = require("sewn_scripts.callbacks.custom.handl
 local FamiliarPlayerTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.familiar_player_take_damage_handler")
 local PostFamiliarInitHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_init_handler")
 local EntityTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.entity_take_damage_handler")
+local ExecuteCmdFamiliarHandler = require("sewn_scripts.callbacks.custom.handlers.execute_cmd_familiar_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -42,6 +43,7 @@ local preSpawnCleanAward = { }
 local evaluateCache = { }
 local preFamiliarCollision = { }
 local playerTakeDamage = { }
+local executeCmd = { }
 
 local customCallbacks = { }
 
@@ -88,6 +90,9 @@ local function InitCallback(callback)
 	if callback.PlayerTakeDamage ~= nil then
 		table.insert(playerTakeDamage, callback.PlayerTakeDamage)
 	end
+	if callback.ExecuteCmd ~= nil then
+		table.insert(executeCmd, callback.ExecuteCmd)
+	end
 
 	customCallbacks[callback["ID"]] = callback
 
@@ -124,6 +129,7 @@ InitCallback(PreFamiliarCollisionHandler)
 InitCallback(FamiliarPlayerTakeDamageHandler)
 InitCallback(PostFamiliarInitHandler)
 InitCallback(EntityTakeDamageHandler)
+InitCallback(ExecuteCmdFamiliarHandler)
 
 local CustomCallbacksHandler = { }
 
@@ -195,6 +201,11 @@ end
 function CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
 	for _, _function in ipairs(playerTakeDamage) do
 		_function(_, player, amount, flags, source, countdown)
+	end
+end
+function CustomCallbacksHandler:ExecuteCmd(cmd, args)
+	for _, _function in ipairs(executeCmd) do
+		_function(_, cmd, args)
 	end
 end
 

@@ -77,6 +77,7 @@ LilDumpy.Dumpies = {
             for i = 1, roll do
                 local randomOffset = Vector(rng:RandomFloat() * 3, rng:RandomFloat() * 3)
                 local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, -familiar.Velocity * 0.4 + randomOffset, familiar):ToTear()
+                tear.CollisionDamage = 3
                 tear.Scale = 0.8
             end
         end,
