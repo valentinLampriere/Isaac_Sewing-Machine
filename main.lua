@@ -1,5 +1,3 @@
---local SewnMod = RegisterMod("Sewing machine", 1)
-
 local SewnMod = require("sewn_scripts.sewn_mod")
 
 Sewn_API = require("sewn_scripts.sewn_api")
@@ -94,5 +92,4 @@ require("sewn_scripts.items.trinkets")
 
 require("sewn_scripts.mod_compat.eid.eid")
 require("sewn_scripts.mod_compat.minimapi.minimapi")
-
 require("sewn_scripts.mod_compat.encyclopedia.encyclopedia")
