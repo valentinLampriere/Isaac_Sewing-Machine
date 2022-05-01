@@ -11,7 +11,8 @@ MomsRazor.Stats = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 180,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 200
     },
-    HeartDropChance = 10
+    HeartDropChance = 10,
+    BloodPuddleDamage = 2
 }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.MOMS_RAZOR, CollectibleType.COLLECTIBLE_MOMS_RAZOR)
@@ -19,13 +20,13 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.MOMS_RAZOR, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.MOMS_RAZOR,
     "{{ArrowUp}} Extends the Bleed duration. Bosses are not affected.",
-    "When it kills an enemy either from contact damage or bleed, spawn a large blood puddle. Also have a chance to spawn half a heart.#{{ArrowUp}} Extends the Bleed duration", nil, "Mom's Razor"
+    "When an enemy dies while bleeding, spawn a large blood puddle. Also have a chance to spawn half a heart.#{{ArrowUp}} Extends the Bleed duration", nil, "Mom's Razor"
 )
 
 local function OnKillNpc(familiar, npc)
     local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_LEMON_MISHAP, 0, npc.Position, Globals.V0, familiar):ToEffect()
     creep:SetColor(CColor(0.627, 0, 0), -1, 1, false, false)
-    creep.CollisionDamage = 3
+    creep.CollisionDamage = MomsRazor.Stats.BloodPuddleDamage
     creep.Visible = false
     Delay:DelayFunction(function ()
         creep.Visible = true
