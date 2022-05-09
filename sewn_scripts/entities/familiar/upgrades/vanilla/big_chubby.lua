@@ -1,12 +1,42 @@
 local BigChubby = { }
 
 BigChubby.Stats = {
-    TearBonus = 1,
-    FrameLoseBonus = 0.0,
-    HitBonus = 0.33,
-    DamageCoefficient = 1,
-    SizeCoefficient = 0.25,
-    ScaleCoefficient = 0.25
+    SizeDecreaseBonusFrameFormula = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = function(coefficient) return (1/3000) * (coefficient * coefficient) end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function(coefficient) return (1/3000) * (coefficient * coefficient) end
+    },
+    SizeIncreaseFormulaEatBullet = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = function (bullet) return 1 * bullet.CollisionDamage end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (bullet) return 1 * bullet.CollisionDamage end,
+    },
+    SizeIncreaseFormulaKillNpc = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = function (npc) return math.sqrt(npc.MaxHitPoints) * 0.8 end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (npc) return math.sqrt(npc.MaxHitPoints) end,
+    },
+    SizeIncreaseFormulaHitNpc = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = function (npc) return 0 end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (npc) return 0.33 end,
+    },
+    SizeFormula = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = function (coefficient) return math.sqrt(coefficient * 0.2) end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (coefficient) return math.sqrt(coefficient * 0.2) end,
+    },
+    DamageCoefficient = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1
+    },
+    SizeCoefficient = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 0.2,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.2
+    },
+    ScaleCoefficient = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 0.25,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.25
+    },
+    FireCooldownBonus = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 10
+    },
 }
 
 local BASE_DAMAGE = 2.7
@@ -22,14 +52,14 @@ Sewn_API:AddFamiliarDescription(
 
 local function UpdateSize(familiar)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
 
-    --local bonus = math.log(fData.Sewn_bigChubby_sizeCoefficient + 1, 10)
-    local bonus = math.sqrt(fData.Sewn_bigChubby_sizeCoefficient * 0.2)
-    local scale = bonus * BigChubby.Stats.ScaleCoefficient + 1
+    local bonus = BigChubby.Stats.SizeFormula[level](fData.Sewn_bigChubby_sizeCoefficient)
+    local scale = bonus * BigChubby.Stats.ScaleCoefficient[level] + 1
     print(fData.Sewn_bigChubby_sizeCoefficient .. " => " .. bonus)
     familiar.SpriteScale = Vector(scale, scale)
-    familiar.CollisionDamage = BASE_DAMAGE + BASE_DAMAGE * bonus * BigChubby.Stats.DamageCoefficient
-    familiar.Size = BASE_SIZE + BASE_SIZE * bonus * BigChubby.Stats.SizeCoefficient
+    familiar.CollisionDamage = BASE_DAMAGE + BASE_DAMAGE * bonus * BigChubby.Stats.DamageCoefficient[level]
+    familiar.Size = BASE_SIZE + BASE_SIZE * bonus * BigChubby.Stats.SizeCoefficient[level]
 end
 
 function BigChubby:OnInit(familiar)
@@ -39,36 +69,46 @@ end
 
 function BigChubby:OnUpdate(familiar)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+
     if fData.Sewn_bigChubby_sizeCoefficient > 0 then
         UpdateSize(familiar)
-        local f = (1/3000) * (fData.Sewn_bigChubby_sizeCoefficient * fData.Sewn_bigChubby_sizeCoefficient)
-        fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient - f - BigChubby.Stats.FrameLoseBonus
+
+        fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient - BigChubby.Stats.SizeDecreaseBonusFrameFormula[level](fData.Sewn_bigChubby_sizeCoefficient)
     end
 end
 
 function BigChubby:OnUpdateUltra(familiar)
-    if familiar.FireCooldown > 15 then
-        familiar.FireCooldown = 15
+    local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+
+    if familiar.FireCooldown > BigChubby.Stats.FireCooldownBonus[level] then
+        familiar.FireCooldown = BigChubby.Stats.FireCooldownBonus[level]
     end
 end
 
 function BigChubby:OnPreFamiliarCollision(familiar, collider)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+
     if collider.Type == EntityType.ENTITY_PROJECTILE then
-        fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient + BigChubby.Stats.TearBonus * collider.CollisionDamage
+        fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient + BigChubby.Stats.SizeIncreaseFormulaEatBullet[level](collider)
         collider:Die()
     end
 end
 
 function BigChubby:OnKillNpc(familiar, npc)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
 
-    fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient + math.sqrt(npc.MaxHitPoints)
+    fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient + BigChubby.Stats.SizeIncreaseFormulaKillNpc[level](npc)
 end
+
 function BigChubby:OnHitNpc(familiar, npc)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
 
-    fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient + BigChubby.Stats.HitBonus
+    fData.Sewn_bigChubby_sizeCoefficient = fData.Sewn_bigChubby_sizeCoefficient + BigChubby.Stats.SizeIncreaseFormulaHitNpc[level](npc)
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, BigChubby.OnInit, FamiliarVariant.BIG_CHUBBY)
