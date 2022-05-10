@@ -45,6 +45,7 @@ local PreSpawnCleanAward = require("sewn_scripts.callbacks.vanilla.pre_spawn_cle
 local PostUpdate = require("sewn_scripts.callbacks.vanilla.post_update")
 local PreGameExit = require("sewn_scripts.callbacks.vanilla.pre_game_exit")
 local PostGameStarted = require("sewn_scripts.callbacks.vanilla.post_game_started")
+local PostRender = require("sewn_scripts.callbacks.vanilla.post_render")
 local ExecuteCmd = require("sewn_scripts.callbacks.vanilla.execute_cmd")
 -- Sewing Machine related callbacks
 local PostMachineUpdate = require("sewn_scripts.callbacks.custom.post_machine_update")
@@ -83,6 +84,7 @@ SewnMod:AddCallback(ModCallbacks.MC_EXECUTE_CMD, ExecuteCmd)
 SewnMod:AddCallback(ModCallbacks.MC_POST_UPDATE, PostUpdate)
 SewnMod:AddCallback(ModCallbacks.MC_PRE_GAME_EXIT, PreGameExit)
 SewnMod:AddCallback(ModCallbacks.MC_POST_GAME_STARTED, PostGameStarted)
+SewnMod:AddCallback(ModCallbacks.MC_POST_RENDER, PostRender)
 -- Sewing Machine related callbacks
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_UPDATE, PostMachineUpdate, Enums.SlotMachineVariant.SEWING_MACHINE, true)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_PLAYER_TOUCH_MACHINE, PostPlayerTouchMachine, Enums.SlotMachineVariant.SEWING_MACHINE)
