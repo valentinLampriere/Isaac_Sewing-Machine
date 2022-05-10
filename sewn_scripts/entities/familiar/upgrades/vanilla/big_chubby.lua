@@ -2,12 +2,12 @@ local BigChubby = { }
 
 BigChubby.Stats = {
     SizeDecreaseBonusFrameFormula = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = function(coefficient) return (1/3000) * (coefficient * coefficient) end,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function(coefficient) return (1/3000) * (coefficient * coefficient) end
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = function(coefficient) return (1/3000) * (coefficient * coefficient)+ 0.01 end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function(coefficient) return (1/3000) * (coefficient * coefficient) + 0.01 end
     },
     SizeIncreaseFormulaEatBullet = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = function (bullet) return 1 * bullet.CollisionDamage end,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (bullet) return 1 * bullet.CollisionDamage end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (bullet) return 1.25 * bullet.CollisionDamage end,
     },
     SizeIncreaseFormulaKillNpc = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = function (npc) return math.sqrt(npc.MaxHitPoints) * 0.8 end,
@@ -15,7 +15,7 @@ BigChubby.Stats = {
     },
     SizeIncreaseFormulaHitNpc = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = function (npc) return 0 end,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (npc) return 0.33 end,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = function (npc) return 0.25 end,
     },
     SizeFormula = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = function (coefficient) return math.sqrt(coefficient * 0.2) end,
@@ -35,7 +35,7 @@ BigChubby.Stats = {
     },
     FireCooldownBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 10
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 15
     },
 }
 
@@ -46,8 +46,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BIG_CHUBBY, CollectibleType.COLLE
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BIG_CHUBBY,
-    "",
-    "", nil, "Big Chubby"
+    "Increase it size and damage when eating bullet and when killing monsters.#Reduce it size over time and on new level.",
+    "Increase it size even more while dealing damage to enemies.#Do no more lose it damage on new level.#{{ArrowUp}} Reduce cooldown", nil, "Big Chubby"
 )
 
 local function UpdateSize(familiar)
@@ -56,7 +56,7 @@ local function UpdateSize(familiar)
 
     local bonus = BigChubby.Stats.SizeFormula[level](fData.Sewn_bigChubby_sizeCoefficient)
     local scale = bonus * BigChubby.Stats.ScaleCoefficient[level] + 1
-    print(fData.Sewn_bigChubby_sizeCoefficient .. " => " .. bonus)
+    
     familiar.SpriteScale = Vector(scale, scale)
     familiar.CollisionDamage = BASE_DAMAGE + BASE_DAMAGE * bonus * BigChubby.Stats.DamageCoefficient[level]
     familiar.Size = BASE_SIZE + BASE_SIZE * bonus * BigChubby.Stats.SizeCoefficient[level]
@@ -116,5 +116,6 @@ Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BigChubby
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BigChubby.OnUpdate, FamiliarVariant.BIG_CHUBBY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_FAMILIAR_COLLISION, BigChubby.OnPreFamiliarCollision, FamiliarVariant.BIG_CHUBBY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_KILL_NPC, BigChubby.OnKillNpc, FamiliarVariant.BIG_CHUBBY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_LEVEL, BigChubby.OnInit, FamiliarVariant.BIG_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_SUPER)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_HIT_NPC, BigChubby.OnHitNpc, FamiliarVariant.BIG_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BigChubby.OnUpdateUltra, FamiliarVariant.BIG_CHUBBY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
