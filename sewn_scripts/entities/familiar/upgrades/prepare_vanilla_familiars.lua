@@ -38,6 +38,7 @@ require("sewn_scripts.entities.familiar.upgrades.vanilla.dead_cat")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.incubus")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.pointy_rib")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.moms_razor")
+require("sewn_scripts.entities.familiar.upgrades.vanilla.big_chubby")
 
 if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.fruity_plum")
