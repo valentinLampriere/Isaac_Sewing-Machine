@@ -1,5 +1,4 @@
 local GetDirectionFromAngle = require("sewn_scripts.helpers.get_direction_from_angle")
-local Debug = require("sewn_scripts.debug.debug")
 
 local AngelicPrism = { }
 
@@ -53,10 +52,6 @@ local function HandleSpin(familiar)
     local newOrbit = defaultOrbitDistance - Vector(fData.Sewn_angelicPrism_tValue, fData.Sewn_angelicPrism_tValue)
     familiar.OrbitDistance = newOrbit
     familiar.Velocity = familiar:GetOrbitPosition(familiar.Player.Position + familiar.Player.Velocity) - familiar.Position
-
-    Debug:RenderVector(newOrbit, "newOrbit")
-    Debug:RenderVector(familiar.Velocity, "velocity")
-    
 end
 function AngelicPrism:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()

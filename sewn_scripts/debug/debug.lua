@@ -7,6 +7,13 @@ local Debug = {
 
 local renderTextTable = { }
 
+Debug.Color = {
+    White = {1, 1, 1},
+    Red = {1, 0, 0},
+    Blue = {0, 0, 1},
+    Green = {0, 1, 0},
+}
+
 Debug.Stats = {
     PositionX = 50,
     PositionY = 30,
@@ -19,8 +26,9 @@ function Debug:OnRender()
     end
     
     local i = 0;
-    for id, text in pairs(renderTextTable) do
-        Isaac.RenderText(text, Debug.Stats.PositionX, Debug.Stats.PositionY + i * Debug.Stats.RowHeight, 1, 1, 1, 1)
+    for id, log in pairs(renderTextTable) do
+        local color = log.Color
+        Isaac.RenderText(log.Text, Debug.Stats.PositionX, Debug.Stats.PositionY + i * Debug.Stats.RowHeight, color[1], color[2], color[3], 1)
         i = i + 1
     end
 end
@@ -31,15 +39,15 @@ function Debug:OnExecuteCmd(cmd, args)
     end
 end
 
--- TODO : Add a third parameter for colors.
-function Debug:RenderText(text, id)
+function Debug:RenderText(text, id, color)
     text = tostring(text) or "[unset text]"
     id = tostring(id) or "0"
+    color = color or Debug.Color.White
 
-    renderTextTable[id] = text
+    renderTextTable[id] = { Text = text, Color = color }
 end
 
-function Debug:RenderVector(vector, id, decimal)
+function Debug:RenderVector(vector, id, color, decimal)
 
     if vector == nil then
         Debug:RenderText("[unset vector]")
@@ -67,7 +75,7 @@ function Debug:RenderVector(vector, id, decimal)
 
     strVector = strVector .. " Y : " .. MathHelper:Round(vector.Y, decimal)
     
-    Debug:RenderText(strVector, id)
+    Debug:RenderText(strVector, id, color)
 end
 
 return Debug
