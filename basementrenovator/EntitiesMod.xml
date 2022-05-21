@@ -1,0 +1,9 @@
+<data>
+	<!-- Machines -->
+	<entity Group="Machines" ID="6" Image="resources/Entities/sewingmachine_bedroom.png" Kind="Stage" Name="Sewing Machine (Bedroom)" Variant="756" Subtype="0" />
+	<entity Group="Machines" ID="6" Image="resources/Entities/sewingmachine_shop.png" Kind="Stage" Name="Sewing Machine (Shop)" Variant="756" Subtype="1" />
+	<entity Group="Machines" ID="6" Image="resources/Entities/sewingmachine_angel.png" Kind="Stage" Name="Sewing Machine (Angel)" Variant="756" Subtype="2" />
+	<entity Group="Machines" ID="6" Image="resources/Entities/sewingmachine_devil.png" Kind="Stage" Name="Sewing Machine (Devil)" Variant="756" Subtype="3" />
+	
+	<entity Group="Cards" ID="5" Image="resources/Entities/sewingmachine_devil.png" Kind="Pickup" Name="Sewing Coupon" Variant="300" Subtype="756"/>
+</data>

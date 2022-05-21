@@ -53,6 +53,7 @@
         "LevelStage",
         "RoomShape",
         "DoorSlot",
-        "DumplingsMod"
+        "DumplingsMod",
+        "Random"
     ]
 }
