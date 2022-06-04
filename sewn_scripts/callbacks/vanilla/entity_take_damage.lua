@@ -1,6 +1,6 @@
 local CrackedThimble = require("sewn_scripts.items.trinkets.cracked_thimble")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
-local BurningFart = require("sewn_scripts.entities.effects.burning_fart")
+local Fart = require("sewn_scripts.entities.effects.fart")
 
 function MC_ENTITY_TAKE_DMG(_, entity, amount, flags, source, countdown)
     if entity.Type == EntityType.ENTITY_PLAYER then
@@ -8,7 +8,7 @@ function MC_ENTITY_TAKE_DMG(_, entity, amount, flags, source, countdown)
         CrackedThimble:OnPlayerTakeDamage(player, flags, source)
         CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
     else
-        BurningFart:EntityTakeDamage(entity, amount, flags, source, countdown)
+        Fart:EntityTakeDamage(entity, amount, flags, source, countdown)
         return CustomCallbacksHandler:EntityTakeDamage(entity, amount, flags, source, countdown)
     end
 end

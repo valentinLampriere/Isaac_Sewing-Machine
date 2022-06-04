@@ -38,6 +38,9 @@
     <entity baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Burning Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="75">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
+    <entity baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Holy Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="76">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	</entity>
     <entity anm2path="1000_pulling_effect.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="125" friction="1" id="1000" name="Punching Bag Pulling Effect" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="756" subtype="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>

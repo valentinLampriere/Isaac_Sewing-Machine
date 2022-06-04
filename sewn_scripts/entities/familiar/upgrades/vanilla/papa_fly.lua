@@ -87,16 +87,6 @@ function PapaFly:OnPlayAnim(familiar, sprite)
                 for i = 1, PapaFly.Stats.AmountOfAdditionalTears do
                     Delay:DelayFunction(TryToShootAdditionalTear, PapaFly.Stats.DelayBetweenTears * i, true, familiar, tear)
                 end
-                --[[
-                for i = -1, 1, 2 do
-                    local rotate = 15 * i 
-                    local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, tear.Position, tear.Velocity:Rotated(rotate), familiar):ToTear()
-                    newTear:GetData().Sewn_papaFly_isAdditionalTear = true
-                    newTear.CollisionDamage = tear.CollisionDamage
-                    newTear.Height = tear.Height
-                    newTear.FallingSpeed = tear.FallingSpeed
-                    newTear.FallingAcceleration = tear.FallingAcceleration
-                end--]]
             end
             tData.Sewn_papaFly_isAdditionalTear = true
         end

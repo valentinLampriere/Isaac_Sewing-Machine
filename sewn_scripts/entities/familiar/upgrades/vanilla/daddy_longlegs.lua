@@ -56,8 +56,6 @@ local function PreStomp(familiar, sprite, animType)
             local tears = ShootTearsCircular(familiar, 5, TearVariant.BLUE, nil, nil, 3.5, TearFlags.TEAR_SLOW)
             for _, tear in ipairs(tears) do
                 tear:SetColor(CColor(1,1,1,1,0.5,0.5,0.5), -1, 1, false, false)
-                
-                --sewnFamiliars:toBabyBenderTear(daddyLonglegs, tear)
             end
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_WHITE, 0, familiar.Position, Globals.V0, familiar)
         end, 11)

@@ -2,6 +2,7 @@ local Debug = require("sewn_scripts.debug.debug")
 local Random = require("sewn_scripts.helpers.random")
 local Globals = require("sewn_scripts.core.globals")
 local BurningFart = require("sewn_scripts.entities.effects.burning_fart")
+local HolyFart = require("sewn_scripts.entities.effects.holy_fart")
 
 local FartingBaby = { }
 
@@ -9,9 +10,9 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.FARTING_BABY, CollectibleType.COL
 
 FartingBaby.Stats = {
     FartCooldownMin = 300,
-    FartCooldownMax = 1500,
+    FartCooldownMax = 1600,
     FartChanceOnHit = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 30,
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 25,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 40
     },
     Range = {
@@ -19,14 +20,15 @@ FartingBaby.Stats = {
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 150
     },
     AdditionalFartsChance = {
-        [BurningFart.SubType] = 25
+        [BurningFart.SubType] = 2300,
+        [HolyFart.SubType] = 8
     }
 }
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,
-    "{{ArrowUp}} Increase chance to trigger Necronomicon effect#When it triggers the effect, projectiles in the room are destroyed",
-    "Increases chance to trigger Necronomicon effect even more!#When it trigger the effect, projectiles in the room are turned into bone shards", nil
+    "{{ArrowUp}} Increase chances to fart when getting hit#Have a chance to fart every few seconds. The more it is close from enemies, the more it has a chance to fart.",
+    "{{ArrowUp}} Increase chances to fart#Gain two additional farts (Burning and Holy).", nil, "Farting Baby"
 )
 
 local function SetCooldown(familiar)
@@ -92,7 +94,7 @@ function FartingBaby:FamiliarUpdateUltra(familiar)
         for subType, chance in pairs(FartingBaby.Stats.AdditionalFartsChance) do
             if Random:CheckRoll(chance, familiar:GetDropRNG()) then
                 sprite:Play("Idle", true)
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, BurningFart.SubType, familiar.Position, Globals.V0, familiar)
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, subType, familiar.Position, Globals.V0, familiar)
                 return
             end
         end

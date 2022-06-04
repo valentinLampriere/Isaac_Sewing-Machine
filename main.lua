@@ -91,6 +91,9 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_PLAYER_TOUCH_MACHINE, PostPl
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachineDestroy, Enums.SlotMachineVariant.SEWING_MACHINE)
 
 
+require("sewn_scripts.entities.effects.burning_fart")
+require("sewn_scripts.entities.effects.holy_fart")
+
 require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
 require("sewn_scripts.items.trinkets")
 
