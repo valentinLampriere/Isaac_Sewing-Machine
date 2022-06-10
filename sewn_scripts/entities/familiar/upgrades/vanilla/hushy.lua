@@ -43,23 +43,26 @@ local function HandleAttackCircleTears(familiar)
         return
     end
 
-    --[[
-    local amountTears = Hushy.Stats.AmountCircleTears[level]
-    local tearsDamage = Hushy.Stats.CircleTearsDamage[level]
-    ShootTearsCircular(familiar, amountTears, TearVariant.BLUE, nil, tearsDamage, nil, TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_CONTINUUM)
-    --]]
-
-    local amountTears = Hushy.Stats.AmountCircleTears[level]
+    local amountTearsMax = Hushy.Stats.AmountCircleTears[level]
     local tearsDamage = Hushy.Stats.CircleTearsDamage[level]
     local attackCooldown = Hushy.Stats.AttackCircleCooldown[level]
-
-    if fData.Sewn_hushy_circleAttackFiredTears < amountTears then
+    
+    if fData.Sewn_hushy_circleAttackFiredTears < amountTearsMax then
+        --[[local normalizedDirection = Vector(
+            math.cos((math.pi * 2 + fData.Sewn_hushy_circleAttackOffset) / amountTearsMax * fData.Sewn_hushy_circleAttackFiredTears),
+            math.sin((math.pi * 2 + fData.Sewn_hushy_circleAttackOffset) / amountTearsMax * fData.Sewn_hushy_circleAttackFiredTears)
+        ):Normalized()--]]
         local normalizedDirection = Vector(
-            math.cos((math.pi * 2) / amountTears * fData.Sewn_hushy_circleAttackFiredTears),
-            math.sin((math.pi * 2) / amountTears * fData.Sewn_hushy_circleAttackFiredTears)
+            math.cos((math.pi * 2) / amountTearsMax * fData.Sewn_hushy_circleAttackFiredTears),
+            math.sin((math.pi * 2) / amountTearsMax * fData.Sewn_hushy_circleAttackFiredTears)
         ):Normalized()
 
-        Debug:RenderVector(normalizedDirection * 7, "normalizedDirection")
+        --Debug:RenderVector(normalizedDirection, "normalizedDirection")
+
+        Debug:RenderText("Circle Offset : " ..fData.Sewn_hushy_circleAttackOffset, "fData.Sewn_hushy_circleAttackOffset")
+        Debug:RenderText("Fired Tears: " ..fData.Sewn_hushy_circleAttackFiredTears, "fData.Sewn_hushy_circleAttackFiredTears")
+        Debug:RenderText("Amount Tears Max: " ..amountTearsMax, "amountTearsMax")
+    
 
         local bullet = Isaac.Spawn(EntityType.ENTITY_PROJECTILE, ProjectileVariant.PROJECTILE_TEAR, 0, familiar.Position, normalizedDirection * 5, familiar):ToProjectile()
         bullet:AddProjectileFlags(ProjectileFlags.HIT_ENEMIES | ProjectileFlags.NO_WALL_COLLIDE | ProjectileFlags.SINE_VELOCITY | ProjectileFlags.CONTINUUM | ProjectileFlags.CANT_HIT_PLAYER)
@@ -70,13 +73,14 @@ local function HandleAttackCircleTears(familiar)
     else
         fData.Sewn_hushy_circleAttackCooldown = attackCooldown
         fData.Sewn_hushy_circleAttackFiredTears = 0
+        fData.Sewn_hushy_circleAttackPatternIndex = nil
     end
 end
 
 local function SpawnMinisaac(familiar)
     local fData = familiar:GetData()
     
-    if REPENTANCE == false then
+    if REPENTANCE then
         familiar.Player:AddMinisaac(familiar.Position, true)
     else
         local blueBoil = Isaac.Spawn(EntityType.ENTITY_HUSH_BOIL, 0, 0, familiar.Position, Globals.V0, familiar)
@@ -91,15 +95,17 @@ function Hushy:FamiliarInit(familiar)
     local level = Sewn_API:GetLevel(fData)
     fData.Sewn_hushy_circleAttackCooldown = Hushy.Stats.AttackCircleCooldown[level]
     fData.Sewn_hushy_circleAttackFiredTears = 0
+    fData.Sewn_hushy_circleAttackOffset = 0
     fData.Sewn_hushy_roomMinisaacSpawned = 0
     fData.Sewn_hushy_minisaacCooldown = Hushy.Stats.MinisaacCooldown(familiar, fData.Sewn_hushy_roomMinisaacSpawned)
 end
 
 function Hushy:OnFamiliarUpdate(familiar)
+    local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
     local player = familiar.Player
 
     if player:GetShootingInput():LengthSquared() > 0 then
-        local fData = familiar:GetData()
         HandleAttackCircleTears(familiar)
 
         if Sewn_API:IsUltra(fData) then
@@ -114,7 +120,13 @@ function Hushy:OnFamiliarUpdate(familiar)
                 fData.Sewn_hushy_minisaacCooldown = Hushy.Stats.MinisaacCooldown(familiar, fData.Sewn_hushy_roomMinisaacSpawned)
             end
         end
+    else
+        fData.Sewn_hushy_minisaacCooldown = Hushy.Stats.MinisaacCooldown(familiar, fData.Sewn_hushy_roomMinisaacSpawned)
+        fData.Sewn_hushy_circleAttackFiredTears = 0
+        fData.Sewn_hushy_circleAttackCooldown = Hushy.Stats.AttackCircleCooldown[level]
+        fData.Sewn_hushy_circleAttackPatternIndex = nil
     end
+    fData.Sewn_hushy_circleAttackOffset = fData.Sewn_hushy_circleAttackOffset + 0.1
 end
 
 function Hushy:OnFamiliarHitNPC(familiar, npc, damageAmount, damageFlags, entityRef, damageCountdown)

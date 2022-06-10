@@ -63,8 +63,10 @@ function Debug:RenderVector(vector, id, color, decimal)
     local xSplitStr = StringHelper:Split(tostring(x), ".")
     local xDecimalStr = xSplitStr[2]
 
-    -- For decimals
-    spaceAmount = spaceAmount + (decimal - #xDecimalStr)
+    if xDecimalStr ~= nil then
+        -- For decimals
+        spaceAmount = spaceAmount + (decimal - #xDecimalStr)
+    end
     -- For minus sign
     spaceAmount = spaceAmount - ((x < 0) and 1 or 0)
 
