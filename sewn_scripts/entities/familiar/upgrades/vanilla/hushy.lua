@@ -26,11 +26,31 @@ Hushy.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HUSHY, CollectibleType.COLLECTIBLE_HUSHY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HUSHY,
-    "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Damage Up", nil, "Hushy"
-)
+if REPENTANCE then
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "#Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
+        "#Spawn minisaac after charging for few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
+    )
+
+    Sewn_API:AddEncyclopediaUpgrade(
+        FamiliarVariant.HUSHY,
+        nil, nil,
+        "In AB+, there are no minisaac so the ultra upgrade spawn a friendly boil monster instead."
+    )
+else
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "#Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
+        "#Spawn a boil friendly monster every few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
+    )
+
+    Sewn_API:AddEncyclopediaUpgrade(
+        FamiliarVariant.HUSHY,
+        nil, nil,
+        "In Repentance the ultra upgrade spawn a tiny Isaac familiar (known as Minisaac) instead of a boil monster."
+    )
+end
 
 local function HandleAttackCircleTears(familiar)
     local fData = familiar:GetData()
