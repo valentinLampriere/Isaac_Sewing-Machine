@@ -2,7 +2,6 @@ local Random = require("sewn_scripts.helpers.random")
 local Globals = require("sewn_scripts.core.globals")
 local BurningFart = require("sewn_scripts.entities.effects.burning_fart")
 local HolyFart = require("sewn_scripts.entities.effects.holy_fart")
-local Debug = require("sewn_scripts.debug.debug")
 
 local FartingBaby = { }
 
@@ -12,31 +11,17 @@ FartingBaby.Stats = {
     FartCooldownMin = 300,
     FartCooldownMax = 1600,
     FartChanceOnHit = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 25,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 40
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 33,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 45
     },
     Range = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 100,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 150
     },
     AdditionalFartsChance = {
-        [BurningFart.SubType] = 23,
-        [HolyFart.SubType] = 8
+        [BurningFart.SubType] = 88,
+        [HolyFart.SubType] = 12
     }
-}
-
-local FartTexelColor = {
-    { 0.56, 0.25, 0.1}, -- Burning
-    { 0.19, 0.32, 0.15}, -- Charm
-    { 0.35, 0.23, 0.22}, -- Knock
-    { 0.56, 0.5, 0.56}, -- Holy
-}
-
-local FartColor = {
-    { 0.56, 0.25, 0.1}, -- Burning
-    { 1, 1, 1, 1, 0, 0, 0}, -- Charm
-    { 1.8, 0.7, 1.5, 1, 0, 0, 0}, -- Knock
-    { 0.56, 0.5, 0.56}, -- Holy
 }
 
 Sewn_API:AddFamiliarDescription(
@@ -113,22 +98,7 @@ function FartingBaby:FamiliarCollision(familiar, collider)
     end
 end
 
-function FartingBaby:FamiliarUpdateUltra(familiar)
-    local fData = familiar:GetData()
-    local sprite = familiar:GetSprite()
-
-    local animation = sprite:GetAnimation()
-
-    if fData.Sewn_fartingBaby_lastAnimationName == "Hit" and animation ~= "Hit" then
-        
-    end
-
-    Debug:RenderText(sprite:GetAnimation())
-    fData.Sewn_fartingBaby_lastAnimationName = animation
-end
-
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, FartingBaby.FamiliarInit, FamiliarVariant.FARTING_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, FartingBaby.FamiliarInit, FamiliarVariant.FARTING_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, FartingBaby.FamiliarUpdate, FamiliarVariant.FARTING_BABY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, FartingBaby.FamiliarUpdateUltra, FamiliarVariant.FARTING_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_FAMILIAR_COLLISION, FartingBaby.FamiliarCollision, FamiliarVariant.FARTING_BABY)
