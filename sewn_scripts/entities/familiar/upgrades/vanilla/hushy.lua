@@ -1,6 +1,4 @@
-local Debug = require("sewn_scripts.debug.debug")
 local Globals = require("sewn_scripts.core.globals")
-local ShootTearsCircular = require("sewn_scripts.helpers.shoot_tears_circular")
 
 local Hushy = { }
 

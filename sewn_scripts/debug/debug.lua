@@ -36,7 +36,11 @@ end
 function Debug:OnExecuteCmd(cmd, args)
     if cmd == "sewn" and args[1] == "debug" then
         Debug.Enabled = not Debug.Enabled
-        print("Sewing Machine debug enabled")
+        if Debug.Enabled == true then
+            print("Sewing Machine debug enabled")
+        else
+            print("Sewing Machine debug disabled")
+        end
     end
 end
 
