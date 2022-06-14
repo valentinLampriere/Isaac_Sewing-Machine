@@ -20,7 +20,7 @@ Hushy.Stats = {
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.5
     },
     MinisaacCooldown = function(familiar, floorAmountSpawnMinisaac)
-        return 30 * (12 + floorAmountSpawnMinisaac ^ 1.5)
+        return 30 * (8 + floorAmountSpawnMinisaac ^ 1.5)
     end,
 }
 
@@ -89,7 +89,7 @@ local function SpawnMinisaac(familiar)
     local fData = familiar:GetData()
     
     if REPENTANCE then
-        familiar.Player:AddMinisaac(familiar.Position, true)
+        local minisaac = familiar.Player:AddMinisaac(familiar.Position, true)
     else
         local blueBoil = Isaac.Spawn(EntityType.ENTITY_HUSH_BOIL, 0, 0, familiar.Position, Globals.V0, familiar)
         blueBoil:AddEntityFlags(EntityFlag.FLAG_APPEAR | EntityFlag.FLAG_CHARM | EntityFlag.FLAG_NO_TARGET | EntityFlag.FLAG_FRIENDLY)
