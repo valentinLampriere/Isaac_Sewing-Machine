@@ -298,8 +298,10 @@ end
 
 function LilDumpy:InitSprite(familiar)
     local sprite = familiar:GetSprite()
-    sprite:ReplaceSpritesheet(0, LilDumpy.Dumpies[familiar.SubType].GFX)
-    sprite:LoadGraphics()
+    if LilDumpy.Dumpies[familiar.SubType] ~= nil then
+        sprite:ReplaceSpritesheet(0, LilDumpy.Dumpies[familiar.SubType].GFX)
+        sprite:LoadGraphics()
+    end
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, LilDumpy.InitSprite, FamiliarVariant.LIL_DUMPY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)

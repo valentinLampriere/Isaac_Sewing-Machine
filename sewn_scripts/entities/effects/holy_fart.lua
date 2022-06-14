@@ -9,7 +9,7 @@ HolyFart.Gfx = "/gfx/effects/holy_fart.png"
 HolyFart.Stats = {
     TearsBonusMaxPercentage = 0.75,
     DamageBonusMaxPercentage = 0.5,
-    BonusTime = 60
+    BonusTime = 50
 }
 
 local FART_SIZE = 75
@@ -71,6 +71,7 @@ function HolyFart:OnNewRoom()
         if pData.Sewn_holyFart_timeLeft ~= nil then
             player:AddCacheFlags(CacheFlag.CACHE_FIREDELAY | CacheFlag.CACHE_DAMAGE)
             player:EvaluateItems()
+            pData.Sewn_holyFart_timeLeft = nil
         end
     end
 end
@@ -81,8 +82,6 @@ function HolyFart:EvaluateCache(player, cacheFlag)
     if pData.Sewn_holyFart_timeLeft == nil then
         return
     end
-
-    print(pData.Sewn_holyFart_timeLeft)
 
     if cacheFlag == CacheFlag.CACHE_FIREDELAY then
         player.MaxFireDelay = player.MaxFireDelay - player.MaxFireDelay * pData.Sewn_holyFart_timeLeft * (HolyFart.Stats.TearsBonusMaxPercentage / HolyFart.Stats.BonusTime)

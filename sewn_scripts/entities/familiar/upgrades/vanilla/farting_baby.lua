@@ -1,8 +1,8 @@
-local Debug = require("sewn_scripts.debug.debug")
 local Random = require("sewn_scripts.helpers.random")
 local Globals = require("sewn_scripts.core.globals")
 local BurningFart = require("sewn_scripts.entities.effects.burning_fart")
 local HolyFart = require("sewn_scripts.entities.effects.holy_fart")
+local Debug = require("sewn_scripts.debug.debug")
 
 local FartingBaby = { }
 
@@ -20,9 +20,23 @@ FartingBaby.Stats = {
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 150
     },
     AdditionalFartsChance = {
-        [BurningFart.SubType] = 2300,
+        [BurningFart.SubType] = 23,
         [HolyFart.SubType] = 8
     }
+}
+
+local FartTexelColor = {
+    { 0.56, 0.25, 0.1}, -- Burning
+    { 0.19, 0.32, 0.15}, -- Charm
+    { 0.35, 0.23, 0.22}, -- Knock
+    { 0.56, 0.5, 0.56}, -- Holy
+}
+
+local FartColor = {
+    { 0.56, 0.25, 0.1}, -- Burning
+    { 1, 1, 1, 1, 0, 0, 0}, -- Charm
+    { 1.8, 0.7, 1.5, 1, 0, 0, 0}, -- Knock
+    { 0.56, 0.5, 0.56}, -- Holy
 }
 
 Sewn_API:AddFamiliarDescription(
@@ -42,6 +56,21 @@ function FartingBaby:FamiliarInit(familiar)
 end
 
 function FartingBaby:FamiliarUpdate(familiar)
+    local sprite = familiar:GetSprite()
+    if sprite:IsPlaying("Hit") then
+        if sprite:GetFrame() == 23 then
+            for subType, chance in pairs(FartingBaby.Stats.AdditionalFartsChance) do
+                if Random:CheckRoll(chance, familiar:GetDropRNG()) then
+                    sprite:Play("Idle", true)
+                    Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, subType, familiar.Position, Globals.V0, familiar)
+                    return
+                end
+            end
+        end
+
+        return
+    end
+
     if Globals.Room:GetAliveEnemiesCount() == 0 then
         return
     end
@@ -49,12 +78,8 @@ function FartingBaby:FamiliarUpdate(familiar)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
 
-    Debug:RenderText(fData.Sewn_fartingBaby_fartCooldown, "Farting Baby cooldown", Debug.Color.Green)
-
     if fData.Sewn_fartingBaby_fartCooldown > 0 then
         local npcs = Isaac.FindInRadius(familiar.Position, FartingBaby.Stats.Range[level], EntityPartition.ENEMY)
-        
-        Debug:RenderText(#npcs ,"FartingBabyNPC count")
 
         fData.Sewn_fartingBaby_fartCooldown = fData.Sewn_fartingBaby_fartCooldown - 1 - #npcs
         return
@@ -89,16 +114,17 @@ function FartingBaby:FamiliarCollision(familiar, collider)
 end
 
 function FartingBaby:FamiliarUpdateUltra(familiar)
+    local fData = familiar:GetData()
     local sprite = familiar:GetSprite()
-    if sprite:IsPlaying("Hit") and sprite:GetFrame() == 23 then
-        for subType, chance in pairs(FartingBaby.Stats.AdditionalFartsChance) do
-            if Random:CheckRoll(chance, familiar:GetDropRNG()) then
-                sprite:Play("Idle", true)
-                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.FART, subType, familiar.Position, Globals.V0, familiar)
-                return
-            end
-        end
+
+    local animation = sprite:GetAnimation()
+
+    if fData.Sewn_fartingBaby_lastAnimationName == "Hit" and animation ~= "Hit" then
+        
     end
+
+    Debug:RenderText(sprite:GetAnimation())
+    fData.Sewn_fartingBaby_lastAnimationName = animation
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, FartingBaby.FamiliarInit, FamiliarVariant.FARTING_BABY)
