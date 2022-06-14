@@ -35,12 +35,15 @@
     </entity>
 	
 	<!-- Effects -->
+	<!-- Farts -->
     <entity baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Burning Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="75">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
     <entity baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Holy Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="76">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	</entity>
+
+
     <entity anm2path="1000_pulling_effect.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="125" friction="1" id="1000" name="Punching Bag Pulling Effect" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="756" subtype="0">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
     </entity>
@@ -58,5 +61,22 @@
     </entity>
     <entity anm2path="1000_bomb_bag_powder.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="42" friction="1" id="1000" name="Bomb Bag Powder" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="761">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+    </entity>
+    
+	<!-- Cloud Farts -->
+    <entity anm2path="1000_fart_cloud.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0.5" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Fart Cloud" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="762" subtype="75">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+    <entity anm2path="1000_fart_cloud_charm.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Fart Cloud (Charm)" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="762" subtype="76">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+    <entity anm2path="1000_fart_cloud_confusion.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Fart Cloud (Confusion)" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="762" subtype="77">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+    <entity anm2path="1000_fart_cloud_burning.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0.5" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Fart Cloud (Burning)" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="762" subtype="78">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
+    </entity>
+    <entity anm2path="1000_fart_cloud_holy.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="0" friction="1" id="1000" name="Fart Cloud (Holy)" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="762" subtype="79">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0"/>
     </entity>
 </entities>

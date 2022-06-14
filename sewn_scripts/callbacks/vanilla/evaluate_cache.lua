@@ -4,6 +4,7 @@ local DollPureBody = require("sewn_scripts.items.passive.doll_pure_body")
 local SewnDoll = require("sewn_scripts.items.passive.sewn_doll")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 local HolyFart = require("sewn_scripts.entities.effects.holy_fart")
+local FartCloudHoly = require("sewn_scripts.entities.effects.fart_cloud_holy")
 
 local function MC_EVALUATE_CACHE(_, player, cacheFlag)
     Player:OnEvaluateCache(player, cacheFlag)
@@ -12,6 +13,7 @@ local function MC_EVALUATE_CACHE(_, player, cacheFlag)
     SewnDoll:OnEvaluateCache(player, cacheFlag)
     CustomCallbacksHandler:EvaluateCache(player, cacheFlag)
     HolyFart:EvaluateCache(player, cacheFlag)
+    FartCloudHoly:OnEvaluateCache(player, cacheFlag)
 end
 
 return MC_EVALUATE_CACHE
