@@ -36,6 +36,11 @@ end
 function Debug:OnExecuteCmd(cmd, args)
     if cmd == "sewn" and args[1] == "debug" then
         Debug.Enabled = not Debug.Enabled
+        if Debug.Enabled == true then
+            print("Sewing Machine debug enabled")
+        else
+            print("Sewing Machine debug disabled")
+        end
     end
 end
 
@@ -62,8 +67,10 @@ function Debug:RenderVector(vector, id, color, decimal)
     local xSplitStr = StringHelper:Split(tostring(x), ".")
     local xDecimalStr = xSplitStr[2]
 
-    -- For decimals
-    spaceAmount = spaceAmount + (decimal - #xDecimalStr)
+    if xDecimalStr ~= nil then
+        -- For decimals
+        spaceAmount = spaceAmount + (decimal - #xDecimalStr)
+    end
     -- For minus sign
     spaceAmount = spaceAmount - ((x < 0) and 1 or 0)
 

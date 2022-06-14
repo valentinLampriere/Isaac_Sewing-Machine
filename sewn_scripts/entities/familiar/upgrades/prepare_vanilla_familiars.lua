@@ -40,6 +40,7 @@ require("sewn_scripts.entities.familiar.upgrades.vanilla.pointy_rib")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.moms_razor")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.big_chubby")
 require("sewn_scripts.entities.familiar.upgrades.vanilla.farting_baby")
+require("sewn_scripts.entities.familiar.upgrades.vanilla.hushy")
 
 if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.fruity_plum")
