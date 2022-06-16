@@ -52,6 +52,8 @@ end
 local function InitFamiliar(familiar)
     local fData = familiar:GetData()
 
+    print("Init : " .. familiar.Variant)
+
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
     fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Enums.NoUpgrade.NONE
 
@@ -187,6 +189,7 @@ end
 
 function Familiar:TemporaryUpgrade(familiar, newLevel)
     local fData = familiar:GetData()
+    fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Sewn_API.Enums.NoUpgrade.NONE
     if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and not Sewn_API:IsUltra(fData) and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.TEMPORARY ~= Sewn_API.Enums.NoUpgrade.TEMPORARY then
         if fData.Sewn_upgradeLevel_temporary == nil then
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
