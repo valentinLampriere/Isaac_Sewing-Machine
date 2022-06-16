@@ -21,8 +21,7 @@ BloodOath.Stats = {
     CreepDamageFactor = 0.5,
 }
 
-
-function BloodOath:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
+function BloodOath:OnFamiliarInit(familiar)
     local fData = familiar:GetData()
     fData.Sewn_bloodOath_creepCooldown = BloodOath.Stats.CreepCooldownDefaultMin
     fData.Sewn_bloodOath_playerRemovedHealth = 0
@@ -109,7 +108,8 @@ function BloodOath:OnFamiliarNewLevel(familiar)
 end
 
 
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BloodOath.OnFamiliarUpgraded, FamiliarVariant.BLOOD_OATH)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BloodOath.OnFamiliarInit, FamiliarVariant.BLOOD_OATH)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, BloodOath.OnFamiliarInit, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BloodOath.OnFamiliarUpdate, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_LEVEL, BloodOath.OnFamiliarNewLevel, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, BloodOath.OnPlayStabAnim, FamiliarVariant.BLOOD_OATH, nil, "Stab")
