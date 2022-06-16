@@ -90,6 +90,9 @@ local function SpawnMinisaac(familiar)
     
     if REPENTANCE then
         local minisaac = familiar.Player:AddMinisaac(familiar.Position, true)
+        local minisaacSprite = minisaac:GetSprite()
+        minisaacSprite:ReplaceSpritesheet(0, "gfx/familiar/familiar_minisaac_blue.png")
+        minisaacSprite:ReplaceSpritesheet(1, "gfx/familiar/familiar_minisaac_blue.png")
     else
         local blueBoil = Isaac.Spawn(EntityType.ENTITY_HUSH_BOIL, 0, 0, familiar.Position, Globals.V0, familiar)
         blueBoil:AddEntityFlags(EntityFlag.FLAG_APPEAR | EntityFlag.FLAG_CHARM | EntityFlag.FLAG_NO_TARGET | EntityFlag.FLAG_FRIENDLY)
