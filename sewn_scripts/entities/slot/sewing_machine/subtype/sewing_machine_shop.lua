@@ -10,8 +10,9 @@ SewingMachine_Shop.BreakChancePerUse = 7
 SewingMachine_Shop.Stats = {
     Cost = 10,
     Cost_Sale = 5,
-    SpawnChance = 25,
-    SpawnChanceInHome = 75
+    SpawnChance = 40,
+    SpawnChanceInHome = 75,
+    HardModeChanceMultiplier = 0.65
 }
 
 local function ChangeSaleSprite(machine, bool_onSale)
@@ -43,6 +44,12 @@ end
 
 function SewingMachine_Shop:EvaluateSpawn(rng, room, level, ignoreRandom)
     local chance = SewingMachine_Shop:GetChance()
+    if Globals.Game.Difficulty == Difficulty.DIFFICULTY_HARD or Globals.Game.Difficulty == Difficulty.DIFFICULTY_GREEDIER then
+        chance = chance * SewingMachine_Shop.Stats.HardModeChanceMultiplier
+    end
+
+    print("Chance : " .. chance)
+    
     if room:GetType() == RoomType.ROOM_SHOP then
         if (Random:CheckRoll(chance, rng) or ignoreRandom) or level:GetStage() == LevelStage.STAGE4_3 then
             return true
