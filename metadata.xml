@@ -22,8 +22,6 @@ Familiars can be upgradable twice. A crown icon indicate their level.
 [b]Some modded familiars can work with the machine, including : [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1991915308]Lost And Forgotten[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2558097541]Mini-Min[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2575063734]Little Bishop[/url]
 
 [h3]To make you own familiar upgradable :[/h3]
@@ -60,7 +58,7 @@ Discord : valentinL#3711
 Sewing Machine is now on [b]Discord[/b], join it to share your ideas, report bugs or just discuss about the mod :[url=https://discord.gg/V56rAfM5zw]The Discord[/url] 
 
 Here is a wiki of the mod :[url=https://docs.google.com/document/d/13M91ymwSUrZHAEVGApZ8ZzXwuqGyaq4OsmYeq41FldY]the wiki[/url]</description>
-    <version>1.34</version>
+    <version>1.35</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>
