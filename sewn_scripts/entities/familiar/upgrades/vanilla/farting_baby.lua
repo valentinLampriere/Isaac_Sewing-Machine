@@ -19,7 +19,7 @@ FartingBaby.Stats = {
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 150
     },
     AdditionalFartsChance = {
-        [BurningFart.SubType] = 88,
+        [BurningFart.SubType] = 28,
         [HolyFart.SubType] = 12
     }
 }
@@ -47,8 +47,10 @@ function FartingBaby:FamiliarInit(familiar)
 end
 
 function FartingBaby:FamiliarUpdate(familiar)
+    local fData = familiar:GetData()
+
     local sprite = familiar:GetSprite()
-    if sprite:IsPlaying("Hit") then
+    if Sewn_API:IsUltra(fData) and sprite:IsPlaying("Hit") then
         if sprite:GetFrame() == 23 then
             for subType, chance in pairs(FartingBaby.Stats.AdditionalFartsChance) do
                 if Random:CheckRoll(chance, familiar:GetDropRNG()) then
@@ -66,7 +68,6 @@ function FartingBaby:FamiliarUpdate(familiar)
         return
     end
     
-    local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
 
     if fData.Sewn_fartingBaby_fartCooldown > 0 then
