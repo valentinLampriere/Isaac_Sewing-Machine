@@ -152,7 +152,7 @@ Sewn_API:AddFamiliarDescription(
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Standard effect."..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Poisons enemies when farting."..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} When it farts, fire 6 tears in a circular pattern."..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, spawn a flame which deal 15 damage."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, spawn a flame which deals 15 damage."..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Enemies it kills turn to ice. While resting, gain a freezing aura."..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} When it farts, fire tears in the opposite direction.",
     "Return to the player after a random amount of seconds, even if the player is far away", nil, "Lil Dumpy"

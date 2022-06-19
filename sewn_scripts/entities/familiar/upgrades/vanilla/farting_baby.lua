@@ -26,8 +26,14 @@ FartingBaby.Stats = {
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,
-    "{{ArrowUp}} Increase chances to fart when getting hit#Have a chance to fart every few seconds. The more it is close from enemies, the more it has a chance to fart.",
+    "{{ArrowUp}} Increase chances to fart when getting hit#Have a chance to fart every few seconds. The more it is close to enemies, the more it has a chance to fart.",
     "{{ArrowUp}} Increase chances to fart#Gain two additional farts (Burning and Holy).", nil, "Farting Baby"
+)
+
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.FARTING_BABY,
+    nil,
+    "Increase chances to fart#Gain two additional farts (Burning and Holy)#Burning Farts deal damage and turn enemies on fire.#Holy Farts give a large Tears and Damage up to the player (if it is in the fart range). The effect disappears quickly."
 )
 
 local function SetCooldown(familiar)

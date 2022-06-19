@@ -20,7 +20,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.MOMS_RAZOR, CollectibleType.COLLE
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.MOMS_RAZOR,
     "{{ArrowUp}} Extends the Bleed duration. Bosses are not affected.",
-    "When an enemy dies while bleeding, spawn a large blood puddle. Also have a chance to spawn half a heart.#{{ArrowUp}} Extends the Bleed duration", nil, "Mom's Razor"
+    "When an enemy dies while bleeding, spawn a large blood puddle. #Have a chance to spawn half a heart.#{{ArrowUp}} Extends the Bleed duration", nil, "Mom's Razor"
 )
 
 local function OnKillNpc(familiar, npc)

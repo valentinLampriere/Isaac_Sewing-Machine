@@ -29,14 +29,14 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HUSHY, CollectibleType.COLLECTIBL
 if REPENTANCE then
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
-        "#Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
-        "#Spawn minisaac after charging for few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
+        "Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
+        "Spawn minisaac after charging for a few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
     )
 
     Sewn_API:AddEncyclopediaUpgrade(
         FamiliarVariant.HUSHY,
         nil, nil,
-        "In AB+, there are no minisaac so the ultra upgrade spawn a friendly boil monster instead."
+        "In AB+, there are no minisaac so the ultra upgrade spawns a friendly boil monster instead."
     )
 else
     Sewn_API:AddFamiliarDescription(
