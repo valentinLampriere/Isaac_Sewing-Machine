@@ -25,7 +25,6 @@ local stats_ab = {
     [Enums.FamiliarLevel.ULTRA] = 15,
 }
 function RoboBaby:OnFamiliarFireLaser(familiar, laser)
-    print(familiar.FireCooldown)
     local fData = familiar:GetData()
     if REPENTANCE then
         familiar.FireCooldown = familiar.FireCooldown - stats[Sewn_API:GetLevel(fData)]

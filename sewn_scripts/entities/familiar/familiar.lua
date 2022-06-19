@@ -52,8 +52,6 @@ end
 local function InitFamiliar(familiar)
     local fData = familiar:GetData()
 
-    print("Init : " .. familiar.Variant)
-
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
     fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Enums.NoUpgrade.NONE
 

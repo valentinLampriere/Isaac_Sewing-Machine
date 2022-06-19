@@ -47,8 +47,6 @@ function SewingMachine_Shop:EvaluateSpawn(rng, room, level, ignoreRandom)
     if Globals.Game.Difficulty == Difficulty.DIFFICULTY_HARD or Globals.Game.Difficulty == Difficulty.DIFFICULTY_GREEDIER then
         chance = chance * SewingMachine_Shop.Stats.HardModeChanceMultiplier
     end
-
-    print("Chance : " .. chance)
     
     if room:GetType() == RoomType.ROOM_SHOP then
         if (Random:CheckRoll(chance, rng) or ignoreRandom) or level:GetStage() == LevelStage.STAGE4_3 then
