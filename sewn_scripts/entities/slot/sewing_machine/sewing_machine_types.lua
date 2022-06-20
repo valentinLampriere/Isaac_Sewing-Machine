@@ -56,6 +56,7 @@ end
 
 
 function SewingMachineTypes:IsHomeClosetRoom(room, level)
+    level = level or Globals.Game:GetLevel()
     if level:GetStage() == LevelStage.STAGE8 and room:GetRoomShape() == RoomShape.ROOMSHAPE_IH then
         if room:GetDoor(DoorSlot.LEFT0) ~= nil then
             return true
