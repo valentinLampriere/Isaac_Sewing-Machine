@@ -12,6 +12,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Tears Up",
     "{{ArrowUp}} Tears Up#{{ArrowUp}} Damage Up", nil, "Brother Bobby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BROTHER_BOBBY,
+    "{{ArrowUp}} 射速提升",
+    "{{ArrowUp}} 射速提升#{{ArrowUp}} 攻击提升", nil, "Brother Bobby", "zh_cn"
+)
 
 BrotherBobby.Stats = {
     TearRateBonus = {

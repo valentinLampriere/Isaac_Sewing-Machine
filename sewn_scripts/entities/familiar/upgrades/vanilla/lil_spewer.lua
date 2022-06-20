@@ -10,6 +10,12 @@ Sewn_API:AddFamiliarDescription(
     "When it shoots, it fires additional tears with effects which depend on its color",
     "Has two colors at the same time", nil, "Lil Spewer"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_SPEWER,
+    "将会额外发射眼泪，根据宝宝当前的形态眼泪效果也不同 {{Blank}}普通：发射三颗5伤害的眼泪 {{Blank}}黑色与白色：发射三颗3.5伤害的减速眼泪 {{Blank}}黄色：发射三颗同方向的眼泪 {{Blank}}红色：发射一颗12.5伤害的巨型血泪",
+    "跟班同时可以拥有两种形态", nil, "Lil Spewer","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_SPEWER,
     "When it throw creep, it fires tears which depends on it color.#- Normal: Fires three normal tears (one forward, two in diagonal directions) which deal 5 damage#- Black and White: Fires 3 tears (one forward, two in diagonal directions) which deal 3.5 damage and apply a slow effect#- Yellow: Fires three tears in the same direction with a 2 frames delay#- Red: Fires a single large tear which deal 12.5 damage.",

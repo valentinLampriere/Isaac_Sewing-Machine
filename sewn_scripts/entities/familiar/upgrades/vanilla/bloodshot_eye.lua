@@ -15,6 +15,11 @@ Sewn_API:AddFamiliarDescription(
     "Fires three tears at once",
     "Fires a blood laser instead of tears", nil, "Bloodshot Eye"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BLOODSHOT_EYE,
+    "F一次发射三颗眼泪",
+    "攻击方式更改为发射小硫磺火", nil, "Bloodshot Eye", "zh_cn"
+)
 
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)
     local tData = tear:GetData()

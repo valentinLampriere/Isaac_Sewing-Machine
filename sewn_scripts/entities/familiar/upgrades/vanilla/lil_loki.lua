@@ -9,6 +9,11 @@ Sewn_API:AddFamiliarDescription(
     "Fires in 8 directions",
     "{{ArrowUp}} Damage Up", nil, "Lil Loki"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_LOKI,
+    "发射 8 向眼泪",
+    "{{ArrowUp}} 攻击提升", nil, "Lil Loki","zh_cn"
+)
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_LOKI,
     nil,

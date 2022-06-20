@@ -18,6 +18,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Increase chance to trigger Necronomicon effect#When it triggers the effect, projectiles in the room are destroyed",
     "Increases chance to trigger Necronomicon effect even more!#When it trigger the effect, projectiles in the room are turned into bone shards", nil, "Dry Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DRY_BABY,
+    "{{ArrowUp}} I更容易触发死灵之书效果 #触发效果时清除所有敌方子弹",
+    "更加容易触发死灵书效果 #触发效果时将所有敌方子弹转换为可阻挡弹幕的漂浮骨头", nil, "Dry Baby","zh_cn"
+)
 
 function DryBaby:familiarCollide(familiar, collider)
     if collider.Type == EntityType.ENTITY_PROJECTILE then

@@ -7,6 +7,12 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up",
     "{{ArrowUp}} Slight Damage Up#Laser lasts longer#Charges quicker", nil, "Lil Brimstone"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_BRIMSTONE,
+    "{{ArrowUp}} 攻击提升",
+    "{{ArrowUp}} 攻击大幅提升 #硫磺火持续更长时间 #蓄力更快", nil, "Lil Brimstone","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_BRIMSTONE,
     "Damage Up (x1.5)",

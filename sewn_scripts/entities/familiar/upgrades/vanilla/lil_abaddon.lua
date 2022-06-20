@@ -11,6 +11,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up#When holding the fire button, spawns a swirl every few seconds when fire button is released, a laser ring is fired by the swirls",
     "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Lil Abaddon"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_ABADDON,
+    "{{ArrowUp}} 攻击提升#当亚巴顿宝宝在蓄力条满的时候，有概率在其当前的位置留下一个黑色漩涡，释放蓄力条时黑色漩涡也会释放黑圈（上限四个）",
+    "黑色漩涡出现的概率提升 #黑色漩涡里产生的黑圈造成更高伤害，黑圈的也更宽 #黑圈造成伤害时有概率生成 {{BlackHeart}} 黑心", nil, "Lil Abaddon", "zh_cn"
+)
 
 LilAbaddon.Stats = {
     SwirlRate = {

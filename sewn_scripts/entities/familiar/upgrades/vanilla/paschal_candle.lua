@@ -9,6 +9,11 @@ Sewn_API:AddFamiliarDescription(
     "When the player takes damage, spreads flames around itself#The amount of flames depends on the size of the flame's candle",
     "Taking damage only reduces the flame's size by one step", nil, "Paschal Candle"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PASCHAL_CANDLE,
+    "角色受到伤害时，该跟班向四周抛出大量火焰 #抛出的火焰大小取决于跟班的火焰大小",
+    "现在角色受到伤害时蜡烛并不会直接熄灭，而是减少一级", nil, "Paschal Candle","zh_cn"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.PASCHAL_CANDLE,

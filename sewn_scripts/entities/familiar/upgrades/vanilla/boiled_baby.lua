@@ -10,6 +10,11 @@ Sewn_API:AddFamiliarDescription(
     "Increase the amount of tears it burst",
     "Fires tears in the direction the player is firing", nil, "Boiled Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOILED_BABY,
+    "发射更多的眼泪",
+    "发射方向更改为角色攻击的方向", nil, "Boiled Baby", "zh_cn"
+)
 
 BoiledBaby.Stats = {
     AdditionalTearsMin = 1,

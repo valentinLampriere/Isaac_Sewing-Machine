@@ -36,6 +36,11 @@ Sewn_API:AddFamiliarDescription(
     "When it fires a tear, a laser connect the tear to the familiar#The laser deal contact damage and block shots#{{ArrowUp}} Stats Up (Range, Shot Speed, Tear Size)",
     "{{ArrowUp}} Stats Up#Gain piercing tears#Rarely attack enemies", nil, "Bot Fly"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOT_FLY,
+    "发射眼泪时，眼泪与跟班之间将会有一道激光连接 #，激光可对敌人造成伤害并且可以阻挡弹幕 #{{ArrowUp}} 属性上升(射程，弹速，眼泪大小)",
+    "{{ArrowUp}} 属性上升(射程，弹速，眼泪大小)# 眼泪获得穿透效果 #有概率主动攻击敌人", nil, "Bot Fly", "zh_cn"
+)
 
 function BotFly:OnUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()

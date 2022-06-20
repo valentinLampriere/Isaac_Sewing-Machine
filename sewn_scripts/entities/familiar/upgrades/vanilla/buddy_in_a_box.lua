@@ -7,6 +7,11 @@ Sewn_API:AddFamiliarDescription(
     "Gains a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy",
     "Gains another random additional tear effect", nil, "Buddy in a Box"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BUDDY_IN_A_BOX,
+    "额外获得一个盲盒宝宝的眼泪效果",
+    "额外再获得一个盲盒宝宝的眼泪效果", nil, "Buddy in a Box", "zh_cn"
+)
 
 local function AddAdditionalTearFlags(tear, amountTearFlags, rng)
     local maxFlag = REPENTANCE and 81 or 60

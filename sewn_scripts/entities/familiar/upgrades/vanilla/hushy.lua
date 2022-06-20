@@ -32,6 +32,11 @@ if REPENTANCE then
         "Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
         "Spawn minisaac after charging for a few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
     )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "每 4 秒在一个随机的圆形图案中发射15次眼泪 #眼泪造成 3 点伤害",
+        "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "Hushy","zh_cn"
+    )
 
     Sewn_API:AddEncyclopediaUpgrade(
         FamiliarVariant.HUSHY,
@@ -43,6 +48,11 @@ else
         FamiliarVariant.HUSHY,
         "#Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
         "#Spawn a boil friendly monster every few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
+    )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "每 4 秒在一个随机的圆形图案中发射15次眼泪 #眼泪造成 3 点伤害",
+        "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "Hushy","zh_cn"
     )
 
     Sewn_API:AddEncyclopediaUpgrade(

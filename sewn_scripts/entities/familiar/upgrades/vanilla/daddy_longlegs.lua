@@ -13,6 +13,11 @@ Sewn_API:AddFamiliarDescription(
     "Has a chance to stomp with the head, dealing 2x the normal damage#Has a chance to stomp as Triachnid. When it does, fires 5 slowing tears in all directions",
     "Increases chance to stomp as Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time", nil, "Daddy Longlegs"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DADDY_LONGLEGS,
+    "有概率掉落的是蜘蛛的头，造成 2 倍原先的伤害；头和脚有概率替换成BOSS trachnid的样子，如果替换则向周围发射5颗减速眼泪",
+    "提升超级形态几种变种的概率，下落一次后有概率再触发一次下落，额外触发的一次下落也可继续触发", nil, "Daddy Longlegs", "zh_cn"
+)
 
 DaddyLonglegs.Stats = {
     ChanceTriachnidStomp = {

@@ -12,6 +12,11 @@ Sewn_API:AddFamiliarDescription(
     "Blocks projectiles#Has a chance to spawn a fly turret when blocking a projectile",
     "Fires 5 tears in a row#{{ArrowUp}} Range Up#Higher chance to spawn a fly turret", nil, "Papa Fly"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PAPA_FLY,
+    "可以阻挡弹幕 #阻挡弹幕时有几率生成一个 {{Collectible504}} 棕色粪块生成的棕色金块跟班（苍蝇炮塔）",
+    "一次发射5颗眼泪 #{{ArrowUp}} 射程增加 #更高的概率生成一个 {{Collectible504}} 棕色粪块生成的棕色金块跟班（苍蝇炮塔）", nil, "Papa Fly", "zh_cn"
+)
 
 PapaFly.Stats = {
     ChanceBrownNugget = {

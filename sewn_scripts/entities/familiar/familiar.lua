@@ -113,6 +113,7 @@ function Familiar:SetTransparencyForUnavailableFamiliar(familiar)
     end
     local fData = familiar:GetData()
     local color = familiar:GetColor()
+    fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Sewn_API.Enums.NoUpgrade.NONE
     if not AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) or Sewn_API:IsUltra(fData) or fData.Sewn_noUpgrade & Enums.NoUpgrade.MACHINE == Enums.NoUpgrade.MACHINE then
         familiar:SetColor(CColor(color.R, color.G, color.B, 0.5, color.RO, color.GO, color.BO, true), 5, 1, false,false)
     end

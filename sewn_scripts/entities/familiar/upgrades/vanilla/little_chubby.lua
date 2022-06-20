@@ -9,6 +9,11 @@ Sewn_API:AddFamiliarDescription(
     "Cooldown reduced by 50%, can be thrown quickly.",
     "Sticks to enemies for 0.5 seconds then continues in its initial direction", nil, "Little Chubby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_CHUBBY,
+    "冷却时间减少50%，可以被更快扔出",
+    "接触到敌人时将会附着在敌人身上持续造成伤害0.5秒，然后继续向前行进", nil, "Little Chubby", "zh_cn"
+)
 
 function LittleChubby:OnFamiliarUpdate(familiar)
     if familiar.FireCooldown < -1 then

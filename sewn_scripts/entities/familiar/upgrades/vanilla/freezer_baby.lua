@@ -10,6 +10,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#Increase the chance to freeze enemies",
     "Enemies it kills explode into ice tears#{{ArrowUp}} Damage Up", nil, "Freezer Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FREEZER_BABY,
+    "{{ArrowUp}} 攻击提升 #{{ArrowUp}} 射程增加 #冰冻敌人的几率上升",
+    "击杀敌人时敌人额外爆出冰冻眼泪 #{{ArrowUp}} 攻击提升", nil, "Freezer Baby", "zh_cn"
+)
 
 FreezerBaby.Stats = {
     TearDamageMultiplier = {

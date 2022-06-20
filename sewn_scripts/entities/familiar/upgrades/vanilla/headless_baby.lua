@@ -10,6 +10,11 @@ Sewn_API:AddFamiliarDescription(
     "Spawns large creep#{{ArrowUp}} Creep deals more damage",
     "Fires burst of tears while isaac is firing#{{ArrowUp}} Creep deals more damage", nil, "Headless Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.HEADLESS_BABY,
+    "产生更大的血迹 #{{ArrowUp}} 血迹伤害提升",
+    "额外发射向上的爆裂眼泪 #{{ArrowUp}} 血迹伤害大幅提升", nil, "Headless Baby", "zh_cn"
+)
 
 HeadlessBaby.Stats = {
     CreepDamageMultiplier = {

@@ -10,6 +10,11 @@ Sewn_API:AddFamiliarDescription(
     "Fires egg tears while isaac is firing#Egg tears spawn blue flies or blue spiders on hit#Larger creep",
     "Fires more egg tears", nil, "Juicy Sack"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.JUICY_SACK,
+    "可发射蜘蛛卵眼泪 #击中敌人时生成蓝苍蝇或蓝蜘蛛#产生更大的减速水迹",
+    "发射更多蜘蛛卵眼泪", nil, "Juicy Sack", "zh_cn"
+)
 
 JuicySack.Stats = {
     CreepScale = 1.5,

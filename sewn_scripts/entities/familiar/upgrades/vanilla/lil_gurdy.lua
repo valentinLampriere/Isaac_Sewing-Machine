@@ -23,11 +23,15 @@ LilGurdy.Stats = {
     DashStopThirdWaveDelay = 25,
     CreepCollisionDamage = 1,
 }
-
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_GURDY,
     "{{ArrowUp}} Can be charged quicker#While charging, fires tear in different directions",
     "{{ArrowUp}} Can be charged quicker#When it dashes, it leaves red creep#Fire 3 waves of tears in different directions after dashing", nil, "Lil Gurdy"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_GURDY,
+    "{{ArrowUp}} 充能更快 #在充能时可向四周方向发射环状眼泪",
+    "{{ArrowUp}} 充能更快 #在冲撞时在地上留下血迹造成伤害，在冲撞结束后发射 3 次环状眼泪", nil, "Lil Gurdy", "zh_cn"
 )
 
 local function ShootTears(familiar)

@@ -15,6 +15,11 @@ Sewn_API:AddFamiliarDescription(
     "Moves closer to the player when the player isn't firing#Decrease charge time",
     "When fully charged, if an enemy or projectile gets too close it automatically activates its fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again#Decrease charge time", nil, "Isaac's Heart"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ISAACS_HEART,
+    "角色在不攻击的时候与角色距离更近 #蓄力时间变短",
+    "当蓄力满时，若有敌人或者弹幕距离心脏很近，心脏将自动释放充能弹开敌人与弹幕（该能力有cd）#蓄力时间大幅变短", nil, "Isaac's Heart", "zh_cn"
+)
 
 IsaacsHeart.Stats = {
     FireRateBonus = {

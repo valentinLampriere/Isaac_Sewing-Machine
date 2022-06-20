@@ -11,6 +11,12 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up#Small homing effect",
     "Gains a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack, fire tears in all directions", nil, "Fruity Plum"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FRUITY_PLUM,
+    "{{ArrowUp}} 攻击提升 #微量的跟踪效果",
+    "获得 {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} 黏土饼干的效果 #在攻击完成后向所有方向发射眼泪", nil, "Fruity Plum", "zh_cn"
+)
+
 local function TEARFLAGS(x)
     return x >= 64 and BitSet128(0,1<<(x - 64)) or BitSet128(1<<x,0)
 end

@@ -23,6 +23,11 @@ Sewn_API:AddFamiliarDescription(
     "Spawns creep when it collide with an enemy#{{ArrowUp}} Damage Up",
     "Enemies it kills explode into lots of tears#{{ArrowUp}} Damage Up", nil, "Leech"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LEECH,
+    "攻击敌人时额外生成血迹造成伤害 #{{ArrowUp}} 攻击提升",
+    "攻击敌人时额外生成血迹造成伤害，敌人被杀死时爆出眼泪#{{ArrowUp}} 攻击提升", nil, "Leech", "zh_cn"
+)
 
 function Leech:familiarCollider(familiar, collider)
     if familiar.FrameCount % Leech.Stats.CreepSpawnRate == 0 and collider:IsVulnerableEnemy() then

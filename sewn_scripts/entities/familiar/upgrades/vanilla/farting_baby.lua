@@ -29,6 +29,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Increase chances to fart when getting hit#Have a chance to fart every few seconds. The more it is close to enemies, the more it has a chance to fart.",
     "{{ArrowUp}} Increase chances to fart#Gain two additional farts (Burning and Holy).", nil, "Farting Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FARTING_BABY,
+    "{{ArrowUp}} 增加被攻击时放屁的几率 #每隔几秒就放一次屁。其越接近敌人，就越大几率放屁",
+    "{{ArrowUp}} 增加放屁的几率 #额外获得两个类型的屁(燃烧和圣光)", nil, "Farting Baby", "zh_cn"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.FARTING_BABY,

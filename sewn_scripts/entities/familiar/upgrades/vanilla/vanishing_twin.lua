@@ -12,6 +12,11 @@ Sewn_API:AddFamiliarDescription(
     "Removes 25% of the boss copy health",
     "Increases chances to spawn a better item (based on Quality)#Can spawn items which came from the Treasure pool if no Boss item are found", nil, "Vanishing Twin"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.VANISHING_TWIN,
+    "复制生成的Boss血量减少25%",
+    "击杀额外boss后将会生成等级更高的道具 #从 {{TreasureRoom}} 道具房与 {{BossRoom}} Boss房道具池中生成", nil, "Vanishing Twin","zh_cn"
+)
 
 VanishingTwin.Stats = {
     QualityFourChance = 7,

@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Tears create a puddle of creep on hit#{{ArrowUp}} Slight Tears Up",
     "Larger creep#{{ArrowUp}} Tears Up##{{ArrowUp}} Damage Up", nil, "Little Gish"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_GISH,
+    "眼泪在击中时将会额外生成一滩减速液体 #{{ArrowUp}} 射速略微提升",
+    "生成更大范围的液体 #{{ArrowUp}} 射速提升#{{ArrowUp}} 攻击提升", nil, "Little Gish","zh_cn"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LITTLE_GISH,

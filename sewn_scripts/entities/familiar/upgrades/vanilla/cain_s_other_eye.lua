@@ -11,6 +11,11 @@ Sewn_API:AddFamiliarDescription(
     "Fires 2 tears instead of 1#Tears gain a Rubber Cement effect {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} ",
     "Fires 4 tears#Range Up", nil, "Cain's other Eye"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CAINS_OTHER_EYE,
+    "发射 2 颗眼泪而非 1 颗 # 眼泪具有 {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} 橡胶特效",
+    "发射 4 颗眼泪 #射程增加", nil, "Cain's other Eye", "zh_cn"
+)
 
 CainsOtherEye.Stats = {
     AdditionalTears = {

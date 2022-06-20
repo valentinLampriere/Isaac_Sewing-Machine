@@ -14,6 +14,11 @@ Sewn_API:AddFamiliarDescription(
     "Spawn a large green creep when it explodes",
     "Sticks to enemies before exploding", nil, "Bob's Brain"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOBS_BRAIN,
+    "爆炸时额外产生一滩巨大的绿毒水迹",
+    "接触敌人不会立即爆炸，而是将黏在敌人上一段时间后再爆炸", nil, "Bob's Brain", "zh_cn"
+)
 
 function BobsBrain:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()

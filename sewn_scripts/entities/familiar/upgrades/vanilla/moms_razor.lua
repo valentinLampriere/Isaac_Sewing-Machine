@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Extends the Bleed duration. Bosses are not affected.",
     "When an enemy dies while bleeding, spawn a large blood puddle. #Have a chance to spawn half a heart.#{{ArrowUp}} Extends the Bleed duration", nil, "Mom's Razor"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.MOMS_RAZOR,
+    "{{ArrowUp}} 延长流血效果的持续时间，Boss不受此影响",
+    "当敌人以流血状态死亡时，会生成一滩血迹 # 有概率生成 {{HalfHeart}} 半颗红心 #{{ArrowUp}} 延长流血效果的持续时间", nil, "Mom's Razor", "zh_cn"
+)
 
 local function OnKillNpc(familiar, npc)
     local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_LEMON_MISHAP, 0, npc.Position, Globals.V0, familiar):ToEffect()

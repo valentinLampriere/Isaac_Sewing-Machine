@@ -10,6 +10,12 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Tears Up",
     "{{ArrowUp}} Tears Up", nil, "Robo Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ROBO_BABY,
+    "{{ArrowUp}} 射速提升",
+    "{{ArrowUp}} 射速提升", nil, "Robo Baby","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.ROBO_BABY,
     "Tears Up (x1.29)",

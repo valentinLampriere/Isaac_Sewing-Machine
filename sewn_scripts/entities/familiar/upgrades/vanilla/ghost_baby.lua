@@ -7,6 +7,11 @@ Sewn_API:AddFamiliarDescription(
     "Gain piercing Pupula tears#{{ArrowUp}} Damage Up",
     "Tears are larger#{{ArrowUp}} Damage Up", nil, "Ghost Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GHOST_BABY,
+    "眼泪可穿透敌人#{{ArrowUp}} 攻击提升",
+    "眼泪可穿透敌人，体积更大 #{{ArrowUp}} 攻击提升", nil, "Ghost Baby", "zh_cn"
+)
 
 GhostBaby.Stats = {
     TearScale = {

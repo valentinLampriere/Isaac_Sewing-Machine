@@ -21,6 +21,11 @@ Sewn_API:AddFamiliarDescription(
     "Fire ".. Peeper.Stats.AmountTears .." tears in different directions every few seconds.#Tries to home onto close enemies",
     "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well.#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawns two Peepers Eyes", nil, "Peeper"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PEEPER,
+    "每间隔一段时间向不同的方向发射".. Peeper.Stats.AmountTears .."5颗眼泪 #在接近敌人时有短距离跟踪效果",
+    "额外生成一个 {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}} peeper眼球宝#新的peeper眼球宝同样具有超级形态的效果 #如果持有 {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} 三眼，则再额外生成一个", nil, "Peeper", "zh_cn"
+)
 
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()

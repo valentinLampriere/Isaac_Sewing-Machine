@@ -9,6 +9,11 @@ Sewn_API:AddFamiliarDescription(
     "Has a chance to fire Holy Tears",
     "Higher chance to fire Holy Tears#{{ArrowUp}} Tears Up", nil, "Seraphim"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SERAPHIM,
+    "10%概率发射圣光眼泪",
+    "15%概率发射圣光眼泪 #{{ArrowUp}} 射速提升", nil, "Seraphim","zh_cn"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SERAPHIM,

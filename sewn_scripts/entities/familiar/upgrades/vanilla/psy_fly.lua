@@ -15,6 +15,12 @@ Sewn_API:AddFamiliarDescription(
     "When it blocks a bullet, fire a homing tear in the opposite direction",
     "{{ArrowUp}} Damage Up (collision and tears)", nil, "Psy Fly"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PSY_FLY,
+    "阻挡弹幕后向弹幕发射的反方向发射一颗跟踪眼泪",
+    "{{ArrowUp}} 攻击提升，并具有接触伤害", nil, "Psy Fly"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.PSY_FLY,
     nil,

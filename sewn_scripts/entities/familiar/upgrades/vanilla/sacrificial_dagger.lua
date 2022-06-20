@@ -13,6 +13,11 @@ Sewn_API:AddEncyclopediaUpgrade(
     "Applies a bleed effect#Small damage Up (+1 dmg)",
     "Damage up (+4 dmg)"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SACRIFICIAL_DAGGER,
+    "额外造成流血效果 #{{ArrowUp}} 攻击小幅提升",
+    "{{ArrowUp}} 攻击提升", nil, "Sacrificial Dagger","zh_cn"
+)
 
 SacrificialDagger.Stats = {
     DamageBonus = {

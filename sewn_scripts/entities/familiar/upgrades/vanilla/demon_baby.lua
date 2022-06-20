@@ -10,6 +10,11 @@ Sewn_API:AddFamiliarDescription(
     "Fire automatically through walls",
     "{{ArrowUp}} Higher Range#{{ArrowUp}} Tears Up", nil, "Demon Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEMON_BABY,
+    "眼泪变为幽灵眼泪",
+    "{{ArrowUp}} 射程增加#{{ArrowUp}} 射速提升", nil, "Demon Baby", "zh_cn"
+)
 
 DemonBaby.Stats = {
     Range = {

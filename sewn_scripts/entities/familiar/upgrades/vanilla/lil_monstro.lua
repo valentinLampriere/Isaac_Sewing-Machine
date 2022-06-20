@@ -9,10 +9,10 @@ Sewn_API:AddFamiliarDescription(
     "Has a chance to fire a tooth#Teeth deal x3.2 normal damage",
     "Fires way more tears", nil, "Lil Monstro"
 )
-Sewn_API:AddEncyclopediaUpgrade(
+Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_MONSTRO,
-    "Has 15% chance to fire a tooth instead of a tear#Teeth deal x3.2 normal damage",
-    "Fires more tears#For each tears it spawn, there is 25% chance to fire an additional one"
+    "每颗发射的眼泪有 15% 概率替换成牙齿 #牙齿造成 x3.2 伤害",
+    "发射更多眼泪 #对于每颗眼泪来说有 25% 概率额外发生一颗眼泪", nil, "Lil Monstro","zh_cn"
 )
 
 LilMonstro.Stats = {

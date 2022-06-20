@@ -7,6 +7,11 @@ Sewn_API:AddFamiliarDescription(
     "Fire an additional shot on each side",
     "{{ArrowUp}} Damage Up", nil, "Harlequin Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.HARLEQUIN_BABY,
+    "向两边额外发射一颗眼泪",
+    "{{ArrowUp}} 攻击提升", nil, "Harlequin Baby","zh_cn"
+)
 
 HarlequinBaby.Stats = {
     DamageBonus = {

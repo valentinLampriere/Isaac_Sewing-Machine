@@ -12,6 +12,11 @@ Sewn_API:AddFamiliarDescription(
     "When the player dies, they respawn with an additional soul heart",
     "When the player dies, they respawn with an additional soul heart and an additional red heart container", nil, "Dead Cat"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEAD_CAT,
+    "角色复活时额外生成一个魂心",
+    "角色复活时额外生成一个魂心的同时额外获得一个心之容器", nil, "Dead Cat", "zh_cn"
+)
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.DEAD_CAT,
     nil, nil,

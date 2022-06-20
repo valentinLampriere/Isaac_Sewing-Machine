@@ -32,6 +32,12 @@ Sewn_API:AddFamiliarDescription(
     "Has a chance to apply bleed effect to non-boss enemies#Has a chance to spawn bones when it kills an enemy",
     "Increase chances to apply bleed and to spawn bones#Increase collision damages", nil, "Pointy Rib"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.POINTY_RIB,
+    "50%概率使敌人获得流血效果 #杀死敌人时有33%概率生成1-5个骨头",
+    "80%概率使敌人获得流血效果 #杀死敌人时有39%概率生成2-5个骨头，攻击提升(x1.5+2)", nil, "Pointy Rib","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.POINTY_RIB,
     "Has 50% chance to apply bleed effect to non-boss enemies#Has 33% chance to spawn 1 to 5 bones when it kills an enemy",

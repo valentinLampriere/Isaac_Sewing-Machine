@@ -14,6 +14,12 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up",
     "{{ArrowUp}} Damage Up", nil, "Incubus"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.INCUBUS,
+    "{{ArrowUp}} 攻击提升",
+    "{{ArrowUp}} 攻击提升", nil, "Incubus","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.INCUBUS,
     "Damage Up (x1.33)#[REP] : Now deal the same amount of damage as the player",

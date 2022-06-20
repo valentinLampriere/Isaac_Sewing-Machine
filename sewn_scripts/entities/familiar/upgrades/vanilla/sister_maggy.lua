@@ -7,6 +7,12 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up",
     "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up", nil, "Sister Maggy"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISTER_MAGGY,
+    "{{ArrowUp}} 攻击提升",
+    "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升", nil, "Sister Maggy","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SISTER_MAGGY,
     "Damage Up (x1.33)",

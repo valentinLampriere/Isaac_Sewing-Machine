@@ -7,6 +7,12 @@ Sewn_API:AddFamiliarDescription(
     "They move closer to the player while they fire#+0.33 damage",
     "They align with the player's direction ", nil, "Twisted Pair"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.TWISTED_BABY,
+    "与角色之间的距离靠的更近 #+0.33攻击",
+    "眼泪弹道将和玩家射击的方向一致", nil, "Twisted Pair","zh_cn"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.INCUBUS,
     nil,

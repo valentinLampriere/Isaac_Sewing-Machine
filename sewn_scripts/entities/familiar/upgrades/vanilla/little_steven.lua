@@ -13,6 +13,11 @@ Sewn_API:AddFamiliarDescription(
     "Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up",
     "Increase chances to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear causing a chain reaction#{{ArrowUp}} Damage Up", nil, "Little Steven"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_STEVEN,
+    "眼泪在击中敌人或杀死敌人时有几率生成Boss史蒂夫死亡时爆开的特殊环状眼泪弹幕 #杀死敌人生成的弹幕攻击更强 #{{ArrowUp}} 射程增加#{{ArrowDown}} 弹速降低#{{ArrowUp}} 攻击提升",
+    "提升触发特殊弹幕的几率/特殊弹幕击中或杀死敌人也可以触发特殊弹幕，产生连锁反应#{{ArrowUp}} 攻击提升", nil, "Little Steven", "zh_cn"
+)
 
 local littleStevenBulletPatterns = {
     { AmountOfBullet = 8, Offset = 2.5, Damage = 5, Scale = 2 }, -- Steven

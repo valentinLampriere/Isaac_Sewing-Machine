@@ -16,6 +16,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
     "Tears combine effects", nil, "Rainbow Baby"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.RAINBOW_BABY,
+    "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升",
+    "原本随机的眼泪效果全部都会触发", nil, "Rainbow Baby","zh_cn"
+)
 
 function RainbowBaby:TearInit(familiar, tear)
     tear.CollisionDamage = tear.CollisionDamage * RainbowBaby.Stats.TearDamageMultiplier
