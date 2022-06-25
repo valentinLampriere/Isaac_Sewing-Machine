@@ -12,7 +12,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_LOKI,
     "发射 8 向眼泪",
-    "{{ArrowUp}} 攻击提升", nil, "Lil Loki","zh_cn"
+    "{{ArrowUp}} 攻击提升", nil, "洛基宝宝","zh_cn"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_LOKI,

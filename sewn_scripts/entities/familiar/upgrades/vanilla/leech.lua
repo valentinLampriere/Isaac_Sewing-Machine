@@ -25,8 +25,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LEECH,
-    "攻击敌人时额外生成血迹造成伤害 #{{ArrowUp}} 攻击提升",
-    "攻击敌人时额外生成血迹造成伤害，敌人被杀死时爆出眼泪#{{ArrowUp}} 攻击提升", nil, "Leech", "zh_cn"
+    "攻击敌人时额外生成血迹 #{{ArrowUp}} 攻击提升", 
+    "敌人被杀死时爆出眼泪#{{ArrowUp}} 攻击提升", nil, "水蛭","zh_cn"
 )
 
 function Leech:familiarCollider(familiar, collider)

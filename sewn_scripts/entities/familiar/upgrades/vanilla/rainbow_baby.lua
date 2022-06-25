@@ -19,7 +19,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.RAINBOW_BABY,
     "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升",
-    "原本随机的眼泪效果全部都会触发", nil, "Rainbow Baby","zh_cn"
+    "原本随机的眼泪效果全部都会触发", nil, "彩虹宝宝","zh_cn"
 )
 
 function RainbowBaby:TearInit(familiar, tear)

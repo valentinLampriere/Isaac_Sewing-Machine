@@ -27,7 +27,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LITTLE_GISH,
     "眼泪在击中时将会额外生成一滩减速液体 #{{ArrowUp}} 射速略微提升",
-    "生成更大范围的液体 #{{ArrowUp}} 射速提升#{{ArrowUp}} 攻击提升", nil, "Little Gish","zh_cn"
+    "生成更大范围的减速液体 #{{ArrowUp}} 射速提升#{{ArrowUp}} 攻击提升", nil, "吉什宝宝","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

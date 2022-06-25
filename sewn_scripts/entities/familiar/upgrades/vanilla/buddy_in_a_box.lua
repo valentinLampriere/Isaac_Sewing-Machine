@@ -9,8 +9,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BUDDY_IN_A_BOX,
-    "额外获得一个盲盒宝宝的眼泪效果",
-    "额外再获得一个盲盒宝宝的眼泪效果", nil, "Buddy in a Box", "zh_cn"
+    "额外获得一个盲盒宝宝的眼泪效果 ",
+    "额外再获得一个盲盒宝宝的眼泪效果", nil, "伙伴盲盒", "zh_cn"
 )
 
 local function AddAdditionalTearFlags(tear, amountTearFlags, rng)

@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROBO_BABY,
     "{{ArrowUp}} 射速提升",
-    "{{ArrowUp}} 射速提升", nil, "Robo Baby","zh_cn"
+    "{{ArrowUp}} 射速提升", nil, "机器宝宝","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

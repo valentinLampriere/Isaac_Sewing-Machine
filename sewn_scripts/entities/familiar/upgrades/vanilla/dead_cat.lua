@@ -15,7 +15,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,
     "角色复活时额外生成一个魂心",
-    "角色复活时额外生成一个魂心的同时额外获得一个心之容器", nil, "Dead Cat", "zh_cn"
+    "角色复活时额外生成一个魂心的同时额外获得一个心之容器", nil, "嗝屁猫","zh_cn"
 )
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.DEAD_CAT,

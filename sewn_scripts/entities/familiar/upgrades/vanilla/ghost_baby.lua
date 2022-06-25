@@ -10,7 +10,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.GHOST_BABY,
     "眼泪可穿透敌人#{{ArrowUp}} 攻击提升",
-    "眼泪可穿透敌人，体积更大 #{{ArrowUp}} 攻击提升", nil, "Ghost Baby", "zh_cn"
+    "眼泪大小更大 #{{ArrowUp}} 攻击提升", nil, "幽灵宝宝","zh_cn"
 )
 
 GhostBaby.Stats = {

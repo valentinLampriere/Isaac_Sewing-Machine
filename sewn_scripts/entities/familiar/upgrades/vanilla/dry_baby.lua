@@ -20,8 +20,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DRY_BABY,
-    "{{ArrowUp}} I更容易触发死灵之书效果 #触发效果时清除所有敌方子弹",
-    "更加容易触发死灵书效果 #触发效果时将所有敌方子弹转换为可阻挡弹幕的漂浮骨头", nil, "Dry Baby","zh_cn"
+    "{{ArrowUp}} 更容易触发死灵之书效果 #触发效果时清除所有敌方子弹",
+    "更加容易触发死灵书效果 #触发效果时将所有敌方子弹转换为可阻挡弹幕的漂浮骨头", nil, "枯骨宝宝","zh_cn"
 )
 
 function DryBaby:familiarCollide(familiar, collider)

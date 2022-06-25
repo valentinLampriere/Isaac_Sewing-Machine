@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOILED_BABY,
     "发射更多的眼泪",
-    "发射方向更改为角色攻击的方向", nil, "Boiled Baby", "zh_cn"
+    "发射方向更改为角色攻击的方向", nil, "脓液囊宝宝", "zh_cn"
 )
 
 BoiledBaby.Stats = {

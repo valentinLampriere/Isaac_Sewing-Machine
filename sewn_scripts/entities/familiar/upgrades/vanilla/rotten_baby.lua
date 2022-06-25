@@ -12,7 +12,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROTTEN_BABY,
     "每次额外生成一只蓝苍蝇",
-    "生成一个随机蝗虫 #若生成征服蝗虫则生成两只", nil, "Rotten Baby","zh_cn"
+    "生成一个随机蝗虫 #若生成征服蝗虫则生成两只", nil, "腐烂宝宝","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

@@ -10,7 +10,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HARLEQUIN_BABY,
     "向两边额外发射一颗眼泪",
-    "{{ArrowUp}} 攻击提升", nil, "Harlequin Baby","zh_cn"
+    "{{ArrowUp}} 攻击提升", nil, "小丑宝宝","zh_cn"
 )
 
 HarlequinBaby.Stats = {

@@ -12,8 +12,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HEADLESS_BABY,
-    "产生更大的血迹 #{{ArrowUp}} 血迹伤害提升",
-    "额外发射向上的爆裂眼泪 #{{ArrowUp}} 血迹伤害大幅提升", nil, "Headless Baby", "zh_cn"
+    "产生范围更大的血迹 #{{ArrowUp}} 血迹伤害提升",
+    "额外发射向上的爆裂眼泪 #{{ArrowUp}} 血迹伤害大幅提升", nil, "无头宝宝","zh_cn"
 )
 
 HeadlessBaby.Stats = {

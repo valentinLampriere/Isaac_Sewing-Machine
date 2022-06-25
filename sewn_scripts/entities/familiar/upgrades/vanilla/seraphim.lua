@@ -11,8 +11,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SERAPHIM,
-    "10%概率发射圣光眼泪",
-    "15%概率发射圣光眼泪 #{{ArrowUp}} 射速提升", nil, "Seraphim","zh_cn"
+    "概率发射圣光眼泪",
+    "更高概率发射圣光眼泪 #{{ArrowUp}} 射速提升", nil, "撒拉弗","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

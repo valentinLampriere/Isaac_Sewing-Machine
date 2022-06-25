@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEMON_BABY,
     "眼泪变为幽灵眼泪",
-    "{{ArrowUp}} 射程增加#{{ArrowUp}} 射速提升", nil, "Demon Baby", "zh_cn"
+    "{{ArrowUp}} 射程增加#{{ArrowUp}} 射速提升", nil, "恶魔宝宝","zh_cn"
 )
 
 DemonBaby.Stats = {

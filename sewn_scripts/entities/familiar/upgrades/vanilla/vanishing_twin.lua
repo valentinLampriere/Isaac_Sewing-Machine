@@ -15,7 +15,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.VANISHING_TWIN,
     "复制生成的Boss血量减少25%",
-    "击杀额外boss后将会生成等级更高的道具 #从 {{TreasureRoom}} 道具房与 {{BossRoom}} Boss房道具池中生成", nil, "Vanishing Twin","zh_cn"
+    "击杀额外boss后将会生成等级更高的道具 #从 {{TreasureRoom}} 道具房与 {{BossRoom}} Boss房道具池中生成", nil, "消失的胞胎","zh_cn"
 )
 
 VanishingTwin.Stats = {

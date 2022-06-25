@@ -34,8 +34,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.POINTY_RIB,
-    "50%概率使敌人获得流血效果 #杀死敌人时有33%概率生成1-5个骨头",
-    "80%概率使敌人获得流血效果 #杀死敌人时有39%概率生成2-5个骨头，攻击提升(x1.5+2)", nil, "Pointy Rib","zh_cn"
+    "概率对非boss敌人造成流血效果 #杀死敌人时有概率生成骨头",
+    "造成流血效果和生成骨头的概率提高 #接触伤害提升", nil, "尖肋骨","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

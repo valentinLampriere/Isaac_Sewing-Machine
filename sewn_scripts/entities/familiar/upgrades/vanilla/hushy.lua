@@ -34,8 +34,8 @@ if REPENTANCE then
     )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
-        "每 4 秒在一个随机的圆形图案中发射15次眼泪 #眼泪造成 3 点伤害",
-        "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "Hushy","zh_cn"
+        "每 4 秒在一个随机的圆形图案中发射 15 次眼泪 #眼泪造成 3 点伤害",
+        "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "死寂宝宝","zh_cn"
     )
 
     Sewn_API:AddEncyclopediaUpgrade(
@@ -51,8 +51,8 @@ else
     )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
-        "每 4 秒在一个随机的圆形图案中发射15次眼泪 #眼泪造成 3 点伤害",
-        "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "Hushy","zh_cn"
+        "每 4 秒在一个随机的圆形图案中发射 15 次眼泪 #眼泪造成 3 点伤害",
+        "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "死寂宝宝","zh_cn"
     )
 
     Sewn_API:AddEncyclopediaUpgrade(

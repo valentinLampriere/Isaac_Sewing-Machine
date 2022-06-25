@@ -46,13 +46,13 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BIG_CHUBBY, CollectibleType.COLLE
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BIG_CHUBBY,
-    "通过阻挡敌方弹幕和杀怪增加它的大小和伤害 #随着时间流逝或到达新的一层时，会失去其获得的加成",
-    "在对敌人造成伤害时更加增加它的大小和伤害 #到达新的一层时不再失去其获得的加成 #{{ArrowUp}} 减少冷却时间", nil, "Big Chubby", "zh_cn"
+    "Increase its size and damage when eating bullets and when killing monsters.#Reduce its size over time and on a new level.",
+    "Increase its size even more while dealing damage to enemies.#Do no more lose it damage bonus on a new level.#{{ArrowUp}} Reduce cooldown", nil, "Big Chubby"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BIG_CHUBBY,
-    "Increase its size and damage when eating bullets and when killing monsters.#Reduce its size over time and on a new level.",
-    "Increase its size even more while dealing damage to enemies.#Do no more lose it damage bonus on a new level.#{{ArrowUp}} Reduce cooldown", nil, "Big Chubby"
+    "通过阻挡敌方弹幕和杀敌来增加它的大小和伤害 #随着时间流逝或到达新的一层时，会失去其获得的加成",
+    "在对敌人造成伤害时会更加增加它的大小 #到达新的一层时不再失去其获得的伤害加成 #{{ArrowUp}} 减少冷却时间", nil, "大胖蛆", "zh_cn"
 )
 
 local function UpdateSize(familiar)

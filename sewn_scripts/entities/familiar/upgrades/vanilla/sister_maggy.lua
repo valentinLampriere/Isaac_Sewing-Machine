@@ -10,7 +10,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISTER_MAGGY,
     "{{ArrowUp}} 攻击提升",
-    "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升", nil, "Sister Maggy","zh_cn"
+    "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升", nil, "玛姬姐妹","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

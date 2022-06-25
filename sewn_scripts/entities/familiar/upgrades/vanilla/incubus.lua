@@ -16,8 +16,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.INCUBUS,
-    "{{ArrowUp}} 攻击提升",
-    "{{ArrowUp}} 攻击提升", nil, "Incubus","zh_cn"
+    "{{ArrowUp}} 攻击提升 #[REP] : 现在造成与玩家相同的伤害",
+    "{{ArrowUp}} 攻击大幅提升", nil, "淫魔","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

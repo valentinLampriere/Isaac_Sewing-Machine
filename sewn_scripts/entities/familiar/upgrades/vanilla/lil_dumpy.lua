@@ -159,14 +159,14 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_DUMPY,
-    "每个房间都有几率变为另一个Lil Dumpy屁宝变体：" ..
+    "进入每个房间后，都有几率变为另一个屁宝变体：" ..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} 基础的放屁效果"..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} 放屁时，会使敌人中毒"..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} 放屁时，会以圆形的方式发射出 6 道眼泪"..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} 放屁时，产生一个造成15点伤害的火焰"..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} 其杀死的敌人会变成被冻结，休息时获得冰冻光环"..
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} 放屁时，会朝相反的方向发射火焰眼泪，造成 3 点伤害",
-    "在随机的几秒钟后会回到玩家身边，即使与玩家距离很远", nil, "Lil Dumpy","zh_cn"
+    "在随机的几秒钟后会回到玩家身边，即使与玩家距离很远", nil, "小屁包","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

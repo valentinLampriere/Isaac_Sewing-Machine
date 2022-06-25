@@ -15,8 +15,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DADDY_LONGLEGS,
-    "有概率掉落的是蜘蛛的头，造成 2 倍原先的伤害；头和脚有概率替换成BOSS trachnid的样子，如果替换则向周围发射5颗减速眼泪",
-    "提升超级形态几种变种的概率，下落一次后有概率再触发一次下落，额外触发的一次下落也可继续触发", nil, "Daddy Longlegs", "zh_cn"
+    "有概率掉落的是蜘蛛的头，造成原先伤害的 2 倍；头和脚有概率替换成Boss-Triachnid的样子，如果替换则向周围发射 5 颗减速眼泪",
+    "提升Boss-Triachnid出现的概率，下落一次后有概率再触发一次下落，额外触发的一次下落也可继续触发", nil, "长腿蛛父","zh_cn"
 )
 
 DaddyLonglegs.Stats = {

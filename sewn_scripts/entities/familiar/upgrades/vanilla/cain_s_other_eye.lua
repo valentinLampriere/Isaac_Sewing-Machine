@@ -13,8 +13,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CAINS_OTHER_EYE,
-    "发射 2 颗眼泪而非 1 颗 # 眼泪具有 {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} 橡胶特效",
-    "发射 4 颗眼泪 #射程增加", nil, "Cain's other Eye", "zh_cn"
+    "发射 2 颗眼泪而非 1 颗 # 眼泪具有 {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} 橡胶胶水特效",
+    "发射 4 颗眼泪 #射程增加", nil, "该隐的另一只眼","zh_cn"
 )
 
 CainsOtherEye.Stats = {

@@ -10,7 +10,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_BRIMSTONE,
     "{{ArrowUp}} 攻击提升",
-    "{{ArrowUp}} 攻击大幅提升 #硫磺火持续更长时间 #蓄力更快", nil, "Lil Brimstone","zh_cn"
+    "{{ArrowUp}} 攻击大幅提升 #硫磺火持续更长时间 #蓄力更快", nil, "硫磺火宝宝","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

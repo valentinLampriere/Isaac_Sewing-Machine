@@ -12,8 +12,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_SPEWER,
-    "将会额外发射眼泪，根据宝宝当前的形态眼泪效果也不同 {{Blank}}普通：发射三颗5伤害的眼泪 {{Blank}}黑色与白色：发射三颗3.5伤害的减速眼泪 {{Blank}}黄色：发射三颗同方向的眼泪 {{Blank}}红色：发射一颗12.5伤害的巨型血泪",
-    "跟班同时可以拥有两种形态", nil, "Lil Spewer","zh_cn"
+    "将会额外发射眼泪，根据宝宝当前的形态眼泪效果也不同 {{Blank}}普通：发射三颗 5 伤害的眼泪 {{Blank}}黑色与白色：发射三颗 3.5 伤害的减速眼泪 {{Blank}}黄色：发射三颗同方向的眼泪 {{Blank}}红色：发射一颗 12.5 伤害的巨型血泪",
+    "跟班同时可以拥有两种形态", nil, "呕吐虫宝宝","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

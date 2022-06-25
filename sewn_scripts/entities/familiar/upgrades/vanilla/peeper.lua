@@ -23,8 +23,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PEEPER,
-    "每间隔一段时间向不同的方向发射".. Peeper.Stats.AmountTears .."5颗眼泪 #在接近敌人时有短距离跟踪效果",
-    "额外生成一个 {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}} peeper眼球宝#新的peeper眼球宝同样具有超级形态的效果 #如果持有 {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} 三眼，则再额外生成一个", nil, "Peeper", "zh_cn"
+    "每隔一段时间向不同的方向发射".. Peeper.Stats.AmountTears .."5颗眼泪 #在接近敌人时有短距离的跟踪效果",
+    "额外生成一个 {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}} 窥眼 #新的窥眼同样具有超级形态的效果 #如果持有 {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} 内眼，则再额外生成一个窥眼", nil, "窥眼","zh_cn"
 )
 
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)

@@ -15,7 +15,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PAPA_FLY,
     "可以阻挡弹幕 #阻挡弹幕时有几率生成一个 {{Collectible504}} 棕色粪块生成的棕色金块跟班（苍蝇炮塔）",
-    "一次发射5颗眼泪 #{{ArrowUp}} 射程增加 #更高的概率生成一个 {{Collectible504}} 棕色粪块生成的棕色金块跟班（苍蝇炮塔）", nil, "Papa Fly", "zh_cn"
+    "一次发射5颗眼泪 #{{ArrowUp}} 射程增加 #更高的概率生成一个 {{Collectible504}} 棕色粪块生成的棕色金块跟班（苍蝇炮塔）", nil, "狙击蝇老爹","zh_cn"
 )
 
 PapaFly.Stats = {

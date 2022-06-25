@@ -10,11 +10,11 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.TWISTED_BABY,
     "与角色之间的距离靠的更近 #+0.33攻击",
-    "眼泪弹道将和玩家射击的方向一致", nil, "Twisted Pair","zh_cn"
+    "眼泪弹道将和玩家射击的方向一致", nil, "作孽双子","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.INCUBUS,
+    FamiliarVariant.TWISTED_BABY,
     nil,
     "Align with the player's direction#Slight damage up. +0.33 when the damage is less than 2, +0.5 when the damage is higher than 2",
     "Due to API limitation, the damage bonus do not works with every weapon type (Lasers, bombs)"

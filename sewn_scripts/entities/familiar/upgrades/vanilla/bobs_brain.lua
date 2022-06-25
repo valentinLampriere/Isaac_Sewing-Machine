@@ -17,7 +17,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOBS_BRAIN,
     "爆炸时额外产生一滩巨大的绿毒水迹",
-    "接触敌人不会立即爆炸，而是将黏在敌人上一段时间后再爆炸", nil, "Bob's Brain", "zh_cn"
+    "接触敌人时不会立即爆炸，而是会黏在敌人身上一段时间后再爆炸", nil, "鲍勃的脑浆子", "zh_cn"
 )
 
 function BobsBrain:OnFamiliarUpdate(familiar)

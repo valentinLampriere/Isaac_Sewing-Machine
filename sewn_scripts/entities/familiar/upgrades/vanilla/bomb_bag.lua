@@ -40,7 +40,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOMB_BAG,
     "不再生成即爆炸弹 #产生更好的炸弹掉落 #角色走过的地方将会掉落火药粉末，着火的敌人与炸弹均可引燃",
-    "产生更好的炸弹掉落 #可掉落giga炸弹（矿层可毁灭地形的大炸弹）#敌人接近时有概率爆炸", nil, "Bomb Bag", "zh_cn"
+    "更加好的炸弹掉落 #可掉落Giga炸弹（矿层可毁灭地形的大炸弹）[Rep]#敌人接近时有概率爆炸", nil, "炸弹袋", "zh_cn"
 )
 
 local function GetCloseBombBagPowders(position)

@@ -3,9 +3,8 @@
 	<familiar description="Auto familiar upgrader" quality="3" gfx="dollsTaintedHead.png" name="Doll's Tainted Head" tags="offensive uniquefamiliar"/>
 	<familiar description="Auto familiar upgrader" quality="3" gfx="dollsPureBody.png" name="Doll's Pure Body" tags="offensive uniquefamiliar"/>
 	<trinket cache="" description="Safety crowns" gfx="thimble.png" name="Thimble"/>
-	<trinket cache="" description="Cursed crowns ?" gfx="crackedThimble.png" name="Cracked Thimble"/>
-	<trinket cache="" description="More sewing machines !" gfx="lostButton.png" name="Lost Button"/>
-	<!--<trinket cache="" description="Unexpected machine" gfx="contrastedButton.png" name="Contrasted Button" tags="nogreed"/>-->
+	<trinket cache="" description="Cursed crowns?" gfx="crackedThimble.png" name="Cracked Thimble"/>
+	<trinket cache="" description="More sewing machines!" gfx="lostButton.png" name="Lost Button"/>
 	<trinket cache="" description="Sewing machine helper" gfx="pinCushion.png" name="Pin Cushion"/>
 	<trinket cache="" description="Portable sewing box" gfx="trinket_sewingcase.png" name="Sewing Case"/>
 </items>

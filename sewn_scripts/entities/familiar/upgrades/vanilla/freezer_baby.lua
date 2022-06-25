@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FREEZER_BABY,
     "{{ArrowUp}} 攻击提升 #{{ArrowUp}} 射程增加 #冰冻敌人的几率上升",
-    "击杀敌人时敌人额外爆出冰冻眼泪 #{{ArrowUp}} 攻击提升", nil, "Freezer Baby", "zh_cn"
+    "击杀敌人时敌人额外爆出冰冻眼泪 #{{ArrowUp}} 攻击提升", nil, "冰冻宝宝","zh_cn"
 )
 
 FreezerBaby.Stats = {

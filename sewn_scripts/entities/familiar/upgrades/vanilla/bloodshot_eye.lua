@@ -17,8 +17,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BLOODSHOT_EYE,
-    "F一次发射三颗眼泪",
-    "攻击方式更改为发射小硫磺火", nil, "Bloodshot Eye", "zh_cn"
+    "一次发射三颗眼泪",
+    "攻击方式更改为发射小硫磺火", nil, "血丝眼", "zh_cn"
 )
 
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)

@@ -24,7 +24,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ANGELIC_PRISM,
     "当天使棱镜将要经过角色眼泪发射的方向时，将主动靠近到角色身前 #眼泪获得穿透效果",
-    "将会靠的更近 #眼泪获得穿透效果与跟踪效果", nil, "Angelic Prism", "zh_cn"
+    "将会靠的更近 #眼泪将同时获得跟踪效果", nil, "天使棱镜", "zh_cn"
 )
 
 local defaultOrbitDistance = Vector(85, 67.5)

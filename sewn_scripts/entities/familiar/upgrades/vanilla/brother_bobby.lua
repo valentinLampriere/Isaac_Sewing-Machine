@@ -15,7 +15,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BROTHER_BOBBY,
     "{{ArrowUp}} 射速提升",
-    "{{ArrowUp}} 射速提升#{{ArrowUp}} 攻击提升", nil, "Brother Bobby", "zh_cn"
+    "{{ArrowUp}} 射速提升#{{ArrowUp}} 攻击提升", nil, "波比兄弟","zh_cn"
 )
 
 BrotherBobby.Stats = {

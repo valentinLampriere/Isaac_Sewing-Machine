@@ -10,7 +10,7 @@ EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Upgra
 EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Upgrade every normal familiars to super#With Doll's Tainted Head, upgrade every familiars to ultra#Add 20% chance to find a Sewing Machine in Angel rooms")
 
 -- EID Trinkets
-EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "Refunds familiars upgrade when using the Sewing Machine#Spawn pickups on the floor, pickups depends on the Sewing Machine type")
+EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "Spawns pickups based on the type of sewing machine used when upgrading")
 EID:addTrinket(Enums.TrinketType.TRINKET_CRACKED_THIMBLE, "Have 75% chance to reroll familiars crowns when getting hit")
 EID:addTrinket(Enums.TrinketType.TRINKET_LOST_BUTTON, "100% chance to spawn sewing machine in Shops#50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
 --EID:addTrinket(Enums.TrinketType.TRINKET_CONTRASTED_BUTTON, "50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
@@ -25,8 +25,8 @@ EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Upgrade all familiars for a single r
 --------Chinese EID by 汐何/Saurtya
 -- EID Collectibles
 EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "使用后在当前房间对【可升级跟班】升级一次#使用两次则可以升级到究极形态（蓝皇冠）", "便携缝纫包","zh_cn")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "拥有时可让所有拥有的可升级的跟班升级到超级形态（黄皇冠）#如果拥有 {{Collectible".. Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY .."}} \"受祝福的娃娃身体\"，则可让所有拥有的可升级的跟班升级到究极形态（蓝皇冠）# {{ArrowUp}} 恶魔房生成恶魔缝纫机的概率 +20%", "受诅咒的娃娃头","zh_cn")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "拥有时可让所有拥有的可升级的跟班升级到超级形态（黄皇冠）#如果拥有 {{Collectible".. Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD .."}} \"受诅咒的娃娃头\"，则可让所有拥有的可升级的跟班升级到究极形态（蓝皇冠）# {{ArrowUp}} 天使房生成天使缝纫机的概率 +20%", "受祝福的娃娃身体","zh_cn")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "拥有时可让所有拥有的可升级的跟班升级到超级形态（黄皇冠）#如果拥有 {{Collectible".. Isaac.GetItemIdByName("Doll's Pure Body") .."}} \"受祝福的娃娃身体\"，则可让所有拥有的可升级的跟班升级到究极形态（蓝皇冠）# {{ArrowUp}} 恶魔房生成恶魔缝纫机的概率 +20%", "受诅咒的娃娃头","zh_cn")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "拥有时可让所有拥有的可升级的跟班升级到超级形态（黄皇冠）#如果拥有 {{Collectible".. Isaac.GetItemIdByName("Doll's Tainted Head") .."}} \"受诅咒的娃娃头\"，则可让所有拥有的可升级的跟班升级到究极形态（蓝皇冠）# {{ArrowUp}} 天使房生成天使缝纫机的概率 +20%", "受祝福的娃娃身体","zh_cn")
 
 -- EID Trinkets
 EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "携带后使用缝纫机将会额外产生掉落物 #掉落物的类型取决于缝纫机的类型", "顶针","zh_cn")
@@ -40,6 +40,8 @@ EID:addTrinket(Enums.TrinketType.TRINKET_SEWING_CASE, "携带此饰品时，进�
 EID:addCard(Enums.Card.CARD_WARRANTY, "生成一台缝纫机 #根据房间种类的不同生成的缝纫机也不同", "保修卡","zh_cn")
 EID:addCard(Enums.Card.CARD_STITCHING, "随机分配目前跟班的皇冠，与分配前的总数不变 #若目前拥有的跟班没有皇冠，则随机对一名跟班升级一次", "粘贴卡","zh_cn")
 EID:addCard(Enums.Card.CARD_SEWING_COUPON, "当前房间内所有拥有的可升级跟班获得一次暂时性升级，离开房间后失去效果", "缝纫体验券","zh_cn")
+
+
 
 
 local icon = Sprite()

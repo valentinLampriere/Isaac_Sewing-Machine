@@ -13,8 +13,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FRUITY_PLUM,
-    "{{ArrowUp}} 攻击提升 #微量的跟踪效果",
-    "获得 {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} 黏土饼干的效果 #在攻击完成后向所有方向发射眼泪", nil, "Fruity Plum", "zh_cn"
+    "{{ArrowUp}} 攻击提升 #微弱的跟踪效果",
+    "获得 {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} 黏土饼干的效果 #在攻击完成后向所有方向发射眼泪", nil, "果味甜蝇宝","zh_cn"
 )
 
 local function TEARFLAGS(x)

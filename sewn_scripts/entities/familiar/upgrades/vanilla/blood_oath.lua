@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BLOOD_OATH,
     "角色额外生成血迹，生成血迹的概率与伤害跟血誓抽掉的 {{Heart}} 红心成正比",
-    "每层初始房间血誓对角色造成伤害时将额外掉落 {{Heart}} 红心", nil, "Blood Oath", "zh_cn"
+    "每层初始房间血誓对角色造成伤害时将额外掉落 {{Heart}} 红心", nil, "血誓", "zh_cn"
 )
 
 BloodOath.Stats = {

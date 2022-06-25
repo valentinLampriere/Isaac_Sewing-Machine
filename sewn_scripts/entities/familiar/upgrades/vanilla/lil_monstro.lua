@@ -11,8 +11,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_MONSTRO,
-    "每颗发射的眼泪有 15% 概率替换成牙齿 #牙齿造成 x3.2 伤害",
-    "发射更多眼泪 #对于每颗眼泪来说有 25% 概率额外发生一颗眼泪", nil, "Lil Monstro","zh_cn"
+    "每颗发射的眼泪有概率替换成牙齿 #牙齿造成 x3.2 伤害",
+    "发射更多眼泪", nil, "萌死戳宝宝","zh_cn"
 )
 
 LilMonstro.Stats = {

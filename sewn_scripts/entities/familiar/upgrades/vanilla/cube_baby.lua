@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CUBE_BABY,
     "具有一圈冰冻光环，敌人在其中停留一定时间将会直接冰冻",
-    "在移动路径上留下一道可造成伤害的水迹 #移动越快，留下的水迹越多", nil, "Cube Baby", "zh_cn"
+    "在移动路径上留下一道可造成伤害的水迹 #移动越快，留下的水迹越多", nil, "冰块宝宝","zh_cn"
 )
 
 CubeBaby.Stats = {

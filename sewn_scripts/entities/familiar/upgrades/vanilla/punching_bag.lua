@@ -16,7 +16,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PUNCHING_BAG,
     "像敌人一样具有精英形态，每隔一段时间随机改变颜色，可阻挡弹幕 {{Blank}}粉色：向随机方向发射眼泪 {{Blank}}紫色：将敌人和弹幕牵引到自身 {{Blank}}淡蓝色：玩家受伤时发射 8 向弹幕 {{Blank}}蓝色：玩家受伤时生成 2-3 只蓝蜘蛛 {{Blank}}橙色：玩家受伤时掉落一枚硬币 #可阻挡弹幕",
-    "具有更多的精英形态： {{Blank}}绿色：移动路径生成绿色水迹造成伤害 {{Blank}}黑色：玩家受伤时爆炸，造成40点伤害 {{Blank}}彩虹色：具有以上所有形态的能力，但持续时间比上述形态都短 #可造成接触伤害", nil, "Punching Bag", "zh_cn"
+    "具有更多的精英形态： {{Blank}}绿色：移动路径生成绿色水迹造成伤害 {{Blank}}黑色：玩家受伤时爆炸，造成40点伤害 {{Blank}}彩虹色：具有以上所有形态的能力，但持续时间比上述形态都短 #可造成接触伤害", nil, "受气包","zh_cn"
 )
 
 local function FireTear(familiar, direction, force, damage, scale)

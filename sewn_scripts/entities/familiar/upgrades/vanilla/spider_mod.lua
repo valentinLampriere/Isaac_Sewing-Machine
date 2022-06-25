@@ -14,7 +14,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SPIDER_MOD,
     "行走时有几率生成一个蜘蛛卵，敌人经过蜘蛛卵时随机获得debuff #蜘蛛卵持续20秒",
-    "有更高的概率生成蜘蛛卵 #清理房间后，蜘蛛卵将会生成蓝蜘蛛", nil, "Spider Mod","zh_cn"
+    "有更高的概率生成蜘蛛卵 #清理房间后，蜘蛛卵将会生成蓝蜘蛛", nil, "蜘蛛模组","zh_cn"
 )
 
 SpiderMod.Stats = {

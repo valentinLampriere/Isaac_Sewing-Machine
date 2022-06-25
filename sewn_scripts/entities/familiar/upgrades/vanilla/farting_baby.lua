@@ -32,7 +32,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,
     "{{ArrowUp}} 增加被攻击时放屁的几率 #每隔几秒就放一次屁。其越接近敌人，就越大几率放屁",
-    "{{ArrowUp}} 增加放屁的几率 #额外获得两个类型的屁(燃烧和圣光)", nil, "Farting Baby", "zh_cn"
+    "{{ArrowUp}} 增加放屁的几率 #额外获得两个类型的屁(燃烧屁和圣光屁)", nil, "放屁宝宝","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

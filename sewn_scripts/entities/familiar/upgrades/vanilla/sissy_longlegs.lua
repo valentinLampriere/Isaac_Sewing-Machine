@@ -29,7 +29,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISSY_LONGLEGS,
     "所生成的蓝蜘蛛额外具有魅惑效果 #生成的蓝蜘蛛接触敌人时具有范围伤害",
-    "生成更多的蓝蜘蛛 #生成的蓝蜘蛛接触敌人时的范围伤害提升", nil, "Sissy Longlegs","zh_cn"
+    "生成更多的蓝蜘蛛 #生成的蓝蜘蛛接触敌人时的范围伤害提升", nil, "长腿蛛妹妹","zh_cn"
 )
 
 function SissyLonglegs:OnBlueSpiderHit(familiar, npc, amount, flags, source, countdown)

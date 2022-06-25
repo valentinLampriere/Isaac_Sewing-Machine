@@ -14,7 +14,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_ABADDON,
     "{{ArrowUp}} 攻击提升#当亚巴顿宝宝在蓄力条满的时候，有概率在其当前的位置留下一个黑色漩涡，释放蓄力条时黑色漩涡也会释放黑圈（上限四个）",
-    "黑色漩涡出现的概率提升 #黑色漩涡里产生的黑圈造成更高伤害，黑圈的也更宽 #黑圈造成伤害时有概率生成 {{BlackHeart}} 黑心", nil, "Lil Abaddon", "zh_cn"
+    "黑色漩涡出现的概率提升 #黑色漩涡里产生的黑圈造成更高伤害，范围更大且持续时间也更长 #黑圈造成伤害时有概率生成 {{BlackHeart}} 黑心", nil, "亚巴顿宝宝","zh_cn"
 )
 
 LilAbaddon.Stats = {

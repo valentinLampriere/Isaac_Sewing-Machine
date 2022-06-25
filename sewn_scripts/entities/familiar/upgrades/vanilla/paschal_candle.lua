@@ -11,8 +11,8 @@ Sewn_API:AddFamiliarDescription(
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PASCHAL_CANDLE,
-    "角色受到伤害时，该跟班向四周抛出大量火焰 #抛出的火焰大小取决于跟班的火焰大小",
-    "现在角色受到伤害时蜡烛并不会直接熄灭，而是减少一级", nil, "Paschal Candle","zh_cn"
+    "角色受到伤害时，蜡烛会向四周抛出大量火焰 #抛出的火焰大小取决于蜡烛大小",
+    "现在角色受到伤害时蜡烛并不会直接熄灭，而是减少一级", nil, "逾越节蜡烛","zh_cn"
 )
 
 Sewn_API:AddEncyclopediaUpgrade(

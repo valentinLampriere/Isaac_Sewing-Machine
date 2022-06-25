@@ -13,7 +13,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.GUPPYS_HAIRBALL,
     "每层初始时直接提升到第二形态的大小，击杀或阻挡弹幕时有概率生成蓝苍蝇",
-    "每层初始时直接提升到第三形态的大小，击杀或阻挡弹幕时有概率生成更多蓝苍蝇", nil, "Guppy's Hairball", "zh_cn"
+    "每层初始时直接提升到第三形态的大小，击杀或阻挡弹幕时有概率生成更多蓝苍蝇", nil, "嗝屁猫的毛球","zh_cn"
 )
 
 GuppysHairball.Stats = {
