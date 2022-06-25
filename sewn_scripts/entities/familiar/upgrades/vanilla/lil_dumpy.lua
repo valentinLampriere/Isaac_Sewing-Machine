@@ -148,14 +148,14 @@ end
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_DUMPY,
-    "Change to another Lil Dumpy variant each rooms as :" ..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Standard effect."..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Poisons enemies when farting."..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} When it farts, fire 6 tears in a circular pattern."..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, spawn a flame which deals 15 damage."..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Enemies it kills turn to ice. While resting, gain a freezing aura."..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} When it farts, fire tears in the opposite direction.",
-    "Return to the player after a random amount of seconds, even if the player is far away", nil, "Lil Dumpy"
+    "Changes to another Lil Dumpy variant each rooms, such as:" ..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Standard effect"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Poisons enemies when farting"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} When it farts, it fires 6 tears in a circular pattern"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, it spawns a flame which deals 15 damage"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Enemies killed by it are turned into ice. While resting, gain a freezing aura"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} When it farts, it fires tears in the opposite direction",
+    "Returns to the player after a random amount of seconds, even if the player is far away", nil, "Lil Dumpy"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_DUMPY,

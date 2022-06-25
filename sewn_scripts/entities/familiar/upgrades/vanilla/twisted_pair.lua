@@ -4,8 +4,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.TWISTED_BABY, CollectibleType.COL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.TWISTED_BABY,
-    "They move closer to the player while they fire#+0.33 damage",
-    "They align with the player's direction ", nil, "Twisted Pair"
+    "{{ArrowUp}}+0.33 Flat Damage Up#They move closer to the player while they fire",
+    "They align with the player's direction", nil, "Twisted Pair"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.TWISTED_BABY,

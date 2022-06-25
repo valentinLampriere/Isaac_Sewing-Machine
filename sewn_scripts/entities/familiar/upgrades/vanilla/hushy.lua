@@ -29,8 +29,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HUSHY, CollectibleType.COLLECTIBL
 if REPENTANCE then
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
-        "Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
-        "Spawn minisaac after charging for a few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
+        "Fire 15 tears in a random circular pattern every 4 seconds#Tears deal 3 damage",
+        "{{ArrowUp}} Damage Up#Spawn minisaac after charging for a few seconds (only in rooms with enemies)", nil, "Hushy"
     )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,

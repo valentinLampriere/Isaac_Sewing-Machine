@@ -12,8 +12,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ISAACS_HEART, CollectibleType.COL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ISAACS_HEART,
-    "Moves closer to the player when the player isn't firing#Decrease charge time",
-    "When fully charged, if an enemy or projectile gets too close it automatically activates its fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again#Decrease charge time", nil, "Isaac's Heart"
+    "{{ArrowUp}} Decreases charge time#Moves closer to the player when the player isn't firing",
+    "{{ArrowUp}} Decreases charge time#When fully charged, if an enemy or projectile gets too close it automatically activates its fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again", nil, "Isaac's Heart"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ISAACS_HEART,

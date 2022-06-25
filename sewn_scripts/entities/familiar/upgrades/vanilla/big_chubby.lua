@@ -46,8 +46,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BIG_CHUBBY, CollectibleType.COLLE
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BIG_CHUBBY,
-    "Increase its size and damage when eating bullets and when killing monsters.#Reduce its size over time and on a new level.",
-    "Increase its size even more while dealing damage to enemies.#Do no more lose it damage bonus on a new level.#{{ArrowUp}} Reduce cooldown", nil, "Big Chubby"
+    "Increases its size and damage when eating bullets and when killing enemies#Reduces its size and damage over time and on a new floor",
+    "{{ArrowUp}} Reduces cooldown#Increases its size even more while dealing damage to enemies#Doesn't lose damage bonus on a new floor anymore", nil, "Big Chubby"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BIG_CHUBBY,

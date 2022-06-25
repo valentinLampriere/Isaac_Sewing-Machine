@@ -7,8 +7,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.FREEZER_BABY, CollectibleType.COL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FREEZER_BABY,
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#Increase the chance to freeze enemies",
-    "Enemies it kills explode into ice tears#{{ArrowUp}} Damage Up", nil, "Freezer Baby"
+    "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#{{ArrowUp}} Higher chance to freeze enemies",
+    "{{ArrowUp}} Damage Up#Enemies it kills explode into ice tears", nil, "Freezer Baby"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FREEZER_BABY,

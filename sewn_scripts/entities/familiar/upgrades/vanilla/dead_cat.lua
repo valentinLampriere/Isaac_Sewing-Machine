@@ -9,8 +9,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEAD_CAT, CollectibleType.COLLECT
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,
-    "When the player dies, they respawn with an additional soul heart",
-    "When the player dies, they respawn with an additional soul heart and an additional red heart container", nil, "Dead Cat"
+    "When the player dies, they respawn with an additional soul heart {{SoulHeart}}",
+    "When the player dies, they respawn with an additional red heart container {{Heart}} and an additional soul heart {{SoulHeart}}", nil, "Dead Cat"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,

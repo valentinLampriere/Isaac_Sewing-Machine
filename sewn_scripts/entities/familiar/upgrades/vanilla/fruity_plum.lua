@@ -8,8 +8,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.FRUITY_PLUM, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FRUITY_PLUM,
-    "{{ArrowUp}} Damage Up#Small homing effect",
-    "Gains a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack, fire tears in all directions", nil, "Fruity Plum"
+    "{{ArrowUp}} Damage Up#Gains small homing effect",
+    "Gains a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack it fires tears in all directions", nil, "Fruity Plum"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FRUITY_PLUM,

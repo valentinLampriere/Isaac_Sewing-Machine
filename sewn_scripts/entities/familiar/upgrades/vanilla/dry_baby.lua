@@ -15,8 +15,8 @@ DryBaby.Stats = {
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DRY_BABY,
-    "{{ArrowUp}} Increase chance to trigger Necronomicon effect#When it triggers the effect, projectiles in the room are destroyed",
-    "Increases chance to trigger Necronomicon effect even more!#When it trigger the effect, projectiles in the room are turned into bone shards", nil, "Dry Baby"
+    "{{ArrowUp}} Increases chance to trigger Necronomicon effect#When it triggers the effect, enemy projectiles in the room are destroyed",
+    "{{ArrowUp}} Increases chance to trigger Necronomicon effect even more!#When it triggers the effect, enemy projectiles in the room are turned into bone shards", nil, "Dry Baby"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DRY_BABY,

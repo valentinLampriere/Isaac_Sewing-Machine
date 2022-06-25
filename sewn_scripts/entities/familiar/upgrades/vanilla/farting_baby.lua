@@ -26,8 +26,8 @@ FartingBaby.Stats = {
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,
-    "{{ArrowUp}} Increase chances to fart when getting hit#Have a chance to fart every few seconds. The more it is close to enemies, the more it has a chance to fart.",
-    "{{ArrowUp}} Increase chances to fart#Gain two additional farts (Burning and Holy).", nil, "Farting Baby"
+    "{{ArrowUp}} Increases chance to fart when getting hit#Has a chance to fart every few seconds. The closer it is to enemies, the higher chance for it fart",
+    "{{ArrowUp}} Increases chance to fart when getting hit even more!#Gain an additional burning fart and holy fart", nil, "Farting Baby"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,

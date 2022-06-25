@@ -6,7 +6,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_CHUBBY, CollectibleType.CO
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LITTLE_CHUBBY,
-    "Cooldown reduced by 50%, can be thrown quickly.",
+    "{{ArrowUp}} Lower cooldown by 50%, can be thrown quickly",
     "Sticks to enemies for 0.5 seconds then continues in its initial direction", nil, "Little Chubby"
 )
 Sewn_API:AddFamiliarDescription(

@@ -7,8 +7,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HEADLESS_BABY, CollectibleType.CO
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HEADLESS_BABY,
-    "Spawns large creep#{{ArrowUp}} Creep deals more damage",
-    "Fires burst of tears while isaac is firing#{{ArrowUp}} Creep deals more damage", nil, "Headless Baby"
+    "{{ArrowUp}} Creep Damage Up#{{ArrowUp}} Creep Size Up",
+    "{{ArrowUp}} Creep Damage Up#Fires burst of tears while isaac is firing", nil, "Headless Baby"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HEADLESS_BABY,

@@ -10,7 +10,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PAPA_FLY, CollectibleType.COLLECT
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PAPA_FLY,
     "Blocks projectiles#Has a chance to spawn a fly turret when blocking a projectile",
-    "Fires 5 tears in a row#{{ArrowUp}} Range Up#Higher chance to spawn a fly turret", nil, "Papa Fly"
+    "{{ArrowUp}} Range Up#{{ArrowUp}} Higher chance to spawn a fly turret#Fires 5 tears in a row", nil, "Papa Fly"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PAPA_FLY,

@@ -29,8 +29,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.POINTY_RIB, CollectibleType.COLLE
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.POINTY_RIB,
-    "Has a chance to apply bleed effect to non-boss enemies#Has a chance to spawn bones when it kills an enemy",
-    "Increase chances to apply bleed and to spawn bones#Increase collision damages", nil, "Pointy Rib"
+    "Has a chance to apply bleed effect to non-boss enemies#Has a chance to spawn bone shards when it kills an enemy",
+    "{{ArrowUp}} Collision Damage Up#{{Arrow Up}} Increases chance to apply bleed#{{Arrow Up}} Increases chance to spawn bone shards", nil, "Pointy Rib"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.POINTY_RIB,

@@ -10,8 +10,18 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PUNCHING_BAG, CollectibleType.COL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PUNCHING_BAG,
-    "Gains random champion forms each with special abilities#Pink : Fires a tear in a random direction#Violet : Pulls enemies and bullets#Light Blue : Fires tears in 8 directions when player gets hit#Blue : Spawns 2-3 flies when player gets hit#Orange : Spawns a coin when player get hit#Blocks bullets",
-    "Gain more powerful champion forms : #Green : Spawns green creep#Black : Explodes when the player gets hit. Explosion deal 40 damage#Rainbow : Copies the effect of every other champion forms. Lasts less time than other champion forms#Deals contact damage", nil, "Punching Bag"
+    "Gains random champion forms each with special abilities, such as:#"..
+    "{{ColorPink}}Pink{{CR}}: Fires a tear in a random direction#"..
+    "{{ColorPurple}}Violet{{CR}}: Pulls enemies and bullets#"..
+    "{{ColorCyan}}Light Blue{{CR}}: Fires tears in 8 directions when player gets hit#"..
+    "{{ColorCyan}}Blue{{CR}}: Spawns 2-3 flies when player gets hit#"..
+    "{{ColorOrange}}Orange{{CR}}: Spawns a coin when player get hit#"..
+    "Blocks bullets",
+    "Gain more powerful champion forms:#"..
+    "{{ColorGreen}}Green{{CR}}: Spawns green creep#"..
+    "{{ColorBlack}}Black{{CR}}: Explodes when the player gets hit. Explosion deal 40 damage#"..
+    "{{ColorRainbow}}Rainbow{{CR}}: Copies the effect of every other champion forms. Lasts less time than other champion forms#"..
+    "Deals contact damage", nil, "Punching Bag"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PUNCHING_BAG,

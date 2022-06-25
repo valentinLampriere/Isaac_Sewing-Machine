@@ -6,7 +6,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_MONSTRO, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_MONSTRO,
-    "Has a chance to fire a tooth#Teeth deal x3.2 normal damage",
+    "Has a chance to fire a tooth (from Tough Love {{Collectible"..CollectibleType.COLLECTIBLE_TOUGH_LOVE.."}}",
     "Fires way more tears", nil, "Lil Monstro"
 )
 Sewn_API:AddFamiliarDescription(

@@ -33,8 +33,8 @@ BotFly.Stats = {
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOT_FLY,
-    "When it fires a tear, a laser connect the tear to the familiar#The laser deal contact damage and block shots#{{ArrowUp}} Stats Up (Range, Shot Speed, Tear Size)",
-    "{{ArrowUp}} Stats Up#Gain piercing tears#Rarely attack enemies", nil, "Bot Fly"
+    "{{ArrowUp}} Stats Up (Range, Shot Speed, Tear Size)#When it fires a tear, a laser connects the tears and the familiar#The laser deals contact damage and blocks shots",
+    "{{ArrowUp}} Stats Up#Gain piercing tears#Rarely attacks enemies", nil, "Bot Fly"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOT_FLY,

@@ -8,7 +8,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_ABADDON, CollectibleType.COLL
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} Damage Up#When holding the fire button, spawns a swirl every few seconds when fire button is released, a laser ring is fired by the swirls",
+    "{{ArrowUp}} Damage Up#When holding the fire button, it spawns a swirl every few seconds. When fire button is released, a laser ring is fired by the swirls",
     "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Lil Abaddon"
 )
 Sewn_API:AddFamiliarDescription(

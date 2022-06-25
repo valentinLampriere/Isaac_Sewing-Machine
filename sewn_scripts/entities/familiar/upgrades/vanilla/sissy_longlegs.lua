@@ -23,8 +23,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SISSY_LONGLEGS, CollectibleType.C
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISSY_LONGLEGS,
-    "Sissy's spiders apply charm when they hit an enemy#When they hit an enemy, they deal additional flat damage",
-    "Spawns additional spiders#Increased charm duration and additional flat damage for blue spiders", nil, "Sissy Longlegs"
+    "{{ArrowUp}} +3 Flat Damage Up for Sissy's blue spiders#Sissy's blue spiders apply charm when they hit an enemy",
+    "{{ArrowUp}} Increased charm duration#{{ArrowUp}} +2 Flat Damage Up for blue spiders#Spawns additional spiders", nil, "Sissy Longlegs"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISSY_LONGLEGS,

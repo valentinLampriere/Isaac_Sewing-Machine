@@ -7,8 +7,8 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BLOOD_OATH, CollectibleType.COLLE
 
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BLOOD_OATH,
-    "Spawns red creep#Creep rate and damage depends on the amount of half hearts removed",
-    "When it stabs, spawns random red hearts", nil, "Blood Oath"
+    "Spawns red creep#Creep rate and damage depends on the amount of half hearts {{HalfHeart}} removed",
+    "When it stabs, spawns random red hearts {{Heart}}", nil, "Blood Oath"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BLOOD_OATH,

@@ -11,7 +11,7 @@ Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DADDY_LONGLEGS, CollectibleType.C
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DADDY_LONGLEGS,
     "Has a chance to stomp with the head, dealing 2x the normal damage#Has a chance to stomp as Triachnid. When it does, fires 5 slowing tears in all directions",
-    "Increases chance to stomp as Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time", nil, "Daddy Longlegs"
+    "{{ArrowUp}} Higher chance to stomp as Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time", nil, "Daddy Longlegs"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DADDY_LONGLEGS,
