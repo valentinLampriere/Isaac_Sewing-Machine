@@ -18,6 +18,16 @@ Sewn_API:AddFamiliarDescription(
     "眼泪在击中敌人或杀死敌人时有几率生成Boss史蒂夫死亡时爆开的特殊环状眼泪弹幕 #杀死敌人生成的弹幕攻击会更强 #{{ArrowUp}} 射程增加#{{ArrowDown}} 弹速降低#{{ArrowUp}} 攻击提升",
     "提升生成特殊弹幕的几率/特殊弹幕击中或杀死敌人也可以继续触发特殊弹幕，产生连锁反应#{{ArrowUp}} 攻击提升", nil, "史蒂文宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_STEVEN,
+    "{{ArrowUp}} Урон +#{{ArrowUp}} Дальность +#{{ArrowDown}} Скорость слёз -#При нанесении урона слезой есть шанс выстрелить кольцом из слёз#При убийстве врга есть шанс выстрелить более сильными кольцом из слёз",
+    "{{ArrowUp}} Урон +#Увеличен шанс выстреливания кольца из слёз при нанесении урона/убийстве врага#Слёзы из кольца могут вызвать другое кольцо из слёз, получая цепную реакцию", nil, "Маленький Стивен", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_STEVEN,
+    "{{ArrowUp}} Dégâts#{{ArrowUp}} Portée#{{ArrowDown}} Vitesse de larmes#Toucher un ennemi avec une larme peut projeter un cercle de larmes#Tuer un ennemi peut projeter un cercle de grosses larmes",
+    "{{ArrowUp}} Dégâts#{{ArrowUp}} Augmente les chances de déclencher un cercle de larmes#Les larmes des cercles de larmes peuvent déclencher un autre cercle de larmes et démarrer des réactions en chaine", nil, "P'tit Steven", "fr"
+)
 
 local littleStevenBulletPatterns = {
     { AmountOfBullet = 8, Offset = 2.5, Damage = 5, Scale = 2 }, -- Steven

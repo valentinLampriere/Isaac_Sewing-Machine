@@ -28,6 +28,26 @@ Sewn_API:AddFamiliarDescription(
     "像敌人一样具有精英形态，每隔一段时间随机改变颜色，可阻挡弹幕 {{Blank}}粉色：向随机方向发射眼泪 {{Blank}}紫色：将敌人和弹幕牵引到自身 {{Blank}}淡蓝色：玩家受伤时发射 8 向弹幕 {{Blank}}蓝色：玩家受伤时生成 2-3 只蓝蜘蛛 {{Blank}}橙色：玩家受伤时掉落一枚硬币 #可阻挡弹幕",
     "具有更多的精英形态： {{Blank}}绿色：移动路径生成绿色水迹造成伤害 {{Blank}}黑色：玩家受伤时爆炸，造成40点伤害 {{Blank}}彩虹色：具有以上所有形态的能力，但持续时间比上述形态都短 #可造成接触伤害", nil, "受气包","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PUNCHING_BAG,
+    "Получает случайную форму чемпиона, каждая со своими особенностями:#{{ColorPink}}Розовый{{CR}}: Стреляет слезой в случайном направлении#{{ColorPurple}}Фиолетовый{{CR}}: Всасывает врагов и вражеские снаряды#{{ColorCyan}}Голубой{{CR}}: Стреляет 8 слезами во всех направлениях когда игрок получает урон#{{ColorBlue}}Синий{{CR}}: Спавнит 2-3 синие мухи когда игрок получает урон#{{ColorOrange}}Оранжевый{{CR}}: Спавнит монетку когда игрок получает урон#Блокирует вражеские снаряды",
+    "Получает более сильные версии чемпиона:#{{ColorGreen}}Зелёный{{CR}}: Оставляет зелёные лужи#{{ColorBlack}}Black{{CR}}: Взрывается когда игрок получает урон. Взрыв наносит 40 урона#{{ColorRainbow}}Радужный{{CR}}: Копирует эффект каждой формы чемпиона. Пропадает быстрее чем другие формы#Наносит контактный урон", nil, "Терпила", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PUNCHING_BAG,
+    "Obtient différentes formes d'élite#"..
+    "{{ColorPink}}Rose{{CR}}: Tire une larme dans une direction aléatoire#"..
+    "{{ColorPurple}}Violet{{CR}}: Attire les ennemis et les projectiles#"..
+    "{{ColorCyan}}Bleu Clair{{CR}}: Tire 8 larmes en cercles quand Isaac subit des dégâts#"..
+    "{{ColorCyan}}Bleu{{CR}}: Invoque 2-3 mouches bleues quand Isaac subit des dégâts#"..
+    "{{ColorOrange}}Orange{{CR}}: Fait apparaître 1 pièce quand Isaac subit des dégâts#"..
+    "Bloque les projectiles",
+    "Obtient de puissantes formes d'élite :#"..
+    "{{ColorGreen}}Vert{{CR}}: Répand une trainée de liquide vert#"..
+    "{{ColorBlack}}Noir{{CR}}: Provoque une explosion qui inflige 40 dégâts quand Isaac subit des dégâts#"..
+    "{{ColorRainbow}}Arc-en-Ciel{{CR}}: Regroupe les effets des autres élites. Dure moins longtemps que les autres formes#"..
+    "Inflige des dégâts de contact", nil, "Théodule", "fr"
+)
 
 local function FireTear(familiar, direction, force, damage, scale)
     scale = scale or 1

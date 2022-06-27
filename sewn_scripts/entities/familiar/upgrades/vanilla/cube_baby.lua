@@ -15,6 +15,16 @@ Sewn_API:AddFamiliarDescription(
     "具有一圈冰冻光环，敌人在其中停留一定时间将会直接冰冻",
     "在移动路径上留下一道可造成伤害的水迹 #移动越快，留下的水迹越多", nil, "冰块宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CUBE_BABY,
+    "Получает замораживающую ауру. Враги, находясь в ауре слишком долго, будут получать урон, пока не заморозятся (умрут)",
+    "Оставляет лужи при перемещении. Чем быстрее он перемещается, тем больше оставляет луж", nil, "Малыш в Кубе", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CUBE_BABY,
+    "Obtient une aura gelée. Les ennemis qui restent trop longtemps dans l'aura subissent des dégâts jusqu'à être complètement gelés",
+    "Répand une trainée derrière lui lorsqu'il est poussé#Répand davantage selon sa vitesse#", nil, "Bébé Glaçon", "fr"
+)
 
 CubeBaby.Stats = {
     CreepSpawnRate = 50,

@@ -17,6 +17,16 @@ Sewn_API:AddFamiliarDescription(
     "复制生成的Boss血量减少25%",
     "击杀额外boss后将会生成等级更高的道具 #从 {{TreasureRoom}} 道具房与 {{BossRoom}} Boss房道具池中生成", nil, "消失的胞胎","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.VANISHING_TWIN,
+    "Убирает 25% здоровья босса-копии",
+    "Увеличивает шанс заспавнить предмет более высшего качества#Может заспавнить предмет пула Сокровищницы, если предметы пула Босса не найдены", nil, "Исчезающий Близнец", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.VANISHING_TWIN,
+    "Réduit de 25% les PV du boss copié",
+    "Augmente les chances d'obtenir un meilleur objet (selon la Qualité)#Peut faire apparaître un objet de la Treasure Room {{TreasureRoom}} si aucun objet de la Boss Room n'a été trouvé", nil, "Jumeau Évanescent", "fr"
+)
 
 VanishingTwin.Stats = {
     QualityFourChance = 7,

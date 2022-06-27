@@ -12,6 +12,16 @@ Sewn_API:AddFamiliarDescription(
     "眼泪可穿透敌人#{{ArrowUp}} 攻击提升",
     "眼泪大小更大 #{{ArrowUp}} 攻击提升", nil, "幽灵宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GHOST_BABY,
+    "{{ArrowUp}} Урон +#Получает пронизывающие слёзы Двойного Зрачка {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}}",
+    "{{ArrowUp}} Урон +#{{ArrowUp}} Размер слёз +", nil, "Малыш Призрак", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GHOST_BABY,
+    "{{ArrowUp}} Dégâts#Ses larmes deviennent transperçantes et prennent l'apparence de \"Polycorie\" {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}}",
+    "{{ArrowUp}} Taille des larmes#{{ArrowUp}} Dégats", nil, "Bébé Fantôme", "fr"
+)
 
 GhostBaby.Stats = {
     TearScale = {

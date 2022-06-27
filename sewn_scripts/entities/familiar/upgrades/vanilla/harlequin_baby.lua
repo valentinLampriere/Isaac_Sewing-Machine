@@ -12,6 +12,16 @@ Sewn_API:AddFamiliarDescription(
     "向两边额外发射一颗眼泪",
     "{{ArrowUp}} 攻击提升", nil, "小丑宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.HARLEQUIN_BABY,
+    "Стреляет дополнительной слезой с каждой стороны",
+    "{{ArrowUp}} Урон +", nil, "Малыш Арлекин", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.HARLEQUIN_BABY,
+    "Tire deux larmes supplémentaires",
+    "{{ArrowUp}} Dégâts", nil, "Bébé Arlequin", "fr"
+)
 
 HarlequinBaby.Stats = {
     DamageBonus = {

@@ -37,6 +37,16 @@ Sewn_API:AddFamiliarDescription(
     "概率对非boss敌人造成流血效果 #杀死敌人时有概率生成骨头",
     "造成流血效果和生成骨头的概率提高 #接触伤害提升", nil, "尖肋骨","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.POINTY_RIB,
+    "Имеет шанс нанести кровоток на врагов (но не боссов)#Имеет шанс оставить костяшку при убийстве врага",
+    "{{ArrowUp}} Урон +#{{ArrowUp}} Шанс нанести кровоток +#{{ArrowUp}} Шанс оставить костяшку +", nil, "Острое Ребро", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.POINTY_RIB,
+    "Peut appliquer un effet de saignement aux ennemis#Tuer un ennemi peut faire apparaître des os",
+    "{{ArrowUp}} Dégâts#{{Arrow Up}} Augmente les chances d'appliquer l'effet de saignement#{{Arrow Up}} Augmente les chances de faire apparaître des os", nil, "Côte Pointue", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.POINTY_RIB,

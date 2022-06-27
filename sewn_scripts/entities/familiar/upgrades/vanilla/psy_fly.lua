@@ -20,6 +20,16 @@ Sewn_API:AddFamiliarDescription(
     "阻挡弹幕后向弹幕发射的反方向发射一颗跟踪眼泪",
     "{{ArrowUp}} 攻击提升，并具有接触伤害", nil, "灵能苍蝇"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PSY_FLY,
+    "При блокировке снаряда выпускает самонаводящийся снаряд в обратную сторону",
+    "{{ArrowUp}} Контактный урон +#{{ArrowUp}} Урон слёз +", nil, "Пси-Муха", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PSY_FLY,
+    "Renvoie à l'envoyeur les projectiles qu'elle touche",
+    "{{ArrowUp}} Dégâts", nil, "Mouche Oracle", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.PSY_FLY,

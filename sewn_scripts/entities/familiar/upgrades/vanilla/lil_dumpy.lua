@@ -168,6 +168,28 @@ Sewn_API:AddFamiliarDescription(
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} 放屁时，会朝相反的方向发射火焰眼泪，造成 3 点伤害",
     "在随机的几秒钟后会回到玩家身边，即使与玩家距离很远", nil, "小屁包","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_DUMPY,
+    "Сменяется на одного из других фамильяров Пышек каждую комнату, а именно:" ..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Стандартный"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Отравляет врагов когда пукает"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} При пуке стреляет 6 слезами во все стороны"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} При пуке оставляет огонёк, который наносит 15 урона"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Убитые враги замораживаются. При отдыхе получает замораживающую ауру"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} При пуке стреляет слезой в обратном направлении",
+    "Возвращается к игроку через случайное количество времени, даже если он далеко", nil, "Пышка", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_DUMPY,
+    "Change d'aspect à chaque salle :" ..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Effet normal"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Ses pets empoisonnent les ennemis"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} Tire 6 larmes en cercle quand il pète"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} Crée une flame qui inflige 15 dégâts quand il pète"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Gèle les ennemis qu'il tue. Est entouré d'une aura gelée lorsqu'il se repose"..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} Projette une salve de larme derrière lui quand il pète",
+    "Revient auprès d'Isaac après quelques secondes", nil, "P'tit Prout", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_DUMPY,

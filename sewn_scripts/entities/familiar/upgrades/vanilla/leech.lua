@@ -28,6 +28,16 @@ Sewn_API:AddFamiliarDescription(
     "攻击敌人时额外生成血迹 #{{ArrowUp}} 攻击提升", 
     "敌人被杀死时爆出眼泪#{{ArrowUp}} 攻击提升", nil, "水蛭","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LEECH,
+    "{{ArrowUp}} Урон +#Оставляет лужу при контакте с врагом",
+    "{{ArrowUp}} Урон +#Враги убитые пиявкой разлетаются в кучу слёз", nil, "Пиявка", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LEECH,
+    "{{ArrowUp}} Dégâts#Répand une trainée de sang lorsqu'elle inflige des dégâts",
+    "{{ArrowUp}} Dégâts#Les ennemis qu'elle tue explosent en larmes", nil, "Sangsue", "fr"
+)
 
 function Leech:familiarCollider(familiar, collider)
     if familiar.FrameCount % Leech.Stats.CreepSpawnRate == 0 and collider:IsVulnerableEnemy() then

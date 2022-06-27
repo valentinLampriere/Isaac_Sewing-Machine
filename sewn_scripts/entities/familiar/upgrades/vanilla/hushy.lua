@@ -37,6 +37,16 @@ if REPENTANCE then
         "每 4 秒在一个随机的圆形图案中发射 15 次眼泪 #眼泪造成 3 点伤害",
         "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "死寂宝宝","zh_cn"
     )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "Стреляет 15 слезами в случайном круговом порядке каждые 4 секунды#Слёзы наносят по 3 урона",
+        "{{ArrowUp}} Урон +#Спавнит миниайзека после несколько секунд зарядки (только в комнате с врагами)", nil, "Молчун", "ru"
+    )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "Tire 15 larmes en cercle toutes les 4 secondes#Ses larmes infligent 3 dégâts",
+        "{{ArrowUp}} Dégâts#Charge puis invoque un Micro-Isaac dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
+    )
 
     Sewn_API:AddEncyclopediaUpgrade(
         FamiliarVariant.HUSHY,
@@ -46,13 +56,18 @@ if REPENTANCE then
 else
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
-        "#Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
-        "#Spawn a boil friendly monster every few seconds (only in rooms with enemies).#{{ArrowUp}} Damage Up", nil, "Hushy"
+        "Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
+        "{{ArrowUp}} Damage Up#Après avoir chargé pendant un certain temps, créer un furoncle amicale (seulement dans les salles sans ennemis)", nil, "P'tit Murmure", "fr"
     )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
         "每 4 秒在一个随机的圆形图案中发射 15 次眼泪 #眼泪造成 3 点伤害",
         "蓄力几秒钟后生成迷你以撒(仅限有敌人的房间) #{{ArrowUp}} 攻击提升", nil, "死寂宝宝","zh_cn"
+    )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "Tire 15 larmes en cercle toute les 4 secondes#Ses larmes font 3 de dégâts",
+        "{{ArrowUp}} Dégâts#Charge puis invoque un furoncle dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
     )
 
     Sewn_API:AddEncyclopediaUpgrade(

@@ -31,6 +31,16 @@ Sewn_API:AddFamiliarDescription(
     "所生成的蓝蜘蛛额外具有魅惑效果 #生成的蓝蜘蛛接触敌人时具有范围伤害",
     "生成更多的蓝蜘蛛 #生成的蓝蜘蛛接触敌人时的范围伤害提升", nil, "长腿蛛妹妹","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISSY_LONGLEGS,
+    "Пауки Сисси наносят очаровывание#При нанесении урона они также наносят дополнительные 3 плоских урона",
+    "{{ArrowUp}} Длительность очаровывания +#{{Arrow Up}} Плоский урон пауков +2#Даёт дополнительных пауков", nil, "Сестрёнка Длинные Ножки", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISSY_LONGLEGS,
+    "{{ArrowUp}} +3 dégâts pour les araignées bleues de Sissy#Les araignées de Sissy envoûtent les ennemis qu'elles touchent",
+    "{{ArrowUp}} Augmente la durée de l'envoutement#{{ArrowUp}} +2 dégâts pour les araignées bleues#Invoque davantage d'araignées bleus", nil, "Sissy la Faucheuse", "fr"
+)
 
 function SissyLonglegs:OnBlueSpiderHit(familiar, npc, amount, flags, source, countdown)
     local fData = familiar:GetData()

@@ -14,6 +14,16 @@ Sewn_API:AddFamiliarDescription(
     "概率发射圣光眼泪",
     "更高概率发射圣光眼泪 #{{ArrowUp}} 射速提升", nil, "撒拉弗","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SACRIFICIAL_DAGGER,
+    "{{ArrowUp}} Малый урон +#Наносит кровоток",
+    "{{ArrowUp}} Урон +", nil, "Жертвенный Кинжал", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SERAPHIM,
+    "Peut tirer une larme sacrée (comme avec \"Saint Éclat\" {{Collectible"..CollectibleType.COLLECTIBLE_HOLY_LIGHT.."}})",
+    "{{ArrowUp}} Débit#{{ArrowUp}} Augmente les chances de tirer une larme sacrée", nil, "Séraphin", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SERAPHIM,

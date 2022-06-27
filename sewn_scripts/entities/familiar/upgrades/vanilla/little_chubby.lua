@@ -1,5 +1,3 @@
-local Globals = require("sewn_scripts.core.globals")
-
 local LittleChubby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_CHUBBY, CollectibleType.COLLECTIBLE_LITTLE_CHUBBY)
@@ -13,6 +11,16 @@ Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LITTLE_CHUBBY,
     "冷却时间减少 50% ，可以被更快扔出",
     "接触到敌人时将会附着在敌人身上持续造成伤害0.5秒，然后继续向前行进", nil, "小胖蛆","zh_cn"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_CHUBBY,
+    "{{ArrowUp}} Задержка -2х, может быть брошен быстро",
+    "Прилипает к врагам на 0.5 секунды, а потом продолжает лететь в первоначальном направлении", nil, "Маленький Чабби", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_CHUBBY,
+    "{{ArrowUp}} Réduit le temps de recharge de 50% (Peut être lancé plus souvent)",
+    "S'arrête pendant 1/2 seconde sur les ennemis qu'il croise", nil, "P'tit Dodu", "fr"
 )
 
 function LittleChubby:OnFamiliarUpdate(familiar)

@@ -12,6 +12,16 @@ Sewn_API:AddFamiliarDescription(
     "额外造成流血效果 #{{ArrowUp}} 攻击小幅提升",
     "{{ArrowUp}} 攻击提升", nil, "献祭匕首","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SACRIFICIAL_DAGGER,
+    "{{ArrowUp}} Малый урон +#Наносит кровоток",
+    "{{ArrowUp}} Урон +", nil, "Жертвенный Кинжал", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SACRIFICIAL_DAGGER,
+    "{{ArrowUp}} Dégâts léger#Applique un effet de saignement",
+    "{{ArrowUp}} Dégâts", nil, "Dague Sacrificielle", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SACRIFICIAL_DAGGER,

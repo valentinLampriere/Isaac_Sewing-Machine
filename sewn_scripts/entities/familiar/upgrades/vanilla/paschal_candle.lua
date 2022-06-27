@@ -14,6 +14,16 @@ Sewn_API:AddFamiliarDescription(
     "角色受到伤害时，蜡烛会向四周抛出大量火焰 #抛出的火焰大小取决于蜡烛大小",
     "现在角色受到伤害时蜡烛并不会直接熄灭，而是减少一级", nil, "逾越节蜡烛","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PASCHAL_CANDLE,
+    "Когда игрок получает урон, свеча испускает огни вокруг себя#Количество огней зависит от размера огня свечи",
+    "Получение урона лишь убавляет бонус свечи на единицу", nil, "Пасхальная Свеча", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PASCHAL_CANDLE,
+    "Quand Isaac subit des dégâts, le Cierge Pascal projette des flames autour de lui#Le nombre de flames dépend de la taille de la flamme du Cierge Pascal",
+    "Subir des dégâts ne réduit que d'un stage la taille de la flamme", nil, "Cierge Pascal", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.PASCHAL_CANDLE,

@@ -12,6 +12,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 攻击提升",
     "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升", nil, "玛姬姐妹","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISTER_MAGGY,
+    "{{ArrowUp}} Урон +",
+    "{{ArrowUp}} Урон +#{{ArrowUp}} Скорострельность +", nil, "Сестра Мэгги", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISTER_MAGGY,
+    "{{ArrowUp}} Dégâts",
+    "{{ArrowUp}} Dégâts#{{ArrowUp}} Débit", nil, "Sœurette Maggy", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SISTER_MAGGY,

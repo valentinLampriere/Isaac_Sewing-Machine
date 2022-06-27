@@ -33,6 +33,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 充能更快 #在充能时可向四周方向发射环状眼泪",
     "{{ArrowUp}} 充能更快 #在冲撞时在地上留下血迹造成伤害，在冲撞结束后发射 3 次环状眼泪", nil, "小肉山","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_GURDY,
+    "{{ArrowUp}} Зарядка -#Пока заряжается, стреляет слёзы в разные стороны",
+    "{{ArrowUp}} Зарядка -#При рывке оставляет кровавые лужи#Стреляет 3 волны слёз в разных направлениях после рывка", nil, "Малютка Гёрди", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_GURDY,
+    "{{ArrowUp}} Se charge plus rapidement#Projette des larmes autour de lui quand Isaac tire",
+    "{{ArrowUp}} Se charge plus rapidement#Répand une trainée de sang derrière lui quand il est propulsé#Tire 3 vagues de larmes en cercle après avoir été propulsé", nil, "P'tit Boris", "fr"
+)
 
 local function ShootTears(familiar)
     local amountTears = familiar:GetDropRNG():RandomInt( LilGurdy.Stats.ChargingTearAmountMax - LilGurdy.Stats.ChargingTearAmountMin ) + LilGurdy.Stats.ChargingTearAmountMin

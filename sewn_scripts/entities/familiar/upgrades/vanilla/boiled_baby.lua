@@ -15,6 +15,16 @@ Sewn_API:AddFamiliarDescription(
     "发射更多的眼泪",
     "发射方向更改为角色攻击的方向", nil, "脓液囊宝宝", "zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOILED_BABY,
+    "Увеличивает количество слёз при атаке",
+    "Стреляет слёзы в том направлении, в котором стреляет игрок", nil, "Малыш Нарыв", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOILED_BABY,
+    "Augmente le nombre de larmes qu'il projette",
+    "Projette des larmes dans la direction des tirs d'Isaac", nil, "Bébé Furoncle", "fr"
+)
 
 BoiledBaby.Stats = {
     AdditionalTearsMin = 1,

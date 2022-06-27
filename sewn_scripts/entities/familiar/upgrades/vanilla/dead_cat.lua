@@ -17,6 +17,17 @@ Sewn_API:AddFamiliarDescription(
     "角色复活时额外生成一个魂心",
     "角色复活时额外生成一个魂心的同时额外获得一个心之容器", nil, "嗝屁猫","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEAD_CAT,
+    "Когда игрок погибает, он возрождается с дополнительным сердцем души {{SoulHeart}}",
+    "Когда игрок погибает, он возрождается с дополнительным красным сердцем {{Heart}} и сердцем души {{SoulHeart}}", nil, "Мёртвый Кот", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEAD_CAT,
+    "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire",
+    "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire ainsi qu'un réceptacle de cœur rouge {{Heart}}supplémentaire", nil, "Chat Mort", "fr"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.DEAD_CAT,
     nil, nil,

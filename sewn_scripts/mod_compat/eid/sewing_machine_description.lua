@@ -4,13 +4,6 @@ local EIDManager = require("sewn_scripts.mod_compat.eid.eid_manager")
 
 local SewingMachineDescription = { }
 
-if EID ~= nil then
-    -- Create the Sewing Machine icon, and link it to the transformation
-    local sewingMachineIcon = Sprite()
-    sewingMachineIcon:Load("gfx/mapicon.anm2", true)
-    EID:addIcon("SewnSewingMachine", "Icon", 0, 15, 12, 0, 0, sewingMachineIcon)
-end
-
 function SewingMachineDescription:SetMachineDescription(machine)
     local mData = machine:GetData().SewingMachineData
     local description = SewingMachineDescription:GetMachineDescription(machine)
@@ -45,7 +38,7 @@ function SewingMachineDescription:GetMachineDescription(machine)
     end
 
     return {
-        Name = colorMarkup .. "{{SewnCrown" .. levelCrown .. "}}" .. info.Name .." {{SewnSewingMachine}}",
+        Name = colorMarkup .. "{{SewnCrown" .. levelCrown .. "}}" .. info.Name .." {{SewingMachine}}",
         Description = upgradeDescription
     }
 end

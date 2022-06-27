@@ -34,6 +34,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 增加被攻击时放屁的几率 #每隔几秒就放一次屁。其越接近敌人，就越大几率放屁",
     "{{ArrowUp}} 增加放屁的几率 #额外获得两个类型的屁(燃烧屁和圣光屁)", nil, "放屁宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FARTING_BABY,
+    "{{ArrowUp}} Увеличивает шанс пука#Имеет шанс пукнуть случайно. Чем он ближе к врагам, тем больше шанс пукнуть",
+    "{{ArrowUp}} Увеличивает шанс пука еще больше!#Дополнительно испускает еще два пука(Горящий и Святой)", nil, "Пукающий Малыш", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FARTING_BABY,
+    "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Peut péter après quelques secondes. Être proche d'ennemis augmente ses chances de péter",
+    "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Obtient deux nouveaux type de pets. L'un brûle les ennemis, l'autre augmente les stats d'Isaac pour une très courte durée", nil, "Bébé Péteur", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.FARTING_BABY,

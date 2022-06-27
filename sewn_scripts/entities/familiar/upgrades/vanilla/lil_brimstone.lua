@@ -12,6 +12,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 攻击提升",
     "{{ArrowUp}} 攻击大幅提升 #硫磺火持续更长时间 #蓄力更快", nil, "硫磺火宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_BRIMSTONE,
+    "{{ArrowUp}} Урон +",
+    "{{ArrowUp}} Малый урон +#Лазер пропадает дольше#Заряжается быстрее", nil, "Маленькая Сера", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_BRIMSTONE,
+    "{{ArrowUp}} Dégâts",
+    "{{ArrowUp}} Dégâts#Les lasers durent plus longtemps#Se charge plus vite", nil, "P'tit Soufre", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_BRIMSTONE,

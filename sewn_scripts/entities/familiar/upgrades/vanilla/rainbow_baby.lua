@@ -21,6 +21,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升",
     "原本随机的眼泪效果全部都会触发", nil, "彩虹宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.RAINBOW_BABY,
+    "{{ArrowUp}} Урон +#{{ArrowUp}} Скорострельность +",
+    "Слёзы могут иметь больше одного эффекта", nil, "Радужный Малыш", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.RAINBOW_BABY,
+    "{{ArrowUp}} Dégât#{{ArrowUp}} Débit",
+    "Les larmes combinent plusieurs effets", nil, "Bébé Arc-en-Ciel", "fr"
+)
 
 function RainbowBaby:TearInit(familiar, tear)
     tear.CollisionDamage = tear.CollisionDamage * RainbowBaby.Stats.TearDamageMultiplier

@@ -15,6 +15,16 @@ Sewn_API:AddFamiliarDescription(
     "将会额外发射眼泪，根据宝宝当前的形态眼泪效果也不同 {{Blank}}普通：发射三颗 5 伤害的眼泪 {{Blank}}黑色与白色：发射三颗 3.5 伤害的减速眼泪 {{Blank}}黄色：发射三颗同方向的眼泪 {{Blank}}红色：发射一颗 12.5 伤害的巨型血泪",
     "跟班同时可以拥有两种形态", nil, "呕吐虫宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_SPEWER,
+    "Стреляет дополнительными слезами в зависимости от его текущего эффекта",
+    "Имеет две формы одновременно", nil, "Маленький Блевун"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_SPEWER,
+    "Tire des larmes en crachant#Les larmes ont différents effets selon la couleur du P'tit Spewer",
+    "Devient bicolore", nil, "P'tit Spewer", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_SPEWER,

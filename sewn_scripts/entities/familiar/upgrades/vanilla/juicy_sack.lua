@@ -15,6 +15,16 @@ Sewn_API:AddFamiliarDescription(
     "可发射蜘蛛卵眼泪 #击中敌人时生成蓝苍蝇或蓝蜘蛛 #产生更大的减速水迹",
     "发射更多蜘蛛卵眼泪", nil, "粘液卵囊","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.JUICY_SACK,
+    "{{ArrowUp}} Размер лужи +#Стреляет слёзы-яйца (как Паразитоид {{Collectible"..CollectibleType.COLLECTIBLE_PARASITOID.."}}, когда игрок стреляет",
+    "Стреляет больше слёз-яиц", nil, "Сочащийся Кокон", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.JUICY_SACK,
+    "{{Arrow Up}} Taille de la trainée#Tirer projette un tas de cocons (similaires à ceux de Parasitoïde {{Collectibe"..CollectibleType.COLLECTIBLE_PARASITOID.."}})",
+    "Propulse davantage de cocons", nil, "Cocon Juteux", "fr"
+)
 
 JuicySack.Stats = {
     CreepScale = 1.5,

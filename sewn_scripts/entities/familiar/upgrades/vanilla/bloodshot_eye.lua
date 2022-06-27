@@ -20,6 +20,16 @@ Sewn_API:AddFamiliarDescription(
     "一次发射三颗眼泪",
     "攻击方式更改为发射小硫磺火", nil, "血丝眼", "zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BLOODSHOT_EYE,
+    "Стреляет 3 слезы вместо 1",
+    "Стреляет кровавый лазер вместо слёз", nil, "Кровавый глаз", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BLOODSHOT_EYE,
+    "Tire trois larmes à la fois",
+    "Ses larmes sont remplacées par un laser de sang", nil, "Nœnœil", "fr"
+)
 
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)
     local tData = tear:GetData()

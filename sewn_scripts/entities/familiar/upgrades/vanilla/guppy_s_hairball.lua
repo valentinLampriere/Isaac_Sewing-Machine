@@ -15,6 +15,16 @@ Sewn_API:AddFamiliarDescription(
     "每层初始时直接提升到第二形态的大小，击杀或阻挡弹幕时有概率生成蓝苍蝇",
     "每层初始时直接提升到第三形态的大小，击杀或阻挡弹幕时有概率生成更多蓝苍蝇", nil, "嗝屁猫的毛球","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GUPPYS_HAIRBALL,
+    "Начинает со второй фазы#Получает шанс дать синюю муху когда он убивает врага или блокирует вражеский снаряд",
+    "Начинает с третьей фазы#Спавнит больше мух когда он убивает врага или блокирует вражеский снаряд", nil, "Комок шерсти Гаппи", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GUPPYS_HAIRBALL,
+    "Passe immédiatement au deuxième stage#Tuer un ennemi ou bloquer un projectile peut invoquer des mouches bleues",
+    "Passe immédiatement au troisième stage#Génère davantage de mouches bleues", nil, "Boule de Poils de Guppy", "fr"
+)
 
 GuppysHairball.Stats = {
     MinLevel = {

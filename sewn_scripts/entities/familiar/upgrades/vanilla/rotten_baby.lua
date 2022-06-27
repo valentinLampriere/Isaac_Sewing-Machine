@@ -14,6 +14,16 @@ Sewn_API:AddFamiliarDescription(
     "每次额外生成一只蓝苍蝇",
     "生成一个随机蝗虫 #若生成征服蝗虫则生成两只", nil, "腐烂宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ROTTEN_BABY,
+    "Даёт дополнительную синюю муху",
+    "Даёт рандомную саранчу", nil, "Гнилой Малыш", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ROTTEN_BABY,
+    "Invoque une mouche bleue supplémentaire",
+    "Invoque un locuste aléatoire", nil, "Bébé Putride", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.ROTTEN_BABY,

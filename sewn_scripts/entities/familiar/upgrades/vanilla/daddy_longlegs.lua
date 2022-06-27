@@ -18,6 +18,16 @@ Sewn_API:AddFamiliarDescription(
     "有概率掉落的是蜘蛛的头，造成原先伤害的 2 倍；头和脚有概率替换成Boss-Triachnid的样子，如果替换则向周围发射 5 颗减速眼泪",
     "提升Boss-Triachnid出现的概率，下落一次后有概率再触发一次下落，额外触发的一次下落也可继续触发", nil, "长腿蛛父","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DADDY_LONGLEGS,
+    "Даёт шанс ударить головой, нанося x2 урона от обычного#Даёт шанс ударить Триахниду. При его ударе также стреляет 5 замедляющими слезами вокруг",
+    "{{ArrowUp}}  Увеличивает шанс ударить головой и Триахнидом#При каждом ударе есть шанс ударить еще раз", nil, "Папочка Длинные Ноги", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DADDY_LONGLEGS,
+    "Peut frapper avec sa tête, infligeant 2x plus de dégâts#Peut frapper en tant que \"Triachnide\". \"Triachnide\" tire 5 larmes ralentissantes dans différente directions",
+    "{{ArrowUp}} Augmente les chances de frapper avec la tête et les chances de frapper en tant que \"Triachnide\"#Peut frapper deux fois de suite", nil, "Le Faucheux", "fr"
+)
 
 DaddyLonglegs.Stats = {
     ChanceTriachnidStomp = {

@@ -15,6 +15,16 @@ Sewn_API:AddFamiliarDescription(
     "眼泪变为幽灵眼泪",
     "{{ArrowUp}} 射程增加#{{ArrowUp}} 射速提升", nil, "恶魔宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEMON_BABY,
+    "Стреляет автоматически сквозь препятствия",
+    "{{ArrowUp}} Дальность +#{{ArrowUp}} Скорострельность +", nil, "Малыш Демон", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEMON_BABY,
+    "Tire automatiquement à travers les obstacles",
+    "{{ArrowUp}} Portée#{{ArrowUp}} Débit", nil, "Bébé Démoniaque", "fr"
+)
 
 DemonBaby.Stats = {
     Range = {

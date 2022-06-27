@@ -14,6 +14,16 @@ Sewn_API:AddFamiliarDescription(
     "发射 2 颗眼泪而非 1 颗 # 眼泪具有 {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} 橡胶胶水特效",
     "发射 4 颗眼泪 #射程增加", nil, "该隐的另一只眼","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CAINS_OTHER_EYE,
+    "Стреляет 2 слезы вместо 1#Слёзы получают эффект Резинового Клея {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} ",
+    "{{ArrowUp}} Дальность +#Стреляет 4 слезы", nil, "Другой Глаз Каина", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CAINS_OTHER_EYE,
+    "Tire 2 larmes au lieu d'une#Les larmes gagnent l'effet de Colle Caoutchouc {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}}",
+    "{{ArrowUp}} Portée#Tire 4 larmes", nil, "Œil Gauche de Caïn", "fr"
+)
 
 CainsOtherEye.Stats = {
     AdditionalTears = {

@@ -54,6 +54,16 @@ Sewn_API:AddFamiliarDescription(
     "通过阻挡敌方弹幕和杀敌来增加它的大小和伤害 #随着时间流逝或到达新的一层时，会失去其获得的加成",
     "在对敌人造成伤害时会更加增加它的大小 #到达新的一层时不再失去其获得的伤害加成 #{{ArrowUp}} 减少冷却时间", nil, "大胖蛆", "zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BIG_CHUBBY,
+    "Увеличивает свой размер при поедании врагов и их снарядов#Уменьшает свои бонусы со временем и в начале нового этажа",
+    "Увеличивает свой размер еще больше при нанесении урона врагам#Больше не теряет свои бонусы при переходе на следующий этаж#{{ArrowUp}} Уменьшает задержку", nil, "Большой Чабби", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BIG_CHUBBY,
+    "Augmente sa taille et ses dégâts lorqu'il mange des projectiles ou tue des ennemis#Reprend sa taille initiale au fil du temps#Reprend sa taille initiale au changement d'étage",
+    "{{ArrowUp}} Réduit le temps de récupération#Augmente davantage sa taille et ses dégâts lorsqu'il inflige des dégâts aux ennemis#Ne perd plus ses bonus de dégâts au changement d'étage", nil, "Gros Dodu", "fr"
+)
 
 local function UpdateSize(familiar)
     local fData = familiar:GetData()

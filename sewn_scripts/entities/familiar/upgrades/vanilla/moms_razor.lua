@@ -27,6 +27,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 延长流血效果的持续时间，Boss不受此影响",
     "当敌人以流血状态死亡时，会生成一滩血迹 # 有概率生成 {{HalfHeart}} 半颗红心 #{{ArrowUp}} 延长流血效果的持续时间", nil, "妈妈的剃刀","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.MOMS_RAZOR,
+    "{{ArrowUp}} Длительность кровотока + (без учёта боссов)",
+    "{{ArrowUp}} Длительность кровотока +#Когда враг умирает от кровотока, он оставляет после себя лужу крови#Получает шанс оставить половину красного сердца {{HalfHeart}}", nil, "Мамина Бритва", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.MOMS_RAZOR,
+    "{{ArrowUp}} Augmente la durée du saignement, sauf pour les Boss",
+    "{{ArrowUp}} Augmente la durée du saignement#Les ennemis qui meurent en saignant répandent une grande flaque de sang#Peut rarement laisser tomber un demi-cœur {{HalfHeart}}", nil, "Rasoir de Maman", "fr"
+)
 
 local function OnKillNpc(familiar, npc)
     local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_LEMON_MISHAP, 0, npc.Position, Globals.V0, familiar):ToEffect()

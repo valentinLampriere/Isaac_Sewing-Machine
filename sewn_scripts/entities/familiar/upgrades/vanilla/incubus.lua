@@ -19,6 +19,16 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} 攻击提升 #[REP] : 现在造成与玩家相同的伤害",
     "{{ArrowUp}} 攻击大幅提升", nil, "淫魔","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.INCUBUS,
+    "{{ArrowUp}} Урон +",
+    "{{ArrowUp}} Урон +", nil, "Инкуб", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.INCUBUS,
+    "{{ArrowUp}} Dégâts",
+    "{{ArrowUp}} Dégâts", nil, "Incubus", "fr"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.INCUBUS,

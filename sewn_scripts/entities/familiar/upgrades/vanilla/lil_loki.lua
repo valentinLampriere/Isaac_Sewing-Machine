@@ -14,6 +14,17 @@ Sewn_API:AddFamiliarDescription(
     "发射 8 向眼泪",
     "{{ArrowUp}} 攻击提升", nil, "洛基宝宝","zh_cn"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_LOKI,
+    "Стреляет в 8 направляениях",
+    "{{ArrowUp}} Урон +", nil, "Малыш Локи", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_LOKI,
+    "Tire dans 8 directions",
+    "{{ArrowUp}} Dégâts", nil, "P'tit Loki", "fr"
+)
+
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_LOKI,
     nil,
