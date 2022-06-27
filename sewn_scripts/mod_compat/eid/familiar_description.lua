@@ -36,7 +36,9 @@ function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUp
         Color = kColor
     }
 
-    Sewn_API:AddEncyclopediaUpgrade(familiarVariant, firstUpgrade, secondUpgrade, nil, false)
+    if language == "en_us" then
+        Sewn_API:AddEncyclopediaUpgrade(familiarVariant, firstUpgrade, secondUpgrade, nil, false)
+    end
 end
 
 return FamiliarDescription
