@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}}+0.33 Dégâts#Ils se rapprochent de Isaac quand celui-ci tire",
     "Ils s'alignent avec Isaac, dans la direction dans lequel il tire", nil, "Jumeaux Malicieux", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.TWISTED_BABY,
+    "Se mueven más cerca al jugador cuando disparan#+0,33 Daño",
+    "Se alinean con la posición del jugador", nil, "Twisted Pair", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.TWISTED_BABY,

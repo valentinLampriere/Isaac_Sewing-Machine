@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "Passe immédiatement au deuxième stage#Tuer un ennemi ou bloquer un projectile peut invoquer des mouches bleues",
     "Passe immédiatement au troisième stage#Génère davantage de mouches bleues", nil, "Boule de Poils de Guppy", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GUPPYS_HAIRBALL,
+    "Comienza en el segundo nivel de tamaño#Tiene una probabilidad de generar moscas al matar un enemigo o al bloquear un proyectil",
+    "Comienza en el tercer nivel de tamaño#Genera más moscas al matar un enemigo o al bloquear un proyectil", nil, "Bola De Pelo De Guppy", "spa"
+)
 
 GuppysHairball.Stats = {
     MinLevel = {

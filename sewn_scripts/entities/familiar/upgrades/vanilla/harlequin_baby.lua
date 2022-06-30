@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire deux larmes supplémentaires",
     "{{ArrowUp}} Dégâts", nil, "Bébé Arlequin", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.HARLEQUIN_BABY,
+    "Dispara una lágrima extra a cada lado",
+    "{{ArrowUp}} + Daño", nil, "Bebé Arlequín", "spa"
+)
 
 HarlequinBaby.Stats = {
     DamageBonus = {

@@ -27,6 +27,11 @@ Sewn_API:AddFamiliarDescription(
     "Bloque les projectiles#Bloquer un projectile peut faire apparaître une mouche qui tire automatiquement",
     "{{ArrowUp}} Portée#{{ArrowUp}} Augmente les chances de faire apparaître des mouches#Tire 5 larmes à la suite", nil, "Papa Mouche", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PAPA_FLY,
+    "Bloquea proyectiles#Tiene una probabilidad de spawnear una mosca torreta cuando bloquea un proyectil",
+    "Dispara 5 lágrimas de una#{{ArrowUp}} + Rango#Alta probabilidad de spawnear una mosca torreta", nil, "Papa Mosca", "spa"
+)
 
 PapaFly.Stats = {
     ChanceBrownNugget = {

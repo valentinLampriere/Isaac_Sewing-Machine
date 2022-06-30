@@ -26,6 +26,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts#Maintenir les boutons de tir crée des tourbillons du néant#Lorsque les boutons de tir sont relachés, les tourbillons du néant génèrent un anneau du néant",
     "{{ArrowUp}} Crée davantage de tourbillons du néant#Les anneaux du néant infligent davantage de dégâts, sont plus grands et restent actifs plus longtemps#Peut rarement faire apparaitre un cœur noir {{BlackHeart}}", nil, "P'tit Abaddon", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_ABADDON,
+    "{{ArrowUp}} + Daño#Cuando aprietas el botón de disparar, spawnea un remolino cada pocos segundos cuando se suelta el botón, un aro de laser es disparado por los remolinos",
+    "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Pequeño Abandono", "spa"
+)
 
 LilAbaddon.Stats = {
     SwirlRate = {

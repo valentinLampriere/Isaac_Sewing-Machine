@@ -39,6 +39,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Léger Débit#Ses larmes répandent une flaque collante au contact",
     "{{ArrowUp}} Dégâts#{{ArrowUp}} Débit#{{ArrowUp}} Taille des flaques", nil, "P'tit Gish", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_GISH,
+    "TLas lágrimas crean lagos de creep cuando dan a algo#{{ArrowUp}} + Lágrimas ligeramente",
+    "Creep más grande#{{ArrowUp}} + Lágrimas##{{ArrowUp}} + Daño", nil, "Pequeño Gish", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LITTLE_GISH,

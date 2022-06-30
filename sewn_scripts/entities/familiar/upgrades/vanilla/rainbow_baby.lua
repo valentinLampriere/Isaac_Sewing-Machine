@@ -31,6 +31,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégât#{{ArrowUp}} Débit",
     "Les larmes combinent plusieurs effets", nil, "Bébé Arc-en-Ciel", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.RAINBOW_BABY,
+    "{{ArrowUp}} + Daño#{{ArrowUp}} + Lágrimas",
+    "Las lágrimas combinan efectos", nil, "Bebé Arcoíris", "spa"
+)
 
 function RainbowBaby:TearInit(familiar, tear)
     tear.CollisionDamage = tear.CollisionDamage * RainbowBaby.Stats.TearDamageMultiplier

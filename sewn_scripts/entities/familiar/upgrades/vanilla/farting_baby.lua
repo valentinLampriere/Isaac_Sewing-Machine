@@ -44,6 +44,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Peut péter après quelques secondes. Être proche d'ennemis augmente ses chances de péter",
     "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Obtient deux nouveaux type de pets. L'un brûle les ennemis, l'autre augmente les stats d'Isaac pour une très courte durée", nil, "Bébé Péteur", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FARTING_BABY,
+    "{{ArrowUp}} Aumenta la probabilidad de tirarse un pedo al ser golpeado#Tiene una probabilidad de tirarse un pedo. Entre más cerca esté de un enemigo, mayor es la probabilidad de tirarse un pedo.",
+    "{{ArrowUp}} Aumenta la probabilidad de tirarse un pedo#Puede tirarse pedos ígneos o santos.", nil, "Bebé Tira-Pedos", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.FARTING_BABY,

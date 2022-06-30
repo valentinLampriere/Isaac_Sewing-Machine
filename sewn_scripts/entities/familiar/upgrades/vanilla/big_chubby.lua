@@ -64,6 +64,11 @@ Sewn_API:AddFamiliarDescription(
     "Augmente sa taille et ses dégâts lorqu'il mange des projectiles ou tue des ennemis#Reprend sa taille initiale au fil du temps#Reprend sa taille initiale au changement d'étage",
     "{{ArrowUp}} Réduit le temps de récupération#Augmente davantage sa taille et ses dégâts lorsqu'il inflige des dégâts aux ennemis#Ne perd plus ses bonus de dégâts au changement d'étage", nil, "Gros Dodu", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BIG_CHUBBY,
+    "Aumenta su tamaño y daño al comer proyectiles y al matar monstruos#Su tamaño se reduce con el tiempo y al bajar de planta",
+    "Aumenta aún más su tamaño al dañar enemigos#Ya no pierde el daño extra al cambiar de planta#{{ArrowUp}} Espera menos para atacar", nil, "Gran Chubby", "spa"
+)
 
 local function UpdateSize(familiar)
     local fData = familiar:GetData()

@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts",
     "{{ArrowUp}} Dégâts#Les lasers durent plus longtemps#Se charge plus vite", nil, "P'tit Soufre", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_BRIMSTONE,
+    "{{ArrowUp}} + Daño",
+    "{{ArrowUp}} + Daño ligeramente#Los laseres se quedan más tiempo#Carga más rapido", nil, "Pequeño Fuego Infernal", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_BRIMSTONE,

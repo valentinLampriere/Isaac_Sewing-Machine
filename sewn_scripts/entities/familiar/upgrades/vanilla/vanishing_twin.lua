@@ -27,6 +27,11 @@ Sewn_API:AddFamiliarDescription(
     "Réduit de 25% les PV du boss copié",
     "Augmente les chances d'obtenir un meilleur objet (selon la Qualité)#Peut faire apparaître un objet de la Treasure Room {{TreasureRoom}} si aucun objet de la Boss Room n'a été trouvé", nil, "Jumeau Évanescent", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.VANISHING_TWIN,
+    "Quita el 25% de la vida de la copia del boss",
+    "Sube la probabilidad de spawnear un item mejor (basado en la Calidad)#Puede spawnear items que vienen de la sala del tesoro si no se encuentran items del boss", nil, "Gemelo Invisible", "spa"
+)
 
 VanishingTwin.Stats = {
     QualityFourChance = 7,

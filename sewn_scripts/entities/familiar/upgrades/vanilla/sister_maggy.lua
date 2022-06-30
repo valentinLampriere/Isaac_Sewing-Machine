@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts",
     "{{ArrowUp}} Dégâts#{{ArrowUp}} Débit", nil, "Sœurette Maggy", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISTER_MAGGY,
+    "{{ArrowUp}} + Daño",
+    "{{ArrowUp}} + Daño#{{ArrowUp}} + Lágrimas", nil, "Hermana Maggy", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SISTER_MAGGY,

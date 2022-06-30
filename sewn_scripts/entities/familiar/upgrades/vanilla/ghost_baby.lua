@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts#Ses larmes deviennent transperçantes et prennent l'apparence de \"Polycorie\" {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}}",
     "{{ArrowUp}} Taille des larmes#{{ArrowUp}} Dégats", nil, "Bébé Fantôme", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.GHOST_BABY,
+    "Obtiene lágrimas de Pupila Dobre penetrantes#{{ArrowUp}} + Daño",
+    "Las lágrimas son más grandes#{{ArrowUp}} + Daño", nil, "Bebé Fantasma", "spa"
+)
 
 GhostBaby.Stats = {
     TearScale = {

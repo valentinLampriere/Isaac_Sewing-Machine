@@ -47,6 +47,11 @@ Sewn_API:AddFamiliarDescription(
     "Peut appliquer un effet de saignement aux ennemis#Tuer un ennemi peut faire apparaître des os",
     "{{ArrowUp}} Dégâts#{{Arrow Up}} Augmente les chances d'appliquer l'effet de saignement#{{Arrow Up}} Augmente les chances de faire apparaître des os", nil, "Côte Pointue", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.POINTY_RIB,
+    "Hay una probabilidad de aplicar efecto de sangrado a enemigos que no sean bosses#Tiene la probabilidad de spawnear huesos cuando matas un enemigo",
+    "Incrementa las probabilidades de aplicar sangrado y spawnear huesos#Incrementa el daño de colisión", nil, "Costilla Puntiaguda", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.POINTY_RIB,

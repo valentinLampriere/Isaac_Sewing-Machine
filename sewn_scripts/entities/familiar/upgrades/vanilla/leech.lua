@@ -38,6 +38,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts#Répand une trainée de sang lorsqu'elle inflige des dégâts",
     "{{ArrowUp}} Dégâts#Les ennemis qu'elle tue explosent en larmes", nil, "Sangsue", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LEECH,
+    "Genera creep al tocar un enemigo#{{ArrowUp}} + Daño",
+    "Los enemigos que mate explotan en lágrimas#{{ArrowUp}} + Daño", nil, "Sanguijuela", "spa"
+)
 
 function Leech:familiarCollider(familiar, collider)
     if familiar.FrameCount % Leech.Stats.CreepSpawnRate == 0 and collider:IsVulnerableEnemy() then

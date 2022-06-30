@@ -28,6 +28,11 @@ Sewn_API:AddFamiliarDescription(
     "Peut frapper avec sa tête, infligeant 2x plus de dégâts#Peut frapper en tant que \"Triachnide\". \"Triachnide\" tire 5 larmes ralentissantes dans différente directions",
     "{{ArrowUp}} Augmente les chances de frapper avec la tête et les chances de frapper en tant que \"Triachnide\"#Peut frapper deux fois de suite", nil, "Le Faucheux", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DADDY_LONGLEGS,
+    "Tiene una probabilidad de caer con la cabeza, haciendo el doble de daño#Tiene una probabilidad de caer como Triácnido. Cuando lo hace, dispara 5 lágrimas ralentizantes en todas direcciones",
+    "Aumenta la probabilidad de caer como Triácnido y de caer con la cabeza#Cada vez que cae, puede caer denuevo", nil, "Papá Patas-Largas", "spa"
+)
 
 DaddyLonglegs.Stats = {
     ChanceTriachnidStomp = {

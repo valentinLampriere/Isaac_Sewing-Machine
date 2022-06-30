@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "Augmente le nombre de larmes qu'il projette",
     "Projette des larmes dans la direction des tirs d'Isaac", nil, "Bébé Furoncle", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOILED_BABY,
+	"Aumenta la cantidad de lágrimas que dispara",
+    "Dispara en la dirección que Isaac esté disparando", nil, "Bebé Hervido", "spa"
+)
 
 BoiledBaby.Stats = {
     AdditionalTearsMin = 1,

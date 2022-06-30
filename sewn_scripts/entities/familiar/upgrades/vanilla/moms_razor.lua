@@ -37,6 +37,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Augmente la durée du saignement, sauf pour les Boss",
     "{{ArrowUp}} Augmente la durée du saignement#Les ennemis qui meurent en saignant répandent une grande flaque de sang#Peut rarement laisser tomber un demi-cœur {{HalfHeart}}", nil, "Rasoir de Maman", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.MOMS_RAZOR,
+    "{{ArrowUp}} Extiende la duración de sangrado. A los jefes no les afecta.",
+    "Cuando un enemigo muere mientras sangra, spawnea un gran lago de sangre.#Tiene una probabilidad de spawnear medio corazón.#{{ArrowUp}} Extiende la duración de sangrado", nil, "Máquina de Afeitar de Mamá", "spa"
+)
 
 local function OnKillNpc(familiar, npc)
     local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_LEMON_MISHAP, 0, npc.Position, Globals.V0, familiar):ToEffect()

@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Peut lancer des dents (comme le \"Poing Américain\" {{Collectible"..CollectibleType.COLLECTIBLE_TOUGH_LOVE.."}}",
     "Tire beaucoup plus de larmes", nil, "P'tit Monstro", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_MONSTRO,
+    "Hay una probabilidad de disparar un diente#El diente hara x3.2 más daño que de normal",
+    "Dispara más lágrimas", nil, "Pequeño Monstro", "spa"
+)
 
 LilMonstro.Stats = {
     ToothChance = 15,

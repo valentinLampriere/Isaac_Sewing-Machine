@@ -28,6 +28,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts#{{ArrowUp}} Portée#{{ArrowDown}} Vitesse de larmes#Toucher un ennemi avec une larme peut projeter un cercle de larmes#Tuer un ennemi peut projeter un cercle de grosses larmes",
     "{{ArrowUp}} Dégâts#{{ArrowUp}} Augmente les chances de déclencher un cercle de larmes#Les larmes des cercles de larmes peuvent déclencher un autre cercle de larmes et démarrer des réactions en chaine", nil, "P'tit Steven", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_STEVEN,
+    "Dar a un enemigo tiene la probabilidad de disparar un aro de lágrimas#Matar a un enemigo tiene la probabilidad de disparar un aro de lágrimas más fuertes#{{ArrowUp}} + Rango#{{ArrowDown}} - Velocidad de Disparo#{{ArrowUp}} + Daño",
+    "Aumenta las probabilidades de disparar un aro de lágrimas cuando da/mata un enemigo#Lágrimas del aro pueden actrivar otro aro de lágrimas causando una reacción en cadena#{{ArrowUp}} + Daño", nil, "Pequeño Steven", "spa"
+)
 
 local littleStevenBulletPatterns = {
     { AmountOfBullet = 8, Offset = 2.5, Damage = 5, Scale = 2 }, -- Steven

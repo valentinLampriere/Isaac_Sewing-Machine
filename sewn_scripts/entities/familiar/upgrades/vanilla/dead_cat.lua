@@ -27,6 +27,11 @@ Sewn_API:AddFamiliarDescription(
     "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire",
     "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire ainsi qu'un réceptacle de cœur rouge {{Heart}}supplémentaire", nil, "Chat Mort", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEAD_CAT,
+    "Al morir, Isaac revivirá con un corazón de alma extra",
+    "Al morir, Isaac revivirá con un contenedor de corazón y un corazón de alma extra", nil, "Gato Muerto", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.DEAD_CAT,

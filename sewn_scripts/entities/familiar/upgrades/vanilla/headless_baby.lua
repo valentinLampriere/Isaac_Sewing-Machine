@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts de la trainée de sang#{{ArrowUp}} Taille de la trainée de sang",
     "{{ArrowUp}} Dégâts de la trainée de sang#Projette un tas de larmes quand Isaac tire", nil, "Bébé Décapité", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.HEADLESS_BABY,
+    "Genera creep más grande#{{ArrowUp}} El creep hace más daño",
+    "Dispara lágrimas mientras Isaac dispare#{{ArrowUp}} El creep hace más daño", nil, "Bebé Sin Cabeza", "spa"
+)
 
 HeadlessBaby.Stats = {
     CreepDamageMultiplier = {

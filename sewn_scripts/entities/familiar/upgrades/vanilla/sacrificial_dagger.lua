@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts léger#Applique un effet de saignement",
     "{{ArrowUp}} Dégâts", nil, "Dague Sacrificielle", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SACRIFICIAL_DAGGER,
+    "Aplica efecto de sangrado#{{ArrowUp}} + Daño pequeño",
+    "{{ArrowUp}} + Daño", nil, "Daga de Sacrificios", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SACRIFICIAL_DAGGER,

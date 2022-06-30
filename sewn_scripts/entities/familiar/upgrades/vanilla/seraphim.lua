@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Peut tirer une larme sacrée (comme avec \"Saint Éclat\" {{Collectible"..CollectibleType.COLLECTIBLE_HOLY_LIGHT.."}})",
     "{{ArrowUp}} Débit#{{ArrowUp}} Augmente les chances de tirer une larme sacrée", nil, "Séraphin", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SERAPHIM,
+    "Tiene una probabilidad de disparar Lágrimas Sagradas",
+    "Tiene una probabilidad más alta de disparar Lágrimas Sagradas#{{ArrowUp}} + Lágrimas", nil, "Serafín", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.SERAPHIM,

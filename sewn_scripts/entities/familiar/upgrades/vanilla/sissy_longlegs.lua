@@ -41,6 +41,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} +3 dégâts pour les araignées bleues de Sissy#Les araignées de Sissy envoûtent les ennemis qu'elles touchent",
     "{{ArrowUp}} Augmente la durée de l'envoutement#{{ArrowUp}} +2 dégâts pour les araignées bleues#Invoque davantage d'araignées bleus", nil, "Sissy la Faucheuse", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SISSY_LONGLEGS,
+    "Las arañas de Sissy aplican encanto cuando le dan a un enemigo#Cuando le dan a un enemigo, hacen daño plano adicional",
+    "Spawnea arañs adicionales#Aumenta el daño del encanto y añade daño plano para las arañas azules", nil, "Sissy Patas-Largas", "spa"
+)
 
 function SissyLonglegs:OnBlueSpiderHit(familiar, npc, amount, flags, source, countdown)
     local fData = familiar:GetData()

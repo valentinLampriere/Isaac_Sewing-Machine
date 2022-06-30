@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "Obtient un nouvel effet de larme aléatoire#L'effet de larme ne peut pas être Ipéca (sauf si Ipéca est l'effet de base du familier)",
     "Obtient de nouveau un effet de larme aléatoire", nil, "Pote en boîte", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BUDDY_IN_A_BOX,
+    "Recibe un efecto extra#Este efecto no puede ser Ipecac",
+    "Recibe otro efecto extra", nil, "Compañero Encajonado", "spa"
+)
 
 local function AddAdditionalTearFlags(tear, amountTearFlags, rng)
     local maxFlag = REPENTANCE and 81 or 60

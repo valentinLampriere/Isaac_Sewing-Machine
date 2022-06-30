@@ -31,6 +31,11 @@ Sewn_API:AddEncyclopediaUpgrade(
     "Tears Up (x1.29)",
     "Tears Up (x1.52)"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ROBO_BABY,
+    "{{ArrowUp}} + Lágrimas",
+    "{{ArrowUp}} + Lágrimas", nil, "Robo-bebé", "spa"
+)
 
 local stats = {
     [Enums.FamiliarLevel.SUPER] = 6,

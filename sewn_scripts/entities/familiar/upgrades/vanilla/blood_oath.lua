@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "Répand une traînée de sang derrière lui#Le taux d'apparition des trainées de sang et leur dégâts dépendent du nombre de demi-coeurs {{HalfHeart}} retirés",
     "Fait apparaitre des coeurs rouges {{Heart}} après avoir poignardé Isaac", nil, "Serment du Sang", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BLOOD_OATH,
+    "Genera creep rojo#La cantidad y el daño del creep depende de la cantidad de mitades de corazón removidas",
+    "Al clavar a Isaac, genera corazones rojos al azar", nil, "Juramento De Sangre", "spa"
+)
 
 BloodOath.Stats = {
     CreepCooldownDefaultMin = 35,

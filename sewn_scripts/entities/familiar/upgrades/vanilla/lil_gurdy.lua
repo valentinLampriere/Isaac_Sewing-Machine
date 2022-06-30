@@ -43,6 +43,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Se charge plus rapidement#Projette des larmes autour de lui quand Isaac tire",
     "{{ArrowUp}} Se charge plus rapidement#Répand une trainée de sang derrière lui quand il est propulsé#Tire 3 vagues de larmes en cercle après avoir été propulsé", nil, "P'tit Boris", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_GURDY,
+    "{{ArrowUp}} Puede recargase más rápido#Mientras carga, dispara lágrimas en diferentes direcciones",
+    "{{ArrowUp}} Puede recargase más rápido#Cuando embiesta, suelta creep rojo#Dispara 3 olas de lágrimas después de embestir en direcciones diferentes", nil, "Pequeña Zanfoña", "spa"
+)
 
 local function ShootTears(familiar)
     local amountTears = familiar:GetDropRNG():RandomInt( LilGurdy.Stats.ChargingTearAmountMax - LilGurdy.Stats.ChargingTearAmountMin ) + LilGurdy.Stats.ChargingTearAmountMin

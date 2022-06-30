@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire des larmes en crachant#Les larmes ont différents effets selon la couleur du P'tit Spewer",
     "Devient bicolore", nil, "P'tit Spewer", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_SPEWER,
+    "Cuando dispara, tira lágrimas adicionales con efectos que dependen del color",
+    "Tiene 2 colores al mismo tiempo", nil, "Pequeño Vomitón", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_SPEWER,

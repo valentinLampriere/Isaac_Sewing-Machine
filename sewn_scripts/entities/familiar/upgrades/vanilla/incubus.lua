@@ -29,6 +29,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts",
     "{{ArrowUp}} Dégâts", nil, "Incubus", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.INCUBUS,
+    "{{ArrowUp}} + Daño",
+    "{{ArrowUp}} + Daño", nil, "Íncubo", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.INCUBUS,

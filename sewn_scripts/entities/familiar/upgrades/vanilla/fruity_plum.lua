@@ -26,6 +26,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts#P'tite Prunelle est légèrement attiré par les ennemis",
     "Obtient l'effet de \"Pâte à Modeler\" {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}}#Après chaque attaque, tire des larmes dans toute les directions", nil, "P'tite Prunelle", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FRUITY_PLUM,
+    "{{ArrowUp}} + Daño#Leve efecto teledirigido",
+    "Obtiene el efecto de la Galleta De Plastilina {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}}#Luego de atacar, dispara en todas direcciones", nil, "Ciruela Frutal", "spa"
+)
 
 local function TEARFLAGS(x)
     return x >= 64 and BitSet128(0,1<<(x - 64)) or BitSet128(1<<x,0)

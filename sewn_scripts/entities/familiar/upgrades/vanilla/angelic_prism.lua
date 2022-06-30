@@ -36,6 +36,11 @@ Sewn_API:AddFamiliarDescription(
     "Se rapproche d'Isaac lorsqu'il tire#Les larmes qui lui passent au travers deviennent spectrales",
     "S'approche davantage de Isaac#Les larmes qui passent au travers deviennent autoguidées", nil, "Prisme Angélique", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ANGELIC_PRISM,
+	"Al disparar en la misma dirección que el prisma, este se acerca a Isaac#Las lágrimas que pasen a través del prisma se vuelven espectrales",
+	"Se acerca aún más a Isaac#Las lágrimas que pasen a través del prisma se harán teledirigidas", nil, "Prisma Angelical", "spa"
+)
 
 local defaultOrbitDistance = Vector(85, 67.5)
 

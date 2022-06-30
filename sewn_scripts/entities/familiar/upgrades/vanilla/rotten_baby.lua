@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Invoque une mouche bleue supplémentaire",
     "Invoque un locuste aléatoire", nil, "Bébé Putride", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ROTTEN_BABY,
+    "Spawnea una mosca azul adicional",
+    "Spawnea una langosta aleatoria", nil, "Bebé Podrido", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.ROTTEN_BABY,

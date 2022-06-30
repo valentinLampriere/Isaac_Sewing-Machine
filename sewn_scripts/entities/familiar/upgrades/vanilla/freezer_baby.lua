@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Dégâts#{{ArrowUp}} Portée#{{ArrowUp}} Augmente les chances de pétrifier les ennemis",
     "{{ArrowUp}} Dégâts#Les ennemies qu'il tue projettent des larme de glace dans toutes les directions", nil, "Bébé Congelé", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.FREEZER_BABY,
+    "{{ArrowUp}} + Daño#{{ArrowUp}} + Alcance#Aumenta la probabilidad de congelar enemigos",
+    "Los enemigos que mate explotan en lágrimas de hielo#{{ArrowUp}} + Daño", nil, "Bebé Congelante", "spa"
+)
 
 FreezerBaby.Stats = {
     TearDamageMultiplier = {

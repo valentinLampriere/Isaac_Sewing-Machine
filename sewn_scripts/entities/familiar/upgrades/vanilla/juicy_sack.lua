@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "{{Arrow Up}} Taille de la trainée#Tirer projette un tas de cocons (similaires à ceux de Parasitoïde {{Collectibe"..CollectibleType.COLLECTIBLE_PARASITOID.."}})",
     "Propulse davantage de cocons", nil, "Cocon Juteux", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.JUICY_SACK,
+    "Dispara lágrimas de huevo mientras Isaac dispara#Las lágrimas de huevo generan moscas o arañas azules al golpear algo#Creep más grande",
+    "Dispara más lágrimas de huevo", nil, "Nido Jugoso", "spa"
+)
 
 JuicySack.Stats = {
     CreepScale = 1.5,

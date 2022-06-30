@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire 2 larmes au lieu d'une#Les larmes gagnent l'effet de Colle Caoutchouc {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}}",
     "{{ArrowUp}} Portée#Tire 4 larmes", nil, "Œil Gauche de Caïn", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CAINS_OTHER_EYE,
+    "Dispara dos lágrimas en lugar de una#Las lágrimas reciben el efecto de Cemento Elástico {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} ",
+    "Dispara cuatro lágrimas#+ Alcance", nil, "El Otro Ojo De Caín", "spa"
+)
 
 CainsOtherEye.Stats = {
     AdditionalTears = {

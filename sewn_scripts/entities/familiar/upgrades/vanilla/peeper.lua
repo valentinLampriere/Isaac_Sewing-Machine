@@ -36,6 +36,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire parfois ".. Peeper.Stats.AmountTears .." larmes en cercle#Il est légerement attiré par les ennemis a proximité",
     "Invoque un deuxième Œil Baladeur {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}} amélioré#Invoque un Œil Baladeur supplémentaire si Isaac a \"Le Troisième Œeil\" {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}", nil, "Œil Baladeur", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PEEPER,
+    "Dispara ".. Peeper.Stats.AmountTears .." lágrimas en diferentes direcciones cada varios segundos.#Intenta acercarse a los enemigos",
+    "Spawnea un Ojo de Meador adicional{{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#El nuevo Ojo de Meador también se mejora.#Con el Ojo Interior {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawnea dos Ojos de Meador", nil, "Meador", "spa"
+)
 
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()

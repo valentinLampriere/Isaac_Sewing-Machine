@@ -30,6 +30,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Réduit le temps de chargement#Ne pas tirer rapproche le cœur plus près d'Isaac",
     "{{ArrowUp}} Réduit le temps de chargement#Repousse automatiquement les tirs et les ennemis trop proche quand il est complètement chargé, puis doit se recharger", nil, "Cœur d'Isaac", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.ISAACS_HEART,
+	"Se acerca a Isaac cuando no dispara#Reduce el tiempo de carga",
+    "Al cargarse del todo, si un enemigo o proyectil se acerca mucho se activa automáticamente#Al activarse, deberá reposar momentaneamente antes de cargar denuevo#Reduce el tiempo de carga", nil, "Corazón De Isaac", "spa"
+)
 
 IsaacsHeart.Stats = {
     FireRateBonus = {

@@ -26,6 +26,11 @@ Sewn_API:AddFamiliarDescription(
     "Pond des œufs qui appliquent un effet aléatoire aux ennemis qui marchent dessus#Les œufs ont une durée de 20 secondes",
     "Augmente les chances de pondre un œuf#Quand une salle est terminée, les œufs éclosent en araignées bleues", nil, "Roboraignée", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.SPIDER_MOD,
+    "Spawnea huevos que aplican efectos aleatorios a enemigos que pasan sobre ellos#Los huevos duran 20 segundos",
+    "Alta probabilidad de spawnear huevos#Al final de las habitaciiones, los huevos spawnean arañas azules", nil, "Mod Araña", "spa"
+)
 
 SpiderMod.Stats = {
     EggCooldownMin = {

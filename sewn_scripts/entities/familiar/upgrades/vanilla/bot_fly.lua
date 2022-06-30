@@ -51,6 +51,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Bonus de stats (Portée, Vitesse de tir, Taille de larmes)#Un arc électrique relie les larmes lancées à la Robomouche#Le laser inflige des dégâts et bloque les projectiles",
     "{{ArrowUp}} Bonus de stats#Larmes transperçantes#Attaque parfois directement les ennemis", nil, "Robomouche", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOT_FLY,
+	"Las lágrimas que dispare se conectarán al familiar con un láser#Este láser hace daño y bloquea disparos#{{ArrowUp}} Mejora estadísticas (Alcance, Velocidad de Disparo, Tamaño de Lágrima)",
+    "{{ArrowUp}} Mejora estadísticas#Las lágrimas se vuelven penetrantes#A veces ataca a los enemigos", nil, "Mosca-Bot", "spa"
+)
 
 function BotFly:OnUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()

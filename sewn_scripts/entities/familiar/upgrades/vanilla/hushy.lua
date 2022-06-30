@@ -47,6 +47,11 @@ if REPENTANCE then
         "Tire 15 larmes en cercle toutes les 4 secondes#Ses larmes infligent 3 dégâts",
         "{{ArrowUp}} Dégâts#Charge puis invoque un Micro-Isaac dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
     )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "Dispara 15 lágrimas en un patrón circular cada 4 segundos#Las lágrimas tienen 3 de daño",
+        "Genera Mini-Isaacs luego de cargar por unos segundos (solo en habitaciones con enemigos)#{{ArrowUp}} + Daño", nil, "Shhh", "spa"
+    )
 
     Sewn_API:AddEncyclopediaUpgrade(
         FamiliarVariant.HUSHY,
@@ -66,8 +71,18 @@ else
     )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
+        "Стреляет 15 слезами в случайном круговом порядке каждые 4 секунды#Слёзы наносят по 3 урона",
+        "{{ArrowUp}} Урон +#Спавнит миниайзека после несколько секунд зарядки (только в комнате с врагами)", nil, "Молчун", "ru"
+    )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
         "Tire 15 larmes en cercle toute les 4 secondes#Ses larmes font 3 de dégâts",
         "{{ArrowUp}} Dégâts#Charge puis invoque un furoncle dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
+    )
+    Sewn_API:AddFamiliarDescription(
+        FamiliarVariant.HUSHY,
+        "Dispara 15 lágrimas en un patrón circular cada 4 segundos#Las lágrimas tienen 3 de daño",
+        "Genera un Bolo amistoso cada pocos segundos (solo en habitaciones con enemigos)#{{ArrowUp}} + Daño", nil, "Shhh", "spa"
     )
 
     Sewn_API:AddEncyclopediaUpgrade(

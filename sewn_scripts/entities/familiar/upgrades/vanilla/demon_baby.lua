@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire automatiquement à travers les obstacles",
     "{{ArrowUp}} Portée#{{ArrowUp}} Débit", nil, "Bébé Démoniaque", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.DEMON_BABY,
+    "Dispara automáticamente a través de las paredes",
+    "{{ArrowUp}} ++ Alcance#{{ArrowUp}} + Lágrimas", nil, "Bebé Demonio", "spa"
+)
 
 DemonBaby.Stats = {
     Range = {

@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire dans 8 directions",
     "{{ArrowUp}} Dégâts", nil, "P'tit Loki", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_LOKI,
+    "Dispara en 8 direcciones",
+    "{{ArrowUp}} + Daño", nil, "Pequeño Loki", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_LOKI,

@@ -48,6 +48,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ColorRainbow}}Arc-en-Ciel{{CR}}: Regroupe les effets des autres élites. Dure moins longtemps que les autres formes#"..
     "Inflige des dégâts de contact", nil, "Théodule", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PUNCHING_BAG,
+    "Gana formas champion aleatorias con cada abilidad especial#Rosa : Dispara una lágrima en una dirección aleatoria#Violeta : Empuja enemigos y lágrimas#Azul Claro : Dispara lágrimas en 8 direcciones cuando hacen daño al jugador#Azul : Spawnea entre 2 y 3 moscas azules cuando el jugador se hace daño#Naranja: Spawnea una moneda cuando el jugador se hace daño#Bloquea lágrimas",
+    "Gana formas champion más poderosas :#Verde : Spawnea creep verde#Negro : Explota cuando el jugador recibe daño. La explosión hace 40 de daño#Arcoíris : Copia los efectos de todas las otras formas champion. Dura menos tieme que las otras formas#Hace daño por contacto", nil, "Saco de Boxeo", "spa"
+)
 
 local function FireTear(familiar, direction, force, damage, scale)
     scale = scale or 1

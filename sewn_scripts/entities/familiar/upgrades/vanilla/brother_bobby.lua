@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Débit",
     "{{ArrowUp}} Débit#{{ArrowUp}} Dégâts", nil, "Frère Bobby", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BROTHER_BOBBY,
+    "{{ArrowUp}} + Lágrimas",
+    "{{ArrowUp}} + Lágrimas#{{ArrowUp}} + Daño", nil, "Hermano Bobby", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.BROTHER_BOBBY,

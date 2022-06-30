@@ -30,6 +30,11 @@ Sewn_API:AddFamiliarDescription(
     "Tire trois larmes à la fois",
     "Ses larmes sont remplacées par un laser de sang", nil, "Nœnœil", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BLOODSHOT_EYE,
+    "Dispara tres lágrimas a la vez",
+    "Dispara un láser de sangre en lugar de lágrimas", nil, "Ojo Dispara-Lágrimas", "spa"
+)
 
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)
     local tData = tear:GetData()

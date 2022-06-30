@@ -52,6 +52,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Meilleurs bombes#Ne peut plus faire apparaitre de \"Troll Bombs\"#Répand de la poudre au sol qui prend feu au contact de flammes ou d'explosions",
     "{{ArrowUp}} Meilleurs bombes#{{ArrowUp}} Peut donner des Giga Bombes [Rep]#Peut créer une explosion à proximité d'ennemis", nil, "Sac de Bombes", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOMB_BAG,
+    "Deja de generar bombas troll#Genera mejores bombas#Genera pólvora en el suelo. La pólvora se enciende al entrar en contacto con fuego o explosiones",
+    "Genera mejores bombas#Puede dar Bombas Gigantes [Rep]#Puede explotar al acercarse a un enemigo", nil, "Bolsa De Bombas", "spa"
+)
 
 local function GetCloseBombBagPowders(position)
     local closeBombBagPowders = {}

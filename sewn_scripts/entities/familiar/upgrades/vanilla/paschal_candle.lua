@@ -24,6 +24,11 @@ Sewn_API:AddFamiliarDescription(
     "Quand Isaac subit des dégâts, le Cierge Pascal projette des flames autour de lui#Le nombre de flames dépend de la taille de la flamme du Cierge Pascal",
     "Subir des dégâts ne réduit que d'un stage la taille de la flamme", nil, "Cierge Pascal", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PASCHAL_CANDLE,
+    "Cuando al jugador le hacen daño, dispara llamas alrededor#La cantidad de llamas depende del tamaño de la llama de la vela",
+    "Hacerte daño solo reduce el tamaño de la vela por 1", nil, "Vela de Pascua", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.PASCHAL_CANDLE,

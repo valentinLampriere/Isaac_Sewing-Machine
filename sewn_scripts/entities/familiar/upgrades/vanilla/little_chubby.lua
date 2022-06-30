@@ -22,6 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Réduit le temps de recharge de 50% (Peut être lancé plus souvent)",
     "S'arrête pendant 1/2 seconde sur les ennemis qu'il croise", nil, "P'tit Dodu", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LITTLE_CHUBBY,
+    "Tiempo de espera reducido en un 50%, puede ser lanzado rapidamente.",
+    "Se pega a los enemigos por 0,5 segunods y continua en la dirección inicial.", nil, "Pequeño Gordito", "spa"
+)
 
 function LittleChubby:OnFamiliarUpdate(familiar)
     if familiar.FireCooldown < -1 then

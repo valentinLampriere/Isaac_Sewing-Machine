@@ -30,6 +30,11 @@ Sewn_API:AddFamiliarDescription(
     "Renvoie à l'envoyeur les projectiles qu'elle touche",
     "{{ArrowUp}} Dégâts", nil, "Mouche Oracle", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.PSY_FLY,
+    "Cuando bloquea una lágrima, dispara una lágrima teledirigida en la dirección opuesta",
+    "{{ArrowUp}} + Daño (colisión y lágrimas)", nil, "Mosca Psíquica", "spa"
+)
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.PSY_FLY,

@@ -190,6 +190,18 @@ Sewn_API:AddFamiliarDescription(
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} Projette une salve de larme derrière lui quand il pète",
     "Revient auprès d'Isaac après quelques secondes", nil, "P'tit Prout", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.LIL_DUMPY,
+    "Cambia a otra variante de Pequeño Dumpy como : " ..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Efecto estandar."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Envenena enemigos cuando se tira pedos."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} Cuando se tira un pedo, dispara 6 lágrimas en un patrón circular."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} Cuando se tira un pedo, spawnea una llama que hace 15 de daño."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Los enemigos matados se convierten en hielo. Mientras descansa, gana un aura congelador."..
+    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} Cuando se tira un pedo, dispara lágrimas en la dirección opuesta.",
+    "Vuelve al jugador después de una cantidad aleatoria de segundos, incluso si el jugador está lejos.", nil, "Pequeño Dumpy", "spa"
+)
+
 
 Sewn_API:AddEncyclopediaUpgrade(
     FamiliarVariant.LIL_DUMPY,

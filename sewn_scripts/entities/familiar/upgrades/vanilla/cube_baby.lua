@@ -25,6 +25,11 @@ Sewn_API:AddFamiliarDescription(
     "Obtient une aura gelée. Les ennemis qui restent trop longtemps dans l'aura subissent des dégâts jusqu'à être complètement gelés",
     "Répand une trainée derrière lui lorsqu'il est poussé#Répand davantage selon sa vitesse#", nil, "Bébé Glaçon", "fr"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.CUBE_BABY,
+    "Obtiene un aura congelante. Los enemigos que estén en el aura por mucho tiempo recibirán daño hasta congelarse",
+    "Genera creep al ser movido#Entre más rápido se mueva, más creep generará", nil, "Bebé En Cubo", "spa"
+)
 
 CubeBaby.Stats = {
     CreepSpawnRate = 50,
