@@ -110,18 +110,18 @@ EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Улучшает фамильяро�
 
 --------Spanish EID by Goncholito and Ferpe
 -- EID Collectibles
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "Mejora familiares temporalmente por una habitación#Usarlo dos veces mejora los familiares a Ultra", "spa")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Mejora todos los familiares normales a súper#Con El Cuerpo Puro de Muñeca, mejora todos los familiares a ultra#Añade un 20% de encontrar una Máquina de Coser en salas del Diablo", "spa")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Mejora todos los familiares normales a súper#Con La Cabeza Corrupta de Muñeca, mejora todos los familiares a ultra#Añade un 20% de encontrar una Máquina de Coser en salas de Ángel", "spa")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "Mejora familiares temporalmente por una habitación#Usarlo dos veces mejora los familiares a Ultra", nil, "spa")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Mejora todos los familiares normales a súper#Con El Cuerpo Puro de Muñeca, mejora todos los familiares a ultra#Añade un 20% de encontrar una Máquina de Coser en salas del Diablo", nil, "spa")
+EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Mejora todos los familiares normales a súper#Con La Cabeza Corrupta de Muñeca, mejora todos los familiares a ultra#Añade un 20% de encontrar una Máquina de Coser en salas de Ángel", nil, "spa")
 
 -- EID Trinkets
-EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "Genera recolectables dependiendo del tipo de Máquina de Coser usada al mejorar", "spa")
-EID:addTrinket(Enums.TrinketType.TRINKET_CRACKED_THIMBLE, "75% de probabilidad de rerolear las coronas de los familiares al recibir daño", "spa")
-EID:addTrinket(Enums.TrinketType.TRINKET_LOST_BUTTON, "100% de probabilidad de generar una máquina de coser en las tiendas#50% de probabilidad de generar una máquina de coser en {{AngelRoom}} salas de Ángel o en {{DevilRoom}} salas del Diablo", "spa")
-EID:addTrinket(Enums.TrinketType.TRINKET_PIN_CUSHION, "Tocar una Máquina de Coser hace que te devuelva el familiar sin mejorarlo#Esto permite elegir el familiar que se desea mejorar, luego se deja el trinket para usar la máquina normalmente#{{Warning}} Al ser consumido, el efecto cambia a reducir la probabilidad de romper las máquinas de coser", "spa")
-EID:addTrinket(Enums.TrinketType.TRINKET_SEWING_CASE, "Al entrar en una habitación hay una probabilidad de mejorar un familiar dependiendo de la candidad de familiares y la suerte", "spa")
+EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "Genera recolectables dependiendo del tipo de Máquina de Coser usada al mejorar", nil, "spa")
+EID:addTrinket(Enums.TrinketType.TRINKET_CRACKED_THIMBLE, "75% de probabilidad de rerolear las coronas de los familiares al recibir daño", nil, "spa")
+EID:addTrinket(Enums.TrinketType.TRINKET_LOST_BUTTON, "100% de probabilidad de generar una máquina de coser en las tiendas#50% de probabilidad de generar una máquina de coser en {{AngelRoom}} salas de Ángel o en {{DevilRoom}} salas del Diablo", nil, "spa")
+EID:addTrinket(Enums.TrinketType.TRINKET_PIN_CUSHION, "Tocar una Máquina de Coser hace que te devuelva el familiar sin mejorarlo#Esto permite elegir el familiar que se desea mejorar, luego se deja el trinket para usar la máquina normalmente#{{Warning}} Al ser consumido, el efecto cambia a reducir la probabilidad de romper las máquinas de coser", nil, "spa")
+EID:addTrinket(Enums.TrinketType.TRINKET_SEWING_CASE, "Al entrar en una habitación hay una probabilidad de mejorar un familiar dependiendo de la candidad de familiares y la suerte", nil, "spa")
 
 -- EID Cards
-EID:addCard(Enums.Card.CARD_WARRANTY, "Genera una Máquina de Coser#La Máquina de Coser cambia dependiendo del tipo de habitación en el que te encuentres", "spa")
-EID:addCard(Enums.Card.CARD_STITCHING, "Rerolea las coronas de los familiares#Da una mejora gratuitas si ninguno de los familiares esta mejorado", "spa")
-EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Mejora todos los familiares por una habitación#Caja de Coser de un solo uso", "spa")
+EID:addCard(Enums.Card.CARD_WARRANTY, "Genera una Máquina de Coser#La Máquina de Coser cambia dependiendo del tipo de habitación en el que te encuentres", nil, "spa")
+EID:addCard(Enums.Card.CARD_STITCHING, "Rerolea las coronas de los familiares#Da una mejora gratuitas si ninguno de los familiares esta mejorado", nil, "spa")
+EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Mejora todos los familiares por una habitación#Caja de Coser de un solo uso", nil, "spa")
