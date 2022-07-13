@@ -20,12 +20,8 @@ Abel.Stats = {
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 3
     },
     ShotSpeedBonus = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.8,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.8
-    },
-    TearFlagsBonus = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = TearFlags.TEAR_BOOMERANG | TearFlags.TEAR_SPECTRAL,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = TearFlags.TEAR_BOOMERANG | TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_PIERCING
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.9,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.9
     },
     UniqueTearStat = {
         Range = -0.1,
@@ -33,6 +29,18 @@ Abel.Stats = {
         ScaleMultiplier = 1.15
     },
 }
+
+if REPENTANCE then
+    Abel.Stats.TearFlagsBonus = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = TearFlags.TEAR_BOOMERANG | TearFlags.TEAR_SPECTRAL,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = TearFlags.TEAR_BOOMERANG | TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_PIERCING
+    }
+else
+    Abel.Stats.TearFlagsBonus = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = TearFlags.TEAR_BOMBERANG | TearFlags.TEAR_SPECTRAL,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = TearFlags.TEAR_BOMBERANG | TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_PIERCING
+    }
+end
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ABEL, CollectibleType.COLLECTIBLE_ABEL)
 
@@ -46,7 +54,7 @@ function Abel:OnFireTear(familiar, tear)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
 
-    tear:AddTearFlags(Abel.Stats.TearFlagsBonus[level])
+    tear.TearFlags = tear.TearFlags | Abel.Stats.TearFlagsBonus[level]
     tear.Velocity = tear.Velocity * Abel.Stats.ShotSpeedBonus[level]
 
     tear:ChangeVariant(TearVariant.CUPID_BLUE)
