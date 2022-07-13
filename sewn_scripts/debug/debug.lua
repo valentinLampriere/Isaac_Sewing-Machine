@@ -45,7 +45,8 @@ function Debug:OnExecuteCmd(cmd, args)
 end
 
 function Debug:RenderText(text, id, color)
-    text = tostring(text) or "[unset text]"
+    print(text)
+    text = text ~= nil and tostring(text) or "[unset text]"
     id = tostring(id) or "0"
     color = color or Debug.Color.White
 
