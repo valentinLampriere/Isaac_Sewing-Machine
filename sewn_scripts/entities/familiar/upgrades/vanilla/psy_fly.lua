@@ -18,7 +18,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PSY_FLY,
     "阻挡弹幕后向弹幕发射的反方向发射一颗跟踪眼泪",
-    "{{ArrowUp}} 攻击提升，并具有接触伤害", nil, "灵能苍蝇"
+    "{{ArrowUp}} 攻击提升，并具有接触伤害", nil, "灵能苍蝇","zh_cn"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PSY_FLY,

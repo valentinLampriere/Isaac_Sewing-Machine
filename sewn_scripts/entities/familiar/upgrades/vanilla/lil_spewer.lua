@@ -18,7 +18,7 @@ Sewn_API:AddFamiliarDescription(
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_SPEWER,
     "Стреляет дополнительными слезами в зависимости от его текущего эффекта",
-    "Имеет две формы одновременно", nil, "Маленький Блевун"
+    "Имеет две формы одновременно", nil, "Маленький Блевун", "ru"
 )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_SPEWER,
