@@ -93,9 +93,12 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachine
 
 require("sewn_scripts.entities.effects.burning_fart")
 require("sewn_scripts.entities.effects.holy_fart")
+require("sewn_scripts.items.trinkets")
 
 require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
-require("sewn_scripts.items.trinkets")
+
+require("sewn_scripts.localization.localization_core")
+require("sewn_scripts.localization.localization")
 
 require("sewn_scripts.mod_compat.eid.eid")
 require("sewn_scripts.mod_compat.minimapi.minimapi")

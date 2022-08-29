@@ -31,11 +31,11 @@ BotFly.Stats = {
     TearVelocity = 14
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOT_FLY,
-    "{{ArrowUp}} Stats Up (Portée, Shot Speed, Tear Size)#When it fires a tear, a laser connects the tears and the familiar#The laser deals contact damage and blocks shots",
-    "{{ArrowUp}} Stats Up#Gain piercing tears#Rarely attacks enemies", nil, "Bot Fly"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.BOT_FLY,
+--     "{{ArrowUp}} Stats Up (Range, Shot Speed, Tear Size)#When it fires a tear, a laser connects the tears and the familiar#The laser deals contact damage and blocks shots",
+--     "{{ArrowUp}} Stats Up#Gain piercing tears#Rarely attacks enemies", nil, "Bot Fly"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOT_FLY,
     "发射眼泪时，眼泪与跟班之间将会有一道激光连接 #激光可对敌人造成伤害并且可以阻挡弹幕 #{{ArrowUp}} 属性上升(射程，弹速，眼泪大小)",
@@ -46,11 +46,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Характеристики + (Дальность, Скорость Слёз, Размёр Слёз)#Когда она стреляет появляется лазер, соединяющий слёзы и муху#Лазер наносит контактный урон и блокирует снаряды",
     "{{ArrowUp}} Характеристики +#Получает пронизывающие слёзы#Изредка атакует врагов", nil, "Муха-Бот", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOT_FLY,
-    "{{ArrowUp}} Bonus de stats (Portée, Vitesse de tir, Taille de larmes)#Un arc électrique relie les larmes lancées à la Robomouche#Le laser inflige des dégâts et bloque les projectiles",
-    "{{ArrowUp}} Bonus de stats#Larmes transperçantes#Attaque parfois directement les ennemis", nil, "Robomouche", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.BOT_FLY,
+--     "{{ArrowUp}} Bonus de stats (Portée, Vitesse de tir, Taille de larmes)#Un arc électrique relie les larmes lancées à la Robomouche#Le laser inflige des dégâts et bloque les projectiles",
+--     "{{ArrowUp}} Bonus de stats#Larmes transperçantes#Attaque parfois directement les ennemis", nil, "Robomouche", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOT_FLY,
 	"Las lágrimas que dispare se conectarán al familiar con un láser#Este láser hace daño y bloquea disparos#{{ArrowUp}} Mejora estadísticas (Alcance, Velocidad de Disparo, Tamaño de Lágrima)",

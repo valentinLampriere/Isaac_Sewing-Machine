@@ -146,17 +146,17 @@ if EID then
     end
 end
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_DUMPY,
-    "Changes to another Lil Dumpy variant each rooms, such as:" ..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Standard effect"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Poisons enemies when farting"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} When it farts, it fires 6 tears in a circular pattern"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, it spawns a flame which deals 15 damage"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Enemies killed by it are turned into ice. While resting, gain a freezing aura"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} When it farts, it fires tears in the opposite direction",
-    "Returns to the player after a random amount of seconds, even if the player is far away", nil, "Lil Dumpy"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_DUMPY,
+--     "Changes to another Lil Dumpy variant each rooms, such as:" ..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Standard effect"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Poisons enemies when farting"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} When it farts, it fires 6 tears in a circular pattern"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} When it farts, it spawns a flame which deals 15 damage"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Enemies killed by it are turned into ice. While resting, gain a freezing aura"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} When it farts, it fires tears in the opposite direction",
+--     "Returns to the player after a random amount of seconds, even if the player is far away", nil, "Lil Dumpy"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_DUMPY,
     "进入每个房间后，都有几率变为另一个屁宝变体：" ..
@@ -179,17 +179,17 @@ Sewn_API:AddFamiliarDescription(
     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} При пуке стреляет слезой в обратном направлении",
     "Возвращается к игроку через случайное количество времени, даже если он далеко", nil, "Пышка", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_DUMPY,
-    "Change d'aspect à chaque salle :" ..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Effet normal"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Ses pets empoisonnent les ennemis"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} Tire 6 larmes en cercle quand il pète"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} Crée une flame qui inflige 15 dégâts quand il pète"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Gèle les ennemis qu'il tue. Est entouré d'une aura gelée lorsqu'il se repose"..
-    "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} Projette une salve de larme derrière lui quand il pète",
-    "Revient auprès d'Isaac après quelques secondes", nil, "P'tit Prout", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_DUMPY,
+--     "Change d'aspect à chaque salle :" ..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DUMPLING .."}} Effet normal"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SKINLING .."}} Ses pets empoisonnent les ennemis"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCABLING .."}} Tire 6 larmes en cercle quand il pète"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.SCORCHLING .."}} Crée une flame qui inflige 15 dégâts quand il pète"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.FROSTLING .."}} Gèle les ennemis qu'il tue. Est entouré d'une aura gelée lorsqu'il se repose"..
+--     "#{{LilDumpyVariant".. LilDumpy.DumpiesVariant.DROPLING .."}} Projette une salve de larme derrière lui quand il pète",
+--     "Revient auprès d'Isaac après quelques secondes", nil, "P'tit Prout", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_DUMPY,
     "Cambia a otra variante de Pequeño Dumpy como : " ..
@@ -203,17 +203,17 @@ Sewn_API:AddFamiliarDescription(
 )
 
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.LIL_DUMPY,
-    "Change to another Lil Dumpy variant each rooms as :" ..
-    "#Dumpling : Standard effect."..
-    "#Skinling : Poisons enemies when farting."..
-    "#Scabling : When it farts, fire 6 tears in a circular pattern. Tears deal 5 damage."..
-    "#Scortchling : When it farts, spawn a flame which deal 15 damage. While it is pushed by it own fart, it will apply burning effect to enemies it collide with."..
-    "#Frostling : Enemies it kills turn to ice. While resting, gain a freezing aura which freeze enemies which stay in it radius for too long."..
-    "#Dropling : When it farts, fire tears in the opposite direction. Tears deal 3 damage." ..
-    "# #Variants have a different weight which affect their chances to be picked."
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.LIL_DUMPY,
+--     "Change to another Lil Dumpy variant each rooms as :" ..
+--     "#Dumpling : Standard effect."..
+--     "#Skinling : Poisons enemies when farting."..
+--     "#Scabling : When it farts, fire 6 tears in a circular pattern. Tears deal 5 damage."..
+--     "#Scortchling : When it farts, spawn a flame which deal 15 damage. While it is pushed by it own fart, it will apply burning effect to enemies it collide with."..
+--     "#Frostling : Enemies it kills turn to ice. While resting, gain a freezing aura which freeze enemies which stay in it radius for too long."..
+--     "#Dropling : When it farts, fire tears in the opposite direction. Tears deal 3 damage." ..
+--     "# #Variants have a different weight which affect their chances to be picked."
+-- )
 
 local function RollDumpling(familiar)
     local weightSum = 0
@@ -357,3 +357,5 @@ Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, LilDu
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilDumpy.OnFamiliarUpdate, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, LilDumpy.OnFamiliarNewRoom, FamiliarVariant.LIL_DUMPY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_FAMILIAR_COLLISION, LilDumpy.OnFamiliarCollision, FamiliarVariant.LIL_DUMPY)
+
+return LilDumpy

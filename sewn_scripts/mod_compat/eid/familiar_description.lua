@@ -11,9 +11,8 @@ end
 
 function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUpgrade, secondUpgrade, color, optionalName, language)
     local kColor
-    local name = optionalName or AvailableFamiliarManager:GetFamiliarName(familiarVariant)
     language = language or "en_us"
-
+    local name = optionalName or AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
     if color ~= nil then
         kColor = {color[1], color[2], color[3]}
     else

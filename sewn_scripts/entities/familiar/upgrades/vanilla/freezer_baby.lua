@@ -5,11 +5,11 @@ local FreezerBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.FREEZER_BABY, CollectibleType.COLLECTIBLE_FREEZER_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FREEZER_BABY,
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#{{ArrowUp}} Higher chance to freeze enemies",
-    "{{ArrowUp}} Damage Up#Enemies it kills explode into ice tears", nil, "Freezer Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.FREEZER_BABY,
+--     "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#{{ArrowUp}} Higher chance to freeze enemies",
+--     "{{ArrowUp}} Damage Up#Enemies it kills explode into ice tears", nil, "Freezer Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FREEZER_BABY,
     "{{ArrowUp}} 攻击提升 #{{ArrowUp}} 射程增加 #冰冻敌人的几率上升",
@@ -20,11 +20,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон +#{{ArrowUp}} Дальность +#Увеличивает шанс заморозки врага",
     "{{ArrowUp}} Урон +#Враги которых он убивает взрываются ледяными слезами", nil, "Замораживающий Малыш", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FREEZER_BABY,
-    "{{ArrowUp}} Dégâts#{{ArrowUp}} Portée#{{ArrowUp}} Augmente les chances de pétrifier les ennemis",
-    "{{ArrowUp}} Dégâts#Les ennemies qu'il tue projettent des larme de glace dans toutes les directions", nil, "Bébé Congelé", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.FREEZER_BABY,
+--     "{{ArrowUp}} Dégâts#{{ArrowUp}} Portée#{{ArrowUp}} Augmente les chances de pétrifier les ennemis",
+--     "{{ArrowUp}} Dégâts#Les ennemies qu'il tue projettent des larme de glace dans toutes les directions", nil, "Bébé Congelé", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FREEZER_BABY,
     "{{ArrowUp}} + Daño#{{ArrowUp}} + Alcance#Aumenta la probabilidad de congelar enemigos",

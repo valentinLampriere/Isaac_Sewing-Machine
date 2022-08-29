@@ -10,11 +10,11 @@ PsyFly.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PSY_FLY, CollectibleType.COLLECTIBLE_PSY_FLY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PSY_FLY,
-    "When it blocks a bullet, it fires a homing tear back",
-    "{{ArrowUp}} Collision Damage Up#{{ArrowUp}} Tears Damage Up", nil, "Psy Fly"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PSY_FLY,
+--     "When it blocks a bullet, it fires a homing tear back",
+--     "{{ArrowUp}} Collision Damage Up#{{ArrowUp}} Tears Damage Up", nil, "Psy Fly"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PSY_FLY,
     "阻挡弹幕后向弹幕发射的反方向发射一颗跟踪眼泪",
@@ -25,23 +25,23 @@ Sewn_API:AddFamiliarDescription(
     "При блокировке снаряда выпускает самонаводящийся снаряд в обратную сторону",
     "{{ArrowUp}} Контактный урон +#{{ArrowUp}} Урон слёз +", nil, "Пси-Муха", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PSY_FLY,
-    "Renvoie à l'envoyeur les projectiles qu'elle touche",
-    "{{ArrowUp}} Dégâts", nil, "Mouche Oracle", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PSY_FLY,
+--     "Renvoie à l'envoyeur les projectiles qu'elle touche",
+--     "{{ArrowUp}} Dégâts", nil, "Mouche Oracle", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PSY_FLY,
     "Cuando bloquea una lágrima, dispara una lágrima teledirigida en la dirección opuesta",
     "{{ArrowUp}} + Daño (colisión y lágrimas)", nil, "Mosca Psíquica", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.PSY_FLY,
-    nil,
-    "Collision damage and tears damage up (x1.5)",
-    "The super upgrade is a similar behaviour of the Psy Fly behaviour before it was nerfed in the 1.7.5 update"
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.PSY_FLY,
+--     nil,
+--     "Collision damage and tears damage up (x1.5)",
+--     "The super upgrade is a similar behaviour of the Psy Fly behaviour before it was nerfed in the 1.7.5 update"
+-- )
 
 function PsyFly:OnFamiliarCollide(familiar, collider)
     if collider.Type ~= EntityType.ENTITY_PROJECTILE then

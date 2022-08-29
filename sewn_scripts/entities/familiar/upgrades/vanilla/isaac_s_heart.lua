@@ -10,11 +10,11 @@ local IsaacsHeart = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ISAACS_HEART, CollectibleType.COLLECTIBLE_ISAACS_HEART)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ISAACS_HEART,
-    "{{ArrowUp}} Decreases charge time#Moves closer to the player when the player isn't firing",
-    "{{ArrowUp}} Decreases charge time#When fully charged, if an enemy or projectile gets too close it automatically activates its fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again", nil, "Isaac's Heart"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.ISAACS_HEART,
+--     "{{ArrowUp}} Decreases charge time#Moves closer to the player when the player isn't firing",
+--     "{{ArrowUp}} Decreases charge time#When fully charged, if an enemy or projectile gets too close it automatically activates its fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again", nil, "Isaac's Heart"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ISAACS_HEART,
     "角色在不攻击的时候，心脏与角色距离更近 #蓄力时间变短",

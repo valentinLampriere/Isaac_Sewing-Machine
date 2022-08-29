@@ -10,7 +10,6 @@ local indexUpgradeSectionForCollectibleWiki = { }
 -- Store all wiki items with their id as a key
 local encyclopediaMap = nil
 
-
 local function MapEncyclopedia()
     encyclopediaMap = { }
     if Encyclopedia == nil then return end
@@ -75,6 +74,7 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     end
 
     if encyclopediaMap == nil then
+        encyclopediaMap = {}
         MapEncyclopedia()
     end
 

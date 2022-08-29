@@ -5,11 +5,11 @@ local JuicySack = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.JUICY_SACK, CollectibleType.COLLECTIBLE_JUICY_SACK)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.JUICY_SACK,
-    "{{Arrow Up}} Creep Size Up#Fires egg tears (from Parasitoid {{Collectibe"..CollectibleType.COLLECTIBLE_PARASITOID.."}}) while isaac is firing",
-    "Fires more egg tears", nil, "Juicy Sack"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.JUICY_SACK,
+--     "{{Arrow Up}} Creep Size Up#Fires egg tears (from Parasitoid {{Collectibe"..CollectibleType.COLLECTIBLE_PARASITOID.."}}) while isaac is firing",
+--     "Fires more egg tears", nil, "Juicy Sack"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.JUICY_SACK,
     "可发射蜘蛛卵眼泪 #击中敌人时生成蓝苍蝇或蓝蜘蛛 #产生更大的减速水迹",
@@ -20,11 +20,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Размер лужи +#Стреляет слёзы-яйца (как Паразитоид {{Collectible"..CollectibleType.COLLECTIBLE_PARASITOID.."}}, когда игрок стреляет",
     "Стреляет больше слёз-яиц", nil, "Сочащийся Кокон", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.JUICY_SACK,
-    "{{Arrow Up}} Taille de la trainée#Tirer projette un tas de cocons (similaires à ceux de Parasitoïde {{Collectibe"..CollectibleType.COLLECTIBLE_PARASITOID.."}})",
-    "Propulse davantage de cocons", nil, "Cocon Juteux", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.JUICY_SACK,
+--     "{{Arrow Up}} Taille de la trainée#Tirer projette un tas de cocons (similaires à ceux de Parasitoïde {{Collectibe"..CollectibleType.COLLECTIBLE_PARASITOID.."}})",
+--     "Propulse davantage de cocons", nil, "Cocon Juteux", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.JUICY_SACK,
     "Dispara lágrimas de huevo mientras Isaac dispara#Las lágrimas de huevo generan moscas o arañas azules al golpear algo#Creep más grande",

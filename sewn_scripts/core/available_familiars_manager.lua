@@ -48,11 +48,35 @@ function AvailableFamiliarManager:GetFamiliarCollectibleId(familiarVariant)
     end
     return -1
 end
-function AvailableFamiliarManager:GetFamiliarName(familiarVariant)
-    local collectible = Isaac.GetItemConfig():GetCollectible(availableFamiliars[familiarVariant].CollectibleID)
+function AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
+    local familiarData = availableFamiliars[familiarVariant]
+
+    if familiarData == nil then
+        error("Can't find the name for a familiar which has not been registered")
+        return
+    end
+
+    if EID ~= nil then
+        local languageCode = language or EID:getLanguage() or "en_us"
+
+        -- Vanilla items
+        local eidDescription = EID.descriptions[languageCode].collectibles[familiarData.CollectibleID]
+        if eidDescription ~= nil then
+            return eidDescription[2]
+        end
+
+        -- Modded items
+        local eidCustomDescription = EID.descriptions[languageCode].custom["5.100."..familiarData.CollectibleID]
+        if eidCustomDescription ~= nil then
+            return eidCustomDescription[2]
+        end
+    end
+
+    local collectible = Isaac.GetItemConfig():GetCollectible(familiarData.CollectibleID)
     if collectible ~= nil then
         return collectible.Name
     end
+
     return "???"
 end
 

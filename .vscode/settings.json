@@ -145,5 +145,8 @@
     ],
     "files.associations": {
         "*.anm2": "xml"
-    }
+    },
+    "Lua.diagnostics.disable": [
+        "need-check-nil"
+    ]
 }

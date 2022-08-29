@@ -7,11 +7,11 @@ DeadCat.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEAD_CAT, CollectibleType.COLLECTIBLE_DEAD_CAT)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEAD_CAT,
-    "When the player dies, they respawn with an additional soul heart {{SoulHeart}}",
-    "When the player dies, they respawn with an additional red heart container {{Heart}} and an additional soul heart {{SoulHeart}}", nil, "Dead Cat"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.DEAD_CAT,
+--     "When the player dies, they respawn with an additional soul heart {{SoulHeart}}",
+--     "When the player dies, they respawn with an additional red heart container {{Heart}} and an additional soul heart {{SoulHeart}}", nil, "Dead Cat"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,
     "角色复活时额外生成一个魂心",
@@ -22,22 +22,22 @@ Sewn_API:AddFamiliarDescription(
     "Когда игрок погибает, он возрождается с дополнительным сердцем души {{SoulHeart}}",
     "Когда игрок погибает, он возрождается с дополнительным красным сердцем {{Heart}} и сердцем души {{SoulHeart}}", nil, "Мёртвый Кот", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEAD_CAT,
-    "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire",
-    "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire ainsi qu'un réceptacle de cœur rouge {{Heart}}supplémentaire", nil, "Chat Mort", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.DEAD_CAT,
+--     "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire",
+--     "Isaac ressucite avec un cœur d'âme {{SoulHeart}} supplémentaire ainsi qu'un réceptacle de cœur rouge {{Heart}}supplémentaire", nil, "Chat Mort", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEAD_CAT,
     "Al morir, Isaac revivirá con un corazón de alma extra",
     "Al morir, Isaac revivirá con un contenedor de corazón y un corazón de alma extra", nil, "Gato Muerto", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.DEAD_CAT,
-    nil, nil,
-    "Gives a soul heart even if the player respawn without Dead Cat (due to API limitation)"
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.DEAD_CAT,
+--     nil, nil,
+--     "Gives a soul heart even if the player respawn without Dead Cat (due to API limitation)"
+-- )
 
 local function Respawn(player, isUltra)
     player:AddSoulHearts(2)

@@ -5,11 +5,11 @@ local CubeBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.CUBE_BABY, CollectibleType.COLLECTIBLE_CUBE_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.CUBE_BABY,
-    "Gains a freezing aura. Enemies which stay too long in the aura will take damage until they are completely frozen",
-    "Spawns creep when moved around#The faster it moves, the more it spawns creep", nil, "Cube Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.CUBE_BABY,
+--     "Gains a freezing aura. Enemies which stay too long in the aura will take damage until they are completely frozen",
+--     "Spawns creep when moved around#The faster it moves, the more it spawns creep", nil, "Cube Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CUBE_BABY,
     "具有一圈冰冻光环，敌人在其中停留一定时间将会直接冰冻",
@@ -20,11 +20,11 @@ Sewn_API:AddFamiliarDescription(
     "Получает замораживающую ауру. Враги, находясь в ауре слишком долго, будут получать урон, пока не заморозятся (умрут)",
     "Оставляет лужи при перемещении. Чем быстрее он перемещается, тем больше оставляет луж", nil, "Малыш в Кубе", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.CUBE_BABY,
-    "Obtient une aura gelée. Les ennemis qui restent trop longtemps dans l'aura subissent des dégâts jusqu'à être complètement gelés",
-    "Répand une trainée derrière lui lorsqu'il est poussé#Répand davantage selon sa vitesse#", nil, "Bébé Glaçon", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.CUBE_BABY,
+--     "Obtient une aura gelée. Les ennemis qui restent trop longtemps dans l'aura subissent des dégâts jusqu'à être complètement gelés",
+--     "Répand une trainée derrière lui lorsqu'il est poussé#Répand davantage selon sa vitesse#", nil, "Bébé Glaçon", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CUBE_BABY,
     "Obtiene un aura congelante. Los enemigos que estén en el aura por mucho tiempo recibirán daño hasta congelarse",

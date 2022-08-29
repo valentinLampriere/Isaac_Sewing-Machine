@@ -8,21 +8,21 @@ local PunchingBag = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PUNCHING_BAG, CollectibleType.COLLECTIBLE_PUNCHING_BAG)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PUNCHING_BAG,
-    "Gains random champion forms each with special abilities, such as:#"..
-    "{{ColorPink}}Pink{{CR}}: Fires a tear in a random direction#"..
-    "{{ColorPurple}}Violet{{CR}}: Pulls enemies and bullets#"..
-    "{{ColorCyan}}Light Blue{{CR}}: Fires tears in 8 directions when player gets hit#"..
-    "{{ColorCyan}}Blue{{CR}}: Spawns 2-3 flies when player gets hit#"..
-    "{{ColorOrange}}Orange{{CR}}: Spawns a coin when player get hit#"..
-    "Blocks bullets",
-    "Gain more powerful champion forms:#"..
-    "{{ColorGreen}}Green{{CR}}: Spawns green creep#"..
-    "{{ColorBlack}}Black{{CR}}: Explodes when the player gets hit. Explosion deal 40 damage#"..
-    "{{ColorRainbow}}Rainbow{{CR}}: Copies the effect of every other champion forms. Lasts less time than other champion forms#"..
-    "Deals contact damage", nil, "Punching Bag"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PUNCHING_BAG,
+--     "Gains random champion forms each with special abilities, such as:#"..
+--     "{{ColorPink}}Pink{{CR}}: Fires a tear in a random direction#"..
+--     "{{ColorPurple}}Violet{{CR}}: Pulls enemies and bullets#"..
+--     "{{ColorCyan}}Light Blue{{CR}}: Fires tears in 8 directions when player gets hit#"..
+--     "{{ColorCyan}}Blue{{CR}}: Spawns 2-3 flies when player gets hit#"..
+--     "{{ColorOrange}}Orange{{CR}}: Spawns a coin when player get hit#"..
+--     "Blocks bullets",
+--     "Gain more powerful champion forms:#"..
+--     "{{ColorGreen}}Green{{CR}}: Spawns green creep#"..
+--     "{{ColorBlack}}Black{{CR}}: Explodes when the player gets hit. Explosion deal 40 damage#"..
+--     "{{ColorRainbow}}Rainbow{{CR}}: Copies the effect of every other champion forms. Lasts less time than other champion forms#"..
+--     "Deals contact damage", nil, "Punching Bag"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PUNCHING_BAG,
     "像敌人一样具有精英形态，每隔一段时间随机改变颜色，可阻挡弹幕 {{Blank}}粉色：向随机方向发射眼泪 {{Blank}}紫色：将敌人和弹幕牵引到自身 {{Blank}}淡蓝色：玩家受伤时发射 8 向弹幕 {{Blank}}蓝色：玩家受伤时生成 2-3 只蓝蜘蛛 {{Blank}}橙色：玩家受伤时掉落一枚硬币 #可阻挡弹幕",
@@ -33,21 +33,21 @@ Sewn_API:AddFamiliarDescription(
     "Получает случайную форму чемпиона, каждая со своими особенностями:#{{ColorPink}}Розовый{{CR}}: Стреляет слезой в случайном направлении#{{ColorPurple}}Фиолетовый{{CR}}: Всасывает врагов и вражеские снаряды#{{ColorCyan}}Голубой{{CR}}: Стреляет 8 слезами во всех направлениях когда игрок получает урон#{{ColorBlue}}Синий{{CR}}: Спавнит 2-3 синие мухи когда игрок получает урон#{{ColorOrange}}Оранжевый{{CR}}: Спавнит монетку когда игрок получает урон#Блокирует вражеские снаряды",
     "Получает более сильные версии чемпиона:#{{ColorGreen}}Зелёный{{CR}}: Оставляет зелёные лужи#{{ColorBlack}}Black{{CR}}: Взрывается когда игрок получает урон. Взрыв наносит 40 урона#{{ColorRainbow}}Радужный{{CR}}: Копирует эффект каждой формы чемпиона. Пропадает быстрее чем другие формы#Наносит контактный урон", nil, "Терпила", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PUNCHING_BAG,
-    "Obtient différentes formes d'élite#"..
-    "{{ColorPink}}Rose{{CR}}: Tire une larme dans une direction aléatoire#"..
-    "{{ColorPurple}}Violet{{CR}}: Attire les ennemis et les projectiles#"..
-    "{{ColorCyan}}Bleu Clair{{CR}}: Tire 8 larmes en cercles quand Isaac subit des dégâts#"..
-    "{{ColorCyan}}Bleu{{CR}}: Invoque 2-3 mouches bleues quand Isaac subit des dégâts#"..
-    "{{ColorOrange}}Orange{{CR}}: Fait apparaître 1 pièce quand Isaac subit des dégâts#"..
-    "Bloque les projectiles",
-    "Obtient de puissantes formes d'élite :#"..
-    "{{ColorGreen}}Vert{{CR}}: Répand une trainée de liquide vert#"..
-    "{{ColorBlack}}Noir{{CR}}: Provoque une explosion qui inflige 40 dégâts quand Isaac subit des dégâts#"..
-    "{{ColorRainbow}}Arc-en-Ciel{{CR}}: Regroupe les effets des autres élites. Dure moins longtemps que les autres formes#"..
-    "Inflige des dégâts de contact", nil, "Théodule", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PUNCHING_BAG,
+--     "Obtient différentes formes d'élite#"..
+--     "{{ColorPink}}Rose{{CR}}: Tire une larme dans une direction aléatoire#"..
+--     "{{ColorPurple}}Violet{{CR}}: Attire les ennemis et les projectiles#"..
+--     "{{ColorCyan}}Bleu Clair{{CR}}: Tire 8 larmes en cercles quand Isaac subit des dégâts#"..
+--     "{{ColorCyan}}Bleu{{CR}}: Invoque 2-3 mouches bleues quand Isaac subit des dégâts#"..
+--     "{{ColorOrange}}Orange{{CR}}: Fait apparaître 1 pièce quand Isaac subit des dégâts#"..
+--     "Bloque les projectiles",
+--     "Obtient de puissantes formes d'élite :#"..
+--     "{{ColorGreen}}Vert{{CR}}: Répand une trainée de liquide vert#"..
+--     "{{ColorBlack}}Noir{{CR}}: Provoque une explosion qui inflige 40 dégâts quand Isaac subit des dégâts#"..
+--     "{{ColorRainbow}}Arc-en-Ciel{{CR}}: Regroupe les effets des autres élites. Dure moins longtemps que les autres formes#"..
+--     "Inflige des dégâts de contact", nil, "Théodule", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PUNCHING_BAG,
     "Gana formas champion aleatorias con cada abilidad especial#Rosa : Dispara una lágrima en una dirección aleatoria#Violeta : Empuja enemigos y lágrimas#Azul Claro : Dispara lágrimas en 8 direcciones cuando hacen daño al jugador#Azul : Spawnea entre 2 y 3 moscas azules cuando el jugador se hace daño#Naranja: Spawnea una moneda cuando el jugador se hace daño#Bloquea lágrimas",

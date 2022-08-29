@@ -18,11 +18,11 @@ Leech.Stats = {
     BurstTearForce = 8,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LEECH,
-    "{{ArrowUp}} Damage Up#Spawns creep when it collide with an enemy",
-    "{{ArrowUp}} Damage Up#Enemies it kills explode into lots of tears", nil, "Leech"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LEECH,
+--     "{{ArrowUp}} Damage Up#Spawns creep when it collide with an enemy",
+--     "{{ArrowUp}} Damage Up#Enemies it kills explode into lots of tears", nil, "Leech"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LEECH,
     "攻击敌人时额外生成血迹 #{{ArrowUp}} 攻击提升", 
@@ -33,11 +33,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон +#Оставляет лужу при контакте с врагом",
     "{{ArrowUp}} Урон +#Враги убитые пиявкой разлетаются в кучу слёз", nil, "Пиявка", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LEECH,
-    "{{ArrowUp}} Dégâts#Répand une trainée de sang lorsqu'elle inflige des dégâts",
-    "{{ArrowUp}} Dégâts#Les ennemis qu'elle tue explosent en larmes", nil, "Sangsue", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LEECH,
+--     "{{ArrowUp}} Dégâts#Répand une trainée de sang lorsqu'elle inflige des dégâts",
+--     "{{ArrowUp}} Dégâts#Les ennemis qu'elle tue explosent en larmes", nil, "Sangsue", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LEECH,
     "Genera creep al tocar un enemigo#{{ArrowUp}} + Daño",

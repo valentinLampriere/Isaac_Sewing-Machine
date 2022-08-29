@@ -4,11 +4,11 @@ local RottenBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROTTEN_BABY, CollectibleType.COLLECTIBLE_ROTTEN_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ROTTEN_BABY,
-    "Spawns an additional blue fly",
-    "Spawns a random locust", nil, "Rotten Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.ROTTEN_BABY,
+--     "Spawns an additional blue fly",
+--     "Spawns a random locust", nil, "Rotten Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROTTEN_BABY,
     "每次额外生成一只蓝苍蝇",
@@ -19,22 +19,22 @@ Sewn_API:AddFamiliarDescription(
     "Даёт дополнительную синюю муху",
     "Даёт рандомную саранчу", nil, "Гнилой Малыш", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ROTTEN_BABY,
-    "Invoque une mouche bleue supplémentaire",
-    "Invoque un locuste aléatoire", nil, "Bébé Putride", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.ROTTEN_BABY,
+--     "Invoque une mouche bleue supplémentaire",
+--     "Invoque un locuste aléatoire", nil, "Bébé Putride", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ROTTEN_BABY,
     "Spawnea una mosca azul adicional",
     "Spawnea una langosta aleatoria", nil, "Bebé Podrido", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.ROTTEN_BABY,
-    nil,
-    "Spawn a random locust#Spawn two conquest locusts at a time"
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.ROTTEN_BABY,
+--     nil,
+--     "Spawn a random locust#Spawn two conquest locusts at a time"
+-- )
 
 local function CheckIfStillFlyExists(tableFlies)
     for _, flyPtr in ipairs(tableFlies) do

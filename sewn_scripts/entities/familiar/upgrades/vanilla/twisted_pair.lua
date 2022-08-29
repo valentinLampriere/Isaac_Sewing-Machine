@@ -2,11 +2,11 @@ local TwistedPair = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.TWISTED_BABY, CollectibleType.COLLECTIBLE_TWISTED_PAIR)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.TWISTED_BABY,
-    "{{ArrowUp}}+0.33 Flat Damage Up#They move closer to the player while they fire",
-    "They align with the player's direction", nil, "Twisted Pair"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.TWISTED_BABY,
+--     "{{ArrowUp}}+0.33 Flat Damage Up#They move closer to the player while they fire",
+--     "They align with the player's direction", nil, "Twisted Pair"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.TWISTED_BABY,
     "与角色之间的距离靠的更近 #+0.33攻击",
@@ -17,23 +17,23 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон +0.33#При стрельбе они сближаются к игроку",
     "Сходятся по направлению игрока", nil, "Нечестивая Парочка", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.TWISTED_BABY,
-    "{{ArrowUp}}+0.33 Dégâts#Ils se rapprochent de Isaac quand celui-ci tire",
-    "Ils s'alignent avec Isaac, dans la direction dans lequel il tire", nil, "Jumeaux Malicieux", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.TWISTED_BABY,
+--     "{{ArrowUp}}+0.33 Dégâts#Ils se rapprochent de Isaac quand celui-ci tire",
+--     "Ils s'alignent avec Isaac, dans la direction dans lequel il tire", nil, "Jumeaux Malicieux", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.TWISTED_BABY,
     "Se mueven más cerca al jugador cuando disparan#+0,33 Daño",
     "Se alinean con la posición del jugador", nil, "Twisted Pair", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.TWISTED_BABY,
-    nil,
-    "Align with the player's direction#Slight damage up. +0.33 when the damage is less than 2, +0.5 when the damage is higher than 2",
-    "Due to API limitation, the damage bonus do not works with every weapon type (Lasers, bombs)"
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.TWISTED_BABY,
+--     nil,
+--     "Align with the player's direction#Slight damage up. +0.33 when the damage is less than 2, +0.5 when the damage is higher than 2",
+--     "Due to API limitation, the damage bonus do not works with every weapon type (Lasers, bombs)"
+-- )
 
 TwistedPair.Stats = {
     PlayerMinDistance = 15,

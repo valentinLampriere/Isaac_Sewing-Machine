@@ -5,11 +5,11 @@ local DemonBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLECTIBLE_DEMON_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEMON_BABY,
-    "Fires automatically through obstacles",
-    "{{ArrowUp}} Range up#{{ArrowUp}} Tears Up", nil, "Demon Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.DEMON_BABY,
+--     "Fires automatically through obstacles",
+--     "{{ArrowUp}} Range up#{{ArrowUp}} Tears Up", nil, "Demon Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.DEMON_BABY,
     "眼泪变为幽灵眼泪",

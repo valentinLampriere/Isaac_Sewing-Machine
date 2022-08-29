@@ -16,11 +16,11 @@ Peeper.Stats = {
     TearCooldownMin = 60,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PEEPER,
-    "Fire ".. Peeper.Stats.AmountTears .." tears in random directions every few seconds#Tries to home onto close enemies",
-    "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} spawns an additional Peeper Eye", nil, "The Peeper"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PEEPER,
+--     "Fire ".. Peeper.Stats.AmountTears .." tears in random directions every few seconds#Tries to home onto close enemies",
+--     "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} spawns an additional Peeper Eye", nil, "The Peeper"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PEEPER,
     "每隔一段时间向不同的方向发射".. Peeper.Stats.AmountTears .."5颗眼泪 #在接近敌人时有短距离的跟踪效果",

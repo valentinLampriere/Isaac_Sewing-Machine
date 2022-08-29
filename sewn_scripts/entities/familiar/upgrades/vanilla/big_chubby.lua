@@ -44,11 +44,11 @@ local BASE_SIZE = 13
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BIG_CHUBBY, CollectibleType.COLLECTIBLE_BIG_CHUBBY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BIG_CHUBBY,
-    "Increases its size and damage when eating bullets and when killing enemies#Reduces its size and damage over time and on a new floor",
-    "{{ArrowUp}} Reduces cooldown#Increases its size even more while dealing damage to enemies#Doesn't lose damage bonus on a new floor anymore", nil, "Big Chubby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.BIG_CHUBBY,
+--     "Increases its size and damage when eating bullets and when killing enemies#Reduces its size and damage over time and on a new floor",
+--     "{{ArrowUp}} Reduces cooldown#Increases its size even more while dealing damage to enemies#Doesn't lose damage bonus on a new floor anymore", nil, "Big Chubby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BIG_CHUBBY,
     "通过阻挡敌方弹幕和杀敌来增加它的大小和伤害 #随着时间流逝或到达新的一层时，会失去其获得的加成",

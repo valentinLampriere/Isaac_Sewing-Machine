@@ -5,11 +5,11 @@ local HeadlessBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HEADLESS_BABY, CollectibleType.COLLECTIBLE_HEADLESS_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HEADLESS_BABY,
-    "{{ArrowUp}} Creep Damage Up#{{ArrowUp}} Creep Size Up",
-    "{{ArrowUp}} Creep Damage Up#Fires burst of tears while isaac is firing", nil, "Headless Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.HEADLESS_BABY,
+--     "{{ArrowUp}} Creep Damage Up#{{ArrowUp}} Creep Size Up",
+--     "{{ArrowUp}} Creep Damage Up#Fires burst of tears while isaac is firing", nil, "Headless Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HEADLESS_BABY,
     "产生范围更大的血迹 #{{ArrowUp}} 血迹伤害提升",
@@ -20,11 +20,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон лужи +#{{ArrowUp}} Размер лужи +",
     "{{ArrowUp}} Урон лужи +#Стреляет кучей слёз когда игрок стреляет", nil, "Безголовый Малыш", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HEADLESS_BABY,
-    "{{ArrowUp}} Dégâts de la trainée de sang#{{ArrowUp}} Taille de la trainée de sang",
-    "{{ArrowUp}} Dégâts de la trainée de sang#Projette un tas de larmes quand Isaac tire", nil, "Bébé Décapité", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.HEADLESS_BABY,
+--     "{{ArrowUp}} Dégâts de la trainée de sang#{{ArrowUp}} Taille de la trainée de sang",
+--     "{{ArrowUp}} Dégâts de la trainée de sang#Projette un tas de larmes quand Isaac tire", nil, "Bébé Décapité", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HEADLESS_BABY,
     "Genera creep más grande#{{ArrowUp}} El creep hace más daño",

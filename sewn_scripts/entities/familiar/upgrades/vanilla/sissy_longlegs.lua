@@ -21,11 +21,11 @@ SissyLonglegs.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SISSY_LONGLEGS, CollectibleType.COLLECTIBLE_SISSY_LONGLEGS)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SISSY_LONGLEGS,
-    "{{ArrowUp}} +3 Flat Damage Up for Sissy's blue spiders#Sissy's blue spiders apply charm when they hit an enemy",
-    "{{ArrowUp}} Increased charm duration#{{ArrowUp}} +2 Flat Damage Up for blue spiders#Spawns additional spiders", nil, "Sissy Longlegs"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.SISSY_LONGLEGS,
+--     "{{ArrowUp}} +3 Flat Damage Up for Sissy's blue spiders#Sissy's blue spiders apply charm when they hit an enemy",
+--     "{{ArrowUp}} Increased charm duration#{{ArrowUp}} +2 Flat Damage Up for blue spiders#Spawns additional spiders", nil, "Sissy Longlegs"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISSY_LONGLEGS,
     "所生成的蓝蜘蛛额外具有魅惑效果 #生成的蓝蜘蛛接触敌人时具有范围伤害",

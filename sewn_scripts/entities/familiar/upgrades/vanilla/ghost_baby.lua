@@ -2,11 +2,11 @@ local GhostBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.GHOST_BABY, CollectibleType.COLLECTIBLE_GHOST_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GHOST_BABY,
-    "{{ArrowUp}} Damage Up#Gain piercing Pupula Duplex {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}} tears",
-    "{{ArrowUp}} Tear Size Up#{{ArrowUp}} Damage Up", nil, "Ghost Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.GHOST_BABY,
+--     "{{ArrowUp}} Damage Up#Gain piercing Pupula Duplex {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}} tears",
+--     "{{ArrowUp}} Tear Size Up#{{ArrowUp}} Damage Up", nil, "Ghost Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.GHOST_BABY,
     "眼泪可穿透敌人#{{ArrowUp}} 攻击提升",

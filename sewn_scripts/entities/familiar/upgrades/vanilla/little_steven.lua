@@ -8,11 +8,11 @@ local LittleSteven = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_STEVEN, CollectibleType.COLLECTIBLE_LITTLE_STEVEN)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LITTLE_STEVEN,
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears",
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Increases chance to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear, resulting in a chain reaction", nil, "Little Steven"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LITTLE_STEVEN,
+--     "{{ArrowUp}} Damage Up#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears",
+--     "{{ArrowUp}} Damage Up#{{ArrowUp}} Increases chance to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear, resulting in a chain reaction", nil, "Little Steven"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LITTLE_STEVEN,
     "眼泪在击中敌人或杀死敌人时有几率生成Boss史蒂夫死亡时爆开的特殊环状眼泪弹幕 #杀死敌人生成的弹幕攻击会更强 #{{ArrowUp}} 射程增加#{{ArrowDown}} 弹速降低#{{ArrowUp}} 攻击提升",

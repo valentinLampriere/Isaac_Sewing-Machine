@@ -24,11 +24,11 @@ FartingBaby.Stats = {
     }
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FARTING_BABY,
-    "{{ArrowUp}} Increases chance to fart when getting hit#Has a chance to fart every few seconds. The closer it is to enemies, the higher chance for it fart",
-    "{{ArrowUp}} Increases chance to fart when getting hit even more!#Gain an additional burning fart and holy fart", nil, "Farting Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.FARTING_BABY,
+--     "{{ArrowUp}} Increases chance to fart when getting hit#Has a chance to fart every few seconds. The closer it is to enemies, the higher chance for it fart",
+--     "{{ArrowUp}} Increases chance to fart when getting hit even more!#Gain an additional burning fart and holy fart", nil, "Farting Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,
     "{{ArrowUp}} 增加被攻击时放屁的几率 #每隔几秒就放一次屁。其越接近敌人，就越大几率放屁",
@@ -39,22 +39,22 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Увеличивает шанс пука#Имеет шанс пукнуть случайно. Чем он ближе к врагам, тем больше шанс пукнуть",
     "{{ArrowUp}} Увеличивает шанс пука еще больше!#Дополнительно испускает еще два пука(Горящий и Святой)", nil, "Пукающий Малыш", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FARTING_BABY,
-    "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Peut péter après quelques secondes. Être proche d'ennemis augmente ses chances de péter",
-    "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Obtient deux nouveaux type de pets. L'un brûle les ennemis, l'autre augmente les stats d'Isaac pour une très courte durée", nil, "Bébé Péteur", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.FARTING_BABY,
+--     "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Peut péter après quelques secondes. Être proche d'ennemis augmente ses chances de péter",
+--     "{{ArrowUp}} Augmente les chances de pèter lorqu'il est touché par un projectile#Obtient deux nouveaux type de pets. L'un brûle les ennemis, l'autre augmente les stats d'Isaac pour une très courte durée", nil, "Bébé Péteur", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.FARTING_BABY,
     "{{ArrowUp}} Aumenta la probabilidad de tirarse un pedo al ser golpeado#Tiene una probabilidad de tirarse un pedo. Entre más cerca esté de un enemigo, mayor es la probabilidad de tirarse un pedo.",
     "{{ArrowUp}} Aumenta la probabilidad de tirarse un pedo#Puede tirarse pedos ígneos o santos.", nil, "Bebé Tira-Pedos", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.FARTING_BABY,
-    nil,
-    "Increase chances to fart#Gain two additional farts (Burning and Holy)#Burning Farts deal damage and turn enemies on fire.#Holy Farts give a large Tears and Damage up to the player (if it is in the fart range). The effect disappears quickly."
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.FARTING_BABY,
+--     nil,
+--     "Increase chances to fart#Gain two additional farts (Burning and Holy)#Burning Farts deal damage and turn enemies on fire.#Holy Farts give a large Tears and Damage up to the player (if it is in the fart range). The effect disappears quickly."
+-- )
 
 local function SetCooldown(familiar)
     local fData = familiar:GetData()

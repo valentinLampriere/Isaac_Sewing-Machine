@@ -32,11 +32,11 @@ BombBag.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOMB_BAG, CollectibleType.COLLECTIBLE_BOMB_BAG)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOMB_BAG,
-    "{{ArrowUp}} Better bomb drops#No longer spawns troll bombs#Spawn powder on the ground. The powder catches fire when it's close to fires or explosions",
-    "{{ArrowUp}} Better bomb drops#{{ArrowUp}} Can drop Giga bombs [Rep]#When it's close to an enemy, it will sometimes explode", nil, "Bomb Bag"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.BOMB_BAG,
+--     "{{ArrowUp}} Better bomb drops#No longer spawns troll bombs#Spawn powder on the ground. The powder catches fire when it's close to fires or explosions",
+--     "{{ArrowUp}} Better bomb drops#{{ArrowUp}} Can drop Giga bombs [Rep]#When it's close to an enemy, it will sometimes explode", nil, "Bomb Bag"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOMB_BAG,
     "不再生成即爆炸弹 #产生更好的炸弹掉落 #角色走过的地方将会掉落火药粉末，着火的敌人与炸弹均可引燃",

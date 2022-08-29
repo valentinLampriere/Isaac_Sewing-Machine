@@ -4,11 +4,11 @@ local CainsOtherEye = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.CAINS_OTHER_EYE, CollectibleType.COLLECTIBLE_CAINS_OTHER_EYE)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.CAINS_OTHER_EYE,
-    "Fires 2 tears instead of 1#Tears gain a Rubber Cement effect {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}}",
-    "{{ArrowUp}}Range Up#Fires 4 tears", nil, "Cain's other Eye"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.CAINS_OTHER_EYE,
+--     "Fires 2 tears instead of 1#Tears gain a Rubber Cement effect {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}}",
+--     "{{ArrowUp}}Range Up#Fires 4 tears", nil, "Cain's other Eye"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.CAINS_OTHER_EYE,
     "发射 2 颗眼泪而非 1 颗 # 眼泪具有 {{Collectible".. CollectibleType.COLLECTIBLE_RUBBER_CEMENT .."}} 橡胶胶水特效",

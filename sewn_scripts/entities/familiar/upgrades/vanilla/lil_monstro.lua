@@ -4,11 +4,11 @@ local LilMonstro = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_MONSTRO, CollectibleType.COLLECTIBLE_LIL_MONSTRO)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_MONSTRO,
-    "Has a chance to fire a tooth (from Tough Love {{Collectible"..CollectibleType.COLLECTIBLE_TOUGH_LOVE.."}}",
-    "Fires way more tears", nil, "Lil Monstro"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_MONSTRO,
+--     "Has a chance to fire a tooth (from Tough Love {{Collectible"..CollectibleType.COLLECTIBLE_TOUGH_LOVE.."}}",
+--     "Fires way more tears", nil, "Lil Monstro"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_MONSTRO,
     "每颗发射的眼泪有概率替换成牙齿 #牙齿造成 x3.2 伤害",

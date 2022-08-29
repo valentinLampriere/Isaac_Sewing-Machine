@@ -130,4 +130,10 @@ Enums.NoUpgrade = {
     ANY = 2^0 | 2^1
 }
 
+Enums.LocalizationType = {
+    Items = 0,
+    Trinkets = 1,
+    FamiliarUpgrades = 2
+}
+
 return Enums

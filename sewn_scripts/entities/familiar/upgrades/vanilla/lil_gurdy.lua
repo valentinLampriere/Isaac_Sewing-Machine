@@ -23,11 +23,12 @@ LilGurdy.Stats = {
     DashStopThirdWaveDelay = 25,
     CreepCollisionDamage = 1,
 }
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_GURDY,
-    "{{ArrowUp}} Charges faster#While charging, fires tear in different directions",
-    "{{ArrowUp}} Charges faster#When it dashes, it leaves red creep#Fire 3 waves of tears in different directions after dashing", nil, "Lil Gurdy"
-)
+
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_GURDY,
+--     "{{ArrowUp}} Charges faster#While charging, fires tear in different directions",
+--     "{{ArrowUp}} Charges faster#When it dashes, it leaves red creep#Fire 3 waves of tears in different directions after dashing", nil, "Lil Gurdy"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_GURDY,
     "{{ArrowUp}} 充能更快 #在充能时可向四周方向发射环状眼泪",
@@ -38,11 +39,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Зарядка -#Пока заряжается, стреляет слёзы в разные стороны",
     "{{ArrowUp}} Зарядка -#При рывке оставляет кровавые лужи#Стреляет 3 волны слёз в разных направлениях после рывка", nil, "Малютка Гёрди", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_GURDY,
-    "{{ArrowUp}} Se charge plus rapidement#Projette des larmes autour de lui quand Isaac tire",
-    "{{ArrowUp}} Se charge plus rapidement#Répand une trainée de sang derrière lui quand il est propulsé#Tire 3 vagues de larmes en cercle après avoir été propulsé", nil, "P'tit Boris", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_GURDY,
+--     "{{ArrowUp}} Se charge plus rapidement#Projette des larmes autour de lui quand Isaac tire",
+--     "{{ArrowUp}} Se charge plus rapidement#Répand une trainée de sang derrière lui quand il est propulsé#Tire 3 vagues de larmes en cercle après avoir été propulsé", nil, "P'tit Boris", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_GURDY,
     "{{ArrowUp}} Puede recargase más rápido#Mientras carga, dispara lágrimas en diferentes direcciones",

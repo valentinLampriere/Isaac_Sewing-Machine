@@ -2,11 +2,11 @@ local SisterMaggy = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SISTER_MAGGY, CollectibleType.COLLECTIBLE_SISTER_MAGGY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SISTER_MAGGY,
-    "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up", nil, "Sister Maggy"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.SISTER_MAGGY,
+--     "{{ArrowUp}} Damage Up",
+--     "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up", nil, "Sister Maggy"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISTER_MAGGY,
     "{{ArrowUp}} 攻击提升",
@@ -17,22 +17,22 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон +",
     "{{ArrowUp}} Урон +#{{ArrowUp}} Скорострельность +", nil, "Сестра Мэгги", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SISTER_MAGGY,
-    "{{ArrowUp}} Dégâts",
-    "{{ArrowUp}} Dégâts#{{ArrowUp}} Débit", nil, "Sœurette Maggy", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.SISTER_MAGGY,
+--     "{{ArrowUp}} Dégâts",
+--     "{{ArrowUp}} Dégâts#{{ArrowUp}} Débit", nil, "Sœurette Maggy", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.SISTER_MAGGY,
     "{{ArrowUp}} + Daño",
     "{{ArrowUp}} + Daño#{{ArrowUp}} + Lágrimas", nil, "Hermana Maggy", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.SISTER_MAGGY,
-    "Damage Up (x1.33)",
-    "Damage Up (x1.66)#Tears Up (x1.28)"
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.SISTER_MAGGY,
+--     "Damage Up (x1.33)",
+--     "Damage Up (x1.66)#Tears Up (x1.28)"
+-- )
 
 function SisterMaggy:OnFamiliarFireTear_Super(familiar, tear)
     if REPENTANCE then

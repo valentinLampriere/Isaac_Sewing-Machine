@@ -11,11 +11,11 @@ RainbowBaby.Stats = {
     UltraTearFlags = TearFlags.TEAR_HOMING | TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_CHARM | TearFlags.TEAR_SLOW,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.RAINBOW_BABY,
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
-    "Tears combine effects", nil, "Rainbow Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.RAINBOW_BABY,
+--     "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
+--     "Tears combine effects", nil, "Rainbow Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.RAINBOW_BABY,
     "{{ArrowUp}} 攻击提升#{{ArrowUp}} 射速提升",
@@ -26,11 +26,11 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон +#{{ArrowUp}} Скорострельность +",
     "Слёзы могут иметь больше одного эффекта", nil, "Радужный Малыш", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.RAINBOW_BABY,
-    "{{ArrowUp}} Dégât#{{ArrowUp}} Débit",
-    "Les larmes combinent plusieurs effets", nil, "Bébé Arc-en-Ciel", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.RAINBOW_BABY,
+--     "{{ArrowUp}} Dégât#{{ArrowUp}} Débit",
+--     "Les larmes combinent plusieurs effets", nil, "Bébé Arc-en-Ciel", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.RAINBOW_BABY,
     "{{ArrowUp}} + Daño#{{ArrowUp}} + Lágrimas",

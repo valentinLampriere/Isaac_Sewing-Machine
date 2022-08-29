@@ -2,11 +2,11 @@ local LilBrimstone = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_BRIMSTONE, CollectibleType.COLLECTIBLE_LIL_BRIMSTONE)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_BRIMSTONE,
-    "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Slight Damage Up#Laser lasts longer#Charges quicker", nil, "Lil Brimstone"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_BRIMSTONE,
+--     "{{ArrowUp}} Damage Up",
+--     "{{ArrowUp}} Slight Damage Up#Laser lasts longer#Charges quicker", nil, "Lil Brimstone"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_BRIMSTONE,
     "{{ArrowUp}} 攻击提升",
@@ -17,22 +17,23 @@ Sewn_API:AddFamiliarDescription(
     "{{ArrowUp}} Урон +",
     "{{ArrowUp}} Малый урон +#Лазер пропадает дольше#Заряжается быстрее", nil, "Маленькая Сера", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_BRIMSTONE,
-    "{{ArrowUp}} Dégâts",
-    "{{ArrowUp}} Dégâts#Les lasers durent plus longtemps#Se charge plus vite", nil, "P'tit Soufre", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_BRIMSTONE,
+--     "{{ArrowUp}} Dégâts",
+--     "{{ArrowUp}} Dégâts#Les lasers durent plus longtemps#Se charge plus vite", nil, "P'tit Soufre", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_BRIMSTONE,
     "{{ArrowUp}} + Daño",
     "{{ArrowUp}} + Daño ligeramente#Los laseres se quedan más tiempo#Carga más rapido", nil, "Pequeño Fuego Infernal", "spa"
 )
 
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.LIL_BRIMSTONE,
-    "Damage Up (x1.5)",
-    "Laser lasts longer (x1.3)#Slight Damage Up (x1.6)#Charges quicker"
-)
+-- Sewn_API:AddEncyclopediaUpgrade(
+--     FamiliarVariant.LIL_BRIMSTONE,
+--     "Damage Up (x1.5)",
+--     "Laser lasts longer (x1.3)#Slight Damage Up (x1.6)#Charges quicker"
+-- )
+
 LilBrimstone.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.5,

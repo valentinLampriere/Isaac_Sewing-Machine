@@ -7,11 +7,11 @@ local PapaFly = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PAPA_FLY, CollectibleType.COLLECTIBLE_PAPA_FLY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PAPA_FLY,
-    "Blocks projectiles#Has a chance to spawn a fly turret when blocking a projectile",
-    "{{ArrowUp}} Range Up#{{ArrowUp}} Higher chance to spawn a fly turret#Fires 5 tears in a row", nil, "Papa Fly"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PAPA_FLY,
+--     "Blocks projectiles#Has a chance to spawn a fly turret when blocking a projectile",
+--     "{{ArrowUp}} Range Up#{{ArrowUp}} Higher chance to spawn a fly turret#Fires 5 tears in a row", nil, "Papa Fly"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PAPA_FLY,
     "可以阻挡弹幕 #阻挡弹幕时有几率生成一个 {{Collectible504}} 棕色粪块生成的棕色金块跟班（苍蝇炮塔）",
@@ -22,11 +22,11 @@ Sewn_API:AddFamiliarDescription(
     "Блокирует вражеские снаряды#Имеет шанс оставить муху-турель после блокировки снаряда",
     "{{ArrowUp}} Дальность +#{{ArrowUp}} Шанс заспавнить муху-турель при блоке +#Стреляет пятью слезами подряд", nil, "Папа-Мух", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PAPA_FLY,
-    "Bloque les projectiles#Bloquer un projectile peut faire apparaître une mouche qui tire automatiquement",
-    "{{ArrowUp}} Portée#{{ArrowUp}} Augmente les chances de faire apparaître des mouches#Tire 5 larmes à la suite", nil, "Papa Mouche", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.PAPA_FLY,
+--     "Bloque les projectiles#Bloquer un projectile peut faire apparaître une mouche qui tire automatiquement",
+--     "{{ArrowUp}} Portée#{{ArrowUp}} Augmente les chances de faire apparaître des mouches#Tire 5 larmes à la suite", nil, "Papa Mouche", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.PAPA_FLY,
     "Bloquea proyectiles#Tiene una probabilidad de spawnear una mosca torreta cuando bloquea un proyectil",

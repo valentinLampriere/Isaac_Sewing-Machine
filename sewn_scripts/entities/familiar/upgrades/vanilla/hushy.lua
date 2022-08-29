@@ -27,11 +27,11 @@ Hushy.Stats = {
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HUSHY, CollectibleType.COLLECTIBLE_HUSHY)
 
 if REPENTANCE then
-    Sewn_API:AddFamiliarDescription(
-        FamiliarVariant.HUSHY,
-        "Fire 15 tears in a random circular pattern every 4 seconds#Tears deal 3 damage",
-        "{{ArrowUp}} Damage Up#Spawn minisaac after charging for a few seconds (only in rooms with enemies)", nil, "Hushy"
-    )
+    -- Sewn_API:AddFamiliarDescription(
+    --     FamiliarVariant.HUSHY,
+    --     "Fire 15 tears in a random circular pattern every 4 seconds#Tears deal 3 damage",
+    --     "{{ArrowUp}} Damage Up#Spawn minisaac after charging for a few seconds (only in rooms with enemies)", nil, "Hushy"
+    -- )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
         "每 4 秒在一个随机的圆形图案中发射 15 次眼泪 #眼泪造成 3 点伤害",
@@ -42,27 +42,27 @@ if REPENTANCE then
         "Стреляет 15 слезами в случайном круговом порядке каждые 4 секунды#Слёзы наносят по 3 урона",
         "{{ArrowUp}} Урон +#Спавнит миниайзека после несколько секунд зарядки (только в комнате с врагами)", nil, "Молчун", "ru"
     )
-    Sewn_API:AddFamiliarDescription(
-        FamiliarVariant.HUSHY,
-        "Tire 15 larmes en cercle toutes les 4 secondes#Ses larmes infligent 3 dégâts",
-        "{{ArrowUp}} Dégâts#Charge puis invoque un Micro-Isaac dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
-    )
+    -- Sewn_API:AddFamiliarDescription(
+    --     FamiliarVariant.HUSHY,
+    --     "Tire 15 larmes en cercle toutes les 4 secondes#Ses larmes infligent 3 dégâts",
+    --     "{{ArrowUp}} Dégâts#Charge puis invoque un Micro-Isaac dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
+    -- )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
         "Dispara 15 lágrimas en un patrón circular cada 4 segundos#Las lágrimas tienen 3 de daño",
         "Genera Mini-Isaacs luego de cargar por unos segundos (solo en habitaciones con enemigos)#{{ArrowUp}} + Daño", nil, "Shhh", "spa"
     )
 
-    Sewn_API:AddEncyclopediaUpgrade(
-        FamiliarVariant.HUSHY,
-        nil, nil,
-        "In AB+, there are no minisaac so the ultra upgrade spawns a friendly boil monster instead."
-    )
+    -- Sewn_API:AddEncyclopediaUpgrade(
+    --     FamiliarVariant.HUSHY,
+    --     nil, nil,
+    --     "In AB+, there are no minisaac so the ultra upgrade spawns a friendly boil monster instead."
+    -- )
 else
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
         "Fire 15 tears in a random circular pattern every 4 seconds.#Tears deal 3 damage.",
-        "{{ArrowUp}} Damage Up#Après avoir chargé pendant un certain temps, créer un furoncle amicale (seulement dans les salles sans ennemis)", nil, "P'tit Murmure", "fr"
+        "{{ArrowUp}} Damage Up#Spawn friendly boil after charging for a few seconds (only in rooms with enemies)", nil, "Hushy", "en_us"
     )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
@@ -74,22 +74,22 @@ else
         "Стреляет 15 слезами в случайном круговом порядке каждые 4 секунды#Слёзы наносят по 3 урона",
         "{{ArrowUp}} Урон +#Спавнит миниайзека после несколько секунд зарядки (только в комнате с врагами)", nil, "Молчун", "ru"
     )
-    Sewn_API:AddFamiliarDescription(
-        FamiliarVariant.HUSHY,
-        "Tire 15 larmes en cercle toute les 4 secondes#Ses larmes font 3 de dégâts",
-        "{{ArrowUp}} Dégâts#Charge puis invoque un furoncle dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
-    )
+    -- Sewn_API:AddFamiliarDescription(
+    --     FamiliarVariant.HUSHY,
+    --     "Tire 15 larmes en cercle toute les 4 secondes#Ses larmes font 3 de dégâts",
+    --     "{{ArrowUp}} Dégâts#Charge puis invoque un furoncle dans les salles sans ennemis", nil, "P'tit Murmure", "fr"
+    -- )
     Sewn_API:AddFamiliarDescription(
         FamiliarVariant.HUSHY,
         "Dispara 15 lágrimas en un patrón circular cada 4 segundos#Las lágrimas tienen 3 de daño",
         "Genera un Bolo amistoso cada pocos segundos (solo en habitaciones con enemigos)#{{ArrowUp}} + Daño", nil, "Shhh", "spa"
     )
 
-    Sewn_API:AddEncyclopediaUpgrade(
-        FamiliarVariant.HUSHY,
-        nil, nil,
-        "In Repentance the ultra upgrade spawn a tiny Isaac familiar (known as Minisaac) instead of a boil monster."
-    )
+    -- Sewn_API:AddEncyclopediaUpgrade(
+    --     FamiliarVariant.HUSHY,
+    --     nil, nil,
+    --     "In Repentance the ultra upgrade spawn a tiny Isaac familiar (known as Minisaac) instead of a boil monster."
+    -- )
 end
 
 local function HandleAttackCircleTears(familiar)

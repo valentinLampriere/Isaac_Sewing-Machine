@@ -17,11 +17,11 @@ MomsRazor.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.MOMS_RAZOR, CollectibleType.COLLECTIBLE_MOMS_RAZOR)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.MOMS_RAZOR,
-    "{{ArrowUp}} Extends the Bleed duration (Bosses are not affected)",
-    "{{ArrowUp}} Extends the Bleed duration#When an enemy dies while bleeding they spawn a large blood puddle#Have a chance to spawn half a heart {{HalfHeart}}", nil, "Mom's Razor"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.MOMS_RAZOR,
+--     "{{ArrowUp}} Extends the Bleed duration (Bosses are not affected)",
+--     "{{ArrowUp}} Extends the Bleed duration#When an enemy dies while bleeding they spawn a large blood puddle#Have a chance to spawn half a heart {{HalfHeart}}", nil, "Mom's Razor"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.MOMS_RAZOR,
     "{{ArrowUp}} 延长流血效果的持续时间，Boss不受此影响",

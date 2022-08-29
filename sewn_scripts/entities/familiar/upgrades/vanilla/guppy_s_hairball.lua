@@ -5,11 +5,11 @@ local GuppysHairball = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.GUPPYS_HAIRBALL, CollectibleType.COLLECTIBLE_GUPPYS_HAIRBALL)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GUPPYS_HAIRBALL,
-    "Start on the second size#Have a chance to spawn flies when it kills an enemy or when it blocks a projectile",
-    "Start on the third size#Spawns more flies when it kills an enemy and when it blocks projectiles", nil, "Guppy's Hairball"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.GUPPYS_HAIRBALL,
+--     "Start on the second size#Have a chance to spawn flies when it kills an enemy or when it blocks a projectile",
+--     "Start on the third size#Spawns more flies when it kills an enemy and when it blocks projectiles", nil, "Guppy's Hairball"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.GUPPYS_HAIRBALL,
     "每层初始时直接提升到第二形态的大小，击杀或阻挡弹幕时有概率生成蓝苍蝇",

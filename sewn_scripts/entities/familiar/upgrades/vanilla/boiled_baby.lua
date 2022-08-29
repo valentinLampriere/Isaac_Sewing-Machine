@@ -5,11 +5,11 @@ local BoiledBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOILED_BABY, CollectibleType.COLLECTIBLE_BOILED_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOILED_BABY,
-    "Increase the amount of tears it burst",
-    "Fires tears in the direction the player is firing", nil, "Boiled Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.BOILED_BABY,
+--     "Increase the amount of tears it burst",
+--     "Fires tears in the direction the player is firing", nil, "Boiled Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BOILED_BABY,
     "发射更多的眼泪",

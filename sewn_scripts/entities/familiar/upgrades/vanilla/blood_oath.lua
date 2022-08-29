@@ -5,11 +5,11 @@ local BloodOath = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BLOOD_OATH, CollectibleType.COLLECTIBLE_BLOOD_OATH)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOOD_OATH,
-    "Spawns red creep#Creep rate and damage depends on the amount of half hearts {{HalfHeart}} removed",
-    "When it stabs, spawns random red hearts {{Heart}}", nil, "Blood Oath"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.BLOOD_OATH,
+--     "Spawns red creep#Creep rate and damage depends on the amount of half hearts {{HalfHeart}} removed",
+--     "When it stabs, spawns random red hearts {{Heart}}", nil, "Blood Oath"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.BLOOD_OATH,
     "角色额外生成血迹，生成血迹的概率与伤害跟血誓抽掉的 {{Heart}} 红心成正比",

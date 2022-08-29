@@ -2,11 +2,11 @@ local HarlequinBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HARLEQUIN_BABY, CollectibleType.COLLECTIBLE_HARLEQUIN_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HARLEQUIN_BABY,
-    "Fire an additional shot on each side",
-    "{{ArrowUp}} Damage Up", nil, "Harlequin Baby"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.HARLEQUIN_BABY,
+--     "Fire an additional shot on each side",
+--     "{{ArrowUp}} Damage Up", nil, "Harlequin Baby"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HARLEQUIN_BABY,
     "向两边额外发射一颗眼泪",
@@ -17,11 +17,11 @@ Sewn_API:AddFamiliarDescription(
     "Стреляет дополнительной слезой с каждой стороны",
     "{{ArrowUp}} Урон +", nil, "Малыш Арлекин", "ru"
 )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HARLEQUIN_BABY,
-    "Tire deux larmes supplémentaires",
-    "{{ArrowUp}} Dégâts", nil, "Bébé Arlequin", "fr"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.HARLEQUIN_BABY,
+--     "Tire deux larmes supplémentaires",
+--     "{{ArrowUp}} Dégâts", nil, "Bébé Arlequin", "fr"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.HARLEQUIN_BABY,
     "Dispara una lágrima extra a cada lado",

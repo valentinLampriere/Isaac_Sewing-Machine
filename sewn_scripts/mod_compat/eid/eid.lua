@@ -2,6 +2,7 @@ if not EID then
     return
 end
 
+local LocalizationCore = require("sewn_scripts.localization.localization_core")
 local Enums = require("sewn_scripts.core.enums")
 
 
@@ -17,8 +18,21 @@ EID:addIcon("UltraCrown", "Ultra", 0, 13, 10, 3, 10, crownSprite)
 EID:setModIndicatorIcon("SewingMachine")
 EID:setModIndicatorName("Sewing Machine")
 
--- EID Collectibles
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "Temporarily upgrades familiars for a room#Using it twice upgrades familiars to Ultra {{UltraCrown}}")
+for languageCode, textsData in pairs(LocalizationCore.AvailableLanguages) do
+    -- EID Collectibles
+    for index, itemData in ipairs(textsData.Items) do
+        local id = LocalizationCore.CollectiblesIndexToId[index]
+        EID:addCollectible(id, itemData[2], itemData[1], languageCode)
+    end
+    
+    -- EID Trinkets
+    for index, trinketData in ipairs(textsData.Trinkets) do
+        local id = LocalizationCore.TrinketsIndexToId[index]
+        EID:addTrinket(id, trinketData[2], trinketData[1], languageCode)
+    end
+end
+
+--[[EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "Temporarily upgrades familiars for a room#Using it twice upgrades familiars to Ultra {{UltraCrown}}")
 EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Upgrade every normal familiars to Super {{SuperCrown}}#With Doll's Pure Body {{Collectible".. Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY .."}}, upgrade every familiars to Ultra {{UltraCrown}}#Add 20% chance to find a Sewing Machine in Devil rooms")
 EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Upgrade every normal familiars to Super {{SuperCrown}}#With Doll's Tainted Head {{Collectible".. Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD .."}}, upgrade every familiars to Ultra {{UltraCrown}}#Add 20% chance to find a Sewing Machine in Angel rooms")
 
@@ -124,4 +138,4 @@ EID:addTrinket(Enums.TrinketType.TRINKET_SEWING_CASE, "Al entrar en una habitaci
 -- EID Cards
 EID:addCard(Enums.Card.CARD_WARRANTY, "Genera una Máquina de Coser#La Máquina de Coser cambia dependiendo del tipo de habitación en el que te encuentres", nil, "spa")
 EID:addCard(Enums.Card.CARD_STITCHING, "Rerolea las coronas de los familiares#Da una mejora gratuitas si ninguno de los familiares esta mejorado", nil, "spa")
-EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Mejora todos los familiares por una habitación#Caja de Coser de un solo uso", nil, "spa")
+EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Mejora todos los familiares por una habitación#Caja de Coser de un solo uso", nil, "spa")--]]

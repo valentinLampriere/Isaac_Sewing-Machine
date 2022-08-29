@@ -6,11 +6,11 @@ local LilAbaddon = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_ABADDON, CollectibleType.COLLECTIBLE_LIL_ABADDON)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} Damage Up#When holding the fire button, it spawns a swirl every few seconds. When fire button is released, a laser ring is fired by the swirls",
-    "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Lil Abaddon"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.LIL_ABADDON,
+--     "{{ArrowUp}} Damage Up#When holding the fire button, it spawns a swirl every few seconds. When fire button is released, a laser ring is fired by the swirls",
+--     "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Lil Abaddon"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.LIL_ABADDON,
     "{{ArrowUp}} 攻击提升#当亚巴顿宝宝在蓄力条满的时候，有概率在其当前的位置留下一个黑色漩涡，释放蓄力条时黑色漩涡也会释放黑圈（上限四个）",

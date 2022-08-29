@@ -16,11 +16,11 @@ AngelicPrism.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ANGELIC_PRISM, CollectibleType.COLLECTIBLE_ANGELIC_PRISM)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ANGELIC_PRISM,
-    "While the player fires tears in the direction of the prism, it gets closer to the player#Tears which pass through it turn spectral",
-    "Move even closer to the player#Tears which goes through it gain homing", nil, "Angelic Prism"
-)
+-- Sewn_API:AddFamiliarDescription(
+--     FamiliarVariant.ANGELIC_PRISM,
+--     "While the player fires tears in the direction of the prism, it gets closer to the player#Tears which pass through it turn spectral",
+--     "Move even closer to the player#Tears which goes through it gain homing", nil, "Angelic Prism"
+-- )
 Sewn_API:AddFamiliarDescription(
     FamiliarVariant.ANGELIC_PRISM,
     "当天使棱镜将要经过角色眼泪发射的方向时，将主动靠近到角色身前 #眼泪获得穿透效果",
