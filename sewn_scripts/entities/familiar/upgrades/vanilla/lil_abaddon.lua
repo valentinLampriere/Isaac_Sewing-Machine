@@ -6,32 +6,6 @@ local LilAbaddon = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_ABADDON, CollectibleType.COLLECTIBLE_LIL_ABADDON)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.LIL_ABADDON,
---     "{{ArrowUp}} Damage Up#When holding the fire button, it spawns a swirl every few seconds. When fire button is released, a laser ring is fired by the swirls",
---     "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Lil Abaddon"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} 攻击提升#当亚巴顿宝宝在蓄力条满的时候，有概率在其当前的位置留下一个黑色漩涡，释放蓄力条时黑色漩涡也会释放黑圈（上限四个）",
-    "黑色漩涡出现的概率提升 #黑色漩涡里产生的黑圈造成更高伤害，范围更大且持续时间也更长 #黑圈造成伤害时有概率生成 {{BlackHeart}} 黑心", nil, "亚巴顿宝宝","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} Урон +#Пока зажата кнопка стрельбы, каждые несколько секунд он будет оставлять сгустки. При отпуске заряда, все сгустки испустят лазерные кольца",
-    "Оставляет больше сгустков#Лазеры из сгустков теперь больше, наносят больше урона и пропадают дольше#Имеет маленький шанс оставить сёрные сердца {{BlackHeart}}", nil, "Маленький Абаддон", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} Dégâts#Maintenir les boutons de tir crée des tourbillons du néant#Lorsque les boutons de tir sont relachés, les tourbillons du néant génèrent un anneau du néant",
-    "{{ArrowUp}} Crée davantage de tourbillons du néant#Les anneaux du néant infligent davantage de dégâts, sont plus grands et restent actifs plus longtemps#Peut rarement faire apparaitre un cœur noir {{BlackHeart}}", nil, "P'tit Abaddon", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} + Daño#Cuando aprietas el botón de disparar, spawnea un remolino cada pocos segundos cuando se suelta el botón, un aro de laser es disparado por los remolinos",
-    "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Pequeño Abandono", "spa"
-)
-
 LilAbaddon.Stats = {
     SwirlRate = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 60,

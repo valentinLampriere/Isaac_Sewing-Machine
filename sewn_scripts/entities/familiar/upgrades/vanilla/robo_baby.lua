@@ -5,32 +5,6 @@ local RoboBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROBO_BABY, CollectibleType.COLLECTIBLE_ROBO_BABY)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.ROBO_BABY,
---     "{{ArrowUp}} Tears Up",
---     "{{ArrowUp}} Tears Up", nil, "Robo Baby"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ROBO_BABY,
-    "{{ArrowUp}} 射速提升",
-    "{{ArrowUp}} 射速提升", nil, "机器宝宝","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ROBO_BABY,
-    "{{ArrowUp}} Скорострельность +",
-    "{{ArrowUp}} Скорострельность +", nil, "Робо-Малыш", "ru"
-)
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.ROBO_BABY,
---     "{{ArrowUp}} Débit",
---     "{{ArrowUp}} Débit", nil, "Robo-Bébé", "fr"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ROBO_BABY,
-    "{{ArrowUp}} + Lágrimas",
-    "{{ArrowUp}} + Lágrimas", nil, "Robo-bebé", "spa"
-)
-
 -- Sewn_API:AddEncyclopediaUpgrade(
 --     FamiliarVariant.ROBO_BABY,
 --     "Tears Up (x1.29)",

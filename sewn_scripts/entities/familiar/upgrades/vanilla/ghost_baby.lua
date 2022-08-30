@@ -2,32 +2,6 @@ local GhostBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.GHOST_BABY, CollectibleType.COLLECTIBLE_GHOST_BABY)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.GHOST_BABY,
---     "{{ArrowUp}} Damage Up#Gain piercing Pupula Duplex {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}} tears",
---     "{{ArrowUp}} Tear Size Up#{{ArrowUp}} Damage Up", nil, "Ghost Baby"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GHOST_BABY,
-    "眼泪可穿透敌人#{{ArrowUp}} 攻击提升",
-    "眼泪大小更大 #{{ArrowUp}} 攻击提升", nil, "幽灵宝宝","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GHOST_BABY,
-    "{{ArrowUp}} Урон +#Получает пронизывающие слёзы Двойного Зрачка {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}}",
-    "{{ArrowUp}} Урон +#{{ArrowUp}} Размер слёз +", nil, "Малыш Призрак", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GHOST_BABY,
-    "{{ArrowUp}} Dégâts#Ses larmes deviennent transperçantes et prennent l'apparence de \"Polycorie\" {{Collectible"..CollectibleType.COLLECTIBLE_PUPULA_DUPLEX.."}}",
-    "{{ArrowUp}} Taille des larmes#{{ArrowUp}} Dégats", nil, "Bébé Fantôme", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GHOST_BABY,
-    "Obtiene lágrimas de Pupila Dobre penetrantes#{{ArrowUp}} + Daño",
-    "Las lágrimas son más grandes#{{ArrowUp}} + Daño", nil, "Bebé Fantasma", "spa"
-)
-
 GhostBaby.Stats = {
     TearScale = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 2,

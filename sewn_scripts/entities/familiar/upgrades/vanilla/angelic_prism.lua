@@ -16,32 +16,6 @@ AngelicPrism.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ANGELIC_PRISM, CollectibleType.COLLECTIBLE_ANGELIC_PRISM)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.ANGELIC_PRISM,
---     "While the player fires tears in the direction of the prism, it gets closer to the player#Tears which pass through it turn spectral",
---     "Move even closer to the player#Tears which goes through it gain homing", nil, "Angelic Prism"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ANGELIC_PRISM,
-    "当天使棱镜将要经过角色眼泪发射的方向时，将主动靠近到角色身前 #眼泪获得穿透效果",
-    "将会靠的更近 #眼泪将同时获得跟踪效果", nil, "天使棱镜", "zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ANGELIC_PRISM,
-    "Пока игрок стреляет слезами в сторону призмы, призма приближается к нему#Слёзы прошедшие через призму становятся спектральными",
-    "Приближается еще ближе к игроку#Слёзы прошедшие через призму становятся самонаводящимися", nil, "Ангельская призма", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ANGELIC_PRISM,
-    "Se rapproche d'Isaac lorsqu'il tire#Les larmes qui lui passent au travers deviennent spectrales",
-    "S'approche davantage de Isaac#Les larmes qui passent au travers deviennent autoguidées", nil, "Prisme Angélique", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ANGELIC_PRISM,
-	"Al disparar en la misma dirección que el prisma, este se acerca a Isaac#Las lágrimas que pasen a través del prisma se vuelven espectrales",
-	"Se acerca aún más a Isaac#Las lágrimas que pasen a través del prisma se harán teledirigidas", nil, "Prisma Angelical", "spa"
-)
-
 local defaultOrbitDistance = Vector(85, 67.5)
 
 function AngelicPrism:OnFamiliarInit(familiar)

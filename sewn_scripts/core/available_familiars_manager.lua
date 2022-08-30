@@ -62,19 +62,19 @@ function AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
         -- Vanilla items
         local eidDescription = EID.descriptions[languageCode].collectibles[familiarData.CollectibleID]
         if eidDescription ~= nil then
-            return eidDescription[2]
+            return eidDescription[2]:gsub("-", " ")
         end
 
         -- Modded items
         local eidCustomDescription = EID.descriptions[languageCode].custom["5.100."..familiarData.CollectibleID]
         if eidCustomDescription ~= nil then
-            return eidCustomDescription[2]
+            return eidCustomDescription[2]:gsub("-", " ")
         end
     end
 
     local collectible = Isaac.GetItemConfig():GetCollectible(familiarData.CollectibleID)
     if collectible ~= nil then
-        return collectible.Name
+        return collectible.Name:gsub("-", " ")
     end
 
     return "???"

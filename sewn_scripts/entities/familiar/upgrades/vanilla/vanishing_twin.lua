@@ -7,32 +7,6 @@ local VanishingTwin = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.VANISHING_TWIN, CollectibleType.COLLECTIBLE_VANISHING_TWIN)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.VANISHING_TWIN,
---     "Removes 25% of the boss copy health",
---     "Increases chances to spawn a better item (based on Quality)#Can spawn items from the Treasure pool if no Boss pool item are found", nil, "Vanishing Twin"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.VANISHING_TWIN,
-    "复制生成的Boss血量减少25%",
-    "击杀额外boss后将会生成等级更高的道具 #从 {{TreasureRoom}} 道具房与 {{BossRoom}} Boss房道具池中生成", nil, "消失的胞胎","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.VANISHING_TWIN,
-    "Убирает 25% здоровья босса-копии",
-    "Увеличивает шанс заспавнить предмет более высшего качества#Может заспавнить предмет пула Сокровищницы, если предметы пула Босса не найдены", nil, "Исчезающий Близнец", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.VANISHING_TWIN,
-    "Réduit de 25% les PV du boss copié",
-    "Augmente les chances d'obtenir un meilleur objet (selon la Qualité)#Peut faire apparaître un objet de la Treasure Room {{TreasureRoom}} si aucun objet de la Boss Room n'a été trouvé", nil, "Jumeau Évanescent", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.VANISHING_TWIN,
-    "Quita el 25% de la vida de la copia del boss",
-    "Sube la probabilidad de spawnear un item mejor (basado en la Calidad)#Puede spawnear items que vienen de la sala del tesoro si no se encuentran items del boss", nil, "Gemelo Invisible", "spa"
-)
-
 VanishingTwin.Stats = {
     QualityFourChance = 7,
     QualityThreeChance = 30,

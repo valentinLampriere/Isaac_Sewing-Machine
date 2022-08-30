@@ -17,32 +17,6 @@ MomsRazor.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.MOMS_RAZOR, CollectibleType.COLLECTIBLE_MOMS_RAZOR)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.MOMS_RAZOR,
---     "{{ArrowUp}} Extends the Bleed duration (Bosses are not affected)",
---     "{{ArrowUp}} Extends the Bleed duration#When an enemy dies while bleeding they spawn a large blood puddle#Have a chance to spawn half a heart {{HalfHeart}}", nil, "Mom's Razor"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.MOMS_RAZOR,
-    "{{ArrowUp}} 延长流血效果的持续时间，Boss不受此影响",
-    "当敌人以流血状态死亡时，会生成一滩血迹 # 有概率生成 {{HalfHeart}} 半颗红心 #{{ArrowUp}} 延长流血效果的持续时间", nil, "妈妈的剃刀","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.MOMS_RAZOR,
-    "{{ArrowUp}} Длительность кровотока + (без учёта боссов)",
-    "{{ArrowUp}} Длительность кровотока +#Когда враг умирает от кровотока, он оставляет после себя лужу крови#Получает шанс оставить половину красного сердца {{HalfHeart}}", nil, "Мамина Бритва", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.MOMS_RAZOR,
-    "{{ArrowUp}} Augmente la durée du saignement, sauf pour les Boss",
-    "{{ArrowUp}} Augmente la durée du saignement#Les ennemis qui meurent en saignant répandent une grande flaque de sang#Peut rarement laisser tomber un demi-cœur {{HalfHeart}}", nil, "Rasoir de Maman", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.MOMS_RAZOR,
-    "{{ArrowUp}} Extiende la duración de sangrado. A los jefes no les afecta.",
-    "Cuando un enemigo muere mientras sangra, spawnea un gran lago de sangre.#Tiene una probabilidad de spawnear medio corazón.#{{ArrowUp}} Extiende la duración de sangrado", nil, "Máquina de Afeitar de Mamá", "spa"
-)
-
 local function OnKillNpc(familiar, npc)
     local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_LEMON_MISHAP, 0, npc.Position, Globals.V0, familiar):ToEffect()
     creep:SetColor(CColor(0.627, 0, 0), -1, 1, false, false)

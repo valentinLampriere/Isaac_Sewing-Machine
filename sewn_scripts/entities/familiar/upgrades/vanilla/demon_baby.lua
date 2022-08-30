@@ -5,32 +5,6 @@ local DemonBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLECTIBLE_DEMON_BABY)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.DEMON_BABY,
---     "Fires automatically through obstacles",
---     "{{ArrowUp}} Range up#{{ArrowUp}} Tears Up", nil, "Demon Baby"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEMON_BABY,
-    "眼泪变为幽灵眼泪",
-    "{{ArrowUp}} 射程增加#{{ArrowUp}} 射速提升", nil, "恶魔宝宝","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEMON_BABY,
-    "Стреляет автоматически сквозь препятствия",
-    "{{ArrowUp}} Дальность +#{{ArrowUp}} Скорострельность +", nil, "Малыш Демон", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEMON_BABY,
-    "Tire automatiquement à travers les obstacles",
-    "{{ArrowUp}} Portée#{{ArrowUp}} Débit", nil, "Bébé Démoniaque", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEMON_BABY,
-    "Dispara automáticamente a través de las paredes",
-    "{{ArrowUp}} ++ Alcance#{{ArrowUp}} + Lágrimas", nil, "Bebé Demonio", "spa"
-)
-
 DemonBaby.Stats = {
     Range = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 150,

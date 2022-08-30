@@ -6,32 +6,6 @@ local SpiderMod = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SPIDER_MOD, CollectibleType.COLLECTIBLE_SPIDER_MOD)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.SPIDER_MOD,
---     "Spawns eggs which apply a random effect to enemies which walk over them#Eggs last 20 seconds",
---     "Higher chance to spawn eggs#At the end of rooms, eggs spawn blue spiders", nil, "Spider Mod"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SPIDER_MOD,
-    "行走时有几率生成一个蜘蛛卵，敌人经过蜘蛛卵时随机获得debuff #蜘蛛卵持续20秒",
-    "有更高的概率生成蜘蛛卵 #清理房间后，蜘蛛卵将会生成蓝蜘蛛", nil, "蜘蛛模组","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SPIDER_MOD,
-    "Оставляет яйца за собой, которые, как и он сам, накладывают случайный эффект на врагов при контакте#Яйца пропадают через 20 секунд",
-    "{{ArrowUp}} Шанс оставить яйца +#При завершении комнаты яйца спавнят синих пауков", nil, "Паучий Мод", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SPIDER_MOD,
-    "Pond des œufs qui appliquent un effet aléatoire aux ennemis qui marchent dessus#Les œufs ont une durée de 20 secondes",
-    "Augmente les chances de pondre un œuf#Quand une salle est terminée, les œufs éclosent en araignées bleues", nil, "Roboraignée", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SPIDER_MOD,
-    "Spawnea huevos que aplican efectos aleatorios a enemigos que pasan sobre ellos#Los huevos duran 20 segundos",
-    "Alta probabilidad de spawnear huevos#Al final de las habitaciiones, los huevos spawnean arañas azules", nil, "Mod Araña", "spa"
-)
-
 SpiderMod.Stats = {
     EggCooldownMin = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 45,

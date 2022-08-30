@@ -9,32 +9,6 @@ Incubus.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.INCUBUS, CollectibleType.COLLECTIBLE_INCUBUS)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.INCUBUS,
---     "{{ArrowUp}} Damage Up",
---     "{{ArrowUp}} Damage Up", nil, "Incubus"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.INCUBUS,
-    "{{ArrowUp}} 攻击提升 #[REP] : 现在造成与玩家相同的伤害",
-    "{{ArrowUp}} 攻击大幅提升", nil, "淫魔","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.INCUBUS,
-    "{{ArrowUp}} Урон +",
-    "{{ArrowUp}} Урон +", nil, "Инкуб", "ru"
-)
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.INCUBUS,
---     "{{ArrowUp}} Dégâts",
---     "{{ArrowUp}} Dégâts", nil, "Incubus", "fr"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.INCUBUS,
-    "{{ArrowUp}} + Daño",
-    "{{ArrowUp}} + Daño", nil, "Íncubo", "spa"
-)
-
 -- Sewn_API:AddEncyclopediaUpgrade(
 --     FamiliarVariant.INCUBUS,
 --     "Damage Up (x1.33)#[REP] : Now deal the same amount of damage as the player",

@@ -55,10 +55,18 @@ local function ToUpgrade(text, title)
 end
 
 local function GetEIDSuper(familiarID)
-    return FamiliarDescription:GetInfoForFamiliar(familiarID).SuperUpgrade
+    local info = FamiliarDescription:GetInfoForFamiliar(familiarID)
+    if info ~= nil then
+        return info.SuperUpgrade
+    end
+    return ""
 end
 local function GetEIDUltra(familiarID)
-    return FamiliarDescription:GetInfoForFamiliar(familiarID).UltraUpgrade
+    local info = FamiliarDescription:GetInfoForFamiliar(familiarID)
+    if info ~= nil then
+        return info.UltraUpgrade
+    end
+    return ""
 end
 
 function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeText, ultraUpgradeText, notesUpgradeText, overrideWiki)

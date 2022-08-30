@@ -32,32 +32,6 @@ BombBag.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOMB_BAG, CollectibleType.COLLECTIBLE_BOMB_BAG)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.BOMB_BAG,
---     "{{ArrowUp}} Better bomb drops#No longer spawns troll bombs#Spawn powder on the ground. The powder catches fire when it's close to fires or explosions",
---     "{{ArrowUp}} Better bomb drops#{{ArrowUp}} Can drop Giga bombs [Rep]#When it's close to an enemy, it will sometimes explode", nil, "Bomb Bag"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOMB_BAG,
-    "不再生成即爆炸弹 #产生更好的炸弹掉落 #角色走过的地方将会掉落火药粉末，着火的敌人与炸弹均可引燃",
-    "更加好的炸弹掉落 #可掉落Giga炸弹（矿层可毁灭地形的大炸弹）[Rep]#敌人接近时有概率爆炸", nil, "炸弹袋", "zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOMB_BAG,
-    "{{ArrowUp}} Лучше бомбы#Больше не спавнит тролль-бомбы#Оставляет порошок под собой. Порошок возгарается если близок к огню или если касается взрыва",
-    "{{ArrowUp}} Лучше бомбы#{{ArrowUp}} Может давать гига-бомбы [Rep]#Если он близок ко врагу, то иногда может взрываться", nil, "Мешочек с Бомбами", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOMB_BAG,
-    "{{ArrowUp}} Meilleurs bombes#Ne peut plus faire apparaitre de \"Troll Bombs\"#Répand de la poudre au sol qui prend feu au contact de flammes ou d'explosions",
-    "{{ArrowUp}} Meilleurs bombes#{{ArrowUp}} Peut donner des Giga Bombes [Rep]#Peut créer une explosion à proximité d'ennemis", nil, "Sac de Bombes", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOMB_BAG,
-    "Deja de generar bombas troll#Genera mejores bombas#Genera pólvora en el suelo. La pólvora se enciende al entrar en contacto con fuego o explosiones",
-    "Genera mejores bombas#Puede dar Bombas Gigantes [Rep]#Puede explotar al acercarse a un enemigo", nil, "Bolsa De Bombas", "spa"
-)
-
 local function GetCloseBombBagPowders(position)
     local closeBombBagPowders = {}
     local bombBagPowders = Isaac.FindByType(EntityType.ENTITY_EFFECT, Enums.EffectVariant.BOMB_BAG_POWDER, -1, false, false)

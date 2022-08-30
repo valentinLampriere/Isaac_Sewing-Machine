@@ -44,32 +44,6 @@ local BASE_SIZE = 13
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BIG_CHUBBY, CollectibleType.COLLECTIBLE_BIG_CHUBBY)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.BIG_CHUBBY,
---     "Increases its size and damage when eating bullets and when killing enemies#Reduces its size and damage over time and on a new floor",
---     "{{ArrowUp}} Reduces cooldown#Increases its size even more while dealing damage to enemies#Doesn't lose damage bonus on a new floor anymore", nil, "Big Chubby"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BIG_CHUBBY,
-    "通过阻挡敌方弹幕和杀敌来增加它的大小和伤害 #随着时间流逝或到达新的一层时，会失去其获得的加成",
-    "在对敌人造成伤害时会更加增加它的大小 #到达新的一层时不再失去其获得的伤害加成 #{{ArrowUp}} 减少冷却时间", nil, "大胖蛆", "zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BIG_CHUBBY,
-    "Увеличивает свой размер при поедании врагов и их снарядов#Уменьшает свои бонусы со временем и в начале нового этажа",
-    "Увеличивает свой размер еще больше при нанесении урона врагам#Больше не теряет свои бонусы при переходе на следующий этаж#{{ArrowUp}} Уменьшает задержку", nil, "Большой Чабби", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BIG_CHUBBY,
-    "Augmente sa taille et ses dégâts lorqu'il mange des projectiles ou tue des ennemis#Reprend sa taille initiale au fil du temps#Reprend sa taille initiale au changement d'étage",
-    "{{ArrowUp}} Réduit le temps de récupération#Augmente davantage sa taille et ses dégâts lorsqu'il inflige des dégâts aux ennemis#Ne perd plus ses bonus de dégâts au changement d'étage", nil, "Gros Dodu", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BIG_CHUBBY,
-    "Aumenta su tamaño y daño al comer proyectiles y al matar monstruos#Su tamaño se reduce con el tiempo y al bajar de planta",
-    "Aumenta aún más su tamaño al dañar enemigos#Ya no pierde el daño extra al cambiar de planta#{{ArrowUp}} Espera menos para atacar", nil, "Gran Chubby", "spa"
-)
-
 local function UpdateSize(familiar)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)

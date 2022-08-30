@@ -16,32 +16,6 @@ Peeper.Stats = {
     TearCooldownMin = 60,
 }
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.PEEPER,
---     "Fire ".. Peeper.Stats.AmountTears .." tears in random directions every few seconds#Tries to home onto close enemies",
---     "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} spawns an additional Peeper Eye", nil, "The Peeper"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PEEPER,
-    "每隔一段时间向不同的方向发射".. Peeper.Stats.AmountTears .."5颗眼泪 #在接近敌人时有短距离的跟踪效果",
-    "额外生成一个 {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}} 窥眼 #新的窥眼同样具有超级形态的效果 #如果持有 {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} 内眼，则再额外生成一个窥眼", nil, "窥眼","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PEEPER,
-    "Стреляет ".. Peeper.Stats.AmountTears .." слёз в каждом направлении каждые несколько секунд#Старается наводиться на врагов",
-    "Спавнит дополнительное Моргало {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#Новое Моргало также улучшено#С Внутренним Глазом {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}} спавнит также третье Моргало", nil, "Моргало", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PEEPER,
-    "Tire parfois ".. Peeper.Stats.AmountTears .." larmes en cercle#Il est légerement attiré par les ennemis a proximité",
-    "Invoque un deuxième Œil Baladeur {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}} amélioré#Invoque un Œil Baladeur supplémentaire si Isaac a \"Le Troisième Œeil\" {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}", nil, "Œil Baladeur", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PEEPER,
-    "Dispara ".. Peeper.Stats.AmountTears .." lágrimas en diferentes direcciones cada varios segundos.#Intenta acercarse a los enemigos",
-    "Spawnea un Ojo de Meador adicional{{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#El nuevo Ojo de Meador también se mejora.#Con el Ojo Interior {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawnea dos Ojos de Meador", nil, "Meador", "spa"
-)
-
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_peeper_tearCooldown = familiar:GetDropRNG():RandomInt(Peeper.Stats.TearCooldownMax - Peeper.Stats.TearCooldownMin) + Peeper.Stats.TearCooldownMin

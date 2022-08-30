@@ -5,32 +5,6 @@ local BoiledBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOILED_BABY, CollectibleType.COLLECTIBLE_BOILED_BABY)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.BOILED_BABY,
---     "Increase the amount of tears it burst",
---     "Fires tears in the direction the player is firing", nil, "Boiled Baby"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOILED_BABY,
-    "发射更多的眼泪",
-    "发射方向更改为角色攻击的方向", nil, "脓液囊宝宝", "zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOILED_BABY,
-    "Увеличивает количество слёз при атаке",
-    "Стреляет слёзы в том направлении, в котором стреляет игрок", nil, "Малыш Нарыв", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOILED_BABY,
-    "Augmente le nombre de larmes qu'il projette",
-    "Projette des larmes dans la direction des tirs d'Isaac", nil, "Bébé Furoncle", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOILED_BABY,
-	"Aumenta la cantidad de lágrimas que dispara",
-    "Dispara en la dirección que Isaac esté disparando", nil, "Bebé Hervido", "spa"
-)
-
 BoiledBaby.Stats = {
     AdditionalTearsMin = 1,
     AdditionalTearsMax = 6,

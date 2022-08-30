@@ -13,32 +13,6 @@ DryBaby.Stats = {
     },
 }
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.DRY_BABY,
---     "{{ArrowUp}} Increases chance to trigger Necronomicon effect#When it triggers the effect, enemy projectiles in the room are destroyed",
---     "{{ArrowUp}} Increases chance to trigger Necronomicon effect even more!#When it triggers the effect, enemy projectiles in the room are turned into bone shards", nil, "Dry Baby"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DRY_BABY,
-    "{{ArrowUp}} 更容易触发死灵之书效果 #触发效果时清除所有敌方子弹",
-    "更加容易触发死灵书效果 #触发效果时将所有敌方子弹转换为可阻挡弹幕的漂浮骨头", nil, "枯骨宝宝","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DRY_BABY,
-    "{{ArrowUp}} Увеличивает шанс эффекта Некрономикона#При срабатывании также уничтожает все вражеские снаряды в комнате",
-    "{{ArrowUp}} Увеличивает шанс эффекта Некрономикона еще больше!#При срабатывании также превращает все вражеские снаряды в комнате в костяшки", nil, "Высушенный Малыш", "ru"
-)
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.DRY_BABY,
---     "{{ArrowUp}} Augmente les chances de déclencher l'effet du Necronomicon#Lorsque l'effet se déclenche, détruit tous les projectiles",
---     "{{ArrowUp}} Augmente davantage les chances de déclencher l'effet du Necronomicon#Lorsque l'effet se déclenche, transforme tous les projectiles en os", nil, "Bébé Désséché", "fr"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DRY_BABY,
-    "{{ArrowUp}} Aumenta la probabilidad de hacer el efecto del Necronomicón#Al hacer este efecto, todos los proyectiles en la habitación se destruyen",
-    "Aumenta aún más la probabilidad de hacer el efecto del Necronomicón#Al hacer este efecto, todos los proyectiles en la habitación se convierten en huesos", nil, "Bebé Seco", "spa"
-)
-
 function DryBaby:familiarCollide(familiar, collider)
     if collider.Type == EntityType.ENTITY_PROJECTILE then
         if Random:CheckRoll(DryBaby.Stats.NecronomiconChance[Sewn_API:GetLevel(familiar:GetData())]) then

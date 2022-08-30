@@ -6,32 +6,6 @@ local FruityPlum = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.FRUITY_PLUM, CollectibleType.COLLECTIBLE_FRUITY_PLUM)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.FRUITY_PLUM,
---     "{{ArrowUp}} Damage Up#Gains small homing effect",
---     "Gains a Playdough Cookie {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} effect#After an attack it fires tears in all directions", nil, "Fruity Plum"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FRUITY_PLUM,
-    "{{ArrowUp}} 攻击提升 #微弱的跟踪效果",
-    "获得 {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}} 黏土饼干的效果 #在攻击完成后向所有方向发射眼泪", nil, "果味甜蝇宝","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FRUITY_PLUM,
-    "{{ArrowUp}} Урон +#Получает малый эффект самонаводки",
-    "Получает эффект Пластилинового Печенья {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}}#После атаки стреляет слезами во все стороны", nil, "Фруктовая Малышка", "ru"
-)
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.FRUITY_PLUM,
---     "{{ArrowUp}} Dégâts#P'tite Prunelle est légèrement attiré par les ennemis",
---     "Obtient l'effet de \"Pâte à Modeler\" {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}}#Après chaque attaque, tire des larmes dans toute les directions", nil, "P'tite Prunelle", "fr"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.FRUITY_PLUM,
-    "{{ArrowUp}} + Daño#Leve efecto teledirigido",
-    "Obtiene el efecto de la Galleta De Plastilina {{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}}#Luego de atacar, dispara en todas direcciones", nil, "Ciruela Frutal", "spa"
-)
-
 local function TEARFLAGS(x)
     return x >= 64 and BitSet128(0,1<<(x - 64)) or BitSet128(1<<x,0)
 end

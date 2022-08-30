@@ -18,32 +18,6 @@ Leech.Stats = {
     BurstTearForce = 8,
 }
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.LEECH,
---     "{{ArrowUp}} Damage Up#Spawns creep when it collide with an enemy",
---     "{{ArrowUp}} Damage Up#Enemies it kills explode into lots of tears", nil, "Leech"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LEECH,
-    "攻击敌人时额外生成血迹 #{{ArrowUp}} 攻击提升", 
-    "敌人被杀死时爆出眼泪#{{ArrowUp}} 攻击提升", nil, "水蛭","zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LEECH,
-    "{{ArrowUp}} Урон +#Оставляет лужу при контакте с врагом",
-    "{{ArrowUp}} Урон +#Враги убитые пиявкой разлетаются в кучу слёз", nil, "Пиявка", "ru"
-)
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.LEECH,
---     "{{ArrowUp}} Dégâts#Répand une trainée de sang lorsqu'elle inflige des dégâts",
---     "{{ArrowUp}} Dégâts#Les ennemis qu'elle tue explosent en larmes", nil, "Sangsue", "fr"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LEECH,
-    "Genera creep al tocar un enemigo#{{ArrowUp}} + Daño",
-    "Los enemigos que mate explotan en lágrimas#{{ArrowUp}} + Daño", nil, "Sanguijuela", "spa"
-)
-
 function Leech:familiarCollider(familiar, collider)
     if familiar.FrameCount % Leech.Stats.CreepSpawnRate == 0 and collider:IsVulnerableEnemy() then
         local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, familiar.Position, Globals.V0, familiar)
