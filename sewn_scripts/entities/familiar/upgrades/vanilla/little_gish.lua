@@ -19,12 +19,6 @@ LittleGish.Stats = {
 }
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_GISH, CollectibleType.COLLECTIBLE_LITTLE_GISH)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.LITTLE_GISH,
---     "Tears create a puddle of creep on hit#Slight Tears Up (x1.14)",
---     "Larger creep#Tears Up (x1.43)#Damage Up (x1.3)"
--- )
-
 function LittleGish:OnFamiliarTearUpdate(familiar, tear)
     local fData = familiar:GetData()
     Delay:DelayFunction(function(_tear)

@@ -4,12 +4,6 @@ local LilLoki = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_LOKI, CollectibleType.COLLECTIBLE_LIL_LOKI)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.LIL_LOKI,
---     nil,
---     "Damage Up (x1.5)"
--- )
-
 LilLoki.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,

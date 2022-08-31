@@ -4,12 +4,6 @@ local RottenBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROTTEN_BABY, CollectibleType.COLLECTIBLE_ROTTEN_BABY)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.ROTTEN_BABY,
---     nil,
---     "Spawn a random locust#Spawn two conquest locusts at a time"
--- )
-
 local function CheckIfStillFlyExists(tableFlies)
     for _, flyPtr in ipairs(tableFlies) do
         if flyPtr ~= nil and flyPtr.Ref ~= nil and flyPtr.Ref:Exists() then

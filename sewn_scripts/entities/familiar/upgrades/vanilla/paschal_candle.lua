@@ -4,12 +4,6 @@ local PaschalCandle = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PASCHAL_CANDLE, CollectibleType.COLLECTIBLE_PASCHAL_CANDLE)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.PASCHAL_CANDLE,
---     nil, nil,
---     "The whole familiar mechanic have been rewrite for the ultra upgrade.#Each time the player clean a room, the stat in the Found HUD will get reset and the bonus will be applied resulting in a weird effect.#This is only a visual effect in the Found HUD."
--- )
-
 PaschalCandle.Stats = {
     FlameDamageMultiplierMax = 1.5,
     FlameDamageMultiplierMin = 0.3,

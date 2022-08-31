@@ -8,7 +8,7 @@ function FamiliarDescription:GetInfoForFamiliar(familiarVariant, language)
     language = language or EID and EID:getLanguage() or "en_us"
     local familiarUpgradeDescription = familiarsUpgradeDescriptions[familiarVariant]
     if familiarUpgradeDescription == nil then
-        error(familiarVariant .. " hasn't been registered")
+        return
     end
     return familiarsUpgradeDescriptions[familiarVariant][language]
 end
@@ -31,9 +31,6 @@ function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUp
     if familiarsUpgradeDescriptions[familiarVariant] == nil then
         familiarsUpgradeDescriptions[familiarVariant] = { }
     end
-
-    Isaac.DebugString("Register " .. familiarVariant)
-    Isaac.ConsoleOutput("Register " .. familiarVariant)
 
     familiarsUpgradeDescriptions[familiarVariant][language] = {
         Name = name,

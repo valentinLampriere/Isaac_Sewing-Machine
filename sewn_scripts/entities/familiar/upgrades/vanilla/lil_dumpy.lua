@@ -133,7 +133,7 @@ LilDumpy.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_DUMPY, CollectibleType.COLLECTIBLE_LIL_DUMPY)
 
--- Adding markups
+-- Adding EID markups
 if EID then
     for variant, dumpy in pairs(LilDumpy.Dumpies) do
         dumpy.Sprite = Sprite()
@@ -145,18 +145,6 @@ if EID then
         EID:addIcon("LilDumpyVariant"..variant, "markup", 1, 10, 10, -3, -3, dumpy.Sprite)
     end
 end
-
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.LIL_DUMPY,
---     "Change to another Lil Dumpy variant each rooms as :" ..
---     "#Dumpling : Standard effect."..
---     "#Skinling : Poisons enemies when farting."..
---     "#Scabling : When it farts, fire 6 tears in a circular pattern. Tears deal 5 damage."..
---     "#Scortchling : When it farts, spawn a flame which deal 15 damage. While it is pushed by it own fart, it will apply burning effect to enemies it collide with."..
---     "#Frostling : Enemies it kills turn to ice. While resting, gain a freezing aura which freeze enemies which stay in it radius for too long."..
---     "#Dropling : When it farts, fire tears in the opposite direction. Tears deal 3 damage." ..
---     "# #Variants have a different weight which affect their chances to be picked."
--- )
 
 local function RollDumpling(familiar)
     local weightSum = 0

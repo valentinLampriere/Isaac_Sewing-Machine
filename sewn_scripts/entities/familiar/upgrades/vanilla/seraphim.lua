@@ -4,12 +4,6 @@ local Seraphim = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SERAPHIM, CollectibleType.COLLECTIBLE_SERAPHIM)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.SERAPHIM,
---     "Have 10% chance to fire a Holy Tear#Holy Tear spawn a light beam on contact",
---     "Have 15% chance to fire a Holy Tear#Tears Up (x1.24)"
--- )
-
 Seraphim.Stats = {
     TearRateBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,

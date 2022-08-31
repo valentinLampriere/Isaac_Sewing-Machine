@@ -27,12 +27,6 @@ PointyRib.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.POINTY_RIB, CollectibleType.COLLECTIBLE_POINTY_RIB)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.POINTY_RIB,
---     "Has 50% chance to apply bleed effect to non-boss enemies#Has 33% chance to spawn 1 to 5 bones when it kills an enemy",
---     "Increase chances to apply bleed effect to 80%#Increase chances to spawn bones to 6%. Can spawn 2 to 5 bones#Deal more collision damage equals to normal damage x 1.5 + 2"
--- )
-
 function PointyRib:OnFamiliarCollision(familiar, collider)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)

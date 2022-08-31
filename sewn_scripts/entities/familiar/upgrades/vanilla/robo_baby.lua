@@ -5,12 +5,6 @@ local RoboBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROBO_BABY, CollectibleType.COLLECTIBLE_ROBO_BABY)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.ROBO_BABY,
---     "Tears Up (x1.29)",
---     "Tears Up (x1.52)"
--- )
-
 local stats = {
     [Enums.FamiliarLevel.SUPER] = 6,
     [Enums.FamiliarLevel.ULTRA] = 11,

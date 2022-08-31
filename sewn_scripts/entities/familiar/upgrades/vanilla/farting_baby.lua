@@ -24,12 +24,6 @@ FartingBaby.Stats = {
     }
 }
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.FARTING_BABY,
---     nil,
---     "Increase chances to fart#Gain two additional farts (Burning and Holy)#Burning Farts deal damage and turn enemies on fire.#Holy Farts give a large Tears and Damage up to the player (if it is in the fart range). The effect disappears quickly."
--- )
-
 local function SetCooldown(familiar)
     local fData = familiar:GetData()
     local rng = familiar:GetDropRNG()

@@ -2,12 +2,6 @@ local SisterMaggy = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SISTER_MAGGY, CollectibleType.COLLECTIBLE_SISTER_MAGGY)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.SISTER_MAGGY,
---     "Damage Up (x1.33)",
---     "Damage Up (x1.66)#Tears Up (x1.28)"
--- )
-
 function SisterMaggy:OnFamiliarFireTear_Super(familiar, tear)
     if REPENTANCE then
         tear.CollisionDamage = tear.CollisionDamage * 1.33

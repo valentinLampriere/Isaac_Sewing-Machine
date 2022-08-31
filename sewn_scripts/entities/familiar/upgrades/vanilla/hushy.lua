@@ -26,20 +26,6 @@ Hushy.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HUSHY, CollectibleType.COLLECTIBLE_HUSHY)
 
--- if REPENTANCE then
---     Sewn_API:AddEncyclopediaUpgrade(
---         FamiliarVariant.HUSHY,
---         nil, nil,
---         "In AB+, there are no minisaac so the ultra upgrade spawns a friendly boil monster instead."
---     )
--- else
---     Sewn_API:AddEncyclopediaUpgrade(
---         FamiliarVariant.HUSHY,
---         nil, nil,
---         "In Repentance the ultra upgrade spawn a tiny Isaac familiar (known as Minisaac) instead of a boil monster."
---     )
--- end
-
 local function HandleAttackCircleTears(familiar)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)

@@ -48,8 +48,16 @@ function AvailableFamiliarManager:GetFamiliarCollectibleId(familiarVariant)
     end
     return -1
 end
+local function ReplaceDash(string)
+    if string == nil then
+        return
+    end
+
+    return string:gsub("-", " ")
+end
 function AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
     local familiarData = availableFamiliars[familiarVariant]
+    local name = "???"
 
     if familiarData == nil then
         error("Can't find the name for a familiar which has not been registered")
@@ -62,22 +70,22 @@ function AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
         -- Vanilla items
         local eidDescription = EID.descriptions[languageCode].collectibles[familiarData.CollectibleID]
         if eidDescription ~= nil then
-            return eidDescription[2]:gsub("-", " ")
+            name = ReplaceDash(eidDescription[2]) or name
         end
 
         -- Modded items
         local eidCustomDescription = EID.descriptions[languageCode].custom["5.100."..familiarData.CollectibleID]
         if eidCustomDescription ~= nil then
-            return eidCustomDescription[2]:gsub("-", " ")
+            name = ReplaceDash(eidCustomDescription[2]) or name
         end
     end
 
     local collectible = Isaac.GetItemConfig():GetCollectible(familiarData.CollectibleID)
     if collectible ~= nil then
-        return collectible.Name:gsub("-", " ")
+        name = ReplaceDash(collectible.Name) or name
     end
 
-    return "???"
+    return name
 end
 
 return AvailableFamiliarManager

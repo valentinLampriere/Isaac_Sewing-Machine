@@ -218,3 +218,5 @@ Encyclopedia.AddCard({
     },
     Spr = Encyclopedia.RegisterSprite("../content/gfx/ui_cardfronts.anm2", "sewingCoupon")
 })
+
+require("sewn_scripts.mod_compat.encyclopedia.encyclopedia_familiars_upgrades")

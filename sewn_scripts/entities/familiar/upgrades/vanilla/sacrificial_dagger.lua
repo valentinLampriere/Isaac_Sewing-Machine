@@ -2,12 +2,6 @@ local SacrificialDagger = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SACRIFICIAL_DAGGER, CollectibleType.COLLECTIBLE_SACRIFICIAL_DAGGER)
 
--- Sewn_API:AddEncyclopediaUpgrade(
---     FamiliarVariant.SACRIFICIAL_DAGGER,
---     "Applies a bleed effect#Small damage Up (+1 dmg)",
---     "Damage up (+4 dmg)"
--- )
-
 SacrificialDagger.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
