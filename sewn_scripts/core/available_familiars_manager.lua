@@ -60,8 +60,13 @@ function AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
     local name = "???"
 
     if familiarData == nil then
-        error("Can't find the name for a familiar which has not been registered")
+        error("Can't find the name for a familiar ("..familiarVariant..") which has not been registered")
         return
+    end
+
+    local collectible = Isaac.GetItemConfig():GetCollectible(familiarData.CollectibleID)
+    if collectible ~= nil then
+        name = ReplaceDash(collectible.Name) or name
     end
 
     if EID ~= nil then
@@ -78,11 +83,6 @@ function AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
         if eidCustomDescription ~= nil then
             name = ReplaceDash(eidCustomDescription[2]) or name
         end
-    end
-
-    local collectible = Isaac.GetItemConfig():GetCollectible(familiarData.CollectibleID)
-    if collectible ~= nil then
-        name = ReplaceDash(collectible.Name) or name
     end
 
     return name
