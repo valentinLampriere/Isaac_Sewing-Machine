@@ -14,6 +14,10 @@ function FamiliarDescription:GetInfoForFamiliar(familiarVariant, language)
 end
 
 function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUpgrade, secondUpgrade, color, optionalName, language)
+    if familiarVariant == nil then
+        error("Can't Add descriptions for familiar with nil variant")
+    end
+
     local kColor
     language = language or "en_us"
     local name = optionalName or AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
