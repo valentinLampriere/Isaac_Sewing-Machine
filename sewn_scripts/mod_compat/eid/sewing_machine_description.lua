@@ -38,7 +38,7 @@ function SewingMachineDescription:GetMachineDescription(machine)
     end
 
     return {
-        Name = colorMarkup .. "{{SewnCrown" .. levelCrown .. "}}" .. info.Name .." {{SewingMachine}}",
+        Name = colorMarkup .. "{{Crown" .. levelCrown .. "}}" .. info.Name .." {{SewingMachine}}",
         Description = upgradeDescription
     }
 end

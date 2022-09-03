@@ -3,6 +3,8 @@ local AvailableFamiliarManager = { }
 -- Store familiars which can be upgraded in the Sewing Machine
 local availableFamiliars = { }
 
+local collectibleToFamiliarVariantMap = { }
+
 local function GetSpriteFromCollectibleId(collectibleId)
     local collectible = Isaac.GetItemConfig():GetCollectible(collectibleId)
     if collectible ~= nil then
@@ -31,6 +33,16 @@ function AvailableFamiliarManager:TryMakeFamiliarAvailable(familiarVariant, coll
     end
     
     availableFamiliars[familiarVariant] = { CollectibleID = collectibleID, Sprite = sprite}
+
+    if collectibleToFamiliarVariantMap[collectibleID] == nil then
+        collectibleToFamiliarVariantMap[collectibleID] = familiarVariant
+    else
+        if type(collectibleToFamiliarVariantMap[collectibleID]) ~= "table" then
+            collectibleToFamiliarVariantMap[collectibleID] = { collectibleToFamiliarVariantMap[collectibleID] }
+        end
+
+        table.insert(collectibleToFamiliarVariantMap[collectibleID], familiarVariant)
+    end
 end
 function AvailableFamiliarManager:IsFamiliarAvailable(familiarVariant)
     return availableFamiliars[familiarVariant] ~= nil
@@ -47,6 +59,9 @@ function AvailableFamiliarManager:GetFamiliarCollectibleId(familiarVariant)
         return availableFamiliars[familiarVariant].CollectibleID or -1
     end
     return -1
+end
+function AvailableFamiliarManager:GetFamiliarFromCollectible(collectibleId)
+    return collectibleToFamiliarVariantMap[collectibleId]
 end
 local function ReplaceDash(string)
     if string == nil then

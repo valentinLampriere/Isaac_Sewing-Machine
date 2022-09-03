@@ -1,9 +1,7 @@
----@diagnostic disable: undefined-global
-local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
-
 local EIDManager = { }
 
-local isEidLoaded = false
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
+local FamiliarDescription = require("sewn_scripts.mod_compat.eid.familiar_description")
 
 function EIDManager:SetEIDForEntity(entity, name, description)
     local data = entity:GetData()
@@ -17,38 +15,36 @@ function EIDManager:ResetEIDForEntity(entity)
     data.EID_Description = nil
 end
 
-function EIDManager:AddIndicatorOnCollectibleDesciptions()
-    if EID == nil or isEidLoaded then
-        return
+function EIDManager:GetFamiliarUpgradeDescObj(collectibleId)
+    local familiarVariant = AvailableFamiliarManager:GetFamiliarFromCollectible(collectibleId)
+
+    if familiarVariant == nil then return end
+
+    if type(familiarVariant) == "table" then
+        familiarVariant = familiarVariant[1]
     end
 
-    local crownSprite = Sprite()
-    crownSprite:Load("gfx/sewn_familiar_crown.anm2", false)
-    crownSprite:LoadGraphics()
+    local info = FamiliarDescription:GetInfoForFamiliar(familiarVariant)
+    if info == nil then return end
 
-    EID:addIcon("FamiliarUpgradable", "DescrSuper", 0, 15, 12, 8, 6, crownSprite)
-    EID:addIcon("SewnCrownSuper", "Super", 0, 12, 9, 1, 10, crownSprite)
-    EID:addIcon("SewnCrownUltra", "Ultra", 0, 12, 9, 1, 10, crownSprite)
+    local description = {}
+	description.ObjType = EntityType.ENTITY_FAMILIAR
+	description.ObjVariant = familiarVariant
+	description.ObjSubType = 0
+	description.fullItemString = ""
+	description.Name = "" ..
+    "{{ColorText}}" ..
+    AvailableFamiliarManager:GetFamiliarName(familiarVariant) ..
+    " {{SewingMachine}}"
 
-    AvailableFamiliarManager:IterateOverAvailableFamiliars(function(familiarVariant, data)
-        local collectibleID = data.CollectibleID
-        local additionalDescr = "#{{SewnCrownSuper}} Upgradable"
-        
-        -- Old EID support
-        if __eidItemDescriptions ~= nil and __eidItemDescriptions[collectibleID] ~= nil then
-            __eidItemDescriptions[collectibleID] = string.gsub(__eidItemDescriptions[collectibleID], additionalDescr, "")
-        else
-            for key, data in pairs(EID.descriptions) do
-                if data.collectibles[collectibleID] ~= nil then -- Vanilla items
-                    data.collectibles[collectibleID][3] = data.collectibles[collectibleID][3] .. additionalDescr
-                elseif data.custom["5.100." .. collectibleID] ~= nil then -- Modded items
-                    data.custom["5.100." .. collectibleID][3] = data.custom["5.100." .. collectibleID][3] .. additionalDescr
-                end
-            end
-        end
-    end)
+    description.Description = "" ..
+    "{{SuperCrown}} Super :#" ..
+    info.SuperUpgrade ..
+    "#{{Blank}}" ..
+    "#{{UltraCrown}} Ultra :#" ..
+    info.UltraUpgrade
 
-    isEidLoaded = true
+    return description
 end
 
 return EIDManager
