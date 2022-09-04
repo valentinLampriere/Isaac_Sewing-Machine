@@ -1,5 +1,5 @@
 <items gfxroot="gfx/items/" version="1">
-	<active description="Temporary super familiar" quality="2" gfx="sewingBox.png" name="Sewing Box" maxcharges="3" tags="offensive"/>
+	<active description="Temporary super familiar" quality="1" gfx="sewingBox.png" name="Sewing Box" maxcharges="3" tags="offensive"/>
 	<familiar description="Auto familiar upgrader" quality="3" gfx="dollsTaintedHead.png" name="Doll's Tainted Head" tags="offensive uniquefamiliar"/>
 	<familiar description="Auto familiar upgrader" quality="3" gfx="dollsPureBody.png" name="Doll's Pure Body" tags="offensive uniquefamiliar"/>
 	<trinket cache="" description="Safety crowns" gfx="thimble.png" name="Thimble"/>
