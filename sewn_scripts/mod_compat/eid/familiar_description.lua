@@ -23,13 +23,13 @@ function FamiliarDescription:AddDescriptionsForFamiliar(familiarVariant, firstUp
     local name = optionalName or AvailableFamiliarManager:GetFamiliarName(familiarVariant, language)
     if color ~= nil then
         kColor = {color[1], color[2], color[3]}
+
+        if EID ~= nil then
+            local markupName = name.gsub(name, "'", "")
+            EID:addColor("SewnColor_".. markupName, KColor(kColor[1], kColor[2], kColor[3], 1))
+        end
     else
         kColor = {1, 1, 1}
-    end
-
-    if EID ~= nil then
-        local markupName = name.gsub(name, "'", "")
-        EID:addColor("SewnColor_".. markupName, KColor(kColor[1], kColor[2], kColor[3], 1))
     end
 
     if familiarsUpgradeDescriptions[familiarVariant] == nil then
