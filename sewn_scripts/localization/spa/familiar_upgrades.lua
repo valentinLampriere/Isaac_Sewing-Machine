@@ -343,6 +343,12 @@ local familiarsUpgrades = {
         "Se mueven más cerca al jugador cuando disparan#+0,33 Daño",
         "Se alinean con la posición del jugador"
     },
+    
+    -- BBF
+    {
+        "",
+        ""
+    },
 }
 
 return familiarsUpgrades

@@ -9,16 +9,21 @@ FamiliarPlayerTakeDamageHandler.ID = Enums.ModCallbacks.FAMILIAR_PLAYER_TAKE_DAM
 
 function FamiliarPlayerTakeDamageHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    local sustainDamage
     for _, familiar in ipairs(familiars) do
         familiar = familiar:ToFamiliar()
         if GetPtrHash(player) == GetPtrHash(familiar.Player) then
             for _, callback in ipairs(FamiliarPlayerTakeDamageHandler.RegisteredCallbacks) do
                 if CallbackFamiliarArgument:Check(familiar, callback.Argument[1], callback.Argument[2]) then
-                    callback:Function(familiar, player, flags, source)
+                    local _sustainDamage = callback:Function(familiar, player, flags, source)
+                    if _sustainDamage == false then
+                        sustainDamage = _sustainDamage
+                    end
                 end
             end
         end
     end
+    return sustainDamage
 end
 
 return FamiliarPlayerTakeDamageHandler

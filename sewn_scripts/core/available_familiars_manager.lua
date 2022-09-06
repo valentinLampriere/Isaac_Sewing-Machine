@@ -20,7 +20,7 @@ end
 
 function AvailableFamiliarManager:TryMakeFamiliarAvailable(familiarVariant, collectibleID, customSprite)
     if familiarVariant == nil then
-        error("Can't make this familiar available for Sewing Machine")
+        error("Can't make this familiar ("..familiarVariant..") available for Sewing Machine")
         return
     end
     

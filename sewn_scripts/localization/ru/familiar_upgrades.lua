@@ -343,6 +343,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Урон +0.33#При стрельбе они сближаются к игроку",
         "Сходятся по направлению игрока"
     },
+    
+    -- BBF
+    {
+        "",
+        ""
+    },
 }
 
 return familiarsUpgrades

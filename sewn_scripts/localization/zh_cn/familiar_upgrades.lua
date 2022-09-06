@@ -343,6 +343,12 @@ local familiarsUpgrades = {
         "与角色之间的距离靠的更近 #+0.33攻击",
         "眼泪弹道将和玩家射击的方向一致"
     },
+    
+    -- BBF
+    {
+        "",
+        ""
+    },
 }
 
 return familiarsUpgrades

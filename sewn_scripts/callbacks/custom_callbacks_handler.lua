@@ -199,9 +199,14 @@ function CustomCallbacksHandler:PreFamiliarCollision(familiar, collider, low)
 	end
 end
 function CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
+	local sustainDamage
 	for _, _function in ipairs(playerTakeDamage) do
-		_function(_, player, amount, flags, source, countdown)
+		local _sustainDamage = _function(_, player, amount, flags, source, countdown)
+		if _sustainDamage == false then
+			sustainDamage = _sustainDamage
+		end
 	end
+	return sustainDamage
 end
 function CustomCallbacksHandler:ExecuteCmd(cmd, args)
 	for _, _function in ipairs(executeCmd) do
