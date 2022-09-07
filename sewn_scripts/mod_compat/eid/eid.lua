@@ -3,7 +3,7 @@ if not EID then
 end
 
 local EIDManager = require("sewn_scripts.mod_compat.eid.eid_manager")
-local LocalizationCore = require("sewn_scripts.localization.localization_core")
+local Localization = require("sewn_scripts.localization.localization")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 
 ---------------
@@ -27,25 +27,38 @@ EID:setModIndicatorName("Sewing Machine")
 ----------------------
 -- EID Descriptions --
 ----------------------
-for languageCode, textsData in pairs(LocalizationCore.AvailableLanguages) do
+Localization:ForEachLanguage(function (languageCode)
     -- EID Collectibles
-    for index, itemData in ipairs(textsData.Items) do
-        local id = LocalizationCore.CollectiblesIndexToId[index]
-        EID:addCollectible(id, itemData[2], itemData[1], languageCode)
+    local itemCount = Localization:GetCollectiblesNum(languageCode)
+    for itemIndex = 1, itemCount do
+        local id = Localization:GetCollectibleId(itemIndex)
+        local name = Localization:GetCollectibleName(id, languageCode)
+        local description = Localization:GetCollectibleDescription(id, languageCode)
+        EID:addCollectible(id, description, name, languageCode)
     end
-    
     -- EID Trinkets
-    for index, trinketData in ipairs(textsData.Trinkets) do
-        local id = LocalizationCore.TrinketsIndexToId[index]
-        EID:addTrinket(id, trinketData[2], trinketData[1], languageCode)
+    local trinketCount = Localization:GetTrinketsNum(languageCode)
+    for trinketIndex = 1, trinketCount do
+        local id = Localization:GetTrinketId(trinketIndex)
+        local name = Localization:GetTrinketName(id, languageCode)
+        local description = Localization:GetTrinketDescription(id, languageCode)
+        EID:addTrinket(id, description, name, languageCode)
     end
-end
+    -- EID Cards
+    local cardCount = Localization:GetCardsNum(languageCode)
+    for cardIndex = 1, cardCount do
+        local id = Localization:GetCardId(cardIndex)
+        local name = Localization:GetCardName(id, languageCode)
+        local description = Localization:GetCardDescription(id, languageCode)
+        EID:addCard(id, description, name, languageCode)
+    end
+end)
 
 --------------------------------
 -- EID Descriptions Modifiers --
 --------------------------------
 local function UpgradableFamiliarsModifierCallback(descObj)
-    EID:appendToDescription(descObj, "#{{SuperCrown}} Upgradable")
+    EID:appendToDescription(descObj, "#{{SuperCrown}} " .. Localization:GetText(Localization.TextKey.Upgradable))
     return descObj
 end
 local function UpgradableFamiliarsModifierCondition(descObj)

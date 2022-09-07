@@ -1,3 +1,9 @@
+--- -- Name of the item in english, do not change it!
+--- {
+---     "Item Name",
+---     "Description of the item",
+--- }
+
 local Icons = require("sewn_scripts.localization.localization_helpers")
 
 local items = {

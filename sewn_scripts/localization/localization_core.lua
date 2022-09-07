@@ -103,7 +103,7 @@ end
 LocalizationCore.AvailableLanguages = { }
 
 local languageCodes = {
-    "en_us", "fr", "zh_cn", "ru", "spa"
+    "en_us", "fr", "zh_cn", "ru", "spa", "pl"
 }
 
 for _, languageCode in ipairs(languageCodes) do
@@ -111,7 +111,8 @@ for _, languageCode in ipairs(languageCodes) do
         Items = require("sewn_scripts.localization."..languageCode..".items"),
         Trinkets = require("sewn_scripts.localization."..languageCode..".trinkets"),
         FamiliarUpgrades = require("sewn_scripts.localization."..languageCode..".familiar_upgrades"),
-        Cards = require("sewn_scripts.localization."..languageCode..".cards")
+        Cards = require("sewn_scripts.localization."..languageCode..".cards"),
+        Misc = require("sewn_scripts.localization."..languageCode..".misc")
     }
 end
 

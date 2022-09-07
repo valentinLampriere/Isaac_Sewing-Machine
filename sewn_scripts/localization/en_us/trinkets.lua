@@ -1,3 +1,9 @@
+--- -- Name of the trinket in english, do not change it!
+--- {
+---     "Trinket Name",
+---     "Description of the trinket",
+--- }
+
 local trinkets = {
     -- Thimble
     {
