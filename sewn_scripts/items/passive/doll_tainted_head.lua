@@ -48,7 +48,7 @@ function DollTaintedHead:OnFamiliarInit(familiar)
     familiar:ToFamiliar():AddToFollowers()
 end
 
-CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_INIT, DollTaintedHead.OnFamiliarInit, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
-CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollTaintedHead.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_INIT, DollTaintedHead.OnFamiliarInit, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollTaintedHead.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD)
 
 return DollTaintedHead
