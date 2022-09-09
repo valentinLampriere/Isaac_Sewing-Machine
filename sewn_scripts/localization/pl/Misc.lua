@@ -2,7 +2,7 @@
 
 local misc = {
     -- "Upgradable" text which appears in the collectible description.
-    "Upgradable",
+    "Można ulepszyć",
 }
 
 return misc
