@@ -200,7 +200,6 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     local fData = familiarFromMachine:GetData()
     fData.Sewn_upgradeLevel = mData.Sewn_currentFamiliarLevel
 
-
     -- Play the normal animation (without the floating familiar)
     SewingMachine:SetIdleAnim(machine)
     

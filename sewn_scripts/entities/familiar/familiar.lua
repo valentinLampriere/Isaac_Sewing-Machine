@@ -7,19 +7,6 @@ local CColor = require("sewn_scripts.helpers.ccolor")
 
 local Familiar = { }
 
-local function SetCrownSprite(familiar)
-    local fData = familiar:GetData()
-    fData.Sewn_crown = Sprite()
-    fData.Sewn_crown:Load("gfx/sewn_familiar_crown.anm2", false)
-
-    if Sewn_API:IsSuper(fData, false) then
-        fData.Sewn_crown:Play("Super")
-    elseif Sewn_API:IsUltra(fData) then
-        fData.Sewn_crown:Play("Ultra")
-    end
-    fData.Sewn_crown:LoadGraphics()
-end
-
 local function HandleDolls(familiar)
     local fData = familiar:GetData()
 
@@ -53,6 +40,7 @@ local function InitFamiliar(familiar)
     local fData = familiar:GetData()
 
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+    fData.Sewn_upgradeLevelModifier = fData.Sewn_upgradeLevelModifier or Enums.FamiliarLevelModifier.NONE
     fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Enums.NoUpgrade.NONE
 
     HandleDolls(familiar)
@@ -69,34 +57,52 @@ function Familiar:TryInitFamiliar(familiar)
     end
 end
 
+function Familiar:SetCrownSprite(familiar)
+    local fData = familiar:GetData()
+    fData.Sewn_crown = fData.Sewn_crown or Sprite()
+    fData.Sewn_crown:Load("gfx/sewn_familiar_crown.anm2", false)
+
+    if Sewn_API:IsSuper(fData, false) then
+        fData.Sewn_crown:Play("Super")
+    elseif Sewn_API:IsUltra(fData) then
+        fData.Sewn_crown:Play("Ultra")
+    end
+    fData.Sewn_crown:LoadGraphics()
+end
+
 local function CheckCrown(familiar)
     local fData = familiar:GetData()
 
-    -- Not set yet
-    if fData.Sewn_crown == nil then
-        SetCrownSprite(familiar)
-        return
+    if fData.Sewn_resetCrownRequest ~= false and fData.Sewn_upgradeLevel > Enums.FamiliarLevel.NORMAL then
+        Familiar:SetCrownSprite(familiar)
+        fData.Sewn_resetCrownRequest = false
     end
-    -- Is super but do not have the gold crown
-    if Sewn_API:IsSuper(fData, false) and not fData.Sewn_crown:IsPlaying("Super") then
-        SetCrownSprite(familiar)
-        return
-    end
-    -- Is ultra but do not have the diamond crown
-    if Sewn_API:IsUltra(fData) and not fData.Sewn_crown:IsPlaying("Ultra") then
-        SetCrownSprite(familiar)
-        return
-    end
-    -- Is not super but has the gold crown
-    if not Sewn_API:IsSuper(fData, false) and fData.Sewn_crown:IsPlaying("Super") then
-        SetCrownSprite(familiar)
-        return
-    end
-    -- Is not ultra but has the diamond crown
-    if not Sewn_API:IsUltra(fData) and fData.Sewn_crown:IsPlaying("Ultra") then
-        SetCrownSprite(familiar)
-        return
-    end
+
+    -- -- Not set yet
+    -- if fData.Sewn_crown == nil then
+    --     SetCrownSprite(familiar)
+    --     return
+    -- end
+    -- -- Is super but do not have the gold crown
+    -- if Sewn_API:IsSuper(fData, false) and not fData.Sewn_crown:IsPlaying("Super") then
+    --     SetCrownSprite(familiar)
+    --     return
+    -- end
+    -- -- Is ultra but do not have the diamond crown
+    -- if Sewn_API:IsUltra(fData) and not fData.Sewn_crown:IsPlaying("Ultra") then
+    --     SetCrownSprite(familiar)
+    --     return
+    -- end
+    -- -- Is not super but has the gold crown
+    -- if not Sewn_API:IsSuper(fData, false) and fData.Sewn_crown:IsPlaying("Super") then
+    --     SetCrownSprite(familiar)
+    --     return
+    -- end
+    -- -- Is not ultra but has the diamond crown
+    -- if not Sewn_API:IsUltra(fData) and fData.Sewn_crown:IsPlaying("Ultra") then
+    --     SetCrownSprite(familiar)
+    --     return
+    -- end
 end
 
 function Familiar:Update(familiar)
@@ -172,10 +178,7 @@ function Familiar:RenderCrown(familiar)
     local position = GetCrownPosition(familiar)
     if fData.Sewn_crown ~= nil and fData.Sewn_crown_hide ~= true then
         -- if familiar is super -> has a golden crown
-        if Sewn_API:IsSuper(fData, false) then
-            fData.Sewn_crown:Render(position, Globals.V0, Globals.V0)
-        -- if familiar is ultra-> has a diamond crown
-        elseif Sewn_API:IsUltra(fData) then
+        if Sewn_API:IsSuper(fData) then
             fData.Sewn_crown:Render(position, Globals.V0, Globals.V0)
         end
     end
@@ -193,11 +196,14 @@ function Familiar:TemporaryUpgrade(familiar, newLevel)
         if fData.Sewn_upgradeLevel_temporary == nil then
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
         end
+        
         if newLevel == nil then
             fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel_temporary + 1
         else
             fData.Sewn_upgradeLevel_temporary = newLevel
         end
+
+        fData.Sewn_resetCrownRequest = true
         
         CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, false)
     end

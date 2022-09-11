@@ -50,7 +50,7 @@ function DollPureBody:OnFamiliarInit(familiar)
 end
 
 
-CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_INIT, DollPureBody.OnFamiliarInit, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
-CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollPureBody.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_INIT, DollPureBody.OnFamiliarInit, Enums.FamiliarVariant.DOLL_S_PURE_BODY)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollPureBody.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_PURE_BODY)
 
 return DollPureBody

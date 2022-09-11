@@ -17,8 +17,14 @@ local function NewFamiliarData(variant, upgrade, playerIndex, entity)
     return newFamiliarData
 end
 
+---Reset the familiars data by removing them from the table.
+---Doesn't remove data from the exisiting familiars if the first argument is true.
+---@param bool_keepExistingFamiliarUpgrades any
 function UpgradeManager:ResetUpgrades(bool_keepExistingFamiliarUpgrades)
-    bool_keepExistingFamiliarUpgrades = bool_keepExistingFamiliarUpgrades or false
+    if bool_keepExistingFamiliarUpgrades == nil then
+        bool_keepExistingFamiliarUpgrades = false
+    end
+    
     local _familiarsData = {}
     if bool_keepExistingFamiliarUpgrades then
         local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
@@ -110,6 +116,7 @@ function UpgradeManager:UpFamiliar(familiar, newLevel)
     local fData = familiar:GetData()
     fData.Sewn_upgradeLevel = newLevel
     CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, true)
+    fData.Sewn_resetCrownRequest = true
 end
 
 
