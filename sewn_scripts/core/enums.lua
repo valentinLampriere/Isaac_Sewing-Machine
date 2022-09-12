@@ -45,10 +45,12 @@ Enums.FamiliarLevel = {
     ULTRA = 2
 }
 
+-- Starting in the 5th bit so we can use the same value (fData.Sewn_familiarLevel) for level and level modifier.
+-- The four first bits are reserved for the level itself.
 Enums.FamiliarLevelModifier = {
-    NONE = 0,
-    TAINTED = 2^1,
-    PURE = 2^2
+    --NONE = 2^2,
+    TAINTED = 2^4,
+    PURE = 2^5
 }
 
 Enums.FamiliarLevelFlag = {
