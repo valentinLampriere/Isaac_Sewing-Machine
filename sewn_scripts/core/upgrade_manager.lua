@@ -10,7 +10,7 @@ UpgradeManager.FamiliarsData = { }
 local function NewFamiliarData(variant, upgrade, playerIndex, entity)
     local newFamiliarData = {
         Variant = variant,
-        Upgrade = upgrade or 0,
+        Upgrade = upgrade or Enums.FamiliarLevel.NORMAL,
         PlayerIndex = playerIndex or 0,
         Entity = entity
     }
@@ -132,8 +132,6 @@ function UpgradeManager:CheckForChanges()
                 local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
                 if (fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade == Enums.NoUpgrade.NONE then
-                    -- Change familiar's data to prepare stats upgrade
-                    --sewingMachineMod:callFamiliarUpgrade(familiar)
                     familiarData.Entity = familiar
                     UpgradeManager:UpFamiliar(familiar, familiarData.Upgrade)
                     break
@@ -142,11 +140,8 @@ function UpgradeManager:CheckForChanges()
         else
             local fData = familiarData.Entity:GetData()
             if fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade then
-                -- Change familiar's data to prepare stats upgrade
                 UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade)
-                --sewingMachineMod:callFamiliarUpgrade(familiarData.Entity)
             elseif fData.Sewn_upgradeLevel > familiarData.Upgrade then
-                --sewingMachineMod:resetFamiliarData(familiarData.Entity)
                 UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade)
             end
         end

@@ -84,11 +84,12 @@ function TainedLazarus:FamiliarUpgraded(familiar, isPermanentUpgrade)
     end
     if isPermanentUpgrade then
         local taintedLazarusFamiliarTracker = GetTaintedLazarusFamiliarUpgradeTrackerTable(familiar.Player)
+        local fData = familiar:GetData()
         local _fData, i = UpgradeManager:FindFamiliarData(familiar.Variant, Sewn_API:GetLevel(familiar:GetData()) - 1, familiar.Player.Index, taintedLazarusFamiliarTracker[familiar.Player:GetPlayerType()])
         --if _fData == nil then
         --    _fData, i = UpgradeManager:FindFamiliarData(familiar.Variant, Sewn_API:GetLevel(familiar:GetData()), familiar.Player.Index)
         --end
-        UpgradeManager:AddOrUpdateFamiliarData(_fData, Sewn_API:GetLevel(familiar:GetData()), familiar.Variant, familiar.Player.Index, taintedLazarusFamiliarTracker[familiar.Player:GetPlayerType()])
+        UpgradeManager:AddOrUpdateFamiliarData(_fData, Sewn_API:GetLevel(fData), fData.Sewn_upgradeLevelModifier, familiar.Variant, familiar.Player.Index, taintedLazarusFamiliarTracker[familiar.Player:GetPlayerType()])
     end
 end
 function TainedLazarus:FamiliarLoseUpgrade(familiar, losePermanentUpgrade)

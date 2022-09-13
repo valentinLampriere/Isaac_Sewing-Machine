@@ -15,6 +15,18 @@ Sewn_API.Enums = {
     NoUpgrade = Enums.NoUpgrade
 }
 
+---Retrieve the level modifier from the given level flag.
+---This just remove the first two bits.
+local function GetLevelModifierFromLevelFlag(levelFlag)
+    return (levelFlag >> 2) << 2
+end
+
+---Retrieve the level from the given level flag without the level modifier.
+---This just keeps the first two bits.
+local function GetLevelFromLevelFlag(levelFlag)
+    return levelFlag - GetLevelModifierFromLevelFlag(levelFlag)
+end
+
 -- Return true if the familiar is upgraded as SUPER (yellow crown)
 -- fData (table)                   : data attributes of the familiar retrieved with familiar:GetData()
 -- includeUltra (bool) [optionnal] : When true, return true if the familiar is SUPER or ULTRA, if false return true only when the familiar is SUPER. Default : true
@@ -36,9 +48,9 @@ function Sewn_API:IsUltra(fData)
 end
 function Sewn_API:GetLevel(fData)
     if fData.Sewn_upgradeLevel_temporary ~= nil then
-        return fData.Sewn_upgradeLevel_temporary
+        return GetLevelFromLevelFlag(fData.Sewn_upgradeLevel_temporary)
     end
-    return fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+    return GetLevelFromLevelFlag(fData.Sewn_upgradeLevel) or Enums.FamiliarLevel.NORMAL
 end
 -- Make the familiar available for the Sewing Machine
 -- Parameters :
