@@ -1,3 +1,5 @@
+--- Translation by Warhamm2000
+
 --- -- Name of the card in english, do not change it!
 --- {
 ---     "Card Name",
