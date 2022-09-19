@@ -154,7 +154,7 @@ end
 ----------------
 function Localization:GetText(textKey, languageCode)
     languageCode = languageCode or GetLanguageCode()
-    print(languageCode)
+    
     HandleLanguageCodeError(languageCode)
 
     return LocalizationCore.AvailableLanguages[languageCode].Misc[textKey]
