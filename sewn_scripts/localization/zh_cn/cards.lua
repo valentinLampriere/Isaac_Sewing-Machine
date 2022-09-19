@@ -1,4 +1,4 @@
---- Translation by Ferpe and Goncholito
+--- Translation by 汐何 / Saurtya
 
 --- -- Name of the card in english, do not change it!
 --- {
