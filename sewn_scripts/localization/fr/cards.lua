@@ -1,3 +1,5 @@
+--- Translation by siraxtas with the help of Biobak
+
 --- -- Name of the card in english, do not change it!
 --- {
 ---     "Card Name",
