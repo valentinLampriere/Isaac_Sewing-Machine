@@ -1,3 +1,5 @@
+--- Translation by siraxtas with the help of Biobak
+
 -- Do not change the english comment.
 
 local misc = {

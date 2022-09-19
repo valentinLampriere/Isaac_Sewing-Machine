@@ -1,3 +1,5 @@
+--- Translation by Moon Chan
+
 --- -- Name of the familiar in english, do not change it!
 --- {
 ---     "First upgrade description",

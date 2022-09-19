@@ -1,3 +1,5 @@
+--- Translation by Warhamm2000
+
 local Icons = require("sewn_scripts.localization.localization_helpers")
 
 local items = {

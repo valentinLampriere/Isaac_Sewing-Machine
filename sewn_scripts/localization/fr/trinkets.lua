@@ -1,3 +1,5 @@
+--- Translation by siraxtas with the help of Biobak
+
 --- -- Name of the trinket in english, do not change it!
 --- {
 ---     "Trinket Name",

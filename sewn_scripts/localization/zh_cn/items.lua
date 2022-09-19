@@ -1,3 +1,5 @@
+--- Translation by 汐何 / Saurtya
+
 --- -- Name of the item in english, do not change it!
 --- {
 ---     "Item Name",

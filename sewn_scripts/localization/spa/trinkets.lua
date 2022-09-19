@@ -1,3 +1,5 @@
+--- Translation by Ferpe and Goncholito
+
 --- -- Name of the trinket in english, do not change it!
 --- {
 ---     "Trinket Name",

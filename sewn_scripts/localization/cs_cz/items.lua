@@ -1,3 +1,5 @@
+--- Translation by David Kapitančik
+
 --- -- Name of the item in english, do not change it!
 --- {
 ---     "Item Name",

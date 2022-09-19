@@ -1,3 +1,5 @@
+--- Translation by Warhamm2000
+
 -- Do not change the english comment.
 
 local misc = {

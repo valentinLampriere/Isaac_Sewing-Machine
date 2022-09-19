@@ -1,7 +1,9 @@
+--- Translation by David Kapitančik
+
 --- -- Name of the card in english, do not change it!
 --- {
----     "Jméno karty",
----     "Popis efektu karty",
+---     "Card Name",
+---     "Description of the card effect",
 --- }
 
 local Icons = require("sewn_scripts.localization.localization_helpers")

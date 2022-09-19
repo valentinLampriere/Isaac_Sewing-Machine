@@ -1,3 +1,5 @@
+--- Translation by Moon Chan
+
 --- -- Name of the card in english, do not change it!
 --- {
 ---     "Card Name",

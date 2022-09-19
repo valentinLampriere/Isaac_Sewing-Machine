@@ -1,3 +1,5 @@
+--- Translation by Ferpe and Goncholito
+
 --- -- Name of the item in english, do not change it!
 --- {
 ---     "Item Name",

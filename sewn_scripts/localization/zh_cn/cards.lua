@@ -1,3 +1,5 @@
+--- Translation by Ferpe and Goncholito
+
 --- -- Name of the card in english, do not change it!
 --- {
 ---     "Card Name",

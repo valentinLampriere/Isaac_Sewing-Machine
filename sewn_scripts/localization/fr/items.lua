@@ -1,3 +1,5 @@
+--- Translation by siraxtas with the help of Biobak
+
 --- -- Name of the item in english, do not change it!
 --- {
 ---     "Item Name",

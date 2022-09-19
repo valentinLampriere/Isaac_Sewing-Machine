@@ -1,3 +1,5 @@
+--- Translation by 汐何 / Saurtya
+
 --- -- Name of the familiar in english, do not change it!
 --- {
 ---     "First upgrade description",

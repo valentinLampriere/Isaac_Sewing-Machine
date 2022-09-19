@@ -1,3 +1,5 @@
+--- Translation by Warhamm2000
+
 --- -- Name of the trinket in english, do not change it!
 --- {
 ---     "Trinket Name",

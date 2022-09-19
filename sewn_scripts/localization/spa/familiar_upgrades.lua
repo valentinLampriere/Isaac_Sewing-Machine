@@ -1,3 +1,5 @@
+--- Translation by Ferpe and Goncholito
+
 --- -- Name of the familiar in english, do not change it!
 --- {
 ---     "First upgrade description",
