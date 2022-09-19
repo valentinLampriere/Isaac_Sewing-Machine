@@ -103,7 +103,7 @@ end
 LocalizationCore.AvailableLanguages = { }
 
 local languageCodes = {
-    "en_us", "fr", "zh_cn", "ru", "spa", "pl"
+    "en_us", "fr", "zh_cn", "ru", "spa", "pl", "cs_cz"
 }
 
 for _, languageCode in ipairs(languageCodes) do
