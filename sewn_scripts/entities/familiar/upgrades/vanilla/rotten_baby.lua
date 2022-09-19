@@ -35,21 +35,26 @@ function RottenBaby:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     fData.Sewn_rottenBaby_additionalLocusts = { }
 end
 
-function RottenBaby:OnFamiliarShoot(familiar, sprite)
+function RottenBaby:OnFamiliarShootSuper(familiar, sprite)
     if sprite:GetFrame() == 0 then
         local fData = familiar:GetData()
         
         if not CheckIfStillFlyExists(fData.Sewn_rottenBaby_additionalFlies) then
             SpawnFly(familiar)
         end
-        if Sewn_API:IsUltra(fData) then
-            if not CheckIfStillFlyExists(fData.Sewn_rottenBaby_additionalLocusts) then
-                SpawnLocusts(familiar)
-            end
+    end
+end
+function RottenBaby:OnFamiliarShootUltra(familiar, sprite)
+    if sprite:GetFrame() == 0 then
+        local fData = familiar:GetData()
+        
+        if not CheckIfStillFlyExists(fData.Sewn_rottenBaby_additionalLocusts) then
+            SpawnLocusts(familiar)
         end
     end
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, RottenBaby.OnFamiliarUpgraded, FamiliarVariant.ROTTEN_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, RottenBaby.OnFamiliarUpgraded, FamiliarVariant.ROTTEN_BABY)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, RottenBaby.OnFamiliarShoot, FamiliarVariant.ROTTEN_BABY, nil, "FloatShootDown", "FloatShootUp", "FloatShootSide", "ShootDown", "ShootUp", "ShootSide")
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, RottenBaby.OnFamiliarShootSuper, FamiliarVariant.ROTTEN_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_SUPER, "FloatShootDown", "FloatShootUp", "FloatShootSide", "ShootDown", "ShootUp", "ShootSide")
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, RottenBaby.OnFamiliarShootUltra, FamiliarVariant.ROTTEN_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA, "FloatShootDown", "FloatShootUp", "FloatShootSide", "ShootDown", "ShootUp", "ShootSide")
