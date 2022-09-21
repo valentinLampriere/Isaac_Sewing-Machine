@@ -1,6 +1,7 @@
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local CustomCallbacks = require("sewn_scripts.callbacks.custom_callbacks")
+local Familiar = require("sewn_scripts.entities.familiar.familiar")
 
 local SewnDoll = { }
 
@@ -21,6 +22,18 @@ function SewnDoll:OnFamiliarUpdate(familiar)
     familiar:FollowParent()
 end
 
-CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, SewnDoll.OnFamiliarUpdate, Enums.FamiliarVariant.SEWN_DOLL, Sewn_API.Enums.FamiliarLevelFlag.FLAG_NORMAL)
+function SewnDoll:OnFamiliarNewRoom(dollFamiliar)
+    local player = dollFamiliar.Player
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    for _, familiar in ipairs(familiars) do
+        familiar = familiar:ToFamiliar()
+        if familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
+            Familiar:TemporaryUpgrade(familiar, Enums.FamiliarLevel.ULTRA | Enums.FamiliarLevelModifierFlag.PURE | Enums.FamiliarLevelModifierFlag.TAINTED)
+        end
+    end
+end
+
+CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, SewnDoll.OnFamiliarUpdate, Enums.FamiliarVariant.SEWN_DOLL, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, SewnDoll.OnFamiliarNewRoom, Enums.FamiliarVariant.SEWN_DOLL, Enums.FamiliarLevelFlag.FLAG_ANY)
 
 return SewnDoll

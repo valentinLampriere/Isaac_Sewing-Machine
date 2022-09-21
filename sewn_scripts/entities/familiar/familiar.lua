@@ -2,22 +2,9 @@ local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
-local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 local CColor = require("sewn_scripts.helpers.ccolor")
 
 local Familiar = { }
-
-local function HandleDolls(familiar)
-    local fData = familiar:GetData()
-
-    local hasTaintedHead = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
-    local hasPureBody = familiar.Player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
-    if hasTaintedHead and hasPureBody then
-        UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.ULTRA)
-    elseif hasTaintedHead or hasPureBody then
-        UpgradeManager:TryUpgrade(familiar.Variant, Sewn_API:GetLevel(fData), familiar.Player.Index, Enums.FamiliarLevel.SUPER)
-    end
-end
 
 local function HandleLemegetonWisps(familiar)
     if not REPENTANCE then return end
@@ -40,10 +27,8 @@ local function InitFamiliar(familiar)
     local fData = familiar:GetData()
 
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
-    fData.Sewn_upgradeLevelModifier = fData.Sewn_upgradeLevelModifier or Enums.FamiliarLevelModifier.NONE
     fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Enums.NoUpgrade.NONE
 
-    HandleDolls(familiar)
     HandleLemegetonWisps(familiar)
 end
 
@@ -72,37 +57,12 @@ end
 
 local function CheckCrown(familiar)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
 
-    if fData.Sewn_resetCrownRequest ~= false and fData.Sewn_upgradeLevel > Enums.FamiliarLevel.NORMAL then
+    if fData.Sewn_resetCrownRequest ~= false and level > Enums.FamiliarLevel.NORMAL then
         Familiar:SetCrownSprite(familiar)
         fData.Sewn_resetCrownRequest = false
     end
-
-    -- -- Not set yet
-    -- if fData.Sewn_crown == nil then
-    --     SetCrownSprite(familiar)
-    --     return
-    -- end
-    -- -- Is super but do not have the gold crown
-    -- if Sewn_API:IsSuper(fData, false) and not fData.Sewn_crown:IsPlaying("Super") then
-    --     SetCrownSprite(familiar)
-    --     return
-    -- end
-    -- -- Is ultra but do not have the diamond crown
-    -- if Sewn_API:IsUltra(fData) and not fData.Sewn_crown:IsPlaying("Ultra") then
-    --     SetCrownSprite(familiar)
-    --     return
-    -- end
-    -- -- Is not super but has the gold crown
-    -- if not Sewn_API:IsSuper(fData, false) and fData.Sewn_crown:IsPlaying("Super") then
-    --     SetCrownSprite(familiar)
-    --     return
-    -- end
-    -- -- Is not ultra but has the diamond crown
-    -- if not Sewn_API:IsUltra(fData) and fData.Sewn_crown:IsPlaying("Ultra") then
-    --     SetCrownSprite(familiar)
-    --     return
-    -- end
 end
 
 function Familiar:Update(familiar)
@@ -150,7 +110,7 @@ local function GetCrownPosition(familiar)
     local fData = familiar:GetData()
 
     local worldToScreen = Isaac.WorldToScreen(familiar.Position)
-    local position = Vector(worldToScreen.X-1, worldToScreen.Y - familiar.Size * 2)
+    local position = Vector(worldToScreen.X, worldToScreen.Y - familiar.Size * 2)
 
     if fData.Sewn_crownPositionOffset ~= nil then
         position = position - fData.Sewn_crownPositionOffset
@@ -194,7 +154,8 @@ function Familiar:TemporaryUpgrade(familiar, newLevel)
     fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Sewn_API.Enums.NoUpgrade.NONE
     if AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and not Sewn_API:IsUltra(fData) and fData.Sewn_noUpgrade & Sewn_API.Enums.NoUpgrade.TEMPORARY ~= Sewn_API.Enums.NoUpgrade.TEMPORARY then
         if fData.Sewn_upgradeLevel_temporary == nil then
-            fData.Sewn_upgradeLevel_temporary = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+            local permanentLevel = Sewn_API:GetLevel(fData, false)
+            fData.Sewn_upgradeLevel_temporary = permanentLevel
         end
         
         if newLevel == nil then

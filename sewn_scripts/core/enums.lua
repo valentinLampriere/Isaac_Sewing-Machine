@@ -45,16 +45,17 @@ Enums.FamiliarLevel = {
     ULTRA = 2
 }
 
-Enums.FamiliarLevelModifier = {
-    TAINTED = 2^2,
-    PURE = 2^3
-}
-
 Enums.FamiliarLevelFlag = {
     FLAG_NORMAL = 2^0,
     FLAG_SUPER = 2^1,
     FLAG_ULTRA = 2^2,
     FLAG_ANY = 2^0 | 2^1 | 2^2
+}
+
+Enums.FamiliarLevelModifierFlag = {
+    NONE = 2^3,
+    TAINTED = 2^4,
+    PURE = 2^5
 }
 
 Enums.CollectibleType = {

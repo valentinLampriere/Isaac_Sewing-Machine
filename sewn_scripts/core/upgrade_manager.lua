@@ -7,6 +7,8 @@ local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_
 
 UpgradeManager.FamiliarsData = { }
 
+local rerollCrownPreventer = { }
+
 local function NewFamiliarData(variant, upgrade, playerIndex, entity)
     local newFamiliarData = {
         Variant = variant,
@@ -114,11 +116,11 @@ end
 
 function UpgradeManager:UpFamiliar(familiar, newLevel)
     local fData = familiar:GetData()
-    fData.Sewn_upgradeLevel = newLevel
+    local levelModifiers = Sewn_API:GetLevelModifiers(fData)
+    fData.Sewn_upgradeLevel = newLevel + levelModifiers
     CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, true)
     fData.Sewn_resetCrownRequest = true
 end
-
 
 function UpgradeManager:CheckForChanges()
     -- Loop through familiars data to check changes in upgrades
@@ -131,7 +133,8 @@ function UpgradeManager:CheckForChanges()
             for j = #familiars, 1, -1 do
                 local familiar = familiars[j]:ToFamiliar()
                 local fData = familiar:GetData()
-                if (fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade == Enums.NoUpgrade.NONE then
+                local level = Sewn_API:GetLevel(fData, false)
+                if (level < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade == Enums.NoUpgrade.NONE then
                     familiarData.Entity = familiar
                     UpgradeManager:UpFamiliar(familiar, familiarData.Upgrade)
                     break
@@ -139,9 +142,10 @@ function UpgradeManager:CheckForChanges()
             end
         else
             local fData = familiarData.Entity:GetData()
-            if fData.Sewn_upgradeLevel == nil or fData.Sewn_upgradeLevel < familiarData.Upgrade then
+            local level = Sewn_API:GetLevel(fData, false)
+            if level < familiarData.Upgrade then
                 UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade)
-            elseif fData.Sewn_upgradeLevel > familiarData.Upgrade then
+            elseif level > familiarData.Upgrade then
                 UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade)
             end
         end
@@ -166,6 +170,11 @@ function UpgradeManager:ResetTemporaryUpgrades()
     end
 end
 
+function UpgradeManager:AddRerollCrownPeventer(familiarVariant, preventRerollCrowns)
+    preventRerollCrowns = preventRerollCrowns ~= nil and preventRerollCrowns or true
+    rerollCrownPreventer[familiarVariant] = preventRerollCrowns
+end
+
 function UpgradeManager:RerollUpgrades(player, rng)
     rng = rng or Globals.rng
 
@@ -175,6 +184,8 @@ function UpgradeManager:RerollUpgrades(player, rng)
     local crownSaveValue = 0
     local crownRetrieveValue = 0
 
+    -- TODO : Handle level modifiers. -- Actual not, level modifiers will be just temporary modifiers.
+
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
     for _, familiar in pairs(familiars) do
         local fData = familiar:GetData()
@@ -182,7 +193,9 @@ function UpgradeManager:RerollUpgrades(player, rng)
 
         fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
 
-        if GetPtrHash(familiar.Player) == GetPtrHash(player) and AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) then
+        if GetPtrHash(familiar.Player) == GetPtrHash(player) and
+        AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and
+        rerollCrownPreventer[familiar.Variant] ~= true then
             table.insert(allowedFamiliars, familiar)
             countCrowns = countCrowns + Sewn_API:GetLevel(fData)
 

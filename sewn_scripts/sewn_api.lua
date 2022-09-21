@@ -12,24 +12,31 @@ Sewn_API.Enums = {
     ModCallbacks = Enums.ModCallbacks,
     FamiliarLevel = Enums.FamiliarLevel,
     FamiliarLevelFlag = Enums.FamiliarLevelFlag,
+    FamiliarLevelModifierFlag = Enums.FamiliarLevelModifierFlag,
     NoUpgrade = Enums.NoUpgrade
 }
 
 ---Retrieve the level modifier from the given level flag.
 ---This just remove the first two bits.
 local function GetLevelModifierFromLevelFlag(levelFlag)
+    if levelFlag == nil then
+        return
+    end
     return (levelFlag >> 2) << 2
 end
 
 ---Retrieve the level from the given level flag without the level modifier.
 ---This just keeps the first two bits.
 local function GetLevelFromLevelFlag(levelFlag)
+    if levelFlag == nil then
+        return
+    end
     return levelFlag - GetLevelModifierFromLevelFlag(levelFlag)
 end
 
 -- Return true if the familiar is upgraded as SUPER (yellow crown)
--- fData (table)                   : data attributes of the familiar retrieved with familiar:GetData()
--- includeUltra (bool) [optionnal] : When true, return true if the familiar is SUPER or ULTRA, if false return true only when the familiar is SUPER. Default : true
+-- [table] : data attributes of the familiar retrieved with familiar:GetData()
+-- [boolean] (optionnal) : When true, return true if the familiar is SUPER or ULTRA, if false return true only when the familiar is SUPER. Default : true
 function Sewn_API:IsSuper(fData, includeUltra)
     if includeUltra == nil then
         includeUltra = true
@@ -42,16 +49,38 @@ function Sewn_API:IsSuper(fData, includeUltra)
 end
 
 -- Return true if the familiar is upgraded as ULTRA (blue crown)
--- fData (table) : data attributes of the familiar retrieved with familiar:GetData()
+-- [table] : data attributes of the familiar retrieved with familiar:GetData()
 function Sewn_API:IsUltra(fData)
     return Sewn_API:GetLevel(fData) >= Enums.FamiliarLevel.ULTRA
 end
-function Sewn_API:GetLevel(fData)
-    if fData.Sewn_upgradeLevel_temporary ~= nil then
+
+function Sewn_API:IsTainted(fData)
+    return Sewn_API:GetLevelModifiers(fData) & Enums.FamiliarLevelModifierFlag.TAINTED == Enums.FamiliarLevelModifierFlag.TAINTED
+end
+
+function Sewn_API:IsPure(fData)
+    return Sewn_API:GetLevelModifiers(fData) & Enums.FamiliarLevelModifierFlag.PURE == Enums.FamiliarLevelModifierFlag.PURE
+end
+
+-- Get the level of the familiar. Return 0, 1 or 2 depending on whether it is not upgraded, upgraded once or twice. Those numbers correspond to the enum FamiliarLevel.
+-- [table] : data attributes of the familiar retrieved with familiar:GetData()
+-- [boolean] (optional) : False to ignore temporary upgrades. Default is true.
+function Sewn_API:GetLevel(fData, includeTemporaryUpgrade)
+    includeTemporaryUpgrade = includeTemporaryUpgrade == nil and true or includeTemporaryUpgrade
+    if includeTemporaryUpgrade == true and fData.Sewn_upgradeLevel_temporary ~= nil then
         return GetLevelFromLevelFlag(fData.Sewn_upgradeLevel_temporary)
     end
     return GetLevelFromLevelFlag(fData.Sewn_upgradeLevel) or Enums.FamiliarLevel.NORMAL
 end
+
+function Sewn_API:GetLevelModifiers(fData, includeTemporaryUpgrade)
+    includeTemporaryUpgrade = includeTemporaryUpgrade == nil and true or includeTemporaryUpgrade
+    if includeTemporaryUpgrade == true and fData.Sewn_upgradeLevel_temporary ~= nil then
+        return GetLevelModifierFromLevelFlag(fData.Sewn_upgradeLevel_temporary)
+    end
+    return GetLevelModifierFromLevelFlag(fData.Sewn_upgradeLevel) or Enums.FamiliarLevelModifierFlag.NONE
+end
+
 -- Make the familiar available for the Sewing Machine
 -- Parameters :
 --   [FamiliarVariant]
@@ -102,5 +131,9 @@ Sewn_API.AddCrownOffset = Familiar.AddCrownOffset
 --   [string] (optionnal) : the notes text (EID formatted)
 Sewn_API.AddEncyclopediaUpgrade = EncyclopediaUpgrades.AddEncyclopediaUpgrade
 
+-- Prevent familiars with the given variant from getting it crown rerolled.
+--  [FamiliarVariant] : the variant of the familiar
+--  [boolean] (optional) : True to prevent the crown reroll, False otherwise. Default = true
+Sewn_API.AddRerollCrownPeventer = UpgradeManager.AddRerollCrownPeventer
 
 return Sewn_API
