@@ -4,9 +4,8 @@ local SewnMod = require("sewn_scripts.sewn_mod")
 
 Sewn_API = require("sewn_scripts.sewn_api")
 
-
-require("sewn_scripts.helpers.embeddablecallbackhack")
-require("sewn_scripts.helpers.apioverride")
+require("sewn_scripts.lib.embeddablecallbackhack")
+require("sewn_scripts.lib.apioverride")
 
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
