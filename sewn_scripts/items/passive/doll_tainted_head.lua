@@ -55,7 +55,7 @@ function DollTaintedHead:OnFamiliarNewRoom(dollFamiliar)
     local player = dollFamiliar.Player
     local fData = dollFamiliar:GetData()
     local level = Sewn_API:GetLevel(fData)
-    local familiarsLevel = level == Sewn_API.Enums.FamiliarLevel.ULTRA and Enums.FamiliarLevel.SUPER | Enums.FamiliarLevelModifierFlag.PURE or Enums.FamiliarLevel.SUPER
+    local familiarsLevel = level == Sewn_API.Enums.FamiliarLevel.ULTRA and Enums.FamiliarLevel.SUPER | Enums.FamiliarLevelModifierFlag.TAINTED or Enums.FamiliarLevel.SUPER
     local hasCounterPartDoll = player:HasCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
     local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
     for _, familiar in ipairs(familiars) do
