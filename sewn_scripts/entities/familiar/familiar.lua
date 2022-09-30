@@ -27,6 +27,7 @@ local function InitFamiliar(familiar)
     local fData = familiar:GetData()
 
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+    fData.Sewn_upgradeLevel_permanent = fData.Sewn_upgradeLevel_permanent or Enums.FamiliarLevel.NORMAL
     fData.Sewn_noUpgrade = fData.Sewn_noUpgrade or Enums.NoUpgrade.NONE
 
     HandleLemegetonWisps(familiar)
@@ -168,6 +169,10 @@ function Familiar:TemporaryUpgrade(familiar, newLevel)
         
         CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, false)
     end
+end
+
+function Familiar:EvaluateLevel(fData)
+    fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel_permanent
 end
 
 return Familiar

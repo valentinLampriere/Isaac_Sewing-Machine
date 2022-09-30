@@ -37,6 +37,7 @@ Enums.ModCallbacks = {
     POST_FAMILIAR_INIT = 26,
     ENTITY_TAKE_DAMAGE = 27,
     EXECUTE_CMD_FAMILIAR = 28,
+    ON_EVALUATE_FAMILIAR_LEVEL = 29,
 }
 
 Enums.FamiliarLevel = {

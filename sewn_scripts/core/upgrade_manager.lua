@@ -33,8 +33,8 @@ function UpgradeManager:ResetUpgrades(bool_keepExistingFamiliarUpgrades)
         for _, familiar in ipairs(familiars) do
             familiar = familiar:ToFamiliar()
             local fData = familiar:GetData()
-            if fData.Sewn_upgradeLevel ~= nil then
-                table.insert(_familiarsData, NewFamiliarData(familiar.Variant, fData.Sewn_upgradeLevel, familiar.Player.Index, familiar))
+            if fData.Sewn_upgradeLevel_permanent ~= nil then
+                table.insert(_familiarsData, NewFamiliarData(familiar.Variant, fData.Sewn_upgradeLevel_permanent, familiar.Player.Index, familiar))
             end
         end
     end
@@ -117,7 +117,7 @@ end
 function UpgradeManager:UpFamiliar(familiar, newLevel)
     local fData = familiar:GetData()
     local levelModifiers = Sewn_API:GetLevelModifiers(fData)
-    fData.Sewn_upgradeLevel = newLevel + levelModifiers
+    fData.Sewn_upgradeLevel_permanent = newLevel + levelModifiers
     CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, true)
     fData.Sewn_resetCrownRequest = true
 end
@@ -191,7 +191,7 @@ function UpgradeManager:RerollUpgrades(player, rng)
         local fData = familiar:GetData()
         familiar = familiar:ToFamiliar()
 
-        fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel or Enums.FamiliarLevel.NORMAL
+        fData.Sewn_upgradeLevel_permanent = fData.Sewn_upgradeLevel_permanent or Enums.FamiliarLevel.NORMAL
 
         if GetPtrHash(familiar.Player) == GetPtrHash(player) and
         AvailableFamiliarManager:IsFamiliarAvailable(familiar.Variant) and
@@ -209,7 +209,7 @@ function UpgradeManager:RerollUpgrades(player, rng)
                 crownSaveValue = crownSaveValue + familiar.Variant
             end--]]
 
-            fData.Sewn_upgradeLevel = Enums.FamiliarLevel.NORMAL
+            fData.Sewn_upgradeLevel_permanent = Enums.FamiliarLevel.NORMAL
 
             --sewingMachineMod:resetFamiliarData(familiar)
         end

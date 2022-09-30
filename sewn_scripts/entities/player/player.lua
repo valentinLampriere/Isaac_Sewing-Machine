@@ -1,5 +1,4 @@
 local Globals = require("sewn_scripts.core.globals")
-local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local Familiar = require("sewn_scripts.entities.familiar.familiar")
 local SewingMachineManager = require("sewn_scripts.core.sewing_machine_manager")
 
@@ -61,6 +60,17 @@ function Player:GetLilDelirium(player)
         familiar = familiar:ToFamiliar()
         if familiar.FrameCount == 1 and familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
             familiar:GetData().Sewn_isDelirium = true
+        end
+    end
+end
+
+function Player:EvaluateFamiliarsLevel(player)
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    for _, familiar in ipairs(familiars) do
+        familiar = familiar:ToFamiliar()
+        if player and familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
+            local fData = familiar:GetData()
+            Familiar:EvaluateLevel(fData)
         end
     end
 end

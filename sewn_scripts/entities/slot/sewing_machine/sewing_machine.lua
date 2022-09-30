@@ -137,7 +137,7 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
 
     mData.Sewn_currentFamiliarVariant = choosenFamiliar.Variant
     mData.Sewn_currentFamiliarSubType = choosenFamiliar.SubType
-    mData.Sewn_currentFamiliarLevel = choosenFamiliar:GetData().Sewn_upgradeLevel or 0
+    mData.Sewn_currentFamiliarLevel = choosenFamiliar:GetData().Sewn_upgradeLevel_permanent or 0
 
     mData.Sewn_player = player
 
@@ -198,7 +198,7 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
 
     local familiarFromMachine = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, 0, machine.Position, Globals.V0, mData.Sewn_player):ToFamiliar()
     local fData = familiarFromMachine:GetData()
-    fData.Sewn_upgradeLevel = mData.Sewn_currentFamiliarLevel
+    fData.Sewn_upgradeLevel_permanent = mData.Sewn_currentFamiliarLevel
 
     -- Play the normal animation (without the floating familiar)
     SewingMachine:SetIdleAnim(machine)
