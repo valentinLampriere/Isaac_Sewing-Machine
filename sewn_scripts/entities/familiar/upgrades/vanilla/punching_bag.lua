@@ -3,6 +3,7 @@ local Globals = require("sewn_scripts.core.globals")
 local Enums = require("sewn_scripts.core.enums")
 local ShootTearsCircular = require("sewn_scripts.helpers.shoot_tears_circular")
 local FindCloserNpc = require("sewn_scripts.helpers.find_closer_npc")
+local TableHelper = require("sewn_scripts.helpers.table_helper")
 
 local PunchingBag = { }
 
@@ -36,7 +37,8 @@ local championForms = {
     DARK_CYAN = 6,
     ORANGE = 7,
     RAINBOW = 8,
-    NUM_CHAMPION = 9
+    PURE = 9,
+    TAINTED = 10
 }
 
 local championEffects = { }
@@ -155,14 +157,48 @@ championEffects[championForms.RAINBOW] = {
         championEffects[championForms.ORANGE]:PlayerTakeDamage(championEffects[championForms.ORANGE], familiar, player)
     end
 }
+championEffects[championForms.PURE] = {
+    Color = CColor(1, 1, 1.3, 1, 0.05, 0.05, 0.1),
+    Update = function (_, this, familiar)
+        local color = this.Color
+        local r = color.R
+        local g = color.G
+        local b = color.B + math.cos(familiar.FrameCount * 0.2) * 0.3
+        familiar:SetColor(CColor(r, g, b, color.A, color.RO, color.GO, color.BO), -1, 2, false, false)
+    end,
+}
+championEffects[championForms.TAINTED] = {
+    Stats = {
+        DamageOnHit = 20
+    },
+    Color = CColor(0.5, 0.1, 0.15),
+    PlayerTakeDamage = function (_, this, familiar, player)
+        local npcs = Isaac.FindInRadius(familiar.Position, 500, EntityPartition.ENEMY)
+        for _, npc in ipairs(npcs) do
+            if npc:IsVulnerableEnemy() then
+                npc:TakeDamage(this.Stats, 0, EntityRef(familiar), 1)
+            end
+        end
+        Globals.Room:EmitBloodFromWalls(5, 10)
+    end,
+    Update = function (_, this, familiar)
+        local color = this.Color
+        local r = color.R + math.cos(familiar.FrameCount * 0.2) * 0.2
+        local g = color.G
+        local b = color.B
+        familiar:SetColor(CColor(r, g, b), -1, 2, false, false)
+    end,
+}
 
 PunchingBag.Stats = {
     ChampionTimeoutMin = 5 * 30,
     ChampionTimeoutMax = 15 * 30,
     AvailableChampions = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = { championForms.PURE_MAGENTA, championForms.MOSTLY_PURE_VIOLET, championForms.VERY_LIGHT_BLUE, championForms.VIVID_BLUE, championForms.ORANGE },
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = { championForms.STRONG_LIME_GREEN, championForms.PURE_MAGENTA, championForms.MOSTLY_PURE_VIOLET, championForms.VERY_LIGHT_BLUE, championForms.VIVID_BLUE, championForms.DARK_CYAN, championForms.ORANGE, championForms.RAINBOW,  }
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = { --[[championForms.PURE_MAGENTA, championForms.MOSTLY_PURE_VIOLET, championForms.VERY_LIGHT_BLUE, championForms.VIVID_BLUE,--]] championForms.ORANGE },
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = { championForms.STRONG_LIME_GREEN, championForms.PURE_MAGENTA, championForms.MOSTLY_PURE_VIOLET, championForms.VERY_LIGHT_BLUE, championForms.VIVID_BLUE, championForms.DARK_CYAN, championForms.ORANGE, championForms.RAINBOW  }
     },
+    PureChampion = championForms.PURE,
+    TaintedChampion = championForms.TAINTED,
     CollisionDamage = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.7,
@@ -186,8 +222,16 @@ local function ChangeColor(familiar)
 
     local level = Sewn_API:GetLevel(fData)
 
-    local rollChampion = familiar:GetDropRNG():RandomInt( #PunchingBag.Stats.AvailableChampions[level] ) + 1
-    fData.Sewn_punchingBag_champion = PunchingBag.Stats.AvailableChampions[level][rollChampion]
+    local availableChampions = TableHelper:CopyTable(PunchingBag.Stats.AvailableChampions[level])
+    if Sewn_API:IsPure(fData) then
+        table.insert(availableChampions, PunchingBag.Stats.PureChampion)
+    end
+    if Sewn_API:IsTainted(fData) then
+        table.insert(availableChampions, PunchingBag.Stats.TaintedChampion)
+    end
+    
+    local rollChampion = familiar:GetDropRNG():RandomInt(#availableChampions) + 1
+    fData.Sewn_punchingBag_champion = availableChampions[rollChampion]
 
     local choosenChampion = championEffects[fData.Sewn_punchingBag_champion]
 
@@ -227,6 +271,11 @@ function PunchingBag:OnFamiliarUpdate(familiar)
     end
 
     local currentChampion = championEffects[fData.Sewn_punchingBag_champion]
+
+    if currentChampion == nil then
+        return
+    end
+
     if currentChampion.Update ~= nil then
         currentChampion:Update(currentChampion, familiar)
     end
