@@ -6,6 +6,7 @@ Sewn_API = require("sewn_scripts.sewn_api")
 
 require("sewn_scripts.lib.embeddablecallbackhack")
 require("sewn_scripts.lib.apioverride")
+require("sewn_scripts.lib.followers_helper")
 
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
