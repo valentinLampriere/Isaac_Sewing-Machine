@@ -183,7 +183,7 @@ local function TryPutFamiliarForwardInTrail(familiar)
         return -- Do not have other familiars in the trail.
     end
     
-    local parentPriority = familiarsTrailPriority[parentFamiliar.Variant]
+    local parentPriority = familiarsTrailPriority[parentFamiliar.Variant] or FollowersHelper.TrailPriority.PRIORITY_NONE
     local familiarPriority = familiarsTrailPriority[familiar.Variant] or FollowersHelper.TrailPriority.PRIORITY_NONE
 
     if parentPriority < familiarPriority then
