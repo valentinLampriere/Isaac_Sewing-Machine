@@ -114,10 +114,20 @@ function UpgradeManager:TryUpgrade(variant, currentLevel, playerIndex, newLevel,
     return UpgradeManager:AddOrUpdateFamiliarData(_fData, newLevel, variant, playerIndex, _table)
 end
 
-function UpgradeManager:UpFamiliar(familiar, newLevel)
+function UpgradeManager:UpFamiliar(familiar, newLevel, newLevelModifier, affectPermanentUpgrade)
+    newLevelModifier = newLevelModifier or 0
+    if newLevel > Sewn_API.Enums.FamiliarLevel.ULTRA then
+        newLevel = Sewn_API.Enums.FamiliarLevel.ULTRA
+    end
+
     local fData = familiar:GetData()
-    local levelModifiers = Sewn_API:GetLevelModifiers(fData)
-    fData.Sewn_upgradeLevel_permanent = newLevel + levelModifiers
+    local levelModifiers = Sewn_API:GetLevelModifiers(fData, nil, affectPermanentUpgrade)
+
+    if affectPermanentUpgrade == true then
+        fData.Sewn_upgradeLevel_permanent = newLevel | levelModifiers | newLevelModifier
+    else
+        fData.Sewn_upgradeLevel = newLevel | levelModifiers | newLevelModifier
+    end
     CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, true)
     fData.Sewn_resetCrownRequest = true
 end
@@ -136,7 +146,7 @@ function UpgradeManager:CheckForChanges()
                 local level = Sewn_API:GetLevel(fData, false)
                 if (level < familiarData.Upgrade) and familiarData.PlayerIndex == familiar.Player.Index and fData.Sewn_noUpgrade == Enums.NoUpgrade.NONE then
                     familiarData.Entity = familiar
-                    UpgradeManager:UpFamiliar(familiar, familiarData.Upgrade)
+                    UpgradeManager:UpFamiliar(familiar, familiarData.Upgrade, nil, true)
                     break
                 end
             end
@@ -144,9 +154,9 @@ function UpgradeManager:CheckForChanges()
             local fData = familiarData.Entity:GetData()
             local level = Sewn_API:GetLevel(fData, false)
             if level < familiarData.Upgrade then
-                UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade)
+                UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade, nil, true)
             elseif level > familiarData.Upgrade then
-                UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade)
+                UpgradeManager:UpFamiliar(familiarData.Entity, familiarData.Upgrade, nil, true)
             end
         end
     end

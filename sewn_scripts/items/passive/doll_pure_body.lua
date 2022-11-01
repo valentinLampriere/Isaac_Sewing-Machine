@@ -73,8 +73,30 @@ function DollPureBody:OnFamiliarNewRoom(dollFamiliar)
     end
 end
 
+function DollPureBody:OnEvaluateFamiliarLevel(familiar)
+    local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+    local player = familiar.Player
+    
+    local dollsPureBodies = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, Enums.FamiliarVariant.DOLL_S_PURE_BODY, -1, false, false)
+    local dollPureBody = dollsPureBodies[1]
+    if dollPureBody then
+        dollPureBody = dollPureBody:ToFamiliar()
+        if dollPureBody.Player and GetPtrHash(dollPureBody.Player) == GetPtrHash(player) then
+            local _fData = dollPureBody:GetData()
+            local _level = Sewn_API:GetLevel(_fData, false)
+            if Sewn_API:IsUltra(_level) then
+                UpgradeManager:UpFamiliar(familiar, Sewn_API.Enums.FamiliarLevel.SUPER, Sewn_API.Enums.FamiliarLevelModifierFlag.PURE)
+            else
+                UpgradeManager:UpFamiliar(familiar, Sewn_API.Enums.FamiliarLevel.SUPER)
+            end
+        end
+    end
+end
+
 CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollPureBody.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)
-CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, DollPureBody.OnFamiliarNewRoom, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Enums.FamiliarLevelFlag.FLAG_ANY)
+--CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, DollPureBody.OnFamiliarNewRoom, Enums.FamiliarVariant.DOLL_S_PURE_BODY, Enums.FamiliarLevelFlag.FLAG_ANY)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.ON_EVALUATE_FAMILIAR_LEVEL, DollPureBody.OnEvaluateFamiliarLevel)
 
 Sewn_API:AddRerollCrownPeventer(Enums.FamiliarVariant.DOLL_S_PURE_BODY)
 

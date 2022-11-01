@@ -2,6 +2,7 @@ local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
 local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
+local OnEvaluateFamiliarLevelHandler = require("sewn_scripts.callbacks.custom.handlers.on_evaluate_familiar_level")
 local CColor = require("sewn_scripts.helpers.ccolor")
 
 local Familiar = { }
@@ -171,8 +172,10 @@ function Familiar:TemporaryUpgrade(familiar, newLevel)
     end
 end
 
-function Familiar:EvaluateLevel(fData)
+function Familiar:EvaluateLevel(familiar)
+    local fData = familiar:GetData()
     fData.Sewn_upgradeLevel = fData.Sewn_upgradeLevel_permanent
+    OnEvaluateFamiliarLevelHandler:Evaluate(familiar)
 end
 
 return Familiar

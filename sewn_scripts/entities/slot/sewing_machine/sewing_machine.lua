@@ -139,6 +139,9 @@ function SewingMachine:TryAddFamiliarInMachine(machine, player)
     mData.Sewn_currentFamiliarSubType = choosenFamiliar.SubType
     mData.Sewn_currentFamiliarLevel = choosenFamiliar:GetData().Sewn_upgradeLevel_permanent or 0
 
+
+    print("ADD 1 : " .. mData.Sewn_currentFamiliarLevel)
+
     mData.Sewn_player = player
 
     -- Replace the sprite with the familiar (the sprite is the image of the collectible, not the familiar itself)
@@ -198,8 +201,6 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
 
     local familiarFromMachine = Isaac.Spawn(EntityType.ENTITY_FAMILIAR, mData.Sewn_currentFamiliarVariant, 0, machine.Position, Globals.V0, mData.Sewn_player):ToFamiliar()
     local fData = familiarFromMachine:GetData()
-    fData.Sewn_upgradeLevel_permanent = mData.Sewn_currentFamiliarLevel
-
     -- Play the normal animation (without the floating familiar)
     SewingMachine:SetIdleAnim(machine)
     
@@ -210,15 +211,15 @@ function SewingMachine:TryGetFamiliarBack(machine, isUpgrade)
     -- Upgrade the familiar
     if isUpgrade then
         local machineType = SewingMachineTypes:GetSewingMachineType(machine.SubType)
-        
-        --local fixedUpgradeLevel = SewingMachineTypes:GetSewingMachineType(machine.SubType).FixedUpgradeLevel
-        --UpgradeManager:TryUpgrade(mData.Sewn_currentFamiliarVariant, mData.Sewn_currentFamiliarLevel, mData.Sewn_player.Index, fixedUpgradeLevel)
+
+        print("BACK 1 : " .. mData.Sewn_currentFamiliarLevel)
+
         local newLevel = machineType:GetUpgradeLevel(mData.Sewn_currentFamiliarLevel)
         UpgradeManager:TryUpgrade(mData.Sewn_currentFamiliarVariant, mData.Sewn_currentFamiliarLevel, mData.Sewn_player.Index, newLevel)
+
+        print("BACK 2 : " .. tostring(newLevel))
         
         SewingMachineTypes:Pay(mData.Sewn_player, machine.SubType)
-
-        --local _preventExplosion = CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine, true, fixedUpgradeLevel or mData.Sewn_currentFamiliarLevel + 1)
         local _preventExplosion = CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_GET_FAMILIAR_FROM_SEWING_MACHINE, machine, mData.Sewn_player, familiarFromMachine, true, newLevel)
         if _preventExplosion == true then
             preventExplosion = true

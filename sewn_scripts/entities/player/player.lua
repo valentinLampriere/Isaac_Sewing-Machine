@@ -69,8 +69,7 @@ function Player:EvaluateFamiliarsLevel(player)
     for _, familiar in ipairs(familiars) do
         familiar = familiar:ToFamiliar()
         if player and familiar.Player and GetPtrHash(familiar.Player) == GetPtrHash(player) then
-            local fData = familiar:GetData()
-            Familiar:EvaluateLevel(fData)
+            Familiar:EvaluateLevel(familiar)
         end
     end
 end

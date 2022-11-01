@@ -71,8 +71,31 @@ function DollTaintedHead:OnFamiliarNewRoom(dollFamiliar)
     end
 end
 
+function DollTaintedHead:OnEvaluateFamiliarLevel(familiar)
+    local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+    local player = familiar.Player
+    
+    local dollstaintedHeads = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, -1, false, false)
+    local dolltaintedHead = dollstaintedHeads[1]
+    if dolltaintedHead then
+        dolltaintedHead = dolltaintedHead:ToFamiliar()
+        if dolltaintedHead.Player and GetPtrHash(dolltaintedHead.Player) == GetPtrHash(player) then
+            local _fData = dolltaintedHead:GetData()
+            local _level = Sewn_API:GetLevel(_fData, false)
+            if Sewn_API:IsUltra(_level) then
+                UpgradeManager:UpFamiliar(familiar, Sewn_API.Enums.FamiliarLevel.SUPER, Sewn_API.Enums.FamiliarLevelModifierFlag.TAINTED)
+            else
+                UpgradeManager:UpFamiliar(familiar, Sewn_API.Enums.FamiliarLevel.SUPER)
+            end
+        end
+    end
+end
+
 CustomCallbacks:AddCallback(Enums.ModCallbacks.FAMILIAR_UPDATE, DollTaintedHead.OnFamiliarUpdate, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, DollTaintedHead.OnFamiliarNewRoom, Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD, Enums.FamiliarLevelFlag.FLAG_ANY)
+CustomCallbacks:AddCallback(Enums.ModCallbacks.ON_EVALUATE_FAMILIAR_LEVEL, DollTaintedHead.OnEvaluateFamiliarLevel)
+
 
 Sewn_API:AddRerollCrownPeventer(Enums.FamiliarVariant.DOLL_S_TAINTED_HEAD)
 

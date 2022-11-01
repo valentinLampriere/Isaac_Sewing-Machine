@@ -65,20 +65,22 @@ end
 -- Get the level of the familiar. Return 0, 1 or 2 depending on whether it is not upgraded, upgraded once or twice. Those numbers correspond to the enum FamiliarLevel.
 -- [table] : data attributes of the familiar retrieved with familiar:GetData()
 -- [boolean] (optional) : False to ignore temporary upgrades. Default is true.
-function Sewn_API:GetLevel(fData, includeTemporaryUpgrade)
+function Sewn_API:GetLevel(fData, includeTemporaryUpgrade, includePermanentUpgrade)
     includeTemporaryUpgrade = includeTemporaryUpgrade == nil and true or includeTemporaryUpgrade
     if includeTemporaryUpgrade == true and fData.Sewn_upgradeLevel_temporary ~= nil then
         return GetLevelFromLevelFlag(fData.Sewn_upgradeLevel_temporary)
     end
-    return GetLevelFromLevelFlag(fData.Sewn_upgradeLevel) or Enums.FamiliarLevel.NORMAL
+    local level = includePermanentUpgrade == true and fData.Sewn_upgradeLevel_permanent or fData.Sewn_upgradeLevel
+    return GetLevelFromLevelFlag(level) or Enums.FamiliarLevel.NORMAL
 end
 
-function Sewn_API:GetLevelModifiers(fData, includeTemporaryUpgrade)
+function Sewn_API:GetLevelModifiers(fData, includeTemporaryUpgrade, includePermanentUpgrade)
     includeTemporaryUpgrade = includeTemporaryUpgrade == nil and true or includeTemporaryUpgrade
     if includeTemporaryUpgrade == true and fData.Sewn_upgradeLevel_temporary ~= nil then
         return GetLevelModifierFromLevelFlag(fData.Sewn_upgradeLevel_temporary)
     end
-    return GetLevelModifierFromLevelFlag(fData.Sewn_upgradeLevel) or Enums.FamiliarLevelModifierFlag.NONE
+    local level = includePermanentUpgrade == true and fData.Sewn_upgradeLevel_permanent or fData.Sewn_upgradeLevel
+    return GetLevelModifierFromLevelFlag(level) or Enums.FamiliarLevelModifierFlag.NONE
 end
 
 -- Make the familiar available for the Sewing Machine
