@@ -5,32 +5,6 @@ local BloodOath = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BLOOD_OATH, CollectibleType.COLLECTIBLE_BLOOD_OATH)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.BLOOD_OATH,
---     "Spawns red creep#Creep rate and damage depends on the amount of half hearts {{HalfHeart}} removed",
---     "When it stabs, spawns random red hearts {{Heart}}", nil, "Blood Oath"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOOD_OATH,
-    "角色额外生成血迹，生成血迹的概率与伤害跟血誓抽掉的 {{Heart}} 红心成正比",
-    "每层初始房间血誓对角色造成伤害时将额外掉落 {{Heart}} 红心", nil, "血誓", "zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOOD_OATH,
-    "Оставляет красные лужи под собой#Частота и урон луж зависит от количества потраченных половин сердец {{HalfHeart}}",
-    "Когда она срабатывает, спавнит разные красные сердца {{Heart}} неподалёку", nil, "Кровяная Клятва", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOOD_OATH,
-    "Répand une traînée de sang derrière lui#Le taux d'apparition des trainées de sang et leur dégâts dépendent du nombre de demi-coeurs {{HalfHeart}} retirés",
-    "Fait apparaitre des coeurs rouges {{Heart}} après avoir poignardé Isaac", nil, "Serment du Sang", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOOD_OATH,
-    "Genera creep rojo#La cantidad y el daño del creep depende de la cantidad de mitades de corazón removidas",
-    "Al clavar a Isaac, genera corazones rojos al azar", nil, "Juramento De Sangre", "spa"
-)
-
 BloodOath.Stats = {
     CreepCooldownDefaultMin = 35,
     CreepCooldownDefaultMax = 45,

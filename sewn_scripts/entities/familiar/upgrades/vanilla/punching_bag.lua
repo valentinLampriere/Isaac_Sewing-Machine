@@ -17,7 +17,6 @@ local function FireTear(familiar, direction, force, damage, scale)
     local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, velocity, familiar):ToTear()
     tear.Scale = tear.Scale * scale
     tear.CollisionDamage = damage
-    --sewnFamiliars:toBabyBenderTear(punchingBag, tear)
 end
 
 local function RemovePullingEffects()

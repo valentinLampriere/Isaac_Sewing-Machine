@@ -14,7 +14,6 @@ function LilMonstro:OnFamiliarFireTear_Ultra(familiar, tear)
         local velocity = Vector(math.random() - 0.5, math.random() - 0.5) + tear.Velocity
         
         local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, tear.Variant, tear.SubType, familiar.Position, velocity, familiar):ToTear()
-        --sewnFamiliars:toBabyBenderTear(familiar, newTear)
         
         newTear.FallingSpeed = tear.FallingSpeed
         newTear.FallingAcceleration = tear.FallingAcceleration

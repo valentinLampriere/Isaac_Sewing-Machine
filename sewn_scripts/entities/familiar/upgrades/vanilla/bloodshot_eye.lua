@@ -10,32 +10,6 @@ BloodshootEye.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BLOODSHOT_EYE, CollectibleType.COLLECTIBLE_BLOODSHOT_EYE)
 
--- Sewn_API:AddFamiliarDescription(
---     FamiliarVariant.BLOODSHOT_EYE,
---     "Fires three tears at once",
---     "Fires a blood laser instead of tears", nil, "Bloodshot Eye"
--- )
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOODSHOT_EYE,
-    "一次发射三颗眼泪",
-    "攻击方式更改为发射小硫磺火", nil, "血丝眼", "zh_cn"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOODSHOT_EYE,
-    "Стреляет 3 слезы вместо 1",
-    "Стреляет кровавый лазер вместо слёз", nil, "Кровавый глаз", "ru"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOODSHOT_EYE,
-    "Tire trois larmes à la fois",
-    "Ses larmes sont remplacées par un laser de sang", nil, "Nœnœil", "fr"
-)
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOODSHOT_EYE,
-    "Dispara tres lágrimas a la vez",
-    "Dispara un láser de sangre en lugar de lágrimas", nil, "Ojo Dispara-Lágrimas", "spa"
-)
-
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)
     local tData = tear:GetData()
 
