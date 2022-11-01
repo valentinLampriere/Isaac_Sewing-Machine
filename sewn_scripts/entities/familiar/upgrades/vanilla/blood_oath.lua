@@ -17,6 +17,7 @@ BloodOath.Stats = {
 
 function BloodOath:OnFamiliarInit(familiar)
     local fData = familiar:GetData()
+
     fData.Sewn_bloodOath_creepCooldown = BloodOath.Stats.CreepCooldownDefaultMin
     fData.Sewn_bloodOath_playerRemovedHealth = 0
 end
@@ -101,9 +102,17 @@ function BloodOath:OnFamiliarNewLevel(familiar)
     fData.Sewn_bloodOath_playerRemovedHealth = 0
 end
 
+function BloodOath:PreventUpgradeInBloodyMary(familiar)
+    local fData = familiar:GetData()
+    
+    if Globals.Game.Challenge == Challenge.CHALLENGE_BLOODY_MARY then
+        fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.ANY
+    end
+end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BloodOath.OnFamiliarInit, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, BloodOath.OnFamiliarInit, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BloodOath.OnFamiliarUpdate, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_LEVEL, BloodOath.OnFamiliarNewLevel, FamiliarVariant.BLOOD_OATH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, BloodOath.OnPlayStabAnim, FamiliarVariant.BLOOD_OATH, nil, "Stab")
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, BloodOath.PreventUpgradeInBloodyMary, FamiliarVariant.BLOOD_OATH, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)
