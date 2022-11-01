@@ -8,6 +8,7 @@ local BoxOfFriends = require("sewn_scripts.items.active.box_of_friends")
 local TheTwins = require("sewn_scripts.items.trinkets.the_twins")
 local GlowingHourglass = require("sewn_scripts.items.active.glowing_hourglass")
 local HolyFart = require("sewn_scripts.entities.effects.holy_fart")
+local IsaacsHeart = require("sewn_scripts.items.passive.isaac_s_heart")
 
 local function MC_POST_NEW_ROOM(_)
     Globals.Room = Globals.Game:GetRoom()
@@ -20,6 +21,7 @@ local function MC_POST_NEW_ROOM(_)
     TheTwins:OnNewRoom()
     GlowingHourglass:OnNewRoom()
     HolyFart:OnNewRoom()
+    IsaacsHeart:OnNewRoom()
 end
 
 return MC_POST_NEW_ROOM
