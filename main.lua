@@ -22,7 +22,6 @@ local EvaluateCache = require("sewn_scripts.callbacks.vanilla.evaluate_cache")
 local PostPlayerInit = require("sewn_scripts.callbacks.vanilla.post_player_init")
 -- Pickup related callbacks
 local UseItem = require("sewn_scripts.callbacks.vanilla.use_item")
-local GetLoseCollectible = require("sewn_scripts.callbacks.custom.get_lose_collectible")
 local UseCard = require("sewn_scripts.callbacks.vanilla.use_card")
 local GetCard = require("sewn_scripts.callbacks.vanilla.get_card")
 -- Familiar related callbacks
@@ -58,9 +57,6 @@ SewnMod:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, PostPlayerInit)
 SewnMod:AddCallback(ModCallbacks.MC_EVALUATE_CACHE, EvaluateCache)
 -- Pickup related callbacks
 SewnMod:AddCallback(ModCallbacks.MC_USE_ITEM, UseItem)
-CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.LilDelirium, CollectibleType.COLLECTIBLE_LIL_DELIRIUM)
-CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.DollsTaintedHead, Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD)
-CustomCallbacks:AddCallback(Enums.ModCallbacks.GET_LOSE_COLLECTIBLE, GetLoseCollectible.DollsPureBody, Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY)
 SewnMod:AddCallback(ModCallbacks.MC_GET_CARD, GetCard)
 SewnMod:AddCallback(ModCallbacks.MC_USE_CARD, UseCard)
 -- Familiar related callbacks
@@ -93,6 +89,7 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachine
 
 require("sewn_scripts.entities.effects.burning_fart")
 require("sewn_scripts.entities.effects.holy_fart")
+require("sewn_scripts.items.collectibles")
 require("sewn_scripts.items.trinkets")
 
 require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
