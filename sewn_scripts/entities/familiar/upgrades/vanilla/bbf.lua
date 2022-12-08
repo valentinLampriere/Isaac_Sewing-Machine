@@ -46,6 +46,6 @@ function BBF:OnPlayerTakesDamage(familiar, player, damageFlag, entityRef)
     end
 end
 
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BBF.OnFamiliarUpdate, FamiliarVariant.BFFS)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_HIT_NPC, BBF.OnFamiliarHitNpc, FamiliarVariant.BFFS)
-Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_PLAYER_TAKE_DAMAGE, BBF.OnPlayerTakesDamage, FamiliarVariant.BFFS, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BBF.OnFamiliarUpdate, FamiliarVariant.BBF)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_HIT_NPC, BBF.OnFamiliarHitNpc, FamiliarVariant.BBF)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_PLAYER_TAKE_DAMAGE, BBF.OnPlayerTakesDamage, FamiliarVariant.BBF, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
