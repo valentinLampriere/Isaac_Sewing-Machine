@@ -33,7 +33,17 @@
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
 	    <preload-snd id="8" /> <!-- BOOK_PAGE_TURN_12 -->
     </entity>
-	
+    
+	<!-- Pickups -->
+	<entity anm2path="005_bomb_sad.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" name="Sad Bomb" numGridCollisionPoints="24" shadowSize="14" stageHP="0" variant="40" subtype="756">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	    <preload-snd id="201" /> <!-- FETUS_FEET -->
+    </entity>
+	<entity anm2path="005_bomb_bob.anm2" baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="3" collisionRadius="12" friction="1" id="5" name="Bob Bomb" numGridCollisionPoints="24" shadowSize="14" stageHP="0" variant="40" subtype="757">
+        <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />
+	    <preload-snd id="201" /> <!-- FETUS_FEET -->
+    </entity>
+
 	<!-- Effects -->
     <entity baseHP="0" boss="0" champion="0" collisionDamage="0" collisionMass="0" collisionRadius="1" friction="1" id="1000" name="Burning Fart" numGridCollisionPoints="0" shadowSize="0" stageHP="0" variant="34" subtype="75">
         <gibs amount="0" blood="0" bone="0" eye="0" gut="0" large="0" />

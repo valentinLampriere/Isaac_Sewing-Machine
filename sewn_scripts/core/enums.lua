@@ -136,4 +136,9 @@ Enums.LocalizationType = {
     FamiliarUpgrades = 2
 }
 
+Enums.BombVariant = {
+    SAD_BOMB = 756,
+    BOB_BOMB = 757
+}
+
 return Enums

@@ -4,6 +4,7 @@ local UpgradeManager = require("sewn_scripts.core.upgrade_manager")
 local Player = require("sewn_scripts.entities.player.player")
 local CustomCallbacksHandler = require("sewn_scripts.callbacks.custom_callbacks_handler")
 local TaintedLazarus = require("sewn_scripts.entities.player.tainted_lazarus")
+local Bomb = require("sewn_scripts.entities.bombs.bomb")
 
 local function MC_POST_NEW_LEVEL(_)
     Globals.Level = Globals.Game:GetLevel()
@@ -17,6 +18,7 @@ local function MC_POST_NEW_LEVEL(_)
 
     TaintedLazarus:OnNewFloor()
     
+    Bomb:OnNewLevel()
 end
 
 return MC_POST_NEW_LEVEL
