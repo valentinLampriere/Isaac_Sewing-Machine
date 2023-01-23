@@ -72,6 +72,7 @@ function KingBaby:OnFamiliarTearUpdate(familiar, tear)
 		tear.FallingAcceleration = 0
 		tear.Height = -50
 	elseif frame == 8 then
+        local fData = familiar:GetData()
         local closerNpc = FindCloserNpc(familiar.Position)
 		if closerNpc ~= nil then
 			tear.Velocity = (closerNpc.Position - tear.Position):Normalized() * KingBaby.Stats.TearSpeed
@@ -81,7 +82,9 @@ function KingBaby:OnFamiliarTearUpdate(familiar, tear)
 			tear.Velocity = shootingDirection * KingBaby.Stats.TearSpeed + movementDirection
 		end
         
-        CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, familiar, tear, closerNpc)
+        if Sewn_API:IsUltra(fData) then
+            CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, familiar, tear, closerNpc)
+        end
 
 		tear.FallingSpeed = 2
 	end
