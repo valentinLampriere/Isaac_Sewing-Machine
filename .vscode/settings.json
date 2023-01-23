@@ -141,7 +141,8 @@
         "TemporaryEffects",
         "WeaponType",
         "CustomGameOver",
-        "DetailedRespawn"
+        "DetailedRespawn",
+        "Sewn_Debug"
     ],
     "files.associations": {
         "*.anm2": "xml"

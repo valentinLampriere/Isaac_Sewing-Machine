@@ -1,12 +1,15 @@
 local CColor = require("sewn_scripts.helpers.ccolor")
 local Delay = require("sewn_scripts.helpers.delay")
+local Globals = require("sewn_scripts.core.globals")
 
 local LilSpewer = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_SPEWER, CollectibleType.COLLECTIBLE_LIL_SPEWER)
 
 LilSpewer.Stats = {
-    TearVelocity = 10
+    TearVelocity = 10,
+    KingBabyTearCreepSpawnRate = 7,
+    KingBabyTearCreepDamage = 0.5
 }
 
 local LilSpewerColors = {
@@ -22,6 +25,14 @@ local LilSpewerSprites = {
     [LilSpewerColors.RED] = "gfx/familiar/lilSpewer/familiar_125_lilspewer_red.png",
     [LilSpewerColors.BLACK] = "gfx/familiar/lilSpewer/familiar_125_lilspewer_black.png",
     [LilSpewerColors.YELLOW] = "gfx/familiar/lilSpewer/familiar_125_lilspewer_yellow.png"
+}
+
+local LilSpewerCreepVariant = {
+    [LilSpewerColors.NORMAL] = EffectVariant.PLAYER_CREEP_GREEN,
+    [LilSpewerColors.WHITE] = EffectVariant.PLAYER_CREEP_WHITE,
+    [LilSpewerColors.RED] = EffectVariant.PLAYER_CREEP_RED,
+    [LilSpewerColors.BLACK] = EffectVariant.PLAYER_CREEP_BLACK,
+    [LilSpewerColors.YELLOW] = EffectVariant.PLAYER_CREEP_RED,
 }
 
 local function GetVelocityFromDirection(direction)
@@ -175,7 +186,34 @@ function LilSpewer:OnFamiliarLoseUpgrade(familiar, losePermanentUpgrade)
     sprite:LoadGraphics()
 end
 
+function LilSpewer:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    local tData = tear:GetData()
+    tData.Sewn_lilSpewer_isKingBabyTear = true
+    tData.Sewn_lilSpewer_spewerColor = familiar.State
+end
+function LilSpewer:OnUltraKingBabyTearUpdate(familiar, tear)
+    local tData = tear:GetData()
+    local creepVariant = LilSpewerCreepVariant[tData.Sewn_lilSpewer_spewerColor] or EffectVariant.CREEP_GREEN
+    if tData.Sewn_lilSpewer_isKingBabyTear ~= true then
+        return
+    end
+
+    if tear.FrameCount % LilSpewer.Stats.KingBabyTearCreepSpawnRate == 0 then
+        local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, creepVariant, 0, tear.Position, Globals.V0, familiar):ToEffect()
+
+        -- Case just for yellow creep (as it doesn't exists as EffectVariant)
+        if tData.Sewn_lilSpewer_spewerColor == LilSpewerColors.YELLOW then
+            creep:SetColor(CColor(1, 1, 1, 1, 1, 1, 0), 0, 1, false, false)
+        end
+
+        creep.CollisionDamage = LilSpewer.Stats.KingBabyTearCreepDamage
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilSpewer.OnFamiliarUpdate, FamiliarVariant.LIL_SPEWER)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, LilSpewer.OnFamiliarLoseUpgrade, FamiliarVariant.LIL_SPEWER)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, LilSpewer.OnFamiliarUpgrade_Ultra, FamiliarVariant.LIL_SPEWER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilSpewer.OnFamiliarUpdate_Ultra, FamiliarVariant.LIL_SPEWER, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_TEAR_UPDATE, LilSpewer.OnUltraKingBabyTearUpdate, FamiliarVariant.KING_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, LilSpewer.OnUltraKingBabyShootTear, FamiliarVariant.LIL_SPEWER)

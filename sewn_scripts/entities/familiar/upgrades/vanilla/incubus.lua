@@ -21,4 +21,9 @@ function Incubus:OnEntityTakeDamage(familiar, entity, amount, flags, source, cou
     end
 end
 
+function Incubus:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    tear.TearFlags = tear.TearFlags | kingBaby.Player.TearFlags
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ENTITY_TAKE_DAMAGE, Incubus.OnEntityTakeDamage, FamiliarVariant.INCUBUS)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, Incubus.OnUltraKingBabyShootTear, FamiliarVariant.INCUBUS)

@@ -17,7 +17,6 @@ FreezerBaby.Stats = {
     }
 }
 
-
 function FreezerBaby:OnFamiliarFireTear(familiar, tear)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)
@@ -56,8 +55,16 @@ function FreezerBaby:OnFamiliarTearCollision(familiar, tear, collider)
     end
 end
 
+function FreezerBaby:OnUltraKingBabyFireTear(familiar, kingBaby, tear)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_ICE
+    if tear.Variant ~= TearVariant.ICE then
+        tear:ChangeVariant(TearVariant.ICE)
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, FreezerBaby.OnFamiliarFireTear, FamiliarVariant.FREEZER_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_NEW_ROOM, FreezerBaby.OnFamiliarNewRoom_Ultra, FamiliarVariant.FREEZER_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, FreezerBaby.OnFamiliarNewRoom_Ultra, FamiliarVariant.FREEZER_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_KILL_NPC, FreezerBaby.OnFamiliarKillNpc_Ultra, FamiliarVariant.FREEZER_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_FAMILIAR_TEAR_COLLISION, FreezerBaby.OnFamiliarTearCollision, FamiliarVariant.FREEZER_BABY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_FIRE_TEAR, FreezerBaby.OnUltraKingBabyFireTear, FamiliarVariant.FREEZER_BABY)

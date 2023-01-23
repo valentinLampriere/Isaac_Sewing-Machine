@@ -132,6 +132,22 @@ function FollowersHelper:PutBackInTrail(familiar)
     end
 end
 
+function FollowersHelper:GetFollowers(player)
+    local familiars = Isaac.FindByType(EntityType.ENTITY_FAMILIAR, -1, -1, false, false)
+    local followers = { }
+
+    for i, familiar in ipairs(familiars) do
+        familiar = familiar:ToFamiliar()
+        if familiar ~= nil and familiar.IsFollower == true then
+            if player ~= nil and GetPtrHash(player) == GetPtrHash(familiar.Player) or player == nil then
+                table.insert(followers, familiar)
+            end
+        end
+    end
+    
+    return followers
+end
+
 -- API OVerride --
 if not APIOverride then
     APIOverride = {

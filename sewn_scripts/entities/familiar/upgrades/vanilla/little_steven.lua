@@ -86,6 +86,11 @@ function LittleSteven:OnFamiliarKillNpc(familiar, npc)
     end
 end
 
+function LittleSteven:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_HOMING
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, LittleSteven.OnFamiliarFireTear, FamiliarVariant.LITTLE_STEVEN)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_HIT_NPC, LittleSteven.OnFamiliarHitNpc, FamiliarVariant.LITTLE_STEVEN)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_KILL_NPC, LittleSteven.OnFamiliarKillNpc, FamiliarVariant.LITTLE_STEVEN)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, LittleSteven.OnUltraKingBabyShootTear, FamiliarVariant.LITTLE_STEVEN)
