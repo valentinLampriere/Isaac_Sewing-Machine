@@ -49,5 +49,15 @@ function IsaacsHeart:OnFamiliarUpdate_Ultra(familiar)
     end
 end
 
+
+function IsaacsHeart:PreventUpgradeInGuardianChallenge(familiar)
+    local fData = familiar:GetData()
+    
+    if Globals.Game.Challenge == Challenge.CHALLENGE_GUARDIAN then
+        fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.ANY
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, IsaacsHeart.OnFamiliarUpdate, FamiliarVariant.ISAACS_HEART)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, IsaacsHeart.OnFamiliarUpdate_Ultra, FamiliarVariant.ISAACS_HEART, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, IsaacsHeart.PreventUpgradeInGuardianChallenge, FamiliarVariant.ISAACS_HEART, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)

@@ -254,8 +254,17 @@ function PunchingBag:AddToMachine(familiar, machine)
     RemovePullingEffects()
 end
 
+function PunchingBag:PreventUpgradeInGuardianChallenge(familiar)
+    local fData = familiar:GetData()
+    
+    if Globals.Game.Challenge == Challenge.CHALLENGE_GUARDIAN then
+        fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.ANY
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, PunchingBag.OnFamiliarUpgraded, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, PunchingBag.OnFamiliarLoseUpgrade, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, PunchingBag.OnFamiliarUpdate, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_PLAYER_TAKE_DAMAGE, PunchingBag.PlayerTakeDamage, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_ADD_FAMILIAR_IN_SEWING_MACHINE, PunchingBag.AddToMachine, FamiliarVariant.PUNCHING_BAG)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, PunchingBag.PreventUpgradeInGuardianChallenge, FamiliarVariant.PUNCHING_BAG, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)
