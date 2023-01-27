@@ -10,7 +10,7 @@ local items = {
     -- Sewing Box
     {
         "Sewing Box",
-        "Temporarily upgrades familiars for a room#Using it twice upgrades familiars to Ultra {{UltraCrown}}"
+        "Temporarily upgrades familiars for a room#Using it twice upgrades familiars to Ultra {{UltraCrown}}#If the player doesn't have available familiars, spawn a random {{SuperCrown}} familiar"
     },
     
     -- Doll's Tainted Head

@@ -1,3 +1,5 @@
+local Globals = require("sewn_scripts.core.globals")
+
 local AvailableFamiliarManager = { }
 
 -- Store familiars which can be upgraded in the Sewing Machine
@@ -16,6 +18,28 @@ function AvailableFamiliarManager:IterateOverAvailableFamiliars(_function)
     for familiarID, data in pairs(availableFamiliars) do
         _function(familiarID, data)
     end
+end
+
+function AvailableFamiliarManager:GetRandomAvailableFamiliars(rng, ...)
+    local familiarsToExcludeList = {...}
+    local familiarsToExcludeMap = { }
+
+    for _, familiarToExclude in ipairs(familiarsToExcludeList) do
+        familiarsToExcludeMap[familiarToExclude] = true
+    end
+
+    rng = rng or Globals.rng
+
+    local availableFamiliarsList = { }
+    for familiarID, data in pairs(availableFamiliars) do
+        if familiarsToExcludeMap[familiarID] ~= true then
+            table.insert(availableFamiliarsList, familiarID)
+        end
+    end
+
+    local familiarsCount = #availableFamiliarsList
+    local roll = rng:RandomInt(familiarsCount) + 1
+    return availableFamiliarsList[roll]
 end
 
 function AvailableFamiliarManager:TryMakeFamiliarAvailable(familiarVariant, collectibleID, customSprite)

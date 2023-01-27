@@ -202,7 +202,11 @@ function Familiar:TemporaryUpgrade(familiar, newLevel)
         end
         
         CustomCallbacksHandler:Evaluate(Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, familiar, false)
+
+        return true
     end
+
+    return false
 end
 
 return Familiar

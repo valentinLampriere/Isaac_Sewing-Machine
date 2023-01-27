@@ -12,7 +12,7 @@ local items = {
     -- Sewing Box
     {
         "Boîte de couture",
-        "Améliore tous les familiers pour la durée d'une salle#Utiliser l'objet deux fois dans la même salle améliore les familiers en Ultra {{UltraCrown}}"
+        "Améliore tous les familiers pour la durée d'une salle#Utiliser l'objet deux fois dans la même salle améliore les familiers en Ultra {{UltraCrown}}#Si le joueur n'a pas de familier valide, fait apparaitre un {{SuperCrown}} familier aléatoire"
     },
     
     -- Doll's Tainted Head
