@@ -171,10 +171,10 @@ local familiarsUpgrades = {
     },
     
     -- Cain's Other Eye
-    {
-        "Vystřelí 2 slzy místo 1#Slzy získávají efekt Gumového Cementu " .. Icons.RubberCement,
-        "{{ArrowUp}}Větší Dostřel#Vystřelí 4 slzy"
-    },
+    -- {
+    --     "Vystřelí 2 slzy místo 1#Slzy získávají efekt Gumového Cementu " .. Icons.RubberCement,
+    --     "{{ArrowUp}}Větší Dostřel#Vystřelí 4 slzy"
+    -- },
     
     -- Incubus
     {

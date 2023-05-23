@@ -161,10 +161,10 @@ local familiarsUpgrades = {
     },
     
     -- Cain's Other Eye
-    {
-        "发射 2 颗眼泪而非 1 颗 # 眼泪具有 ".. Icons.RubberCement .." 橡胶胶水特效",
-        "发射 4 颗眼泪 #射程增加"
-    },
+    -- {
+    --     "发射 2 颗眼泪而非 1 颗 # 眼泪具有 ".. Icons.RubberCement .." 橡胶胶水特效",
+    --     "发射 4 颗眼泪 #射程增加"
+    -- },
     
     -- Incubus
     {

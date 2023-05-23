@@ -53,7 +53,7 @@ LocalizationCore.FamiliarsUpgradesIndexToVariant = {
     FamiliarVariant.ISAACS_HEART,
     FamiliarVariant.SISSY_LONGLEGS,
     FamiliarVariant.PUNCHING_BAG,
-    FamiliarVariant.CAINS_OTHER_EYE,
+    --FamiliarVariant.CAINS_OTHER_EYE,
     FamiliarVariant.INCUBUS,
     FamiliarVariant.LIL_GURDY,
     FamiliarVariant.SERAPHIM,

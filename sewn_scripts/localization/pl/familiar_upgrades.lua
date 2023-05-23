@@ -171,10 +171,10 @@ local familiarsUpgrades = {
     },
     
     -- Cain's Other Eye
-    {
-        "Wystrzeliwuje 2 łzy zamiast 1#Łzy zyskują efekt Rubber Cementu " .. Icons.RubberCement,
-        "{{ArrowUp}}Zwiększony zasięg#Wystrzeliwuje 4 łzy"
-    },
+    -- {
+    --     "Wystrzeliwuje 2 łzy zamiast 1#Łzy zyskują efekt Rubber Cementu " .. Icons.RubberCement,
+    --     "{{ArrowUp}}Zwiększony zasięg#Wystrzeliwuje 4 łzy"
+    -- },
     
     -- Incubus
     {

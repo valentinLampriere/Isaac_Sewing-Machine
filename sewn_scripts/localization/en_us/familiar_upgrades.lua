@@ -169,10 +169,10 @@ local familiarsUpgrades = {
     },
     
     -- Cain's Other Eye
-    {
-        "Fires 2 tears instead of 1#Tears gain a Rubber Cement effect " .. Icons.RubberCement,
-        "{{ArrowUp}}Range Up#Fires 4 tears"
-    },
+    -- {
+    --     "Fires 2 tears instead of 1#Tears gain a Rubber Cement effect " .. Icons.RubberCement,
+    --     "{{ArrowUp}}Range Up#Fires 4 tears"
+    -- },
     
     -- Incubus
     {
