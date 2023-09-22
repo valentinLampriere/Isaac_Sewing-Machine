@@ -1,4 +1,3 @@
-local Random = require("sewn_scripts.helpers.random")
 local Enums = require("sewn_scripts.core.enums")
 local Delay = require("sewn_scripts.helpers.delay")
 
@@ -14,8 +13,7 @@ RoboBaby.Stats = {
     FireCooldownBonus_AB = {
         [Enums.FamiliarLevel.SUPER] = 8,
         [Enums.FamiliarLevel.ULTRA] = 15
-    },
-    kingBabyTearLaserChance = 60
+    }
 }
 
 function RoboBaby:OnFamiliarFireLaser(familiar, laser)
@@ -31,9 +29,7 @@ function RoboBaby:OnFamiliarFireLaser(familiar, laser)
 end
 
 function RoboBaby:OnUltraKingBabyShootTear(familiar, kingBaby, tear)
-    if Random:CheckRoll(RoboBaby.Stats.kingBabyTearLaserChance, kingBaby:GetDropRNG()) then
-        tear.TearFlags = tear.TearFlags | TearFlags.TEAR_LASER
-    end
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_LASER
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER, RoboBaby.OnFamiliarFireLaser, FamiliarVariant.ROBO_BABY)

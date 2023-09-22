@@ -162,8 +162,8 @@ local familiarsUpgrades = {
     
     -- Cain's Other Eye
     {
-        "Dispara dos lágrimas en lugar de una#Las lágrimas reciben el efecto de Cemento Elástico " .. Icons.RubberCement,
-        "Dispara cuatro lágrimas#+ Alcance"
+        --"Dispara dos lágrimas en lugar de una#Las lágrimas reciben el efecto de Cemento Elástico " .. Icons.RubberCement,
+        --"Dispara cuatro lágrimas#+ Alcance"
     },
     
     -- Incubus

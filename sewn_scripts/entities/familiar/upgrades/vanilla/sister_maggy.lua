@@ -48,9 +48,6 @@ function SisterMaggy:OnFamiliarFireTear(familiar, tear)
         tear.CollisionDamage = tear.CollisionDamage * SisterMaggy.Stats.DamageBonus_AB[level]
         tear.Scale = tear.Scale * SisterMaggy.Stats.TearScale_AB[level]
     end
-
-    local Debug = require("sewn_scripts.debug.debug")
-    Debug:RenderColor(tear.Color)
 end
 
 function SisterMaggy:OnUltraKingBabyFireTear(familiar, kingBaby, tear)

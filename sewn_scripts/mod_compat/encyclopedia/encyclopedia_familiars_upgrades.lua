@@ -128,3 +128,9 @@ Sewn_API:AddEncyclopediaUpgrade(
     "Align with the player's direction#Slight damage up. +0.33 when the damage is less than 2, +0.5 when the damage is higher than 2",
     "Due to API limitation, the damage bonus do not works with every weapon type (Lasers, bombs)"
 )
+
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.CAINS_OTHER_EYE,
+    "Fire an additional tear in a random diagonal direction#The familiar will always fire a tear, no matter the weapon (Brimstone, Mom's Knife etc.) of the player.",
+    "The diagonal tear gain a Rubber Cement effect#Damage Up#The additional tear becomes red."
+)

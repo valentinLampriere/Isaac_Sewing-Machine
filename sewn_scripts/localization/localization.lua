@@ -127,6 +127,11 @@ local function GetFamiliarUpgrade(familiarVariant, languageCode)
         else
             return familiarData[2]
         end
+    elseif type(familiarData[1]) == "nil" then
+        -- This is nil when a description is missing.
+        -- This might happen when the description exists, but is missing in a particular language.
+        -- In that language the data is "nil", while it has a value in other languages.
+        return ""
     end
 
     error("Can't find the upgrade descriptions for this familiar : " .. familiarVariant)

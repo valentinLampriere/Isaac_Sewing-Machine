@@ -172,8 +172,8 @@ local familiarsUpgrades = {
     
     -- Cain's Other Eye
     {
-        "Tire 2 larmes au lieu d'une#Les larmes gagnent l'effet de Colle Caoutchouc " .. Icons.RubberCement,
-        "{{ArrowUp}} Portée#Tire 4 larmes"
+        "Tire 1 larme en plus dans une diagonale aléatoire",
+        "La larme bonus gagne l'effet de Colle Caoutchouc " .. Icons.RubberCement.. "#{{ArrowUp}} Dégâts"
     },
     
     -- Incubus
