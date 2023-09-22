@@ -15,10 +15,6 @@ LilAbaddon.Stats = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 3,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 4
     },
-    BackHeartDropChance = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.025
-    },
     LaserDamageMultiplier = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.5,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.5
@@ -67,8 +63,6 @@ local function FireLaser(lilAbaddon, position, velocity, radius, damage, timeout
     laser.CollisionDamage = damage
     laser.TearFlags = tearFlags
     laser.Size = size
-    
-    laser:SetBlackHpDropChance(LilAbaddon.Stats.BackHeartDropChance[Sewn_API:GetLevel(fData)])
 
     laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
     laser:GetSprite():LoadGraphics()
@@ -108,7 +102,6 @@ function LilAbaddon:OnFamiliarUpdate(familiar)
         if laser.SpawnerEntity ~= nil and GetPtrHash(laser.SpawnerEntity) == GetPtrHash(familiar) then -- lilAbaddon's laser
             if laser.FrameCount == 1 then
                 laser.CollisionDamage = laser.CollisionDamage * LilAbaddon.Stats.LaserDamageMultiplier[level]
-                laser:SetBlackHpDropChance(LilAbaddon.Stats.BackHeartDropChance[level])
             end
         end
         
