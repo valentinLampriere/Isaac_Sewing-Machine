@@ -361,6 +361,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}}75 dégâts supplémentaire par explosion#{{ArrowUp}}Explosions plus larges#{{Warning}}Comme les explosions sont plus grosse elle peuvent touché Isaac de plus loin",
         "Isaac ne subit pas de dégât sauf si il est trop près de l'explosion"
     },
+    
+    -- King Baby
+    {
+        "Invoque des larmes quand Isaac tire",
+        "{{ArrowUp}}Débit#Chaque familier améliore à leur façon les larmes de King Baby"
+    }
 }
 
 return familiarsUpgrades

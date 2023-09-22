@@ -351,6 +351,12 @@ local familiarsUpgrades = {
         "",
         ""
     },
+    
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}}Tears Up#Each familiars improve in their own way the summoned tear"
+    }
 }
 
 return familiarsUpgrades

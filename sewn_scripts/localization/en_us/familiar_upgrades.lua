@@ -359,6 +359,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}}Explosions deal 75 more damage#{{ArrowUp}}Bigger explosions#{{Warning}}Because explosions are larger they can hit Isaac from further away",
         "Isaac doesn't take damage from the explosion unless it is too close"
     },
+    
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}}Tears Up#Each familiars improve in their own way the summoned tear"
+    }
 }
 
 return familiarsUpgrades

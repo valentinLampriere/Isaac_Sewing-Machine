@@ -361,6 +361,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}}Wybuchy zadają o 75 więcej obrażeń#{{ArrowUp}}Większe wybuchy#{{Uwaga}}Rozmiar sprawia, że Isaac może być łatwiej trafiony",
         "Isaac nie dostaje obrażeń od wybuchu jeśli nie jest zbyt blisko centrum"
     },
+    
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}}Tears Up#Each familiars improve in their own way the summoned tear"
+    }
 }
 
 return familiarsUpgrades

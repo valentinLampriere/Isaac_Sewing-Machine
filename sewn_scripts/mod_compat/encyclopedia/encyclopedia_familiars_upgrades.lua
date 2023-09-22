@@ -134,3 +134,27 @@ Sewn_API:AddEncyclopediaUpgrade(
     "Fire an additional tear in a random diagonal direction#The familiar will always fire a tear, no matter the weapon (Brimstone, Mom's Knife etc.) of the player.",
     "The diagonal tear gain a Rubber Cement effect#Damage Up#The additional tear becomes red."
 )
+
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.KING_BABY,
+    nil,
+    "Tears Up#Each familiars improve in their own way the summoned tear.#Synergies :#"..
+    "- Brother Bobby : Increase King Baby's fire rate#" ..
+    "- Demon Baby : Increase King Baby's fire rate#" ..
+    "- Little Gish : Gives King Baby's tear a slowing effect#" ..
+    "- Little Steven : Gives King Baby's tear a homing effect#" ..
+    "- Robo Baby : Gives King Baby's tear a Technology Zero effect#" ..
+    "- Sister Maggy : Increase King Baby's tear damage#" ..
+    "- Ghost Baby : Gives King Baby's tear a piercing effect#" ..
+    "- Harlequin Baby : Shoot two small additional tears, each deals 2.5dmg#" ..
+    "- Lil Brimstone : Increase King Baby's tear damage#" ..
+    "- Cain's Other Eye : Shoot a small bouncing tear in a random diagonal direction#" ..
+    "- Incubus : Gives King Baby's tear the player's tear effects#" ..
+    "- Seraphim : King Baby's tears have a chance to gain Holy Light effect#" ..
+    "- Lil Loki : Shoot 4 additional tears in cardinal directions, each deal 2.5dmg#" ..
+    "- Lil Monstro : Shoot a bunch of additional tears#" ..
+    "- Lil Spewer : King's Baby tears spawn puddles#" ..
+    "- Boiled Baby : King's Baby tears burst into smaller tears on hit#" ..
+    "- Freezer Baby : Turn King Baby's tears to ice#",
+    "This concept is based on \"Better King Baby\" mod by Mr.Seemsgood"
+)

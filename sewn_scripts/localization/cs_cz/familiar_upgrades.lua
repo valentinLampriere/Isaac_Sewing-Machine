@@ -361,6 +361,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}}Exploze způsobí o 75 více poškození#{{ArrowUp}}Větší výbuchy#{{Warning}}Protože jsou výbuchy větší, mohou zasáhnout Izáka z větší vzdálenosti",
         "Izák neutrpí poškození výbuchem, pokud není příliš blízko"
     },
+    
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}}Tears Up#Each familiars improve in their own way the summoned tear"
+    }
 }
 
 return familiarsUpgrades

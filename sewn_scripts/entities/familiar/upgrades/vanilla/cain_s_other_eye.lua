@@ -11,7 +11,7 @@ CainsOtherEye.Stats = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.05
     },
-    KingBabyTearDamageMultiplier = 0.75,
+    KingBabyTearDamageMultiplier = 0.85,
     KingBabyTearScaleMultiplier = 0.7
 }
 
@@ -74,9 +74,10 @@ function CainsOtherEye:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
     local direction = GetRandomDiagonalVelocity(rng)
     local velocity = direction * tear.Velocity:Length()
 
-    local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, tear.Position, velocity, kingBaby):ToTear()
-    tear.CollisionDamage = tear.CollisionDamage * CainsOtherEye.Stats.KingBabyTearDamageMultiplier
-    tear.Scale = tear.Scale * CainsOtherEye.Stats.KingBabyTearDamageMultiplier
+    local additionalTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, tear.Position, velocity, kingBaby):ToTear()
+    additionalTear.CollisionDamage = tear.CollisionDamage * CainsOtherEye.Stats.KingBabyTearDamageMultiplier
+    additionalTear.Scale = tear.Scale * CainsOtherEye.Stats.KingBabyTearDamageMultiplier
+    additionalTear.TearFlags = tear.TearFlags | TearFlags.TEAR_BOUNCE
 end
 
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, CainsOtherEye.OnInit, FamiliarVariant.CAINS_OTHER_EYE)

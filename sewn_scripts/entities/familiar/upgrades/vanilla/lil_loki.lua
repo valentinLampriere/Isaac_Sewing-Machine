@@ -13,7 +13,7 @@ LilLoki.Stats = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.1
     },
-    KingBabyAdditionalTearDamage = 3
+    KingBabyAdditionalTearDamage = 2.5
 }
 
 function LilLoki:OnFamiliarFireTear(familiar, tear)
