@@ -1,6 +1,15 @@
 local Globals = require("sewn_scripts.core.globals")
+local Random = require("sewn_scripts.helpers.random")
 
 local RottenBaby = { }
+
+RottenBaby.Stats = {
+    KingBabySpawnFlyChance = {
+        [Sewn_API.Enums.FamiliarLevel.NORMAL] = 25,
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 30,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 35
+    }
+}
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROTTEN_BABY, CollectibleType.COLLECTIBLE_ROTTEN_BABY)
 
@@ -44,6 +53,7 @@ function RottenBaby:OnFamiliarShootSuper(familiar, sprite)
         end
     end
 end
+
 function RottenBaby:OnFamiliarShootUltra(familiar, sprite)
     if sprite:GetFrame() == 0 then
         local fData = familiar:GetData()
@@ -54,7 +64,57 @@ function RottenBaby:OnFamiliarShootUltra(familiar, sprite)
     end
 end
 
+function RottenBaby:OnNpcTakeDamage(familiar, npc, amount, flags, source, countdown)
+    if source == nil then
+        -- No source damage
+        return
+    end
+
+    local sourceTear = source.Entity:ToTear()
+
+    if sourceTear == nil then
+        -- Source is not a tear (therfore not King Baby tear)
+        return
+    end
+
+    local tData = sourceTear:GetData()
+
+    if tData.Sewn_kingBaby_isSummonTear ~= true then
+        -- Not a King Baby tear
+        return true
+    end
+
+    local tearSpawner = sourceTear.SpawnerEntity
+
+    if tearSpawner == nil or tearSpawner.Type ~= EntityType.ENTITY_FAMILIAR or tearSpawner.Variant ~= FamiliarVariant.KING_BABY then
+        -- Not a King Baby tear (double check)
+        return
+    end
+
+    tearSpawner = tearSpawner:ToFamiliar()
+
+    if GetPtrHash(tearSpawner.Player) ~= GetPtrHash(familiar.Player) then
+        -- Not from the same player
+        return
+    end
+
+    local kingBabyFData = tearSpawner:GetData()
+
+    if Sewn_API:IsUltra(kingBabyFData) == false then
+        -- King Baby isn't Ultra
+        return
+    end
+
+    local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
+
+    if Random:CheckRoll(RottenBaby.Stats.KingBabySpawnFlyChance[level]) then
+        familiar.Player:AddBlueFlies(1, tearSpawner.Position, nil)
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, RottenBaby.OnFamiliarUpgraded, FamiliarVariant.ROTTEN_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, RottenBaby.OnFamiliarUpgraded, FamiliarVariant.ROTTEN_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, RottenBaby.OnFamiliarShootSuper, FamiliarVariant.ROTTEN_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_SUPER, "FloatShootDown", "FloatShootUp", "FloatShootSide", "ShootDown", "ShootUp", "ShootSide")
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_PLAY_ANIM, RottenBaby.OnFamiliarShootUltra, FamiliarVariant.ROTTEN_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA, "FloatShootDown", "FloatShootUp", "FloatShootSide", "ShootDown", "ShootUp", "ShootSide")
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ENTITY_TAKE_DAMAGE, RottenBaby.OnNpcTakeDamage, FamiliarVariant.ROTTEN_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)

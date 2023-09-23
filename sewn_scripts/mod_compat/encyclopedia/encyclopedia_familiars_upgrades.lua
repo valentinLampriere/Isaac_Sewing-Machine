@@ -147,6 +147,7 @@ Sewn_API:AddEncyclopediaUpgrade(
     "- Sister Maggy : Increase King Baby's tear damage#" ..
     "- Ghost Baby : Gives King Baby's tear a piercing effect#" ..
     "- Harlequin Baby : Shoot two small additional tears, each deals 2.5dmg#" ..
+    "- Rotten Baby : King Baby's tears have a chance to spawn a blue fly#" ..
     "- Lil Brimstone : Increase King Baby's tear damage#" ..
     "- Cain's Other Eye : Shoot a small bouncing tear in a random diagonal direction#" ..
     "- Incubus : Gives King Baby's tear the player's tear effects#" ..
