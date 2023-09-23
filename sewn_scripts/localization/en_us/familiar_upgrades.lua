@@ -364,6 +364,12 @@ local familiarsUpgrades = {
     {
         "Summon tears while Isaac is firing",
         "{{ArrowUp}} Tears Up#Each familiars improve in their own way the summoned tear"
+    },
+    
+    -- Worm Friend
+    {
+        "While it grabs an enemy, it attract close bullets. Each bullet deals 1 dmg to the target#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Damage dealt to the Worm Friend's target are increased.#Damages from any sources are affected (Isaac, Worm Friend, familiars etc.)"
     }
 }
 

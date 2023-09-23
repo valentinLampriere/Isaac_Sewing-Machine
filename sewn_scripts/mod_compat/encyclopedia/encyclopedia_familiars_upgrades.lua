@@ -158,3 +158,9 @@ Sewn_API:AddEncyclopediaUpgrade(
     "- Freezer Baby : Turn King Baby's tears to ice#",
     "This concept is based on \"Better King Baby\" mod by Mr.Seemsgood"
 )
+
+Sewn_API:AddEncyclopediaUpgrade(
+    FamiliarVariant.WORM_FRIEND,
+    nil,
+    "Damage dealt to the Worm Friend's target are increased.#Damages from any sources are affected (Isaac, Worm Friend, familiars etc.)#The damage bonus goes as :#[damage] x 1.25 + 1"
+)

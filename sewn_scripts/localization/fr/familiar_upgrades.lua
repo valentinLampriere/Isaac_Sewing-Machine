@@ -366,6 +366,12 @@ local familiarsUpgrades = {
     {
         "Invoque des larmes quand Isaac tire",
         "{{ArrowUp}} Débit#Chaque familier améliore à leur façon les larmes de King Baby"
+    },
+    
+    -- Worm Friend
+    {
+        "Attire les projectiles proches. Les projectiles infligent 1 dégât à la cible#{{ArrowUp}} Réduit grandement le temps de recharge",
+        "{{ArrowUp}} Les dégât infligés à la cible de Ver de Nerf sont augmentés.#Cela s'applique à n'importe qu'elle source de dégâts (Isaac, Ver de Nerf, familiers etc.)"
     }
 }
 
