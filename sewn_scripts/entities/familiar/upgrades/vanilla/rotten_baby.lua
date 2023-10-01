@@ -65,7 +65,7 @@ function RottenBaby:OnFamiliarShootUltra(familiar, sprite)
 end
 
 function RottenBaby:OnNpcTakeDamage(familiar, npc, amount, flags, source, countdown)
-    if source == nil then
+    if source == nil or source.Entity == nil then
         -- No source damage
         return
     end
