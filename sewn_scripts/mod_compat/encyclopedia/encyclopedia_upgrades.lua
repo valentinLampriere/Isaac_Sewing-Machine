@@ -115,7 +115,7 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     local notesWiki = ToUpgrade(notesUpgradeText, "Notes") or {}
 
     -- Add the title "Upgrades"
-    table.insert(_wikiUpgrade, {str = "Upgrades", fsize = 3, clr = 3, halign = 0})
+    table.insert(_wikiUpgrade, {str = "Upgrades", fsize = 2, clr = 3, halign = 0})
     
     -- Add Super upgrade
     for i, data in pairs(superWiki) do
@@ -125,12 +125,14 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     for i, data in pairs(ultraWiki) do
         table.insert(_wikiUpgrade, {str = data.str, fsize = data.fsize, clr = data.clr, halign = data.halign})
     end
-    -- Add Ultra upgrade
+    -- Add Notes upgrade
     for i, data in pairs(notesWiki) do
         table.insert(_wikiUpgrade, {str = data.str, fsize = data.fsize, clr = data.clr, halign = data.halign})
     end
 
     table.insert(wikiDesc, _wikiUpgrade)
+
+    table.insert(_wikiUpgrade, {str="", fsize = 2})
 
     indexUpgradeSectionForCollectibleWiki[collectibleID] = #wikiDesc
 end
