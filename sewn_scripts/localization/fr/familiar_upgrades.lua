@@ -365,13 +365,19 @@ local familiarsUpgrades = {
     -- King Baby
     {
         "Invoque des larmes quand Isaac tire",
-        "{{ArrowUp}} Débit#Chaque familier améliore à leur façon les larmes de King Baby"
+        "{{ArrowUp}} Débit#Chaque familiers améliore à leur façon les larmes de King Baby"
     },
     
     -- Worm Friend
     {
         "Attire les projectiles proches. Les projectiles infligent 1 dégât à la cible#{{ArrowUp}} Réduit grandement le temps de recharge",
         "{{ArrowUp}} Les dégât infligés à la cible de Ver de Nerf sont augmentés.#Cela s'applique à n'importe qu'elle source de dégâts (Isaac, Ver de Nerf, familiers etc.)"
+    },
+    
+    -- Angry Fly
+    {
+        "Dans les salles hostiles, devient enragée lorsqu'elle n'inflige pas de dégats#{{ArrowUp}} Plus elle est enragé, plus elle inflige de dégâts#Infliger des dégâts diminue la rage progressivement",
+        "{{ArrowUp}} Rage"
     }
 }
 

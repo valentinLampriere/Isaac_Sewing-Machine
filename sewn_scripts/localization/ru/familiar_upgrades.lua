@@ -362,6 +362,12 @@ local familiarsUpgrades = {
     {
         "While it grabs an enemy, it attract close bullets. Each bullet deals 1 dmg to the target#{{ArrowUp}} Greatly decrease cooldown",
         "{{ArrowUp}} Damage dealt to the Worm Friend's target are increased.#Damages from any sources are affected (Isaac, Worm Friend, familiars etc.)"
+    },
+    
+    -- Angry Fly
+    {
+        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
+        "{{ArrowUp}} Rage up"
     }
 }
 

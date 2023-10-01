@@ -84,7 +84,8 @@ LocalizationCore.FamiliarsUpgradesIndexToVariant = {
     FamiliarVariant.TWISTED_BABY,
     FamiliarVariant.BBF,
     FamiliarVariant.KING_BABY,
-    FamiliarVariant.WORM_FRIEND
+    FamiliarVariant.WORM_FRIEND,
+    FamiliarVariant.ANGRY_FLY,
 }
 LocalizationCore.FamiliarsUpgradesVariantToIndex = { }
 for index, id in ipairs(LocalizationCore.FamiliarsUpgradesIndexToVariant) do
