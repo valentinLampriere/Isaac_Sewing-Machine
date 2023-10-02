@@ -110,8 +110,8 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     end
 
     local _wikiUpgrade = { }
-    local superWiki = ToUpgrade(superUpgradeText, "Super")
-    local ultraWiki = ToUpgrade(ultraUpgradeText, "Ultra")
+    local superWiki = ToUpgrade(superUpgradeText, "Super") or {}
+    local ultraWiki = ToUpgrade(ultraUpgradeText, "Ultra") or {}
     local notesWiki = ToUpgrade(notesUpgradeText, "Notes") or {}
 
     -- Add the title "Upgrades"
