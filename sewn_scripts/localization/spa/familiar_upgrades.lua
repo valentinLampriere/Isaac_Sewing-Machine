@@ -355,13 +355,13 @@ local familiarsUpgrades = {
     -- King Baby
     {
         "Summon tears while Isaac is firing",
-        "{{ArrowUp}}Tears Up#Each familiars improve in their own way the summoned tear"
+        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
     },
     
     -- Worm Friend
     {
-        "While it grabs an enemy, it attract close bullets. Each bullet deals 1 dmg to the target#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Damage dealt to the Worm Friend's target are increased.#Damages from any sources are affected (Isaac, Worm Friend, familiars etc.)"
+        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
     },
     
     -- Angry Fly
