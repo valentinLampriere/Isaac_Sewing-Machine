@@ -1,4 +1,5 @@
 local Globals = require("sewn_scripts.core.globals")
+local Debug = require("sewn_scripts.debug.debug")
 
 local AngryFly = { }
 
@@ -19,6 +20,10 @@ AngryFly.Stats = {
     RageOnUpgradeFunction = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = function() return AngryFly:GetStageLevel() * 100 end,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = function() return AngryFly:GetStageLevel() * 100 end,
+    },
+    RageBonusMultiplierInBossRoom = {
+        [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
+        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.2,
     },
 
     RageFlashBaseCooldown = 30 * 3, -- Base cooldown (based on level zero) for flash. Cooldown gets smaller for each level
@@ -98,7 +103,8 @@ local function HandleRageGrow(familiar)
     fData.Sewn_angryFly_rageDissipationLeft = 0
     fData.Sewn_angryFly_rageDissipationTime = 0
 
-    if Globals.Room:IsClear() == true and Globals.Room:IsAmbushActive() == false then
+    local room = Globals.Room
+    if room:IsClear() == true and room:IsAmbushActive() == false then
         return
     end
 
@@ -108,7 +114,13 @@ local function HandleRageGrow(familiar)
         return
     end
 
-    fData.Sewn_angryFly_rageCounter = fData.Sewn_angryFly_rageCounter + 1
+    local counter = 1
+
+    if room:GetType() == RoomType.ROOM_BOSS then
+        counter = counter + 1 * AngryFly.Stats.RageBonusMultiplierInBossRoom[level]
+    end
+
+    fData.Sewn_angryFly_rageCounter = fData.Sewn_angryFly_rageCounter + counter
 end
 
 local function RenderRage(familiar)
@@ -138,9 +150,15 @@ end
 function AngryFly:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
 
+
+    Debug:RenderText("Rage Counter : " .. fData.Sewn_angryFly_rageCounter, "rageCounter")
+    Debug:RenderText("Rage Level : " .. GetRageLevel(familiar), "rageLevel")
+
     if fData.Sewn_angryFly_rageDissipationLeft > 0 and fData.Sewn_angryFly_rageCounter > 0 then
+        Debug:RenderText("Rage Mode : Dissipation", "rageMode")
         HandleRageDissipation(familiar)
     else
+        Debug:RenderText("Rage Mode : Grow", "rageMode")
         HandleRageGrow(familiar)
     end
 
