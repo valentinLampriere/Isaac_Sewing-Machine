@@ -58,7 +58,7 @@ end)
 -- EID Descriptions Modifiers --
 --------------------------------
 local function UpgradableFamiliarsModifierCallback(descObj)
-    EID:appendToDescription(descObj, "#{{SuperCrown}} " .. Localization:GetText(Localization.TextKey.Upgradable))
+    EID:appendToDescription(descObj, "#{{SuperCrown}} " .. Localization:GetText(Localization.TextKey.Upgradable) .. " {{ButtonSelect}}")
     return descObj
 end
 local function UpgradableFamiliarsModifierCondition(descObj)
