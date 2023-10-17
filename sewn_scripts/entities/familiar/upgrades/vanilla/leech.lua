@@ -18,12 +18,6 @@ Leech.Stats = {
     BurstTearForce = 8,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LEECH,
-    "Spawns creep when it collide with an enemy#{{ArrowUp}} Damage Up",
-    "Enemies it kills explode into lots of tears#{{ArrowUp}} Damage Up", nil, "Leech"
-)
-
 function Leech:familiarCollider(familiar, collider)
     if familiar.FrameCount % Leech.Stats.CreepSpawnRate == 0 and collider:IsVulnerableEnemy() then
         local creep = Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_RED, 0, familiar.Position, Globals.V0, familiar)

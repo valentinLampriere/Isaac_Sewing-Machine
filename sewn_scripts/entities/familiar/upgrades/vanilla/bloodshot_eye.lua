@@ -10,12 +10,6 @@ BloodshootEye.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BLOODSHOT_EYE, CollectibleType.COLLECTIBLE_BLOODSHOT_EYE)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BLOODSHOT_EYE,
-    "Fires three tears at once",
-    "Fires a blood laser instead of tears", nil, "Bloodshot Eye"
-)
-
 function BloodshootEye:OnFamiliarFireTear_Super(familiar, tear)
     local tData = tear:GetData()
 

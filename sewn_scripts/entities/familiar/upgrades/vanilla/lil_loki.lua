@@ -4,17 +4,6 @@ local LilLoki = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_LOKI, CollectibleType.COLLECTIBLE_LIL_LOKI)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_LOKI,
-    "Fires in 8 directions",
-    "{{ArrowUp}} Damage Up", nil, "Lil Loki"
-)
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.LIL_LOKI,
-    nil,
-    "Damage Up (x1.5)"
-)
-
 LilLoki.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
@@ -23,7 +12,8 @@ LilLoki.Stats = {
     TearScale = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.1
-    }
+    },
+    KingBabyAdditionalTearDamage = 2.5
 }
 
 function LilLoki:OnFamiliarFireTear(familiar, tear)
@@ -41,7 +31,6 @@ function LilLoki:OnFamiliarFireTear(familiar, tear)
             newTear:SetColor(CColor(1, 0, 0), -1, 1, false, false)
             newTear.Scale = tear.Scale
             newTear.CollisionDamage = tear.CollisionDamage
-            --sewnFamiliars:toBabyBenderTear(familiar, newTear)
         end
 
         fData.Sewn_lilLoki_isFirstTear = false
@@ -54,5 +43,16 @@ function LilLoki:OnFamiliarUpdate(familiar)
     end
 end
 
+function LilLoki:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    local velocities = {Vector(8, 0), Vector(0, 8), Vector(-8, 0), Vector(0, -8)}
+    for i, velocity in ipairs(velocities) do
+        local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, tear.Position, velocity, kingBaby):ToTear()
+        newTear:SetColor(CColor(1, 0, 0), -1, 1, false, false)
+        newTear.Scale = 0.9
+        newTear.CollisionDamage = LilLoki.Stats.KingBabyAdditionalTearDamage
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, LilLoki.OnFamiliarFireTear, FamiliarVariant.LIL_LOKI)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, LilLoki.OnFamiliarUpdate, FamiliarVariant.LIL_LOKI)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, LilLoki.OnUltraKingBabyShootTear, FamiliarVariant.LIL_LOKI)

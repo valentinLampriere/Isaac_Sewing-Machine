@@ -1,3 +1,7 @@
+if Sewn_Debug ~= nil then
+    return Sewn_Debug
+end
+
 local MathHelper = require("sewn_scripts.helpers.math_helper")
 local StringHelper = require("sewn_scripts.helpers.string_helper")
 
@@ -36,6 +40,11 @@ end
 function Debug:OnExecuteCmd(cmd, args)
     if cmd == "sewn" and args[1] == "debug" then
         Debug.Enabled = not Debug.Enabled
+        if Debug.Enabled == true then
+            print("Sewing Machine debug enabled")
+        else
+            print("Sewing Machine debug disabled")
+        end
     end
 end
 
@@ -48,7 +57,6 @@ function Debug:RenderText(text, id, color)
 end
 
 function Debug:RenderVector(vector, id, color, decimal)
-
     if vector == nil then
         Debug:RenderText("[unset vector]")
         return
@@ -62,8 +70,10 @@ function Debug:RenderVector(vector, id, color, decimal)
     local xSplitStr = StringHelper:Split(tostring(x), ".")
     local xDecimalStr = xSplitStr[2]
 
-    -- For decimals
-    spaceAmount = spaceAmount + (decimal - #xDecimalStr)
+    if xDecimalStr ~= nil then
+        -- For decimals
+        spaceAmount = spaceAmount + (decimal - #xDecimalStr)
+    end
     -- For minus sign
     spaceAmount = spaceAmount - ((x < 0) and 1 or 0)
 
@@ -78,4 +88,18 @@ function Debug:RenderVector(vector, id, color, decimal)
     Debug:RenderText(strVector, id, color)
 end
 
+function Debug:RenderColor(color)
+    if color == nil then
+        Debug:RenderText("[unset color]")
+        return
+    end
+
+    if color.A == nil then
+        Debug:RenderText("[not valid color]")
+    end
+
+    Debug:RenderText( "(" .. color.R .. ", " .. color.G .. ", " .. color.B .. ")" .. "[".. color.A .."]" .. "(" .. color.RO .. ", " .. color.GO .. ", " .. color.BO .. ")"  )
+end
+
+Sewn_Debug = Debug
 return Debug

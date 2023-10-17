@@ -6,12 +6,6 @@ local LilAbaddon = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LIL_ABADDON, CollectibleType.COLLECTIBLE_LIL_ABADDON)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_ABADDON,
-    "{{ArrowUp}} Damage Up#When holding the fire button, spawns a swirl every few seconds when fire button is released, a laser ring is fired by the swirls",
-    "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}", nil, "Lil Abaddon"
-)
-
 LilAbaddon.Stats = {
     SwirlRate = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 60,
@@ -20,10 +14,6 @@ LilAbaddon.Stats = {
     MaxSwirl = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 3,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 4
-    },
-    BackHeartDropChance = {
-        [Sewn_API.Enums.FamiliarLevel.SUPER] = 0,
-        [Sewn_API.Enums.FamiliarLevel.ULTRA] = 0.025
     },
     LaserDamageMultiplier = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.5,
@@ -73,8 +63,6 @@ local function FireLaser(lilAbaddon, position, velocity, radius, damage, timeout
     laser.CollisionDamage = damage
     laser.TearFlags = tearFlags
     laser.Size = size
-    
-    laser:SetBlackHpDropChance(LilAbaddon.Stats.BackHeartDropChance[Sewn_API:GetLevel(fData)])
 
     laser:GetSprite():ReplaceSpritesheet(0, "/gfx/effects/effect_darkring.png")
     laser:GetSprite():LoadGraphics()
@@ -114,7 +102,6 @@ function LilAbaddon:OnFamiliarUpdate(familiar)
         if laser.SpawnerEntity ~= nil and GetPtrHash(laser.SpawnerEntity) == GetPtrHash(familiar) then -- lilAbaddon's laser
             if laser.FrameCount == 1 then
                 laser.CollisionDamage = laser.CollisionDamage * LilAbaddon.Stats.LaserDamageMultiplier[level]
-                laser:SetBlackHpDropChance(LilAbaddon.Stats.BackHeartDropChance[level])
             end
         end
         

@@ -2,12 +2,6 @@ local HarlequinBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HARLEQUIN_BABY, CollectibleType.COLLECTIBLE_HARLEQUIN_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HARLEQUIN_BABY,
-    "Fire an additional shot on each side",
-    "{{ArrowUp}} Damage Up", nil, "Harlequin Baby"
-)
-
 HarlequinBaby.Stats = {
     DamageBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
@@ -16,7 +10,8 @@ HarlequinBaby.Stats = {
     TearScale = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 1.25
-    }
+    },
+    KingBabyAdditionalTearDamage = 2.5
 }
 
 function HarlequinBaby:OnFamiliarUpgraded(familiar)
@@ -47,5 +42,20 @@ function HarlequinBaby:OnFamiliarFireTear(familiar, tear)
     newTear:GetData().Sewn_isAdditionalHarlequinBaby = true
     fData.Sewn_harlequinBaby_isFirstTear = not fData.Sewn_harlequinBaby_isFirstTear
 end
+
+local function FireUltraBabyAdditionnalTear(tear, isLeftTear, spawner)
+    local velocity = tear.Velocity:Rotated(isLeftTear == true and 10 or -10)
+    local newTear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLOOD, 0, tear.Position, velocity, spawner):ToTear()
+    newTear.Scale = 0.72
+    tear.CollisionDamage = HarlequinBaby.Stats.KingBabyAdditionalTearDamage
+    return newTear
+end
+
+function HarlequinBaby:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    FireUltraBabyAdditionnalTear(tear, true, kingBaby)
+    FireUltraBabyAdditionnalTear(tear, false, kingBaby)
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, HarlequinBaby.OnFamiliarUpgraded, FamiliarVariant.HARLEQUIN_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, HarlequinBaby.OnFamiliarFireTear, FamiliarVariant.HARLEQUIN_BABY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, HarlequinBaby.OnUltraKingBabyShootTear, FamiliarVariant.HARLEQUIN_BABY)

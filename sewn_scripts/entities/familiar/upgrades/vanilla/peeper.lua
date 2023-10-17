@@ -16,12 +16,6 @@ Peeper.Stats = {
     TearCooldownMin = 60,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PEEPER,
-    "Fire ".. Peeper.Stats.AmountTears .." tears in different directions every few seconds.#Tries to home onto close enemies",
-    "Spawn an additional Peeper Eye {{Collectible".. CollectibleType.COLLECTIBLE_PEEPER .."}}#The new Peeper Eye is upgraded as well.#With Inner Eye {{Collectible".. CollectibleType.COLLECTIBLE_INNER_EYE .."}}, spawns two Peepers Eyes", nil, "Peeper"
-)
-
 function Peeper:OnFamiliarUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_peeper_tearCooldown = familiar:GetDropRNG():RandomInt(Peeper.Stats.TearCooldownMax - Peeper.Stats.TearCooldownMin) + Peeper.Stats.TearCooldownMin

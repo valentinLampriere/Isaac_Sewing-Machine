@@ -5,12 +5,6 @@ local BoiledBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOILED_BABY, CollectibleType.COLLECTIBLE_BOILED_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOILED_BABY,
-    "Increase the amount of tears it burst",
-    "Fires tears in the direction the player is firing", nil, "Boiled Baby"
-)
-
 BoiledBaby.Stats = {
     AdditionalTearsMin = 1,
     AdditionalTearsMax = 6,
@@ -23,7 +17,6 @@ BoiledBaby.Stats = {
 }
 
 local function GetDirectionPlayerFire(familiar, strength, randomStrength, familiarVelocityInfluenceStrength)
-
     strength = strength or 5
     randomStrength = randomStrength or 0
     familiarVelocityInfluenceStrength = familiarVelocityInfluenceStrength or 0.5
@@ -100,6 +93,27 @@ function BoiledBaby:OnFamiliarUpdate_Ultra(familiar)
     end
 end
 
+function BoiledBaby:OnUltraKingBabyFireTear(familiar, kingBaby, tear)
+    if tear.Variant == TearVariant.BLUE then
+        tear:ChangeVariant(TearVariant.BLOOD)
+    elseif tear.Variant == TearVariant.CUPID_BLUE then
+        tear:ChangeVariant(TearVariant.CUPID_BLOOD)
+    elseif tear.Variant == TearVariant.PUPULA then
+        tear:ChangeVariant(TearVariant.PUPULA_BLOOD)
+    elseif tear.Variant == TearVariant.GODS_FLESH then
+        tear:ChangeVariant(TearVariant.GODS_FLESH_BLOOD)
+    elseif tear.Variant == TearVariant.NAIL then
+        tear:ChangeVariant(TearVariant.NAIL_BLOOD)
+    elseif tear.Variant == TearVariant.GLAUCOMA then
+        tear:ChangeVariant(TearVariant.GLAUCOMA_BLOOD)
+    elseif tear.Variant == TearVariant.EYE then
+        tear:ChangeVariant(TearVariant.EYE_BLOOD)
+    end
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_BURSTSPLIT
+end
+
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BoiledBaby.OnFamiliarUpdate, FamiliarVariant.BOILED_BABY)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, BoiledBaby.OnFamiliarUpgraded_Ultra, FamiliarVariant.BOILED_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, BoiledBaby.OnFamiliarUpdate_Ultra, FamiliarVariant.BOILED_BABY, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_FIRE_TEAR, BoiledBaby.OnUltraKingBabyFireTear, FamiliarVariant.BOILED_BABY)

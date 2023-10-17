@@ -5,12 +5,6 @@ local GuppysHairball = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.GUPPYS_HAIRBALL, CollectibleType.COLLECTIBLE_GUPPYS_HAIRBALL)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.GUPPYS_HAIRBALL,
-    "Start on the second size#Have a chance to spawn flies when it kills an enemy or when it blocks a projectile",
-    "Start on the third size#Spawns more flies when it kills an enemy and when it blocks projectiles", nil, "Guppy's Hairball"
-)
-
 GuppysHairball.Stats = {
     MinLevel = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1,

@@ -44,12 +44,6 @@ local BASE_SIZE = 13
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BIG_CHUBBY, CollectibleType.COLLECTIBLE_BIG_CHUBBY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BIG_CHUBBY,
-    "Increase it size and damage when eating bullet and when killing monsters.#Reduce it size over time and on new level.",
-    "Increase it size even more while dealing damage to enemies.#Do no more lose it damage on new level.#{{ArrowUp}} Reduce cooldown", nil, "Big Chubby"
-)
-
 local function UpdateSize(familiar)
     local fData = familiar:GetData()
     local level = Sewn_API:GetLevel(fData)

@@ -5,12 +5,6 @@ local DemonBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEMON_BABY, CollectibleType.COLLECTIBLE_DEMON_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEMON_BABY,
-    "Fire automatically through walls",
-    "{{ArrowUp}} Higher Range#{{ArrowUp}} Tears Up", nil, "Demon Baby"
-)
-
 DemonBaby.Stats = {
     Range = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 150,
@@ -19,7 +13,8 @@ DemonBaby.Stats = {
     FireRate = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 10,
         [Sewn_API.Enums.FamiliarLevel.ULTRA] = 8
-    }
+    },
+    KingBabyFireRateBonus = 4
 }
 
 local animationNames = {"FloatShootDown", "FloatShootUp", "FloatShootSide"}
@@ -87,4 +82,9 @@ function DemonBaby:OnFamiliarUpdate(familiar)
     end
 end
 
+function DemonBaby:OnUltraKingBabyFireTear(familiar, kingBaby, tear)
+    kingBaby.FireCooldown = kingBaby.FireCooldown - DemonBaby.Stats.KingBabyFireRateBonus
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, DemonBaby.OnFamiliarUpdate, FamiliarVariant.DEMON_BABY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_FIRE_TEAR, DemonBaby.OnUltraKingBabyFireTear, FamiliarVariant.DEMON_BABY)

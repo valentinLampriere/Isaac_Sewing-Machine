@@ -16,12 +16,6 @@ AngelicPrism.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ANGELIC_PRISM, CollectibleType.COLLECTIBLE_ANGELIC_PRISM)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ANGELIC_PRISM,
-    "While the player fires tears in the direction of the prism, it gets closer to the player#Tears which pass through it turn spectral",
-    "Move even closer to the player#Tears which goes through it gain homing", nil, "Angelic Prism"
-)
-
 local defaultOrbitDistance = Vector(85, 67.5)
 
 function AngelicPrism:OnFamiliarInit(familiar)

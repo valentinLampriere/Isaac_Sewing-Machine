@@ -10,12 +10,6 @@ local IsaacsHeart = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ISAACS_HEART, CollectibleType.COLLECTIBLE_ISAACS_HEART)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ISAACS_HEART,
-    "Moves closer to the player when the player isn't firing#Decrease charge time",
-    "When fully charged, if an enemy or projectile gets too close it automatically activates its fully charged effect#When this activates, it will go on a brief cooldown before being able to charge again#Decrease charge time", nil, "Isaac's Heart"
-)
-
 IsaacsHeart.Stats = {
     FireRateBonus = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 8,
@@ -55,5 +49,15 @@ function IsaacsHeart:OnFamiliarUpdate_Ultra(familiar)
     end
 end
 
+
+function IsaacsHeart:PreventUpgradeInGuardianChallenge(familiar)
+    local fData = familiar:GetData()
+    
+    if Globals.Game.Challenge == Challenge.CHALLENGE_GUARDIAN then
+        fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.ANY
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, IsaacsHeart.OnFamiliarUpdate, FamiliarVariant.ISAACS_HEART)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, IsaacsHeart.OnFamiliarUpdate_Ultra, FamiliarVariant.ISAACS_HEART, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ULTRA)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, IsaacsHeart.PreventUpgradeInGuardianChallenge, FamiliarVariant.ISAACS_HEART, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)

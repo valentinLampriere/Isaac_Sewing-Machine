@@ -8,12 +8,6 @@ local PunchingBag = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PUNCHING_BAG, CollectibleType.COLLECTIBLE_PUNCHING_BAG)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PUNCHING_BAG,
-    "Gains random champion forms each with special abilities#Pink : Fires a tear in a random direction#Violet : Pulls enemies and bullets#Light Blue : Fires tears in 8 directions when player gets hit#Blue : Spawns 2-3 flies when player gets hit#Orange : Spawns a coin when player get hit#Blocks bullets",
-    "Gain more powerful champion forms : #Green : Spawns green creep#Black : Explodes when the player gets hit. Explosion deal 40 damage#Rainbow : Copies the effect of every other champion forms. Lasts less time than other champion forms#Deals contact damage", nil, "Punching Bag"
-)
-
 local function FireTear(familiar, direction, force, damage, scale)
     scale = scale or 1
     force = force or 5
@@ -23,7 +17,6 @@ local function FireTear(familiar, direction, force, damage, scale)
     local tear = Isaac.Spawn(EntityType.ENTITY_TEAR, TearVariant.BLUE, 0, familiar.Position, velocity, familiar):ToTear()
     tear.Scale = tear.Scale * scale
     tear.CollisionDamage = damage
-    --sewnFamiliars:toBabyBenderTear(punchingBag, tear)
 end
 
 local function RemovePullingEffects()
@@ -227,6 +220,11 @@ end
 function PunchingBag:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
 
+    if fData.Sewn_punchingBag_champion == nil then
+        ChangeColor(familiar)
+        return
+    end
+
     local currentChampion = championEffects[fData.Sewn_punchingBag_champion]
     if currentChampion.Update ~= nil then
         currentChampion:Update(currentChampion, familiar)
@@ -256,8 +254,17 @@ function PunchingBag:AddToMachine(familiar, machine)
     RemovePullingEffects()
 end
 
+function PunchingBag:PreventUpgradeInGuardianChallenge(familiar)
+    local fData = familiar:GetData()
+    
+    if Globals.Game.Challenge == Challenge.CHALLENGE_GUARDIAN then
+        fData.Sewn_noUpgrade = Sewn_API.Enums.NoUpgrade.ANY
+    end
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_UPGRADED, PunchingBag.OnFamiliarUpgraded, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ON_FAMILIAR_LOSE_UPGRADE, PunchingBag.OnFamiliarLoseUpgrade, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_UPDATE, PunchingBag.OnFamiliarUpdate, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_PLAYER_TAKE_DAMAGE, PunchingBag.PlayerTakeDamage, FamiliarVariant.PUNCHING_BAG)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.PRE_ADD_FAMILIAR_IN_SEWING_MACHINE, PunchingBag.AddToMachine, FamiliarVariant.PUNCHING_BAG)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_INIT, PunchingBag.PreventUpgradeInGuardianChallenge, FamiliarVariant.PUNCHING_BAG, Sewn_API.Enums.FamiliarLevelFlag.FLAG_ANY)

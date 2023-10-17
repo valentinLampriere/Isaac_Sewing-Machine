@@ -32,12 +32,6 @@ BombBag.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BOMB_BAG, CollectibleType.COLLECTIBLE_BOMB_BAG)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOMB_BAG,
-    "No longer spawns troll bombs#Better bomb drops#Spawn powder on the ground. The powder catches fire when it is close to fires or when something explode",
-    "Better bombs drops#Can drop Giga bombs [Rep]#When it is to close to an enemy, it will sometimes explode", nil, "Bomb Bag"
-)
-
 local function GetCloseBombBagPowders(position)
     local closeBombBagPowders = {}
     local bombBagPowders = Isaac.FindByType(EntityType.ENTITY_EFFECT, Enums.EffectVariant.BOMB_BAG_POWDER, -1, false, false)

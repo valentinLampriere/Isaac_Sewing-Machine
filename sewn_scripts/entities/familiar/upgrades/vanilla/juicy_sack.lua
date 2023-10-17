@@ -5,12 +5,6 @@ local JuicySack = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.JUICY_SACK, CollectibleType.COLLECTIBLE_JUICY_SACK)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.JUICY_SACK,
-    "Fires egg tears while isaac is firing#Egg tears spawn blue flies or blue spiders on hit#Larger creep",
-    "Fires more egg tears", nil, "Juicy Sack"
-)
-
 JuicySack.Stats = {
     CreepScale = 1.5,
     EggTearsMin = {

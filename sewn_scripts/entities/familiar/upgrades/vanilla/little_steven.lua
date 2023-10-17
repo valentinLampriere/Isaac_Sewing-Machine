@@ -8,12 +8,6 @@ local LittleSteven = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_STEVEN, CollectibleType.COLLECTIBLE_LITTLE_STEVEN)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LITTLE_STEVEN,
-    "Hitting an enemy has a chance to fire a ring of tears#Killing an enemy has a chance to fire a ring of stronger tears#{{ArrowUp}} Range Up#{{ArrowDown}} Shot Speed Down#{{ArrowUp}} Damage Up",
-    "Increase chances to fire a ring of tears when hitting/killing enemies#Tears from the ring can trigger another ring of tear causing a chain reaction#{{ArrowUp}} Damage Up", nil, "Little Steven"
-)
-
 local littleStevenBulletPatterns = {
     { AmountOfBullet = 8, Offset = 2.5, Damage = 5, Scale = 2 }, -- Steven
     { Velocity = 7, AmountOfBullet = 8 } -- Baby Steven
@@ -92,6 +86,11 @@ function LittleSteven:OnFamiliarKillNpc(familiar, npc)
     end
 end
 
+function LittleSteven:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_HOMING
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, LittleSteven.OnFamiliarFireTear, FamiliarVariant.LITTLE_STEVEN)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_HIT_NPC, LittleSteven.OnFamiliarHitNpc, FamiliarVariant.LITTLE_STEVEN)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.FAMILIAR_KILL_NPC, LittleSteven.OnFamiliarKillNpc, FamiliarVariant.LITTLE_STEVEN)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, LittleSteven.OnUltraKingBabyShootTear, FamiliarVariant.LITTLE_STEVEN)

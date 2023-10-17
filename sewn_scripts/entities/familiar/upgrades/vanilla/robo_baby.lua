@@ -5,34 +5,32 @@ local RoboBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.ROBO_BABY, CollectibleType.COLLECTIBLE_ROBO_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.ROBO_BABY,
-    "{{ArrowUp}} Tears Up",
-    "{{ArrowUp}} Tears Up", nil, "Robo Baby"
-)
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.ROBO_BABY,
-    "Tears Up (x1.29)",
-    "Tears Up (x1.52)"
-)
+RoboBaby.Stats = {
+    FireCooldownBonus = {
+        [Enums.FamiliarLevel.SUPER] = 6,
+        [Enums.FamiliarLevel.ULTRA] = 11
+    },
+    FireCooldownBonus_AB = {
+        [Enums.FamiliarLevel.SUPER] = 8,
+        [Enums.FamiliarLevel.ULTRA] = 15
+    }
+}
 
-local stats = {
-    [Enums.FamiliarLevel.SUPER] = 6,
-    [Enums.FamiliarLevel.ULTRA] = 11,
-}
-local stats_ab = {
-    [Enums.FamiliarLevel.SUPER] = 8,
-    [Enums.FamiliarLevel.ULTRA] = 15,
-}
 function RoboBaby:OnFamiliarFireLaser(familiar, laser)
-    print(familiar.FireCooldown)
     local fData = familiar:GetData()
+    local level = Sewn_API:GetLevel(fData)
     if REPENTANCE then
-        familiar.FireCooldown = familiar.FireCooldown - stats[Sewn_API:GetLevel(fData)]
+        familiar.FireCooldown = familiar.FireCooldown - RoboBaby.Stats.FireCooldownBonus[level]
     else
         Delay:DelayFunction(function ()
-            familiar.FireCooldown = familiar.FireCooldown - stats_ab[Sewn_API:GetLevel(fData)]
+            familiar.FireCooldown = familiar.FireCooldown - RoboBaby.Stats.FireCooldownBonus_AB[level]
         end)
     end
 end
+
+function RoboBaby:OnUltraKingBabyShootTear(familiar, kingBaby, tear)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_LASER
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_LASER, RoboBaby.OnFamiliarFireLaser, FamiliarVariant.ROBO_BABY)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, RoboBaby.OnUltraKingBabyShootTear, FamiliarVariant.ROBO_BABY)

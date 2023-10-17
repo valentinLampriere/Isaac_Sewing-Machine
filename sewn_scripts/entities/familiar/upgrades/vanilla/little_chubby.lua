@@ -1,14 +1,6 @@
-local Globals = require("sewn_scripts.core.globals")
-
 local LittleChubby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_CHUBBY, CollectibleType.COLLECTIBLE_LITTLE_CHUBBY)
-
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LITTLE_CHUBBY,
-    "Cooldown reduced by 50%, can be thrown quickly.",
-    "Sticks to enemies for 0.5 seconds then continues in its initial direction", nil, "Little Chubby"
-)
 
 function LittleChubby:OnFamiliarUpdate(familiar)
     if familiar.FireCooldown < -1 then

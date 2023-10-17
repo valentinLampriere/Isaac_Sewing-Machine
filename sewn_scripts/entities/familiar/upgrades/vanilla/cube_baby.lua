@@ -1,21 +1,15 @@
 local Enums = require("sewn_scripts.core.enums")
-local Random = require("sewn_scripts.helpers.random")
 
 local CubeBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.CUBE_BABY, CollectibleType.COLLECTIBLE_CUBE_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.CUBE_BABY,
-    "Gains a freezing aura. Enemies which stay too long in the aura will take damage until they are completely frozen",
-    "Spawns creep when moved around#The faster it moves, the more it spawns creep", nil, "Cube Baby"
-)
-
 CubeBaby.Stats = {
     CreepSpawnRate = 50,
-    CreepCooldown = 0,
+    CreepCooldown = 1,
     CreepDamage = 1.5,
     MaxSpeed = 500,
+    UltraAuraScale = 1.5
 }
 
 local function SpawnCreep(familiar)
@@ -24,11 +18,23 @@ local function SpawnCreep(familiar)
     creep:Update()
 end
 
+local function SpawnAura(familiar)
+    local fData = familiar:GetData()
+    local aura = Isaac.Spawn(EntityType.ENTITY_EFFECT, Enums.EffectVariant.CUBE_BABY_AURA, 0, familiar.Position, Vector.Zero, familiar):ToEffect()
+
+    if Sewn_API:IsUltra(fData) then
+        aura.Scale = CubeBaby.Stats.UltraAuraScale
+        aura.SpriteScale = Vector(CubeBaby.Stats.UltraAuraScale, CubeBaby.Stats.UltraAuraScale)
+    end
+
+    return aura
+end
+
 function CubeBaby:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()
 
     if fData.Sewn_cubeBaby_aura == nil or not fData.Sewn_cubeBaby_aura:Exists() then
-        fData.Sewn_cubeBaby_aura = Isaac.Spawn(EntityType.ENTITY_EFFECT, Enums.EffectVariant.CUBE_BABY_AURA, 0, familiar.Position, Vector.Zero, familiar):ToEffect()
+        fData.Sewn_cubeBaby_aura = SpawnAura(familiar)
     end
     
     -- Follow Cube Baby
@@ -62,6 +68,11 @@ end
 
 function CubeBaby:OnFamiliarUpgraded(familiar)
     local fData = familiar:GetData()
+
+    if fData.Sewn_cubeBaby_aura ~= nil then
+        fData.Sewn_cubeBaby_aura:Remove()
+        fData.Sewn_cubeBaby_aura = nil
+    end
 
     fData.Sewn_cubeBaby_creepCooldown = 0
 end

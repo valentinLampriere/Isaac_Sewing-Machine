@@ -11,12 +11,6 @@ RainbowBaby.Stats = {
     UltraTearFlags = TearFlags.TEAR_HOMING | TearFlags.TEAR_SPECTRAL | TearFlags.TEAR_CHARM | TearFlags.TEAR_SLOW,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.RAINBOW_BABY,
-    "{{ArrowUp}} Damage Up#{{ArrowUp}} Tears Up",
-    "Tears combine effects", nil, "Rainbow Baby"
-)
-
 function RainbowBaby:TearInit(familiar, tear)
     tear.CollisionDamage = tear.CollisionDamage * RainbowBaby.Stats.TearDamageMultiplier
     familiar.FireCooldown = familiar.FireCooldown - RainbowBaby.Stats.FireRateBonus

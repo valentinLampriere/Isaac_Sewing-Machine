@@ -14,6 +14,26 @@ Sewn_API:AddFamiliarDescription(
     "Spawn a large green creep when it explodes",
     "Sticks to enemies before exploding", nil, "Bob's Brain"
 )
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOBS_BRAIN,
+    "爆炸时额外产生一滩巨大的绿毒水迹",
+    "接触敌人时不会立即爆炸，而是会黏在敌人身上一段时间后再爆炸", nil, "鲍勃的脑浆子", "zh_cn"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOBS_BRAIN,
+    "Спавнит большую зелёную лужу после взрыва",
+    "Прилипает к врагам перед взрывом", nil, "Мозг Боба", "ru"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOBS_BRAIN,
+    "Répand une grosse flaque toxique lorsqu'il explose",
+    "Colle aux ennemis avant d'exploser", nil, "Cerveau de Bob", "fr"
+)
+Sewn_API:AddFamiliarDescription(
+    FamiliarVariant.BOBS_BRAIN,
+    "Genera creep verde al explotar",
+    "Se pega a los enemigos antes de explotar", nil, "Cerebro de Bob", "spa"
+)
 
 function BobsBrain:OnFamiliarUpdate(familiar)
     local fData = familiar:GetData()

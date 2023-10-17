@@ -22,8 +22,6 @@ Familiars can be upgradable twice. A crown icon indicate their level.
 [b]Some modded familiars can work with the machine, including : [/b]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1991915308]Lost And Forgotten[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1925867065]IPECAC Community Mod[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=840727122]Marshmallow[/url]
-[url=https://steamcommunity.com/sharedfiles/filedetails/?id=2558097541]Mini-Min[/url]
 [url=https://steamcommunity.com/sharedfiles/filedetails/?id=2575063734]Little Bishop[/url]
 
 [h3]To make you own familiar upgradable :[/h3]
@@ -43,11 +41,11 @@ This mod will be updated and will make more and more familiars available !
 Thanks to the Modding community for their help during the developement process
 
 Special Thanks to
-- [url=https://steamcommunity.com/profiles/76561198241259420/myworkshopfiles/]Foks[/url] for trinket sprites, ann's sprites and his support from the beginning of the mod
-- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the &quot;Sewing Box&quot; sprite, the code he made (mainly the EID compatibility) and his support 
+- [url=https://steamcommunity.com/profiles/76561198241259420/myworkshopfiles/]Foks[/url] for trinket sprites, doll's sprites and his support from the beginning of the mod
+- [url=https://steamcommunity.com/profiles/76561198367241059/myworkshopfiles/]SupremeElf[/url] for the &quot;Sewing Box&quot; sprite and code support
 - [url=https://steamcommunity.com/id/PixelPlz/myworkshopfiles/]PixelPlz[/url] for the awesome Sewing Machine sprite he made and the Angelic Sewing machine
 - [url=https://steamcommunity.com/id/ciirulean/myworkshopfiles/]Ciirulean[/url] for the evil Sewing Machine sprite
-- [url=https://steamcommunity.com/profiles/76561198118097787/myworkshopfiles/]Sentinel[/url] for all his help and advices
+- [url=https://steamcommunity.com/profiles/76561198118097787/myworkshopfiles/]Sentinel[/url] for all his help and advices (mainly coding)
 - [url=https://steamcommunity.com/profiles/76561198394602416/myworkshopfiles/]Spore64[/url] for the nice cards sprites
 - [url=https://steamcommunity.com/profiles/76561199063654767/myworkshopfiles/]AlekuDraw[/url] for the lovely trinkets sprites
 - [url=https://steamcommunity.com/profiles/76561198316217368/]impupzables[/url] for the absolute awesome thumbnail she made : [url=https://twitter.com/impupzables]Her Twitter[/url]
@@ -60,7 +58,7 @@ Discord : valentinL#3711
 Sewing Machine is now on [b]Discord[/b], join it to share your ideas, report bugs or just discuss about the mod :[url=https://discord.gg/V56rAfM5zw]The Discord[/url] 
 
 Here is a wiki of the mod :[url=https://docs.google.com/document/d/13M91ymwSUrZHAEVGApZ8ZzXwuqGyaq4OsmYeq41FldY]the wiki[/url]</description>
-    <version>1.34</version>
+    <version>2.3</version>
     <visibility>Public</visibility>
     <tag id="Lua"/>
     <tag id="Items"/>

@@ -31,12 +31,6 @@ BotFly.Stats = {
     TearVelocity = 14
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BOT_FLY,
-    "When it fires a tear, a laser connect the tear to the familiar#The laser deal contact damage and block shots#{{ArrowUp}} Stats Up (Range, Shot Speed, Tear Size)",
-    "{{ArrowUp}} Stats Up#Gain piercing tears#Rarely attack enemies", nil, "Bot Fly"
-)
-
 function BotFly:OnUpgraded(familiar, isPermanentUpgrade)
     local fData = familiar:GetData()
     fData.Sewn_botFly_tearCooldown = BotFly.Stats.TearCooldownMin

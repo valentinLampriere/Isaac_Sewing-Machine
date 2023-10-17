@@ -8,12 +8,6 @@ local DaddyLonglegs = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DADDY_LONGLEGS, CollectibleType.COLLECTIBLE_DADDY_LONGLEGS)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DADDY_LONGLEGS,
-    "Has a chance to stomp with the head, dealing 2x the normal damage#Has a chance to stomp as Triachnid. When it does, fires 5 slowing tears in all directions",
-    "Increases chance to stomp as Triachnid and to stomp with the head#Each time it falls, has a chance to stomps an additional time", nil, "Daddy Longlegs"
-)
-
 DaddyLonglegs.Stats = {
     ChanceTriachnidStomp = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 25,
@@ -56,8 +50,6 @@ local function PreStomp(familiar, sprite, animType)
             local tears = ShootTearsCircular(familiar, 5, TearVariant.BLUE, nil, nil, 3.5, TearFlags.TEAR_SLOW)
             for _, tear in ipairs(tears) do
                 tear:SetColor(CColor(1,1,1,1,0.5,0.5,0.5), -1, 1, false, false)
-                
-                --sewnFamiliars:toBabyBenderTear(daddyLonglegs, tear)
             end
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PLAYER_CREEP_WHITE, 0, familiar.Position, Globals.V0, familiar)
         end, 11)

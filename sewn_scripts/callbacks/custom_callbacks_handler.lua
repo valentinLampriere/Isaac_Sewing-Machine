@@ -29,6 +29,8 @@ local FamiliarPlayerTakeDamageHandler = require("sewn_scripts.callbacks.custom.h
 local PostFamiliarInitHandler = require("sewn_scripts.callbacks.custom.handlers.post_familiar_init_handler")
 local EntityTakeDamageHandler = require("sewn_scripts.callbacks.custom.handlers.entity_take_damage_handler")
 local ExecuteCmdFamiliarHandler = require("sewn_scripts.callbacks.custom.handlers.execute_cmd_familiar_handler")
+local PostUltraKingBabyFireTear = require("sewn_scripts.callbacks.custom.handlers.post_ultra_king_baby_fire_tear_handler")
+local PostUltraKingBabyShootTear = require("sewn_scripts.callbacks.custom.handlers.post_ultra_king_baby_shoot_tear_handler")
 
 local postUpdate = { }
 local postTearUpdate = { }
@@ -130,6 +132,8 @@ InitCallback(FamiliarPlayerTakeDamageHandler)
 InitCallback(PostFamiliarInitHandler)
 InitCallback(EntityTakeDamageHandler)
 InitCallback(ExecuteCmdFamiliarHandler)
+InitCallback(PostUltraKingBabyFireTear)
+InitCallback(PostUltraKingBabyShootTear)
 
 local CustomCallbacksHandler = { }
 
@@ -199,9 +203,14 @@ function CustomCallbacksHandler:PreFamiliarCollision(familiar, collider, low)
 	end
 end
 function CustomCallbacksHandler:PlayerTakeDamage(player, amount, flags, source, countdown)
+	local sustainDamage
 	for _, _function in ipairs(playerTakeDamage) do
-		_function(_, player, amount, flags, source, countdown)
+		local _sustainDamage = _function(_, player, amount, flags, source, countdown)
+		if _sustainDamage == false then
+			sustainDamage = _sustainDamage
+		end
 	end
+	return sustainDamage
 end
 function CustomCallbacksHandler:ExecuteCmd(cmd, args)
 	for _, _function in ipairs(executeCmd) do

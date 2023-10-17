@@ -10,7 +10,6 @@ local indexUpgradeSectionForCollectibleWiki = { }
 -- Store all wiki items with their id as a key
 local encyclopediaMap = nil
 
-
 local function MapEncyclopedia()
     encyclopediaMap = { }
     if Encyclopedia == nil then return end
@@ -56,10 +55,18 @@ local function ToUpgrade(text, title)
 end
 
 local function GetEIDSuper(familiarID)
-    return FamiliarDescription:GetInfoForFamiliar(familiarID).SuperUpgrade
+    local info = FamiliarDescription:GetInfoForFamiliar(familiarID)
+    if info ~= nil then
+        return info.SuperUpgrade
+    end
+    return ""
 end
 local function GetEIDUltra(familiarID)
-    return FamiliarDescription:GetInfoForFamiliar(familiarID).UltraUpgrade
+    local info = FamiliarDescription:GetInfoForFamiliar(familiarID)
+    if info ~= nil then
+        return info.UltraUpgrade
+    end
+    return ""
 end
 
 function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeText, ultraUpgradeText, notesUpgradeText, overrideWiki)
@@ -75,6 +82,7 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     end
 
     if encyclopediaMap == nil then
+        encyclopediaMap = {}
         MapEncyclopedia()
     end
 
@@ -102,12 +110,12 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     end
 
     local _wikiUpgrade = { }
-    local superWiki = ToUpgrade(superUpgradeText, "Super")
-    local ultraWiki = ToUpgrade(ultraUpgradeText, "Ultra")
+    local superWiki = ToUpgrade(superUpgradeText, "Super") or {}
+    local ultraWiki = ToUpgrade(ultraUpgradeText, "Ultra") or {}
     local notesWiki = ToUpgrade(notesUpgradeText, "Notes") or {}
 
     -- Add the title "Upgrades"
-    table.insert(_wikiUpgrade, {str = "Upgrades", fsize = 3, clr = 3, halign = 0})
+    table.insert(_wikiUpgrade, {str = "Upgrades", fsize = 2, clr = 3, halign = 0})
     
     -- Add Super upgrade
     for i, data in pairs(superWiki) do
@@ -117,12 +125,14 @@ function EncyclopediaUpgrades:AddEncyclopediaUpgrade(familiarID, superUpgradeTex
     for i, data in pairs(ultraWiki) do
         table.insert(_wikiUpgrade, {str = data.str, fsize = data.fsize, clr = data.clr, halign = data.halign})
     end
-    -- Add Ultra upgrade
+    -- Add Notes upgrade
     for i, data in pairs(notesWiki) do
         table.insert(_wikiUpgrade, {str = data.str, fsize = data.fsize, clr = data.clr, halign = data.halign})
     end
 
     table.insert(wikiDesc, _wikiUpgrade)
+
+    table.insert(_wikiUpgrade, {str="", fsize = 2})
 
     indexUpgradeSectionForCollectibleWiki[collectibleID] = #wikiDesc
 end

@@ -37,6 +37,8 @@ Enums.ModCallbacks = {
     POST_FAMILIAR_INIT = 26,
     ENTITY_TAKE_DAMAGE = 27,
     EXECUTE_CMD_FAMILIAR = 28,
+    POST_ULTRA_KING_BABY_FIRE_TEAR = 29,
+    POST_ULTRA_KING_BABY_SHOOT_TEAR = 30,
 }
 
 Enums.FamiliarLevel = {
@@ -121,6 +123,7 @@ Enums.EffectVariant = {
     CUBE_BABY_AURA = Isaac.GetEntityVariantByName("Cube Baby Aura"),
     PUNCHING_BAG_PULLING_EFFECT = Isaac.GetEntityVariantByName("Punching Bag Pulling Effect"),
     BOMB_BAG_POWDER = Isaac.GetEntityVariantByName("Bomb Bag Powder"),
+    LOST_SOUL_HOLY_MANTLE = Isaac.GetEntityVariantByName("Lost Soul Holy Mantle"),
 }
 
 Enums.NoUpgrade = {
@@ -128,6 +131,12 @@ Enums.NoUpgrade = {
     MACHINE = 2^0,
     TEMPORARY = 2^1,
     ANY = 2^0 | 2^1
+}
+
+Enums.LocalizationType = {
+    Items = 0,
+    Trinkets = 1,
+    FamiliarUpgrades = 2
 }
 
 return Enums

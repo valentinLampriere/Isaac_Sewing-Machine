@@ -21,12 +21,6 @@ SissyLonglegs.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SISSY_LONGLEGS, CollectibleType.COLLECTIBLE_SISSY_LONGLEGS)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SISSY_LONGLEGS,
-    "Sissy's spiders apply charm when they hit an enemy#When they hit an enemy, they deal additional flat damage",
-    "Spawns additional spiders#Increased charm duration and additional flat damage for blue spiders", nil, "Sissy Longlegs"
-)
-
 function SissyLonglegs:OnBlueSpiderHit(familiar, npc, amount, flags, source, countdown)
     local fData = familiar:GetData()
     if fData.Sewn_sissyLonglegs_sissyParent ~= nil then

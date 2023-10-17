@@ -4,9 +4,9 @@ local SewnMod = require("sewn_scripts.sewn_mod")
 
 Sewn_API = require("sewn_scripts.sewn_api")
 
-
-require("sewn_scripts.helpers.embeddablecallbackhack")
-require("sewn_scripts.helpers.apioverride")
+require("sewn_scripts.lib.embeddablecallbackhack")
+require("sewn_scripts.lib.apioverride")
+require("sewn_scripts.lib.followers_helper")
 
 local Enums = require("sewn_scripts.core.enums")
 local Globals = require("sewn_scripts.core.globals")
@@ -91,8 +91,14 @@ CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_PLAYER_TOUCH_MACHINE, PostPl
 CustomCallbacks:AddCallback(Enums.ModCallbacks.POST_MACHINE_DESTROY, PostMachineDestroy, Enums.SlotMachineVariant.SEWING_MACHINE)
 
 
-require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
+require("sewn_scripts.entities.effects.burning_fart")
+require("sewn_scripts.entities.effects.holy_fart")
 require("sewn_scripts.items.trinkets")
+
+require("sewn_scripts.entities.familiar.upgrades.prepare_vanilla_familiars")
+
+require("sewn_scripts.localization.localization_core")
+require("sewn_scripts.localization.localization")
 
 require("sewn_scripts.mod_compat.eid.eid")
 require("sewn_scripts.mod_compat.minimapi.minimapi")

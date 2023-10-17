@@ -2,12 +2,6 @@ local BuddyInABox = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.BUDDY_IN_A_BOX, CollectibleType.COLLECTIBLE_BUDDY_IN_A_BOX)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.BUDDY_IN_A_BOX,
-    "Gains a random additional tear effect#Additional tear effect can't be Ipecac unless Ipecac is the base attack of the buddy",
-    "Gains another random additional tear effect", nil, "Buddy in a Box"
-)
-
 local function AddAdditionalTearFlags(tear, amountTearFlags, rng)
     local maxFlag = REPENTANCE and 81 or 60
 

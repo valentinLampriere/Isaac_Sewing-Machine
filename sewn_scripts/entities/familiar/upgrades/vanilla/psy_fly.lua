@@ -10,18 +10,6 @@ PsyFly.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.PSY_FLY, CollectibleType.COLLECTIBLE_PSY_FLY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.PSY_FLY,
-    "When it blocks a bullet, fire a homing tear in the opposite direction",
-    "{{ArrowUp}} Damage Up (collision and tears)", nil, "Psy Fly"
-)
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.PSY_FLY,
-    nil,
-    "Collision damage and tears damage up (x1.5)",
-    "The super upgrade is a similar behaviour of the Psy Fly behaviour before it was nerfed in the 1.7.5 update"
-)
-
 function PsyFly:OnFamiliarCollide(familiar, collider)
     if collider.Type ~= EntityType.ENTITY_PROJECTILE then
         return

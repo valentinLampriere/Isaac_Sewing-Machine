@@ -24,12 +24,6 @@ LilGurdy.Stats = {
     CreepCollisionDamage = 1,
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LIL_GURDY,
-    "{{ArrowUp}} Can be charged quicker#While charging, fires tear in different directions",
-    "{{ArrowUp}} Can be charged quicker#When it dashes, it leaves red creep#Fire 3 waves of tears in different directions after dashing", nil, "Lil Gurdy"
-)
-
 local function ShootTears(familiar)
     local amountTears = familiar:GetDropRNG():RandomInt( LilGurdy.Stats.ChargingTearAmountMax - LilGurdy.Stats.ChargingTearAmountMin ) + LilGurdy.Stats.ChargingTearAmountMin
     local damage = math.sqrt(familiar.FireCooldown * LilGurdy.Stats.ChargingTearDamagePerChargeFrame)

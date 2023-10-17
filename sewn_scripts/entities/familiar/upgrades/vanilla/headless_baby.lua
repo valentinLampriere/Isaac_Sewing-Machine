@@ -5,12 +5,6 @@ local HeadlessBaby = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.HEADLESS_BABY, CollectibleType.COLLECTIBLE_HEADLESS_BABY)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.HEADLESS_BABY,
-    "Spawns large creep#{{ArrowUp}} Creep deals more damage",
-    "Fires burst of tears while isaac is firing#{{ArrowUp}} Creep deals more damage", nil, "Headless Baby"
-)
-
 HeadlessBaby.Stats = {
     CreepDamageMultiplier = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 1.4,

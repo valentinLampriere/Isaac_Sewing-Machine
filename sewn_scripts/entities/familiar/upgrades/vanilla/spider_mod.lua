@@ -6,12 +6,6 @@ local SpiderMod = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.SPIDER_MOD, CollectibleType.COLLECTIBLE_SPIDER_MOD)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.SPIDER_MOD,
-    "Spawns eggs which apply a random effect to enemies which walk over them#Eggs last 20 seconds",
-    "Higher chance to spawn eggs#At the end of rooms, eggs spawn blue spiders", nil, "Spider Mod"
-)
-
 SpiderMod.Stats = {
     EggCooldownMin = {
         [Sewn_API.Enums.FamiliarLevel.SUPER] = 45,

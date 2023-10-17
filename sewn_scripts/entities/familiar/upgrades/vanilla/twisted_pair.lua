@@ -2,18 +2,6 @@ local TwistedPair = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.TWISTED_BABY, CollectibleType.COLLECTIBLE_TWISTED_PAIR)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.TWISTED_BABY,
-    "They move closer to the player while they fire#+0.33 damage",
-    "They align with the player's direction ", nil, "Twisted Pair"
-)
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.INCUBUS,
-    nil,
-    "Align with the player's direction#Slight damage up. +0.33 when the damage is less than 2, +0.5 when the damage is higher than 2",
-    "Due to API limitation, the damage bonus do not works with every weapon type (Lasers, bombs)"
-)
-
 TwistedPair.Stats = {
     PlayerMinDistance = 15,
     MoveToPlayerEveryXFrame = 12,

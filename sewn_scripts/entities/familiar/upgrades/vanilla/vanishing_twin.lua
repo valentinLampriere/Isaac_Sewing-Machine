@@ -7,12 +7,6 @@ local VanishingTwin = { }
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.VANISHING_TWIN, CollectibleType.COLLECTIBLE_VANISHING_TWIN)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.VANISHING_TWIN,
-    "Removes 25% of the boss copy health",
-    "Increases chances to spawn a better item (based on Quality)#Can spawn items which came from the Treasure pool if no Boss item are found", nil, "Vanishing Twin"
-)
-
 VanishingTwin.Stats = {
     QualityFourChance = 7,
     QualityThreeChance = 30,

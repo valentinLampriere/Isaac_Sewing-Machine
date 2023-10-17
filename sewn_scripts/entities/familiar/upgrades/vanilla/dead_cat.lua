@@ -7,17 +7,6 @@ DeadCat.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.DEAD_CAT, CollectibleType.COLLECTIBLE_DEAD_CAT)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DEAD_CAT,
-    "When the player dies, they respawn with an additional soul heart",
-    "When the player dies, they respawn with an additional soul heart and an additional red heart container", nil, "Dead Cat"
-)
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.DEAD_CAT,
-    nil, nil,
-    "Gives a soul heart even if the player respawn without Dead Cat (due to API limitation)"
-)
-
 local function Respawn(player, isUltra)
     player:AddSoulHearts(2)
 

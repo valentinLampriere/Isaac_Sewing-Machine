@@ -13,12 +13,6 @@ DryBaby.Stats = {
     },
 }
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.DRY_BABY,
-    "{{ArrowUp}} Increase chance to trigger Necronomicon effect#When it triggers the effect, projectiles in the room are destroyed",
-    "Increases chance to trigger Necronomicon effect even more!#When it trigger the effect, projectiles in the room are turned into bone shards", nil, "Dry Baby"
-)
-
 function DryBaby:familiarCollide(familiar, collider)
     if collider.Type == EntityType.ENTITY_PROJECTILE then
         if Random:CheckRoll(DryBaby.Stats.NecronomiconChance[Sewn_API:GetLevel(familiar:GetData())]) then

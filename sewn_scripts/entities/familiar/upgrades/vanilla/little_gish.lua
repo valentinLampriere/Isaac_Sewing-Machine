@@ -1,5 +1,6 @@
 local Globals = require("sewn_scripts.core.globals")
 local Delay = require("sewn_scripts.helpers.delay")
+local CColor = require("sewn_scripts.helpers.ccolor")
 
 local LittleGish = { }
 
@@ -19,18 +20,6 @@ LittleGish.Stats = {
 }
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.LITTLE_GISH, CollectibleType.COLLECTIBLE_LITTLE_GISH)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.LITTLE_GISH,
-    "Tears create a puddle of creep on hit#{{ArrowUp}} Slight Tears Up",
-    "Larger creep#{{ArrowUp}} Tears Up##{{ArrowUp}} Damage Up", nil, "Little Gish"
-)
-
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.LITTLE_GISH,
-    "Tears create a puddle of creep on hit#Slight Tears Up (x1.14)",
-    "Larger creep#Tears Up (x1.43)#Damage Up (x1.3)"
-)
-
 function LittleGish:OnFamiliarTearUpdate(familiar, tear)
     local fData = familiar:GetData()
     Delay:DelayFunction(function(_tear)
@@ -49,5 +38,13 @@ function LittleGish:OnFireTear(familiar, tear)
     tear.CollisionDamage = tear.CollisionDamage * LittleGish.Stats.DamageBonus[Sewn_API:GetLevel(fData)]
 end
 
+function LittleGish:OnUltraKingBabyFireTear(familiar, kingBaby, tear)
+    local color = CColor(0.95, 0.8, 0.6, 2, -0.6, -0.6, -0.6)
+    tear:SetColor(color, -1, 1, false, false)
+    tear.TearFlags = tear.TearFlags | TearFlags.TEAR_SLOW | TearFlags.TEAR_GISH
+end
+
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_TEAR_UPDATE, LittleGish.OnFamiliarTearUpdate, FamiliarVariant.LITTLE_GISH)
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR, LittleGish.OnFireTear, FamiliarVariant.LITTLE_GISH)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_FIRE_TEAR, LittleGish.OnUltraKingBabyFireTear, FamiliarVariant.LITTLE_GISH)

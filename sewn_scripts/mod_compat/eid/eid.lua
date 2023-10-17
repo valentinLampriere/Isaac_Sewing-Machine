@@ -2,28 +2,97 @@ if not EID then
     return
 end
 
-local Enums = require("sewn_scripts.core.enums")
+local EIDManager = require("sewn_scripts.mod_compat.eid.eid_manager")
+local Localization = require("sewn_scripts.localization.localization")
+local AvailableFamiliarManager = require("sewn_scripts.core.available_familiars_manager")
 
--- EID Collectibles
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_SEWING_BOX, "Temporarily upgrades familiars for a room#Using it twice upgrades familiars to Ultra")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_TAINTED_HEAD, "Upgrade every normal familiars to super#With Doll's Pure Body, upgrade every familiars to ultra#Add 20% chance to find a Sewing Machine in Devil rooms")
-EID:addCollectible(Enums.CollectibleType.COLLECTIBLE_DOLL_S_PURE_BODY, "Upgrade every normal familiars to super#With Doll's Tainted Body, upgrade every familiars to ultra#Add 20% chance to find a Sewing Machine in Angel rooms")
+---------------
+-- EID Icons --
+---------------
+local sewingMachineIcon = Sprite()
+sewingMachineIcon:Load("gfx/mapicon.anm2", true)
+EID:addIcon("SewingMachine", "Icon", 0, 13, 13, 0, 0, sewingMachineIcon)
 
--- EID Trinkets
-EID:addTrinket(Enums.TrinketType.TRINKET_THIMBLE, "Refunds familiars upgrade when using the Sewing Machine#Spawn pickups on the floor, pickups depends on the Sewing Machine type")
-EID:addTrinket(Enums.TrinketType.TRINKET_CRACKED_THIMBLE, "Have 75% chance to reroll familiars crowns when getting hit")
-EID:addTrinket(Enums.TrinketType.TRINKET_LOST_BUTTON, "100% chance to spawn sewing machine in Shops#50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
---EID:addTrinket(Enums.TrinketType.TRINKET_CONTRASTED_BUTTON, "50% chance to find a sewing machine in angel rooms {{AngelRoom}} or devil rooms {{DevilRoom}}")
-EID:addTrinket(Enums.TrinketType.TRINKET_PIN_CUSHION, "Interacting with a Sewing Machine gives the familiar back without upgrading.#This allows you to choose the familiar you want to upgrade by dropping the trinket with the drop button when the correct one is in the machine#{{Warning}} When smelted this effect is removed, but you have a decreased chance to break sewing machines")
-EID:addTrinket(Enums.TrinketType.TRINKET_SEWING_CASE, "When entering a room, has a chance to temporarily upgrade a familiar based on the amount of available familiars and luck")
+local crownSprite = Sprite()
+crownSprite:Load("gfx/sewn_familiar_crown.anm2", true)
+EID:addIcon("SuperCrown", "Super", 0, 13, 10, 3, 10, crownSprite)
+EID:addIcon("UltraCrown", "Ultra", 0, 13, 10, 3, 10, crownSprite)
 
--- EID Cards
-EID:addCard(Enums.Card.CARD_WARRANTY, "Spawns a sewing machine#The Sewing machine change depending on the room type")
-EID:addCard(Enums.Card.CARD_STITCHING, "Rerolls familiar crowns#Gives a free upgrades if none of your familiars are upgraded")
-EID:addCard(Enums.Card.CARD_SEWING_COUPON, "Upgrade all familiars for a single room#One time use of Sewing Box")
-
-local icon = Sprite()
-icon:Load("/gfx/mapicon.anm2", true)
-EID:addIcon("SewingMachine", "Icon", 0, 13, 13, 0, 0, icon)
+-----------------------
+-- EID Mod Indicator --
+-----------------------
 EID:setModIndicatorIcon("SewingMachine")
 EID:setModIndicatorName("Sewing Machine")
+
+----------------------
+-- EID Descriptions --
+----------------------
+Localization:ForEachLanguage(function (languageCode)
+    -- EID Collectibles
+    local itemCount = Localization:GetCollectiblesNum(languageCode)
+    for itemIndex = 1, itemCount do
+        local id = Localization:GetCollectibleId(itemIndex)
+        local name = Localization:GetCollectibleName(id, languageCode)
+        local description = Localization:GetCollectibleDescription(id, languageCode)
+        EID:addCollectible(id, description, name, languageCode)
+    end
+    -- EID Trinkets
+    local trinketCount = Localization:GetTrinketsNum(languageCode)
+    for trinketIndex = 1, trinketCount do
+        local id = Localization:GetTrinketId(trinketIndex)
+        local name = Localization:GetTrinketName(id, languageCode)
+        local description = Localization:GetTrinketDescription(id, languageCode)
+        EID:addTrinket(id, description, name, languageCode)
+    end
+    -- EID Cards
+    local cardCount = Localization:GetCardsNum(languageCode)
+    for cardIndex = 1, cardCount do
+        local id = Localization:GetCardId(cardIndex)
+        local name = Localization:GetCardName(id, languageCode)
+        local description = Localization:GetCardDescription(id, languageCode)
+        EID:addCard(id, description, name, languageCode)
+    end
+end)
+
+--------------------------------
+-- EID Descriptions Modifiers --
+--------------------------------
+local function UpgradableFamiliarsModifierCallback(descObj)
+    EID:appendToDescription(descObj, "#{{SuperCrown}} " .. Localization:GetText(Localization.TextKey.Upgradable) .. " {{ButtonSelect}}")
+    return descObj
+end
+local function UpgradableFamiliarsModifierCondition(descObj)
+    if descObj.ObjType ~= EntityType.ENTITY_PICKUP or descObj.ObjVariant ~= PickupVariant.PICKUP_COLLECTIBLE then
+        return false
+    end
+
+    local familiarVariant = AvailableFamiliarManager:GetFamiliarFromCollectible(descObj.ObjSubType)
+    return familiarVariant ~= nil
+end
+
+EID:addDescriptionModifier("Upgradable familiars", UpgradableFamiliarsModifierCondition, UpgradableFamiliarsModifierCallback)
+
+local function FamiliarUpgradePreviewModifierCondition(descObj)
+	if EID:PlayersActionPressed(EID.Config["BagOfCraftingToggleKey"]) == false or EID.inModifierPreview then
+        return false
+    end
+
+    if UpgradableFamiliarsModifierCondition(descObj) == false then
+        return false
+    end
+
+	return true
+end
+
+local function FamiliarUpgradePreviewModifierCallback(descObj)
+	EID.TabDescThisFrame = true
+
+	EID.inModifierPreview = true
+	local descEntry = EIDManager:GetFamiliarUpgradeDescObj(descObj.ObjSubType)
+	
+    EID.inModifierPreview = false
+	--EID.TabPreviewID = 0
+	return descEntry
+end
+
+EID:addDescriptionModifier("Familiar Upgrade Preview", FamiliarUpgradePreviewModifierCondition, FamiliarUpgradePreviewModifierCallback)

@@ -9,18 +9,6 @@ Incubus.Stats = {
 
 Sewn_API:MakeFamiliarAvailable(FamiliarVariant.INCUBUS, CollectibleType.COLLECTIBLE_INCUBUS)
 
-Sewn_API:AddFamiliarDescription(
-    FamiliarVariant.INCUBUS,
-    "{{ArrowUp}} Damage Up",
-    "{{ArrowUp}} Damage Up", nil, "Incubus"
-)
-Sewn_API:AddEncyclopediaUpgrade(
-    FamiliarVariant.INCUBUS,
-    "Damage Up (x1.33)#[REP] : Now deal the same amount of damage as the player",
-    "Damage Up (x1.67)",
-    "Due to API limitation, the damage bonus do not works with every weapon type (Lasers, bombs)#Lilith's Incubus can't be upgraded in Sewing Machines because Lilith's without her Incubus can't fight. It can still be upgraded with Sewing Box"
-)
-
 function Incubus:OnEntityTakeDamage(familiar, entity, amount, flags, source, countdown)
     if source == nil then return end
     if source.Entity == nil then return end
@@ -33,4 +21,9 @@ function Incubus:OnEntityTakeDamage(familiar, entity, amount, flags, source, cou
     end
 end
 
+function Incubus:OnUltraKingBabyShootTear(familiar, kingBaby, tear, npc)
+    tear.TearFlags = tear.TearFlags | kingBaby.Player.TearFlags
+end
+
 Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.ENTITY_TAKE_DAMAGE, Incubus.OnEntityTakeDamage, FamiliarVariant.INCUBUS)
+Sewn_API:AddCallback(Sewn_API.Enums.ModCallbacks.POST_ULTRA_KING_BABY_SHOOT_TEAR, Incubus.OnUltraKingBabyShootTear, FamiliarVariant.INCUBUS)
