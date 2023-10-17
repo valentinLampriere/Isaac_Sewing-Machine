@@ -136,6 +136,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Dégâts#Les ennemis qu'elle tue explosent en larmes"
     },
     
+    -- BBF
+    {
+        "{{ArrowUp}} 75 dégâts supplémentaire par explosion#{{ArrowUp}} Explosions plus larges#{{Warning}} Comme les explosions sont plus grosse elle peuvent touché Isaac de plus loin",
+        "Isaac ne subit pas de dégât sauf si il est vraiment trop près de l'explosion"
+    },
+    
     -- Lil Brimstone
     {
         "{{ArrowUp}} Dégâts",
@@ -236,6 +242,12 @@ local familiarsUpgrades = {
         "Tire beaucoup plus de larmes"
     },
     
+    -- King Baby
+    {
+        "Invoque des larmes quand Isaac tire",
+        "{{ArrowUp}} Débit#Chaque familier d'Isaac affecte ces larmes de manière différente"
+    },
+    
     -- Big Chubby
     {
         "Augmente sa taille et ses dégâts lorqu'il mange des projectiles ou tue des ennemis#Reprend sa taille initiale au fil du temps#Reprend sa taille initiale au changement d'étage",
@@ -252,6 +264,12 @@ local familiarsUpgrades = {
     {
         "Tire trois larmes à la fois",
         "Ses larmes sont remplacées par un laser de sang"
+    },
+    
+    -- Angry Fly
+    {
+        "Dans les salles hostiles, devient enragée lorsqu'elle n'inflige pas de dégats#{{ArrowUp}} Plus elle est enragé, plus elle inflige de dégâts#Infliger des dégâts diminue la rage progressivement",
+        "{{ArrowUp}} Rage"
     },
     
     -- Buddy in a Box
@@ -308,6 +326,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Dégâts#Les ennemies qu'il tue projettent des larme de glace dans toutes les directions"
     },
     
+    -- Lost Soul
+    {
+        "{{ArrowUp}} Meilleurs Récompenses#Gagne un bouclier Sacré (l'effet de Holy Card "..Icons.HolyCard..")",
+        "Gagne l'effet de Voile Sacré "..Icons.HolyMantle
+    },
+    
     -- Lil Dumpy
     {
         "Change d'aspect à chaque salle :" ..
@@ -344,6 +368,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Crée davantage de tourbillons du néant#Les anneaux du néant infligent davantage de dégâts, sont plus grands et restent actifs plus longtemps#Peut rarement faire apparaitre un cœur noir {{BlackHeart}}"
     },
     
+    -- Worm Friend
+    {
+        "Attire les projectiles proches. Les projectiles infligent 1 dégât à la cible#{{ArrowUp}} Réduit grandement le temps de recharge",
+        "{{ArrowUp}} Les cibles du Ver de Nerf subissent davantage de dégâts de toutes les sources"
+    },
+    
     -- Vanishing Twin
     {
         "Réduit de 25% les PV du boss copié",
@@ -355,30 +385,6 @@ local familiarsUpgrades = {
         "{{ArrowUp}} +0.33 Dégâts#Ils se rapprochent de Isaac quand celui-ci tire",
         "Ils s'alignent avec Isaac, dans la direction dans lequel il tire"
     },
-    
-    -- BBF
-    {
-        "{{ArrowUp}} 75 dégâts supplémentaire par explosion#{{ArrowUp}} Explosions plus larges#{{Warning}} Comme les explosions sont plus grosse elle peuvent touché Isaac de plus loin",
-        "Isaac ne subit pas de dégât sauf si il est trop près de l'explosion"
-    },
-    
-    -- King Baby
-    {
-        "Invoque des larmes quand Isaac tire",
-        "{{ArrowUp}} Débit#Chaque familier d'Isaac affecte ces larmes de manière différente"
-    },
-    
-    -- Worm Friend
-    {
-        "Attire les projectiles proches. Les projectiles infligent 1 dégât à la cible#{{ArrowUp}} Réduit grandement le temps de recharge",
-        "{{ArrowUp}} Les cibles du Ver de Nerf subissent davantage de dégâts de toutes les sources"
-    },
-    
-    -- Angry Fly
-    {
-        "Dans les salles hostiles, devient enragée lorsqu'elle n'inflige pas de dégats#{{ArrowUp}} Plus elle est enragé, plus elle inflige de dégâts#Infliger des dégâts diminue la rage progressivement",
-        "{{ArrowUp}} Rage"
-    }
 }
 
 return familiarsUpgrades

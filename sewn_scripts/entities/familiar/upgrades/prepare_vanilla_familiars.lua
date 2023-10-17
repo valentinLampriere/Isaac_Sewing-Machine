@@ -59,4 +59,5 @@ if REPENTANCE then
     require("sewn_scripts.entities.familiar.upgrades.vanilla.twisted_pair")
     require("sewn_scripts.entities.familiar.upgrades.vanilla.lil_dumpy")
     require("sewn_scripts.entities.familiar.upgrades.vanilla.worm_friend")
+    require("sewn_scripts.entities.familiar.upgrades.vanilla.lost_soul")
 end

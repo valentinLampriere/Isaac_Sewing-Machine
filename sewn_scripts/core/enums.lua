@@ -123,6 +123,7 @@ Enums.EffectVariant = {
     CUBE_BABY_AURA = Isaac.GetEntityVariantByName("Cube Baby Aura"),
     PUNCHING_BAG_PULLING_EFFECT = Isaac.GetEntityVariantByName("Punching Bag Pulling Effect"),
     BOMB_BAG_POWDER = Isaac.GetEntityVariantByName("Bomb Bag Powder"),
+    LOST_SOUL_HOLY_MANTLE = Isaac.GetEntityVariantByName("Lost Soul Holy Mantle"),
 }
 
 Enums.NoUpgrade = {

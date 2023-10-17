@@ -134,6 +134,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Damage Up#Enemies it kills explode into lots of tears"
     },
     
+    -- BBF
+    {
+        "{{ArrowUp}} Explosions deal 75 more damage#{{ArrowUp}} Bigger explosions#{{Warning}} Because explosions are larger they can hit Isaac from further away",
+        "Isaac doesn't take damage from the explosion unless it is very close"
+    },
+    
     -- Lil Brimstone
     {
         "{{ArrowUp}} Damage Up",
@@ -170,7 +176,7 @@ local familiarsUpgrades = {
     
     -- Cain's Other Eye
     {
-        "Fires an additionnal tear in a random diagonal",
+        "Fires an additional tear in a random diagonal",
         "The extra tear gains a Rubber Cement effect " .. Icons.RubberCement.. "#{{ArrowUp}} Damage Up"
     },
     
@@ -234,6 +240,12 @@ local familiarsUpgrades = {
         "Fires way more tears"
     },
     
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
+    },
+    
     -- Big Chubby
     {
         "Increases its size and damage when eating bullets and when killing enemies#Reduces its size and damage over time and on a new floor",
@@ -250,6 +262,12 @@ local familiarsUpgrades = {
     {
         "Fires three tears at once",
         "Fires a blood laser instead of tears"
+    },
+    
+    -- Angry Fly
+    {
+        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
+        "{{ArrowUp}} Rage up"
     },
     
     -- Buddy in a Box
@@ -306,6 +324,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Damage Up#Enemies it kills explode into ice tears"
     },
     
+    -- Lost Soul
+    {
+        "{{ArrowUp}} Better Reward#Gain a single Holy Mantle shield (Holy Card effect "..Icons.HolyCard..")",
+        "Gain the effect of the Holy Mantle "..Icons.HolyMantle
+    },
+    
     -- Lil Dumpy
     {
         "Changes to another Lil Dumpy variant each rooms, such as:" ..
@@ -333,13 +357,19 @@ local familiarsUpgrades = {
     -- Cube Baby
     {
         "Gains a freezing aura. Enemies which stay too long in the aura will take damage until they are completely frozen",
-        "Spawns creep when moved around#The faster it moves, the more it spawns creep"
+        "{{ArrowUp}} Aura Size Up#Spawns creep when moved around#The faster it moves, the more it spawns creep"
     },
     
     -- Lil Abaddon
     {
         "{{ArrowUp}} Damage Up#When holding the fire button, it spawns a swirl every few seconds. When fire button is released, a laser ring is fired by the swirls",
         "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}"
+    },
+    
+    -- Worm Friend
+    {
+        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
     },
     
     -- Vanishing Twin
@@ -353,30 +383,6 @@ local familiarsUpgrades = {
         "{{ArrowUp}} +0.33 Flat Damage Up#They move closer to the player while they fire",
         "They align with the player's direction"
     },
-    
-    -- BBF
-    {
-        "{{ArrowUp}} Explosions deal 75 more damage#{{ArrowUp}} Bigger explosions#{{Warning}} Because explosions are larger they can hit Isaac from further away",
-        "Isaac doesn't take damage from the explosion unless it is too close"
-    },
-    
-    -- King Baby
-    {
-        "Summon tears while Isaac is firing",
-        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
-    },
-    
-    -- Worm Friend
-    {
-        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
-    },
-    
-    -- Angry Fly
-    {
-        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
-        "{{ArrowUp}} Rage up"
-    }
 }
 
 return familiarsUpgrades

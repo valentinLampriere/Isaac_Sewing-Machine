@@ -136,6 +136,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Větší Poškození#Nepřátele, které zabije, vybuchnou do spousty slz"
     },
     
+    -- BBF
+    {
+        "{{ArrowUp}}Exploze způsobí o 75 více poškození#{{ArrowUp}}Větší výbuchy#{{Warning}}Protože jsou výbuchy větší, mohou zasáhnout Izáka z větší vzdálenosti",
+        "Izák neutrpí poškození výbuchem, pokud není příliš blízko"
+    },
+    
     -- Lil Brimstone
     {
         "{{ArrowUp}} Větší Poškození",
@@ -236,6 +242,12 @@ local familiarsUpgrades = {
         "Vystřelí mnohem více slz"
     },
     
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
+    },
+    
     -- Big Chubby
     {
         "Zvyšuje svou velikost a poškození při pojídání střel a při zabíjení nepřátel#Snižuje svoji velikost a poškození v průběhu času a na novém patře",
@@ -252,6 +264,12 @@ local familiarsUpgrades = {
     {
         "Vystřelí tři slzy najednou",
         "Vystřelí krvavý laser místo slz"
+    },
+    
+    -- Angry Fly
+    {
+        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
+        "{{ArrowUp}} Rage up"
     },
     
     -- Buddy in a Box
@@ -308,6 +326,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Větší Poškození#Nepřátelé, které zabíje, explodují do ledových slz"
     },
     
+    -- Lost Soul
+    {
+        "{{ArrowUp}} Better Reward#Gain a single Holy Mantle shield (Holy Card effect "..Icons.HolyCard..")",
+        "Gain the effect of the Holy Mantle "..Icons.HolyMantle
+    },
+    
     -- Lil Dumpy
     {
         "Změny na jinou variantu Malého Dumpyho v každé místnosti, jako například:" ..
@@ -344,6 +368,12 @@ local familiarsUpgrades = {
         "Vytváří víří častěji#Lasery z vírů způsobují větší poškození, jsou větší a vydrží déle#Má malou šanci zplodit černá srdce {{BlackHeart}}"
     },
     
+    -- Worm Friend
+    {
+        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
+    },
+    
     -- Vanishing Twin
     {
         "Odebere 25 % zdraví kopie bosse",
@@ -355,30 +385,6 @@ local familiarsUpgrades = {
         "{{ArrowUp}}+0.33 Větší Plošné Poškození#Při střelbě se přibližují k hráči",
         "Zarovnají se v souladu s hráčovým směrem "
     },
-    
-    -- BBF
-    {
-        "{{ArrowUp}}Exploze způsobí o 75 více poškození#{{ArrowUp}}Větší výbuchy#{{Warning}}Protože jsou výbuchy větší, mohou zasáhnout Izáka z větší vzdálenosti",
-        "Izák neutrpí poškození výbuchem, pokud není příliš blízko"
-    },
-    
-    -- King Baby
-    {
-        "Summon tears while Isaac is firing",
-        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
-    },
-    
-    -- Worm Friend
-    {
-        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
-    },
-    
-    -- Angry Fly
-    {
-        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
-        "{{ArrowUp}} Rage up"
-    }
 }
 
 return familiarsUpgrades

@@ -136,6 +136,12 @@ local familiarsUpgrades = {
         "敌人被杀死时爆出眼泪#{{ArrowUp}} 攻击提升"
     },
     
+    -- BBF
+    {
+        "{{ArrowUp}} Explosions deal 75 more damage#{{ArrowUp}} Bigger explosions#{{Warning}} Because explosions are larger they can hit Isaac from further away",
+        "Isaac doesn't take damage from the explosion unless it is very close"
+    },
+    
     -- Lil Brimstone
     {
         "{{ArrowUp}} 攻击提升",
@@ -226,6 +232,12 @@ local familiarsUpgrades = {
         "发射更多眼泪"
     },
     
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
+    },
+    
     -- Big Chubby
     {
         "通过阻挡敌方弹幕和杀敌来增加它的大小和伤害 #随着时间流逝或到达新的一层时，会失去其获得的加成",
@@ -242,6 +254,12 @@ local familiarsUpgrades = {
     {
         "一次发射三颗眼泪",
         "攻击方式更改为发射小硫磺火"
+    },
+    
+    -- Angry Fly
+    {
+        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
+        "{{ArrowUp}} Rage up"
     },
     
     -- Buddy in a Box
@@ -298,6 +316,12 @@ local familiarsUpgrades = {
         "击杀敌人时敌人额外爆出冰冻眼泪 #{{ArrowUp}} 攻击提升"
     },
     
+    -- Lost Soul
+    {
+        "{{ArrowUp}} Better Reward#Gain a single Holy Mantle shield (Holy Card effect "..Icons.HolyCard..")",
+        "Gain the effect of the Holy Mantle "..Icons.HolyMantle
+    },
+    
     -- Lil Dumpy
     {
         "进入每个房间后，都有几率变为另一个屁宝变体：" ..
@@ -334,6 +358,12 @@ local familiarsUpgrades = {
         "黑色漩涡出现的概率提升 #黑色漩涡里产生的黑圈造成更高伤害，范围更大且持续时间也更长 #黑圈造成伤害时有概率生成 {{BlackHeart}} 黑心"
     },
     
+    -- Worm Friend
+    {
+        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
+    },
+    
     -- Vanishing Twin
     {
         "复制生成的Boss血量减少25%",
@@ -345,30 +375,6 @@ local familiarsUpgrades = {
         "与角色之间的距离靠的更近 #+0.33攻击",
         "眼泪弹道将和玩家射击的方向一致"
     },
-    
-    -- BBF
-    {
-        "",
-        ""
-    },
-    
-    -- King Baby
-    {
-        "Summon tears while Isaac is firing",
-        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
-    },
-    
-    -- Worm Friend
-    {
-        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
-    },
-    
-    -- Angry Fly
-    {
-        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
-        "{{ArrowUp}} Rage up"
-    }
 }
 
 return familiarsUpgrades

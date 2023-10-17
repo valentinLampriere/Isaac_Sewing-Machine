@@ -15,6 +15,9 @@ LocalizationHelpers.Icons = {
     HolyLight = "{{Collectible"..CollectibleType.COLLECTIBLE_HOLY_LIGHT.."}}",
     ToughLove = "{{Collectible"..CollectibleType.COLLECTIBLE_TOUGH_LOVE.."}}",
     PlaydoughCookie = "{{Collectible"..CollectibleType.COLLECTIBLE_PLAYDOUGH_COOKIE.."}}",
+    HolyMantle = "{{Collectible"..CollectibleType.COLLECTIBLE_HOLY_MANTLE.."}}",
+
+    HolyCard = "{{Card"..Card.CARD_HOLY.."}}",
 
     LilDumpy = {
         DUMPLING = "{{LilDumpyVariant0}}",

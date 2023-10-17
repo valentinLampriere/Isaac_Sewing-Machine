@@ -136,6 +136,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Zwiększone obrażenia#Przeciwnicy których zabija wybuchają dużą ilością łez"
     },
     
+    -- BBF
+    {
+        "{{ArrowUp}}Wybuchy zadają o 75 więcej obrażeń#{{ArrowUp}}Większe wybuchy#{{Uwaga}}Rozmiar sprawia, że Isaac może być łatwiej trafiony",
+        "Isaac nie dostaje obrażeń od wybuchu jeśli nie jest zbyt blisko centrum"
+    },
+    
     -- Lil Brimstone
     {
         "{{ArrowUp}} Zwiększone obrażenia",
@@ -236,6 +242,12 @@ local familiarsUpgrades = {
         "Wystrzeliwuje znacznie więcej łez"
     },
     
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
+    },
+    
     -- Big Chubby
     {
         "Zwiększa jego rozmiar i obrażenia gdy zjada pociski i zabija przeciwników#Z czasem zmniejsza jego rozmiar i obrażenia oraz na początku nowego piętra",
@@ -252,6 +264,12 @@ local familiarsUpgrades = {
     {
         "Wystrzeliwuje trzy łzy na raz",
         "Wystrzeliwuje laser krwi zamiast łez"
+    },
+    
+    -- Angry Fly
+    {
+        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
+        "{{ArrowUp}} Rage up"
     },
     
     -- Buddy in a Box
@@ -308,6 +326,12 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Zwiększone obrażenia#Przeciwnicy których zabije wybuchają lodowymi łzami"
     },
     
+    -- Lost Soul
+    {
+        "{{ArrowUp}} Better Reward#Gain a single Holy Mantle shield (Holy Card effect "..Icons.HolyCard..")",
+        "Gain the effect of the Holy Mantle "..Icons.HolyMantle
+    },
+    
     -- Lil Dumpy
     {
         "Co pokój zmienia formę Lil Dumpy'ego:" ..
@@ -344,6 +368,12 @@ local familiarsUpgrades = {
         "Częściej tworzy wiry#Lasery z wirów zadają więcej obrażeń, są większe i trwają dłużej#Ma małą szansę na stworzenie czarnego serca{{BlackHeart}}"
     },
     
+    -- Worm Friend
+    {
+        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
+    },
+    
     -- Vanishing Twin
     {
         "Kopia bossa ma 25% mniej hp",
@@ -355,30 +385,6 @@ local familiarsUpgrades = {
         "{{ArrowUp}}Obrażenia zwiększone o stałe +0,33#Zbliżają się do gracza gdy strzelają",
         "Pokrywają się z kierunkiem gracza"
     },
-    
-    -- BBF
-    {
-        "{{ArrowUp}}Wybuchy zadają o 75 więcej obrażeń#{{ArrowUp}}Większe wybuchy#{{Uwaga}}Rozmiar sprawia, że Isaac może być łatwiej trafiony",
-        "Isaac nie dostaje obrażeń od wybuchu jeśli nie jest zbyt blisko centrum"
-    },
-    
-    -- King Baby
-    {
-        "Summon tears while Isaac is firing",
-        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
-    },
-    
-    -- Worm Friend
-    {
-        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
-    },
-    
-    -- Angry Fly
-    {
-        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
-        "{{ArrowUp}} Rage up"
-    }
 }
 
 return familiarsUpgrades

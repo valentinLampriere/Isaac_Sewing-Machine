@@ -119,6 +119,11 @@ local function GetFamiliarUpgrade(familiarVariant, languageCode)
     local index = LocalizationCore.FamiliarsUpgradesVariantToIndex[familiarVariant]
     local familiarData = LocalizationCore.AvailableLanguages[languageCode].FamiliarUpgrades[index]
 
+    if familiarData == nil then
+        -- Missing Data?
+        return ""
+    end
+
     if type(familiarData[1]) == "string" then
         return familiarData
     elseif type(familiarData[1]) == "table" then

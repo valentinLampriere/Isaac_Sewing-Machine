@@ -136,6 +136,12 @@ local familiarsUpgrades = {
         "Los enemigos que mate explotan en lágrimas#{{ArrowUp}} + Daño"
     },
     
+    -- BBF
+    {
+        "{{ArrowUp}} Explosions deal 75 more damage#{{ArrowUp}} Bigger explosions#{{Warning}} Because explosions are larger they can hit Isaac from further away",
+        "Isaac doesn't take damage from the explosion unless it is very close"
+    },
+    
     -- Lil Brimstone
     {
         "{{ArrowUp}} + Daño",
@@ -226,6 +232,12 @@ local familiarsUpgrades = {
         "Dispara más lágrimas"
     },
     
+    -- King Baby
+    {
+        "Summon tears while Isaac is firing",
+        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
+    },
+    
     -- Big Chubby
     {
         "Aumenta su tamaño y daño al comer proyectiles y al matar monstruos#Su tamaño se reduce con el tiempo y al bajar de planta",
@@ -242,6 +254,12 @@ local familiarsUpgrades = {
     {
         "Dispara tres lágrimas a la vez",
         "Dispara un láser de sangre en lugar de lágrimas"
+    },
+    
+    -- Angry Fly
+    {
+        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
+        "{{ArrowUp}} Rage up"
     },
     
     -- Buddy in a Box
@@ -298,6 +316,12 @@ local familiarsUpgrades = {
         "Los enemigos que mate explotan en lágrimas de hielo#{{ArrowUp}} + Daño"
     },
     
+    -- Lost Soul
+    {
+        "{{ArrowUp}} Better Reward#Gain a single Holy Mantle shield (Holy Card effect "..Icons.HolyCard..")",
+        "Gain the effect of the Holy Mantle "..Icons.HolyMantle
+    },
+    
     -- Lil Dumpy
     {
         "Cambia a otra variante de Pequeño Dumpy como : " ..
@@ -334,6 +358,12 @@ local familiarsUpgrades = {
         "Spawns swirls more often#Lasers from swirls deal more damage, are larger and last longer#Has a tiny chance to spawn black hearts {{BlackHeart}}"
     },
     
+    -- Worm Friend
+    {
+        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
+        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
+    },
+    
     -- Vanishing Twin
     {
         "Quita el 25% de la vida de la copia del boss",
@@ -345,30 +375,6 @@ local familiarsUpgrades = {
         "Se mueven más cerca al jugador cuando disparan#+0,33 Daño",
         "Se alinean con la posición del jugador"
     },
-    
-    -- BBF
-    {
-        "",
-        ""
-    },
-    
-    -- King Baby
-    {
-        "Summon tears while Isaac is firing",
-        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
-    },
-    
-    -- Worm Friend
-    {
-        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
-    },
-    
-    -- Angry Fly
-    {
-        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
-        "{{ArrowUp}} Rage up"
-    }
 }
 
 return familiarsUpgrades
