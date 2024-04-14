@@ -10,7 +10,11 @@ PostFamiliarFireTearHandler.ID = Enums.ModCallbacks.POST_FAMILIAR_FIRE_TEAR
 
 local function OnTearInit(_, tear)
     local familiar = tear.Parent
-    
+
+    if tear.FrameCount > 1 then
+        return -- The POST_TEAR_INIT gets called in the Beast Fight when tears hit the lava (?)
+    end
+
     if tear.Parent ~= nil or tear.SpawnerEntity ~= nil and tear.SpawnerEntity.Type == EntityType.ENTITY_FAMILIAR then
         familiar = familiar or tear.SpawnerEntity
         familiar = familiar:ToFamiliar()
