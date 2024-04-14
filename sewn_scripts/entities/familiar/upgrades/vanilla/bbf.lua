@@ -39,7 +39,7 @@ function BBF:OnFamiliarHitNpc(familiar, npc, amount, flags, source, countdown)
 end
 
 function BBF:OnPlayerTakesDamage(familiar, player, damageFlag, entityRef)
-    if entityRef ~= nil and GetPtrHash(entityRef.Entity) == GetPtrHash(familiar) then
+    if entityRef ~= nil and entityRef.Entity ~= nil and GetPtrHash(entityRef.Entity) == GetPtrHash(familiar) then
         if (player.Position - familiar.Position):LengthSquared() >= BBF.Stats.UnsafeZoneRange ^ 2 then
             return false
         end
