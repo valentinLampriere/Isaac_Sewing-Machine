@@ -101,27 +101,6 @@ Encyclopedia.AddTrinket({
 })
 
 Encyclopedia.AddTrinket({
-    ID = Enums.TrinketType.TRINKET_THIMBLE,
-    Name = "Thimble",
-    ModName = modName,
-    WikiDesc = {
-        {
-            { str = "Effect", fsize = 2, clr = 3, halign = 0 },
-            { str = "Sewing machine refund their prices" },
-            { str = "When using a Shop Sewing Machine, drop a random amount of coins [0-9]" },
-            { str = "When using a Bedroom Sewing Machine, have a 50% chance to drop a soul heart" },
-            { str = "When using an Angelic Sewing Machine, have a 15% chance to drop a soul heart and a chance to spawn coins [0-2]" },
-            { str = "When using an Evil Sewing Machine, have a 40% chance to drop a black heart and a chance to spawn blue flies [0-3]" },
-        },
-        {
-            { str = "Trivia", fsize = 2, clr = 3, halign = 0 },
-            { str = "Before the update of the 27/11/2021, the Thimble had a chance to upgrade familiars for free" },
-            { str = "This have been changed to spawn pickups instead, so it is more grateful" }
-        }
-    }
-})
-
-Encyclopedia.AddTrinket({
     ID = Enums.TrinketType.TRINKET_CRACKED_THIMBLE,
     Name = "Cracked Thimble",
     ModName = modName,
@@ -131,22 +110,6 @@ Encyclopedia.AddTrinket({
             { str = "Have 75% chance to reroll familiars crowns when getting hit" },
             { str = "When rerolling crowns, keep the same amount of crowns" },
             { str = "For example, if you've got super Brother Bobby, super Sister Maggy and ultra Robo-Baby you've got 4 crowns. The trinket will rearrange your familiars crowns but will keep 4 crowns" }
-        }
-    }
-})
-
-Encyclopedia.AddTrinket({
-    ID = Enums.TrinketType.TRINKET_PIN_CUSHION,
-    Name = "Pin Cushion",
-    ModName = modName,
-    WikiDesc = {
-        {
-            { str = "Effect", fsize = 2, clr = 3, halign = 0 },
-            { str = "When the player touch a Sewing Machine with a familiar in it, retrieve the familiar back. Do not pay the cost and do not upgrade the familiar." },
-            { str = "With this trinket you can't upgrade familiars in Sewing Machines, but you can interact with the machine until you put the familiar you want in it." },
-            { str = "Can be easily dropped with the drop button." },
-            { str = "" },
-            { str = "When smelt, the effect is removed. Instead, reduce the chance to break Sewing Machines" }
         }
     }
 })

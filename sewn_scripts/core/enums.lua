@@ -60,11 +60,8 @@ Enums.CollectibleType = {
     COLLECTIBLE_DOLL_S_PURE_BODY = Isaac.GetItemIdByName("Doll's Pure Body")
 }
 Enums.TrinketType = {
-    TRINKET_THIMBLE = Isaac.GetTrinketIdByName("Thimble"),
     TRINKET_CRACKED_THIMBLE = Isaac.GetTrinketIdByName("Cracked Thimble"),
     TRINKET_LOST_BUTTON = Isaac.GetTrinketIdByName("Lost Button"),
-    --TRINKET_CONTRASTED_BUTTON = Isaac.GetTrinketIdByName("Contrasted Button"),
-    TRINKET_PIN_CUSHION = Isaac.GetTrinketIdByName("Pin Cushion"),
     TRINKET_SEWING_CASE = Isaac.GetTrinketIdByName("Sewing Case")
 }
 Enums.Card = {

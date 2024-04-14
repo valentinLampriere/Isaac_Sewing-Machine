@@ -15,10 +15,8 @@ end
 
 -- TRINKETS
 LocalizationCore.TrinketsIndexToId = {
-    Enums.TrinketType.TRINKET_THIMBLE,
     Enums.TrinketType.TRINKET_CRACKED_THIMBLE,
     Enums.TrinketType.TRINKET_LOST_BUTTON,
-    Enums.TrinketType.TRINKET_PIN_CUSHION,
     Enums.TrinketType.TRINKET_SEWING_CASE,
 }
 LocalizationCore.TrinketsIdToIndex = { }
