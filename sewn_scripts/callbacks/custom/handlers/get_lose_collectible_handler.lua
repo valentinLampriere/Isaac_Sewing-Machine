@@ -8,9 +8,14 @@ GetLoseCollectible.ID = Enums.ModCallbacks.GET_LOSE_COLLECTIBLE
 -- Function(player, boolean), the boolean is true when the player pick the item, false when he lose it
 function GetLoseCollectible:PeffectUpdate(player)
     local pData = player:GetData()
+
+    if pData.Sewn_items == nil then
+        pData.Sewn_items = { }
+    end
+
     for _, callback in ipairs(GetLoseCollectible.RegisteredCallbacks) do
         if callback.Argument[1] ~= nil then
-            local collectibleNum = player:GetCollectibleNum(callback.Argument[1])
+            local collectibleNum = player:GetCollectibleNum(callback.Argument[1]) 
 
             if pData.Sewn_items[callback.Argument[1]] ~= collectibleNum then
                 if pData.Sewn_items[callback.Argument[1]] == nil then
