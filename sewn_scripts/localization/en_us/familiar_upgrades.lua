@@ -112,7 +112,7 @@ local familiarsUpgrades = {
     
     -- Juicy Sack
     {
-        "{{Arrow Up}} Creep Size Up#Fires egg tears (from Parasitoid ".. Icons.Parasitoid ..") while isaac is firing",
+        "{{ArrowUp}} Creep Size Up#Fires egg tears (from Parasitoid ".. Icons.Parasitoid ..") while isaac is firing",
         "Fires more egg tears"
     },
     
@@ -291,7 +291,7 @@ local familiarsUpgrades = {
     -- Pointy Rib
     {
         "Has a chance to apply bleed effect to non-boss enemies#Has a chance to spawn bone shards when it kills an enemy",
-        "{{ArrowUp}} Collision Damage Up#{{Arrow Up}} Increases chance to apply bleed#{{Arrow Up}} Increases chance to spawn bone shards"
+        "{{ArrowUp}} Collision Damage Up#{{ArrowUp}} Increases chance to apply bleed#{{ArrowUp}} Increases chance to spawn bone shards"
     },
     
     -- Paschal Candle

@@ -114,7 +114,7 @@ local familiarsUpgrades = {
     
     -- Juicy Sack
     {
-        "{{Arrow Up}} Zwiększony rozmiar kałuży#Wystrzeliwuje łzy jajka (z Parasitoid ".. Icons.Parasitoid ..") gdy Issac strzela",
+        "{{ArrowUp}} Zwiększony rozmiar kałuży#Wystrzeliwuje łzy jajka (z Parasitoid ".. Icons.Parasitoid ..") gdy Issac strzela",
         "Fires more egg tears"
     },
     
@@ -293,7 +293,7 @@ local familiarsUpgrades = {
     -- Pointy Rib
     {
         "Ma szansę nałozyć efekt krwawienia na zwykłych przeciwników#Ma szansę stworzyć fragmenty kości przy zabiciu przeciwnika",
-        "{{ArrowUp}} Zwiększone obrażenia kontaktowe#{{Arrow Up}} IZwiększa szansę na krwawienie#{{Arrow Up}} Zwiększa szansę na stworzenie fragmentów kości"
+        "{{ArrowUp}} Zwiększone obrażenia kontaktowe#{{ArrowUp}} IZwiększa szansę na krwawienie#{{ArrowUp}} Zwiększa szansę na stworzenie fragmentów kości"
     },
     
     -- Paschal Candle

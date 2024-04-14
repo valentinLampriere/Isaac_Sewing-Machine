@@ -293,7 +293,7 @@ local familiarsUpgrades = {
     -- Pointy Rib
     {
         "Má šanci aplikovat efekt krvácení na ne-bossové nepřátele#Když zabije nepřítele, má šanci vytvořit úlomky kostí",
-        "{{ArrowUp}} Větší Poškození při kolizi#{{Arrow Up}} Zvyšuje šanci na aplikaci efektu krvácení#{{Arrow Up}} Zvyšuje šanci na vytvoření úlomků kostí"
+        "{{ArrowUp}} Větší Poškození při kolizi#{{ArrowUp}} Zvyšuje šanci na aplikaci efektu krvácení#{{ArrowUp}} Zvyšuje šanci na vytvoření úlomků kostí"
     },
     
     -- Paschal Candle

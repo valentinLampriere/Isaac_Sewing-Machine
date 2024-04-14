@@ -114,7 +114,7 @@ local familiarsUpgrades = {
     
     -- Juicy Sack
     {
-        "{{Arrow Up}} Taille de la trainée#Tirer projette un tas de cocons (similaires à ceux de Parasitoïde ".. Icons.Parasitoid ..")",
+        "{{ArrowUp}} Taille de la trainée#Tirer projette un tas de cocons (similaires à ceux de Parasitoïde ".. Icons.Parasitoid ..")",
         "Propulse davantage de cocons"
     },
     
@@ -293,7 +293,7 @@ local familiarsUpgrades = {
     -- Pointy Rib
     {
         "Peut appliquer un effet de saignement aux ennemis#Tuer un ennemi peut faire apparaître des os",
-        "{{ArrowUp}} Dégâts#{{Arrow Up}} Augmente les chances d'appliquer l'effet de saignement#{{Arrow Up}} Augmente les chances de faire apparaître des os"
+        "{{ArrowUp}} Dégâts#{{ArrowUp}} Augmente les chances d'appliquer l'effet de saignement#{{ArrowUp}} Augmente les chances de faire apparaître des os"
     },
     
     -- Paschal Candle
