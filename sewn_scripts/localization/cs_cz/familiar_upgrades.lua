@@ -1,5 +1,3 @@
---- Translation by David Kapitančik
-
 --- -- Name of the familiar in english, do not change it!
 --- {
 ---     "First upgrade description",
@@ -31,7 +29,7 @@ local familiarsUpgrades = {
     -- Little Chubby
     {
         "{{ArrowUp}} Nižší cooldown o 50%, lze ho rychleji hodit",
-        "Přilne k nepřátelům po dobu 0,5 sekundy a poté pokračuje v původním směru"
+        "Přilne se k nepřátelům po dobu 0,5 sekundy a poté pokračuje v původním směru"
     },
     
     -- Robo Baby
@@ -61,13 +59,13 @@ local familiarsUpgrades = {
     -- Bomb Bag
     {
         "{{ArrowUp}} Lepší bombové dropy#Už nevytvoří trollí bomby#Vytváří prášek na zemi. Prášek se vznítí, když je blízko požáru nebo výbuchu",
-        "{{ArrowUp}} Lepší bombové dropy#{{ArrowUp}} Může vytvořit Giga bomby [Rep]#Někdy exploduje, když je blízko nepřítele"
+        "{{ArrowUp}} Lepší bombové dropy#{{ArrowUp}} CMůže vytvořit Giga bomby [Rep]#Někdy exploduje, když je blízko nepřítele"
     },
     
     -- The Peeper
     {
         "Každých pár sekund vystřelí 5 slz v náhodných směrech#Pokouší se navádět na nepřátele poblíž",
-        "Vytvoří další Kukadlo".. Icons.Peeper .."#Ono nové Kukadlo je taky upgradováno#S Vnitřním Okem".. Icons.InnerEye .."vytvoří ještě další Kukadlo"
+        "Vytvoří další Kukadlo ".. Icons.Peeper .."#Ono nové Kukadlo je taky upgradováno#S Vnitřním Okem ".. Icons.InnerEye .." vytvoří ještě další Kukadlo"
     },
     
     -- Ghost Baby
@@ -133,12 +131,12 @@ local familiarsUpgrades = {
     -- Leech
     {
         "{{ArrowUp}} Větší Poškození#Vytvoří louži, když se srazí s nepřítelem",
-        "{{ArrowUp}} Větší Poškození#Nepřátele, které zabije, vybuchnou do spousty slz"
+        "{{ArrowUp}} Větší Poškození#Nepřátelé, které zabije, vybuchnou do spousty slz"
     },
     
     -- BBF
     {
-        "{{ArrowUp}}Exploze způsobí o 75 více poškození#{{ArrowUp}}Větší výbuchy#{{Warning}}Protože jsou výbuchy větší, mohou zasáhnout Izáka z větší vzdálenosti",
+        "{{ArrowUp}} Exploze způsobí o 75 více poškození#{{ArrowUp}}Větší výbuchy#{{Warning}}Protože jsou výbuchy větší, mohou zasáhnout Izáka z větší vzdálenosti",
         "Izák neutrpí poškození výbuchem, pokud není příliš blízko"
     },
     
@@ -156,8 +154,8 @@ local familiarsUpgrades = {
     
     -- Sissy Longlegs
     {
-        "{{ArrowUp}} +3 Plošné Větší Poškození pro Sissyiny modré pavouky#Modří pavouci Sissy Dlohonožky aplikují okouzlení, když zasáhnou nepřítele",
-        "{{ArrowUp}} Prodloužená doba trvání okouzlení#{{ArrowUp}} +2 Flat Plošné Větší Poškození pro modré pavouky#Vytvoří další pavouky"
+        "{{ArrowUp}} +3 Plošné Větší Poškození pro Sissyiny modré pavouky#Sissyiny modří pavouci aplikují okouzlení, když zasáhnou nepřítele",
+        "{{ArrowUp}} Prodloužená doba trvání okouzlení#{{ArrowUp}} +2 Plošné Větší Poškození pro modré pavouky#Vytvoří další pavouky"
     },
     
     -- Punching Bag
@@ -178,8 +176,8 @@ local familiarsUpgrades = {
     
     -- Cain's Other Eye
     {
-       --"Vystřelí 2 slzy místo 1#Slzy získávají efekt Gumového Cementu " .. Icons.RubberCement,
-       --"{{ArrowUp}}Větší Dostřel#Vystřelí 4 slzy"
+        "Vystřelí další slzu v náhodné diagonále",
+        "Extra slza získá gumocementový efekt " .. Icons.RubberCement.. "#{{ArrowUp}} Větší Poškození"
     },
     
     -- Incubus
@@ -203,7 +201,7 @@ local familiarsUpgrades = {
     -- Spider Mod
     {
         "Plodí vajíčka, která aplikují náhodný efekt na nepřátele, když po nich projdou#Vejce vydrží 20 sekund",
-        "Vyšší šance na vyplození vajec#Na konci místností vajíčka vyplodí modré pavouky"
+        "Vyšší šance na vyplození vajec#Na konci místnosti vajíčka vyplodí modré pavouky"
     },
     
     -- Farting Baby
@@ -232,7 +230,7 @@ local familiarsUpgrades = {
         },
         {
             "Každé 4 sekundy vystřelí 15 slz v náhodném kruhovém vzoru#Slzy způsobí 3 poškození",
-            "{{ArrowUp}} Větší Poškození#Vytvoří přátelského Vařáka po nabíjení po dobu několika sekund (pouze v místnostech s nepřáteli)"
+            "{{ArrowUp}} Větší Poškození#Vytvoří přátelského Svařáka po nabíjení po dobu několika sekund (pouze v místnostech s nepřáteli)"
         }
     },
     
@@ -244,8 +242,8 @@ local familiarsUpgrades = {
     
     -- King Baby
     {
-        "Summon tears while Isaac is firing",
-        "{{ArrowUp}} Tears Up#Every familiar adds a different effect to the summoned tear"
+        "Zatímco Izák střílí, vyvolává slzy",
+        "{{ArrowUp}} Více Slz#Každý spojenec dodává vyvolané slze jiný efekt"
     },
     
     -- Big Chubby
@@ -262,14 +260,14 @@ local familiarsUpgrades = {
     
     -- Bloodshot Eye
     {
-        "Vystřelí tři slzy najednou",
-        "Vystřelí krvavý laser místo slz"
+       "Vystřelí tři slzy najednou",
+       "Vystřelí krvavý laser místo slz"
     },
     
     -- Angry Fly
     {
-        "While in hostile rooms, it become enraged when it doesn't deal damage to enemies#{{ArrowUp}} The more it is enraged, the more damage it deals#Dealing damage slowly dissipate the rage",
-        "{{ArrowUp}} Rage up"
+        "Když je v nepřátelských místnostech, rozzuří se, když nezpůsobí nepřátelům poškození#{{ArrowUp}} Čím více je rozzuřená, tím větší poškození způsobí#Udělování poškození pomalu rozptýlí její vztek",
+        "{{ArrowUp}} Více Vzteku"
     },
     
     -- Buddy in a Box
@@ -293,7 +291,7 @@ local familiarsUpgrades = {
     -- Pointy Rib
     {
         "Má šanci aplikovat efekt krvácení na ne-bossové nepřátele#Když zabije nepřítele, má šanci vytvořit úlomky kostí",
-        "{{ArrowUp}} Větší Poškození při kolizi#{{ArrowUp}} Zvyšuje šanci na aplikaci efektu krvácení#{{ArrowUp}} Zvyšuje šanci na vytvoření úlomků kostí"
+        "{{ArrowUp}} Větší Poškození při kolizi#{{Arrow Up}} Zvyšuje šanci na aplikaci efektu krvácení#{{Arrow Up}} Zvyšuje šanci na vytvoření úlomků kostí"
     },
     
     -- Paschal Candle
@@ -328,8 +326,8 @@ local familiarsUpgrades = {
     
     -- Lost Soul
     {
-        "{{ArrowUp}} Better Reward#Gain a single Holy Mantle shield (Holy Card effect "..Icons.HolyCard..")",
-        "Gain the effect of the Holy Mantle "..Icons.HolyMantle
+        "{{ArrowUp}} Lepší odměny#Získáš jediný štít Svátého Pláště (Holy Card effect "..Icons.HolyCard..")",
+        "Získáš efekt Svátého Pláště "..Icons.HolyMantle
     },
     
     -- Lil Dumpy
@@ -338,7 +336,7 @@ local familiarsUpgrades = {
         "#".. Icons.LilDumpy.DUMPLING .." Standardní efekt"..
         "#".. Icons.LilDumpy.SKINLING .." Otráví nepřátele při prdění"..
         "#".. Icons.LilDumpy.SCABLING .." Když prdne, vystřelí 6 slz v kruhovém vzoru"..
-        "#".. Icons.LilDumpy.SCORCHLING .." Když prdne, vytvoří plamen, který způsobí 15poškození"..
+        "#".. Icons.LilDumpy.SCORCHLING .." Když prdne, vytvoří plamen, který způsobí 15 poškození"..
         "#".. Icons.LilDumpy.FROSTLING .." Nepřátelé zabití jím se promění v led. Při odpočinku získáš mrazivou auru"..
         "#".. Icons.LilDumpy.DROPLING .." Když prdne, vystřelí slzy opačným směrem",
         "Vrátí se k hráči po náhodném počtu sekund, i když je hráč daleko"
@@ -346,7 +344,7 @@ local familiarsUpgrades = {
     
     -- Bot Fly
     {
-        "{{ArrowUp}} Zvýšení Statů (Dosah, Rychlost Střel, Velikost Slz)#Když vystřelí slzu, laser spojí slzu a spojence#Laser způsobí kontaktní poškození a blokuje výstřely",
+         "{{ArrowUp}} Zvýšení Statů (Dosah, Rychlost Střel, Velikost Slz)#Když vystřelí slzu, laser spojí slzu a spojence#Laser způsobí kontaktní poškození a blokuje výstřely",
         "{{ArrowUp}} Zvýšení Statů#Získá pronikavé slzy#Zřídka útočí na nepřátele"
     },
     
@@ -359,7 +357,7 @@ local familiarsUpgrades = {
     -- Cube Baby
     {
         "Získá mrazivou auru. Nepřátelé, kteří zůstanou v auře příliš dlouho, budou poškozeni, dokud úplně nezmrznou",
-        "Vytvoří kaluž při pohybu#Čím rychleji se pohybuje, tím více kaluží vytváří"
+        "{{ArrowUp}} Větší velikost Aury#Vytvoří kaluž při pohybu#Čím rychleji se pohybuje, tím více kaluží vytváří"
     },
     
     -- Lil Abaddon
@@ -370,14 +368,14 @@ local familiarsUpgrades = {
     
     -- Worm Friend
     {
-        "Grabbed enemies attract nearby projectiles and take 1 damage per projectile#{{ArrowUp}} Greatly decrease cooldown",
-        "{{ArrowUp}} Grabbed enemies are weaker to all sources of damage"
+        "Popadnutí nepřátelé přitahují blízké projektily a utrpí 1 poškození za projektil#{{ArrowUp}} Výrazně sníží cooldown",
+        "{{ArrowUp}} Popadnutí nepřátelé jsou slabší na všechny zdroje poškození"
     },
     
     -- Vanishing Twin
     {
-        "Odebere 25 % zdraví kopie bosse",
-        "Zvyšuje šance na vytvoření lepšího předmětu (na základě kvality)#Může vytvořit předměty z Pokladnice, pokud není nalezena žádný předmět ze skupiny Bossových předmětů"
+         "Odebere 25 % zdraví kopie bosse",
+        "Zvyšuje šance na vytvoření lepšího předmětu (na základě kvality)#Může vytvořit předměty z Pokladnice, pokud není nalezen žádný předmět ze skupiny Bossových předmětů"
     },
     
     -- Twisted Pair

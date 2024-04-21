@@ -22,7 +22,7 @@ local items = {
     -- Doll's Pure Body
     {
         "Doll's Pure Body",
-        "Upgrade every normal familiars to Super {{SuperCrown}}#With Doll's Pure Body ".. Icons.PureBody ..", upgrade every familiars to Ultra {{UltraCrown}}#Add 20% chance to find a Sewing Machine in Devil rooms"
+        "Upgrade every normal familiars to Super {{SuperCrown}}#With Doll's Tainted Head ".. Icons.TaintedHead ..", upgrade every familiars to Ultra {{UltraCrown}}#Add 20% chance to find a Sewing Machine in Angel rooms"
     },
 }
 

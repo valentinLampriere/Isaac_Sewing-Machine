@@ -1,3 +1,5 @@
+--- Translation by David Kapitančik
+
 --- -- Name of the trinket in english, do not change it!
 --- {
 ---     "Trinket Name",

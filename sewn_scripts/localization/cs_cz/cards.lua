@@ -1,5 +1,3 @@
---- Translation by David Kapitančik
-
 --- -- Name of the card in english, do not change it!
 --- {
 ---     "Card Name",
@@ -24,7 +22,7 @@ local cards = {
     -- Sewing Coupon
     {
         "Kupón na šití",
-        "Upgraduje všechny spojence za jeden pokoj#Jednorázové použití šicího boxu" .. Icons.SewingBox
+        "Upgraduje všechny spojence na jednu místnost#Jednorázové použití šicího boxu " .. Icons.SewingBox
     },
 }
 

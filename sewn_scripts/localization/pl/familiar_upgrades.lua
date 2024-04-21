@@ -238,7 +238,7 @@ local familiarsUpgrades = {
     
     -- Lil Monstro
     {
-        "Ma szansę wystrzelić ząb (z Tough Love ".. Icons.ToughLove,
+        "Ma szansę wystrzelić ząb (z Tough Love ".. Icons.ToughLove ..")",
         "Wystrzeliwuje znacznie więcej łez"
     },
     

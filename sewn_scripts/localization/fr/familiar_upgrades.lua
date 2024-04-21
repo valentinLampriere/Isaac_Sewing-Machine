@@ -238,7 +238,7 @@ local familiarsUpgrades = {
     
     -- Lil Monstro
     {
-        "Peut lancer des dents (comme le \"Poing Américain\" " .. Icons.ToughLove,
+        "Peut lancer des dents (comme le \"Poing Américain\" " .. Icons.ToughLove ..")",
         "Tire beaucoup plus de larmes"
     },
     

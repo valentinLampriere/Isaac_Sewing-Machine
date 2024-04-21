@@ -133,7 +133,7 @@ local familiarsUpgrades = {
         "{{ArrowUp}} Damage Up#Spawns creep when it collide with an enemy",
         "{{ArrowUp}} Damage Up#Enemies it kills explode into lots of tears"
     },
-    
+
     -- BBF
     {
         "{{ArrowUp}} Explosions deal 75 more damage#{{ArrowUp}} Bigger explosions#{{Warning}} Because explosions are larger they can hit Isaac from further away",
@@ -236,7 +236,7 @@ local familiarsUpgrades = {
     
     -- Lil Monstro
     {
-        "Has a chance to fire a tooth (from Tough Love ".. Icons.ToughLove,
+        "Has a chance to fire a tooth (from Tough Love ".. Icons.ToughLove ..")",
         "Fires way more tears"
     },
     
