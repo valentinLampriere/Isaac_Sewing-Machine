@@ -22,7 +22,7 @@ local items = {
     -- Doll's Pure Body
     {
         "순수한 인형 몸체",
-        "{{SuperCrown}}모든 패밀리어가 최소 2단계인 상태로 등장합니다.#".. Icons.TaintedHead .." Doll's Tainted Head 소지 시 모든 패밀리어가 {{UltraCrown}}최대 등급이 됩니다.#{{AngelRoom}} 천시방에서의 재봉틀 머신 등장 확률 +20%"
+        "{{SuperCrown}}모든 패밀리어가 최소 2단계인 상태로 등장합니다.#".. Icons.TaintedHead .." Doll's Tainted Head 소지 시 모든 패밀리어가 {{UltraCrown}}최대 등급이 됩니다.#{{AngelRoom}} 천사방에서의 재봉틀 머신 등장 확률 +20%"
     },
 }
 

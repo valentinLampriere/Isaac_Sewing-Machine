@@ -35,7 +35,7 @@ local familiarsUpgrades = {
     -- Robo Baby
     {
         "{{ArrowUp}} 연사 +",
-        "{{ArrowUp}} 연사 +"
+        "{{ArrowUp}} 연사 ++"
     },
     
     -- Little Gish
@@ -47,7 +47,7 @@ local familiarsUpgrades = {
     -- Little Steven
     {
         "{{ArrowUp}} 공격력 +#{{ArrowUp}} 사거리 +#{{ArrowDown}} 탄속 -#적 명중/처치 시 일정 확률로 8방향의 눈물을 발사합니다.",
-        "{{ArrowUp}} 공격력 +#{{ArrowUp}} 8방향 눈물 확률 +# 8방향 눈물 효과가 연쇄적으로 작용합니다."
+        "{{ArrowUp}} 공격력 ++#{{ArrowUp}} 8방향 눈물 확률 +# 8방향 눈물 효과가 연쇄적으로 작용합니다."
     },
     
     -- Demon Baby
@@ -58,8 +58,8 @@ local familiarsUpgrades = {
     
     -- Bomb Bag
     {
-        "{{ArrowUp}} 더 좋은 폭탄을 소환#트롤 폭탄을 더 이상 소환하지 않습니다.#패밀리어 위치에 화약을 깔며 불 및 폭발 시 점화합니다.",
-        "{{ArrowUp}} 더 좋은 폭탄을 소환#{{ArrowUp}} 기가폭탄을 드랍할 확률이 생깁니다. [Rep]#적이 가까이 있을 때 때때로 폭발합니다."
+        "{{ArrowUp}} 폭탄 등급 +#트롤 폭탄을 더 이상 소환하지 않습니다.#패밀리어 위치에 화약을 깔며 불 및 폭발 시 점화합니다.",
+        "{{ArrowUp}} 폭탄 등급 ++#{{ArrowUp}} 기가폭탄을 드랍할 확률이 생깁니다. [Rep]#적이 가까이 있을 때 때때로 폭발합니다."
     },
     
     -- The Peeper
@@ -71,12 +71,12 @@ local familiarsUpgrades = {
     -- Ghost Baby
     {
         "{{ArrowUp}} 공격력 +#".. Icons.PupulaDuplex .." 공격이 지형을 관통합니다.",
-        "{{ArrowUp}} 눈물 크기 +#{{ArrowUp}} 공격력 +"
+        "{{ArrowUp}} 눈물 크기 +#{{ArrowUp}} 공격력 ++"
     },
     
     -- Harlequin Baby
     {
-        "Fire an additional shot on each side",
+        "각 방향마다 눈물을 추가로 발사합니다.",
         "{{ArrowUp}} 공격력 +"
     },
     
@@ -131,7 +131,7 @@ local familiarsUpgrades = {
     -- Leech
     {
         "{{ArrowUp}} 공격력 +#적에게 피해를 주는 장판을 생성합니다.",
-        "{{ArrowUp}} 공격력 +#적 처치 시 주변에 눈물을 흩뿌립니다."
+        "{{ArrowUp}} 공격력 ++#적 처치 시 주변에 눈물을 흩뿌립니다."
     },
 
     -- BBF
@@ -166,12 +166,12 @@ local familiarsUpgrades = {
         "{{ColorCyan}}연한파랑{{CR}}: 캐릭터 피격 시 8방향 눈물#"..
         "{{ColorCyan}}파랑{{CR}}: 캐릭터 피격 시 자폭 파리 2~3마리#"..
         "{{ColorOrange}}오렌지{{CR}}: 캐릭터 피격 시 동전 소환#"..
-        "적의 탄환을 막아줍니다.",
+        "공통:적의 탄환을 막아줍니다.",
         "아래의 챔피언 형태 추가:#"..
         "{{ColorGreen}}초록{{CR}}: 독 장판 생성#"..
-        "{{ColorBlack}}검정{{CR}}: 캐릭터 피격 시 주변의 적에게 40의 폭발 피해#"..
+        "{{ColorGray}}검정{{CR}}: 캐릭터 피격 시 주변의 적에게 40의 폭발 피해#"..
         "{{ColorRainbow}}레인보우{{CR}}: 모든 색상의 특성을 지니나, 지속 시간이 짧음#"..
-        "접촉한 적에게 피해를 줍니다."
+        "공통:접촉한 적에게 피해를 줍니다."
     },
     
     -- Cain's Other Eye
@@ -284,8 +284,8 @@ local familiarsUpgrades = {
     
     -- Lil Spewer
     {
-        "When it shoots, it fires additional tears with effects of its current color",
-        "Has two colors at the same time"
+        "장판을 뱉을 때 색상에 따라 다른 효과의 눈물을 추가로 발사합니다.",
+        "2가지 색상의 장판을 동시에 뱉습니다."
     },
     
     -- Pointy Rib
@@ -327,7 +327,7 @@ local familiarsUpgrades = {
     -- Lost Soul
     {
         "{{ArrowUp}} 보상 등급 +#"..Icons.HolyCard.." 피격을 1회 방어합니다.",
-        ""..Icons.HolyMantle .. "그 방에서 피격을 1회 방어합니다."
+        ""..Icons.HolyMantle .. " 그 방에서 피격을 1회 방어합니다."
     },
     
     -- Lil Dumpy
