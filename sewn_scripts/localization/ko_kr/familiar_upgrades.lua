@@ -23,7 +23,7 @@ local familiarsUpgrades = {
     -- Dead Cat
     {
         "{{SoulHeart}} 부활 시 추가 소울하트 +1",
-        "{{Heart}} 부활 시 추가 최대 체력 +1#{{SoulHeart}} 부활 시 추가 소울하트 +1"
+        "{{Heart}} 부활 시 추가 최대 체력 +1"
     },
     
     -- Little Chubby
